@@ -1,0 +1,130 @@
+[
+  {
+    "question_id": "react_theory_01",
+    "skill_id": "react",
+    "question_type": "THEORY",
+    "question_text": "What is the primary purpose of the virtual DOM in React?",
+    "options": [
+      { "id": "a", "text": "To directly manipulate the browser DOM for faster rendering" , "misconception_tag": "direct-dom-manipulation" },
+      { "id": "b", "text": "To create an in-memory representation of the UI and batch DOM updates efficiently" },
+      { "id": "c", "text": "To replace HTML entirely with JSX at runtime", "misconception_tag": "jsx-replaces-html" },
+      { "id": "d", "text": "To enable server-side rendering exclusively", "misconception_tag": "vdom-only-ssr" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The virtual DOM is a lightweight in-memory representation of the real DOM. React diffs the previous and current virtual DOM trees and batches the minimal set of real DOM mutations needed."
+  },
+  {
+    "question_id": "react_practical_01",
+    "skill_id": "react",
+    "question_type": "PRACTICAL",
+    "question_text": "You need to fetch data when a component mounts but NOT on subsequent re-renders. Which hook setup is correct?",
+    "options": [
+      { "id": "a", "text": "useEffect(() => { fetchData() })", "misconception_tag": "missing-dep-array" },
+      { "id": "b", "text": "useEffect(() => { fetchData() }, [])" },
+      { "id": "c", "text": "useMemo(() => { fetchData() }, [])", "misconception_tag": "memo-vs-effect" },
+      { "id": "d", "text": "useState(() => { fetchData() })", "misconception_tag": "state-for-side-effects" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Passing an empty dependency array [] to useEffect ensures the effect runs only after the initial render (mount) and not on subsequent re-renders."
+  },
+  {
+    "question_id": "react_edge_01",
+    "skill_id": "react",
+    "question_type": "EDGE_CASE",
+    "question_text": "A component renders a list with `items.map(item => <Card data={item} />)`. Users report that when an item is deleted from the middle, the wrong card's local state is preserved. What is the root cause?",
+    "options": [
+      { "id": "a", "text": "React re-renders the entire list on every state change", "misconception_tag": "full-list-rerender" },
+      { "id": "b", "text": "Missing or incorrect `key` prop causes React's reconciliation to reuse the wrong component instances" },
+      { "id": "c", "text": "The Card component needs to use useRef to persist state", "misconception_tag": "ref-for-state" },
+      { "id": "d", "text": "This is a CSS transition issue, not a React problem", "misconception_tag": "blaming-css" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Without a stable, unique `key` prop, React uses array index by default. When items are removed from the middle, React maps the wrong internal state to the remaining elements during reconciliation."
+  },
+
+  {
+    "question_id": "sql_theory_01",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "question_text": "What does database normalization primarily aim to achieve?",
+    "options": [
+      { "id": "a", "text": "Faster read queries by duplicating data across tables", "misconception_tag": "normalization-is-denormalization" },
+      { "id": "b", "text": "Eliminating data redundancy and ensuring data integrity through structured decomposition" },
+      { "id": "c", "text": "Adding indexes to every column automatically", "misconception_tag": "normalization-is-indexing" },
+      { "id": "d", "text": "Converting all data types to strings for consistency", "misconception_tag": "universal-string-type" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Normalization decomposes tables to eliminate redundancy and prevent update anomalies (insertion, update, deletion anomalies), ensuring each fact is stored in exactly one place."
+  },
+  {
+    "question_id": "sql_practical_01",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "question_text": "You want to return all employees and their department names, including employees who haven't been assigned to any department. Which JOIN type should you use?",
+    "options": [
+      { "id": "a", "text": "INNER JOIN", "misconception_tag": "inner-join-for-optional" },
+      { "id": "b", "text": "LEFT JOIN" },
+      { "id": "c", "text": "CROSS JOIN", "misconception_tag": "cross-join-confusion" },
+      { "id": "d", "text": "SELF JOIN", "misconception_tag": "self-join-misuse" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A LEFT JOIN returns all rows from the left table (employees) and matched rows from the right table (departments). Unmatched employees appear with NULL department values."
+  },
+  {
+    "question_id": "sql_edge_01",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "question_text": "A WHERE clause filters `WHERE bonus != 100`. Some rows with `bonus = NULL` are unexpectedly excluded. Why?",
+    "options": [
+      { "id": "a", "text": "NULL is treated as 0 in comparisons", "misconception_tag": "null-is-zero" },
+      { "id": "b", "text": "Any comparison with NULL yields UNKNOWN (not TRUE), so the row is excluded from results" },
+      { "id": "c", "text": "The != operator is not valid SQL; use <> instead", "misconception_tag": "operator-syntax-issue" },
+      { "id": "d", "text": "NULL rows are automatically filtered by all WHERE clauses", "misconception_tag": "null-always-filtered" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In SQL's three-valued logic, NULL compared with any value (including != 100) evaluates to UNKNOWN. The WHERE clause only includes rows where the condition is TRUE, so NULL rows are excluded. Use `IS NOT NULL AND bonus != 100` or `COALESCE`."
+  },
+
+  {
+    "question_id": "docker_theory_01",
+    "skill_id": "docker",
+    "question_type": "THEORY",
+    "question_text": "What is the fundamental difference between a Docker image and a Docker container?",
+    "options": [
+      { "id": "a", "text": "They are the same thing; 'container' is just a running image", "misconception_tag": "image-equals-container" },
+      { "id": "b", "text": "An image is a read-only template; a container is a running instance with a writable layer on top" },
+      { "id": "c", "text": "A container is stored on Docker Hub; an image is local only", "misconception_tag": "hub-confusion" },
+      { "id": "d", "text": "Images contain the OS; containers contain only the application", "misconception_tag": "os-in-image-only" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A Docker image is an immutable, layered filesystem snapshot. A container adds a thin writable layer on top and runs as an isolated process. Multiple containers can share the same underlying image layers."
+  },
+  {
+    "question_id": "docker_practical_01",
+    "skill_id": "docker",
+    "question_type": "PRACTICAL",
+    "question_text": "Your Docker build is slow because it reinstalls dependencies every time you change application code. How do you fix this?",
+    "options": [
+      { "id": "a", "text": "Use a larger base image with pre-installed dependencies", "misconception_tag": "larger-base-image" },
+      { "id": "b", "text": "Copy the dependency manifest (e.g. package.json) first, install, then copy the rest of the source code to leverage layer caching" },
+      { "id": "c", "text": "Disable Docker's build cache entirely with --no-cache", "misconception_tag": "disable-cache-fix" },
+      { "id": "d", "text": "Use docker commit instead of docker build", "misconception_tag": "commit-vs-build" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Docker caches layers. By copying only the dependency manifest first and running install, that layer is cached and reused unless the manifest changes. Subsequent COPY of source code invalidates only later layers."
+  },
+  {
+    "question_id": "docker_edge_01",
+    "skill_id": "docker",
+    "question_type": "EDGE_CASE",
+    "question_text": "Your containerized Node.js app doesn't respond to SIGTERM and takes 10 seconds to stop. You're using `CMD [\"npm\", \"start\"]` in the Dockerfile. What's the likely cause?",
+    "options": [
+      { "id": "a", "text": "Node.js doesn't support signal handling", "misconception_tag": "node-no-signals" },
+      { "id": "b", "text": "npm spawns the app as a child process and doesn't forward signals; use exec form with node directly: CMD [\"node\", \"server.js\"]" },
+      { "id": "c", "text": "Docker doesn't send SIGTERM to containers", "misconception_tag": "docker-no-sigterm" },
+      { "id": "d", "text": "The EXPOSE directive is missing from the Dockerfile", "misconception_tag": "expose-for-signals" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When using `npm start`, npm runs as PID 1 and spawns node as a child process. npm does not forward OS signals to child processes. Using `CMD [\"node\", \"server.js\"]` ensures node runs as PID 1 and receives SIGTERM directly."
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "skill_id": "react",
+    "canonical_name": "React",
+    "aliases": ["react js", "react.js", "reactjs"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": ["javascript"],
+    "concept_tags": ["component-lifecycle", "hooks", "state-management", "virtual-dom"],
+    "edge_case_tags": ["stale-closure", "key-reconciliation", "effect-cleanup"]
+  },
+  {
+    "skill_id": "javascript",
+    "canonical_name": "JavaScript",
+    "aliases": ["js", "ecmascript"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": [],
+    "concept_tags": ["closures", "prototypes", "event-loop", "async-await"],
+    "edge_case_tags": ["type-coercion", "hoisting", "this-binding"]
+  },
+  {
+    "skill_id": "typescript",
+    "canonical_name": "TypeScript",
+    "aliases": ["ts"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": ["javascript"],
+    "concept_tags": ["type-system", "generics", "interfaces", "enums"],
+    "edge_case_tags": ["structural-typing", "type-narrowing", "declaration-merging"]
+  },
+  {
+    "skill_id": "sql",
+    "canonical_name": "SQL",
+    "aliases": ["sql server", "mysql", "postgresql", "postgres", "sqlite"],
+    "tier": 1,
+    "domain": "DB",
+    "prerequisites": [],
+    "concept_tags": ["joins", "indexing", "normalization", "transactions"],
+    "edge_case_tags": ["null-handling", "implicit-conversion", "deadlocks"]
+  },
+  {
+    "skill_id": "docker",
+    "canonical_name": "Docker",
+    "aliases": ["docker compose", "dockerfile", "containerization"],
+    "tier": 2,
+    "domain": "DevOps",
+    "prerequisites": [],
+    "concept_tags": ["images", "containers", "volumes", "networking"],
+    "edge_case_tags": ["layer-caching", "multi-stage-builds", "pid-1-problem"]
+  },
+  {
+    "skill_id": "python",
+    "canonical_name": "Python",
+    "aliases": ["python3"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": [],
+    "concept_tags": ["generators", "decorators", "list-comprehensions", "oop"],
+    "edge_case_tags": ["mutable-defaults", "gil", "late-binding-closures"]
+  },
+  {
+    "skill_id": "stats",
+    "canonical_name": "Statistics",
+    "aliases": ["statistical analysis"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": [],
+    "concept_tags": ["distributions", "hypothesis-testing", "correlation", "regression"],
+    "edge_case_tags": ["simpsons-paradox", "p-hacking", "multicollinearity"]
+  },
+  {
+    "skill_id": "ml_basics",
+    "canonical_name": "ML Basics",
+    "aliases": ["machine learning", "ml"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": ["python", "stats"],
+    "concept_tags": ["supervised-learning", "bias-variance", "cross-validation", "feature-engineering"],
+    "edge_case_tags": ["data-leakage", "class-imbalance", "overfitting-detection"]
+  },
+  {
+    "skill_id": "random_forest",
+    "canonical_name": "Random Forest",
+    "aliases": ["randomforest"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": ["ml_basics"],
+    "concept_tags": ["ensemble-methods", "bagging", "feature-importance", "out-of-bag-error"],
+    "edge_case_tags": ["correlated-features", "high-cardinality-splits", "extrapolation-failure"]
+  },
+  {
+    "skill_id": "d3",
+    "canonical_name": "D3.js",
+    "aliases": ["d3.js", "d3js"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": ["javascript"],
+    "concept_tags": ["selections", "data-binding", "scales", "transitions"],
+    "edge_case_tags": ["enter-update-exit", "key-functions", "nested-data"]
+  },
+  {
+    "skill_id": "data_viz",
+    "canonical_name": "Data Visualization",
+    "aliases": ["data viz"],
+    "tier": 2,
+    "domain": "Web",
+    "prerequisites": ["stats"],
+    "concept_tags": ["chart-types", "color-theory", "perceptual-ranking", "annotation"],
+    "edge_case_tags": ["misleading-axes", "overplotting", "accessibility"]
+  }
+]

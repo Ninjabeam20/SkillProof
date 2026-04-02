@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/* SkillProof — Matte Dark / Color-Blocked / Neo-Brutalist aesthetic */
+:root {
+  color-scheme: dark;
+
+  /* Canvas & surface */
+  --color-bg-primary: #18181B;
+  --color-bg-secondary: #27272A;
+  --color-bg-tertiary: #3F3F46;
+  --color-border: #3F3F46;
+  --color-border-light: #52525B;
+
+  /* Text */
+  --color-text-primary: #FAFAFA;
+  --color-text-secondary: #A1A1AA;
+  --color-text-tertiary: #71717A;
+  --color-text-muted: #52525B;
+
+  /* Status: Verified (Emerald) — verdict-exclusive */
+  --color-verified: #10B981;
+  --color-verified-dim: rgba(16, 185, 129, 0.10);
+  --color-verified-border: rgba(16, 185, 129, 0.30);
+
+  /* Status: Partial / Warning (Amber) — verdict-exclusive */
+  --color-partial: #F59E0B;
+  --color-partial-dim: rgba(245, 158, 11, 0.10);
+  --color-partial-border: rgba(245, 158, 11, 0.30);
+
+  /* Status: Overclaim / Error (Coral) — verdict-exclusive */
+  --color-overclaim: #F87171;
+  --color-overclaim-dim: rgba(248, 113, 113, 0.10);
+  --color-overclaim-border: rgba(248, 113, 113, 0.30);
+
+  /* Accent (Emerald primary for CTAs) */
+  --color-accent: #10B981;
+  --color-accent-dim: rgba(16, 185, 129, 0.10);
+  --color-accent-border: rgba(16, 185, 129, 0.30);
+
+  /* Progress / Info */
+  --color-info: #3B82F6;
+  --color-info-dim: rgba(59, 130, 246, 0.10);
+  --color-info-border: rgba(59, 130, 246, 0.30);
+
+  /* Untested */
+  --color-untested: #71717A;
+
+  /* ===== VIBRANT NEO-BRUTALIST ACCENTS ===== */
+
+  /* Graph: Sunset / Fiery accents */
+  --color-graph-glow: #F43F5E;
+  --color-graph-glow-dim: rgba(244, 63, 94, 0.10);
+  --color-graph-glow-border: rgba(244, 63, 94, 0.30);
+  --color-graph-warm: #F97316;
+
+  /* Roadmap: Ocean / Aurora gradients */
+  --color-roadmap-start: #2DD4BF;
+  --color-roadmap-end: #3B82F6;
+  --color-roadmap-alt-start: #8B5CF6;
+  --color-roadmap-alt-end: #38BDF8;
+
+  /* Sidebar: Electric active */
+  --color-nav-active: #EC4899;
+  --color-nav-active-dim: rgba(236, 72, 153, 0.10);
+  --color-nav-active-border: rgba(236, 72, 153, 0.30);
+
+  /* Interactables: Lime pop */
+  --color-interact: #A3E635;
+  --color-interact-dim: rgba(163, 230, 53, 0.10);
+  --color-interact-border: rgba(163, 230, 53, 0.30);
+}
+
+@theme {
+  --font-display: "Outfit", "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial,
+    "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  letter-spacing: -0.2px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--color-nav-active-dim);
+  color: var(--color-nav-active);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-nav-active);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling for dark mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-light);
+}
+
+/* Headings use display font */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
