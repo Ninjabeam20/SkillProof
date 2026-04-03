@@ -1,0 +1,902 @@
+[
+  {
+    "question_id": "nodejs_theory_01",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the primary architectural feature that makes Node.js suitable for I/O-bound applications?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Node.js uses multiple threads to handle concurrent requests",
+        "misconception_tag": "nodejs_multithreaded"
+      },
+      {
+        "id": "b",
+        "text": "Node.js compiles JavaScript to native machine code for faster I/O",
+        "misconception_tag": "nodejs_compiles_native"
+      },
+      {
+        "id": "c",
+        "text": "Node.js uses a non-blocking, event-driven I/O model with a single-threaded event loop"
+      },
+      {
+        "id": "d",
+        "text": "Node.js batches I/O operations and flushes them at fixed intervals",
+        "misconception_tag": "nodejs_batches_io"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Node.js is built on a single-threaded event loop (via libuv). I/O operations (file reads, network calls) are non-blocking \u2014 they are delegated to the OS/thread pool and a callback is queued when they complete. This allows Node.js to handle thousands of concurrent connections without creating a thread per connection."
+  },
+  {
+    "question_id": "nodejs_theory_02",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the role of `package.json` in a Node.js project?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It stores compiled JavaScript for faster startup",
+        "misconception_tag": "package_json_compiled_code"
+      },
+      {
+        "id": "b",
+        "text": "It defines the project's metadata, dependencies, scripts, and entry point"
+      },
+      {
+        "id": "c",
+        "text": "It is required to import built-in Node.js modules",
+        "misconception_tag": "package_json_required_for_builtins"
+      },
+      {
+        "id": "d",
+        "text": "It configures the V8 engine's memory and garbage collection settings",
+        "misconception_tag": "package_json_configures_v8"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "package.json is the manifest for a Node.js project. It lists the project name, version, entry point (main), npm scripts, and both production (dependencies) and development (devDependencies) packages. It enables npm/yarn to install consistent dependency versions and run defined scripts."
+  },
+  {
+    "question_id": "nodejs_theory_03",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does the `require()` function do in Node.js CommonJS modules?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It downloads and installs a package from npm at runtime",
+        "misconception_tag": "require_downloads_npm"
+      },
+      {
+        "id": "b",
+        "text": "It asynchronously loads a module and returns a Promise",
+        "misconception_tag": "require_returns_promise"
+      },
+      {
+        "id": "c",
+        "text": "It synchronously loads and caches a module, returning its exported values"
+      },
+      {
+        "id": "d",
+        "text": "It validates the syntax of another JavaScript file without executing it",
+        "misconception_tag": "require_validates_syntax"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "require() in CommonJS synchronously reads the target file, executes it in a module scope, caches the result (so subsequent require() calls for the same file return the cached exports), and returns the module.exports object. It is synchronous, which is why it should not be used inside hot code paths."
+  },
+  {
+    "question_id": "nodejs_practical_01",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to read a large file and send it as an HTTP response. Which approach is best?\n\n```js\n// A\nfs.readFile('large.csv', (err, data) => res.end(data));\n\n// B\nconst stream = fs.createReadStream('large.csv');\nstream.pipe(res);\n\n// C\nconst data = fs.readFileSync('large.csv');\nres.end(data);\n\n// D\nfetch('large.csv').then(r => r.text()).then(data => res.end(data));\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "A \u2014 readFile is the standard way to read files in Node.js",
+        "misconception_tag": "readfile_best_for_large_files"
+      },
+      {
+        "id": "b",
+        "text": "B \u2014 streams pipe data chunk by chunk, avoiding loading the entire file into memory"
+      },
+      {
+        "id": "c",
+        "text": "C \u2014 synchronous reads are fastest because they avoid callback overhead",
+        "misconception_tag": "sync_reads_are_fastest"
+      },
+      {
+        "id": "d",
+        "text": "D \u2014 fetch is the modern API for file reading in Node.js",
+        "misconception_tag": "fetch_reads_local_files"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Streaming (option B) reads and sends the file in chunks, keeping memory usage constant regardless of file size. Option A loads the entire file into memory before sending \u2014 a 1GB file would require 1GB of RAM. Option C blocks the event loop while reading, preventing all other requests from being processed. Option D uses fetch, which is for HTTP requests, not local files."
+  },
+  {
+    "question_id": "nodejs_practical_02",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A Node.js Express server occasionally crashes with no error logs. A developer suspects an unhandled Promise rejection. How should they catch it globally?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Wrap the entire server startup in try/catch",
+        "misconception_tag": "trycatch_catches_async_globally"
+      },
+      {
+        "id": "b",
+        "text": "Listen to the `unhandledRejection` event on the process object"
+      },
+      {
+        "id": "c",
+        "text": "Use a domain to wrap all routes and catch rejections",
+        "misconception_tag": "domains_catch_promise_rejections"
+      },
+      {
+        "id": "d",
+        "text": "Unhandled Promise rejections cannot be caught globally in Node.js",
+        "misconception_tag": "no_global_rejection_handler"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`process.on('unhandledRejection', (reason, promise) => { ... })` captures any Promise that is rejected without a .catch() handler. Node.js 15+ exits with a non-zero code on unhandled rejections by default. This handler lets you log the error and perform graceful cleanup before exiting."
+  },
+  {
+    "question_id": "nodejs_practical_03",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You have a CPU-intensive function that processes large datasets. Running it in a request handler makes the server unresponsive to other requests. What is the correct solution in Node.js?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use async/await to make the CPU work non-blocking",
+        "misconception_tag": "async_makes_cpu_nonblocking"
+      },
+      {
+        "id": "b",
+        "text": "Use setTimeout to break up the work into smaller chunks",
+        "misconception_tag": "settimeout_fixes_cpu_work"
+      },
+      {
+        "id": "c",
+        "text": "Offload the work to a Worker Thread or a separate child process"
+      },
+      {
+        "id": "d",
+        "text": "Increase the event loop tick rate in Node.js configuration",
+        "misconception_tag": "event_loop_tick_rate_config"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Node.js has a single-threaded event loop. CPU-bound code blocks the loop, preventing all I/O callbacks (including other HTTP requests) from executing. Worker Threads (worker_threads module) run JavaScript in separate threads. Child processes (child_process module) fork separate Node.js processes. Both avoid blocking the main event loop. async/await does not help with CPU work \u2014 it only yields for I/O."
+  },
+  {
+    "question_id": "nodejs_practical_04",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "What is the correct way to create a simple HTTP server in Node.js using only built-in modules?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`const server = require('http').createServer((req, res) => { res.end('Hello'); }).listen(3000);`"
+      },
+      {
+        "id": "b",
+        "text": "`const server = new Server(3000, (req, res) => res.end('Hello'));`",
+        "misconception_tag": "new_server_constructor"
+      },
+      {
+        "id": "c",
+        "text": "`import { serve } from 'node:http'; serve(3000, handler);`",
+        "misconception_tag": "node_http_serve_function"
+      },
+      {
+        "id": "d",
+        "text": "`http.listen(3000, (req, res) => res.end('Hello'));`",
+        "misconception_tag": "http_listen_directly"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "The built-in `http` module exposes `http.createServer(requestListener)` which returns a Server instance. Calling `.listen(port)` binds it to a port. The request listener receives `req` (IncomingMessage) and `res` (ServerResponse) objects. `res.end()` sends the response body and signals that the response is complete."
+  },
+  {
+    "question_id": "nodejs_edge_01",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A developer has two files: `a.js` requires `b.js`, and `b.js` requires `a.js`. What happens in Node.js?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Node.js throws a circular dependency error and exits",
+        "misconception_tag": "circular_dep_throws"
+      },
+      {
+        "id": "b",
+        "text": "Node.js handles it gracefully: the requiring file receives a partially completed exports object from the required file"
+      },
+      {
+        "id": "c",
+        "text": "Node.js detects the cycle and skips the second require, returning an empty object",
+        "misconception_tag": "circular_dep_empty_object"
+      },
+      {
+        "id": "d",
+        "text": "Both files execute infinitely until the call stack overflows",
+        "misconception_tag": "circular_dep_infinite_loop"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Node.js handles circular dependencies via its module cache. When a.js requires b.js, Node starts executing b.js. When b.js requires a.js, Node sees a.js is already being loaded and returns its current (partially populated) exports. If a.js hasn't finished exporting everything yet, b.js gets an incomplete snapshot \u2014 a common source of subtle bugs."
+  },
+  {
+    "question_id": "nodejs_edge_02",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What is the output of the following Node.js code?\n\n```js\nconsole.log('start');\nsetImmediate(() => console.log('immediate'));\nprocess.nextTick(() => console.log('nextTick'));\nconsole.log('end');\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "start, end, immediate, nextTick",
+        "misconception_tag": "immediate_before_nexttick"
+      },
+      {
+        "id": "b",
+        "text": "start, end, nextTick, immediate"
+      },
+      {
+        "id": "c",
+        "text": "start, nextTick, end, immediate",
+        "misconception_tag": "nexttick_runs_between_sync"
+      },
+      {
+        "id": "d",
+        "text": "start, end, immediate, immediate (called twice)",
+        "misconception_tag": "setimmediate_called_twice"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Synchronous code runs first: start, end. Then process.nextTick callbacks drain before I/O events and setImmediate. setImmediate fires in the 'check' phase of the event loop, after I/O. So the order is: start \u2192 end \u2192 nextTick \u2192 immediate."
+  },
+  {
+    "question_id": "nodejs_edge_03",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "In Node.js, what is the difference between `__dirname` and `process.cwd()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are identical \u2014 both return the directory of the currently executing file",
+        "misconception_tag": "dirname_cwd_identical"
+      },
+      {
+        "id": "b",
+        "text": "`__dirname` is the absolute path of the directory containing the current module file; `process.cwd()` is the directory from which the Node.js process was launched"
+      },
+      {
+        "id": "c",
+        "text": "`__dirname` changes when you change directories; `process.cwd()` is always the file's directory",
+        "misconception_tag": "dirname_changes_with_cd"
+      },
+      {
+        "id": "d",
+        "text": "`process.cwd()` is only available in the main entry file; `__dirname` is available everywhere",
+        "misconception_tag": "cwd_only_in_main"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`__dirname` is set per-module and always refers to the directory containing that specific file, regardless of where you run Node.js from. `process.cwd()` returns the current working directory of the Node.js process \u2014 the directory you were in when you ran `node myapp.js`. If you run node from a different directory, `process.cwd()` changes but `__dirname` does not."
+  },
+  {
+    "question_id": "nodejs_theory_04",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the Node.js cluster module and when should you use it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Cluster is a database connection pooling module for managing concurrent DB queries",
+        "misconception_tag": "cluster_is_db_pooling"
+      },
+      {
+        "id": "b",
+        "text": "Cluster allows a Node.js app to spawn multiple worker processes that share the same server port, enabling use of multi-core CPUs"
+      },
+      {
+        "id": "c",
+        "text": "Cluster is a load balancer that distributes HTTP traffic across multiple machines",
+        "misconception_tag": "cluster_is_external_lb"
+      },
+      {
+        "id": "d",
+        "text": "Cluster enables multiple Node.js versions to run simultaneously on the same machine",
+        "misconception_tag": "cluster_multiple_node_versions"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Node.js is single-threaded and cannot natively use multiple CPU cores for a single process. The cluster module forks child worker processes (typically one per CPU core) that all share the same port. The OS or the master process distributes incoming connections among workers, effectively scaling throughput on multi-core machines."
+  },
+  {
+    "question_id": "nodejs_theory_05",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between `EventEmitter` and Streams in Node.js?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Streams are a subclass of EventEmitter; they add backpressure and chunked data handling on top of event emission"
+      },
+      {
+        "id": "b",
+        "text": "EventEmitter is used for I/O; Streams are used for custom events",
+        "misconception_tag": "emitter_io_streams_events"
+      },
+      {
+        "id": "c",
+        "text": "They are unrelated: EventEmitter handles DOM events; Streams handle file I/O",
+        "misconception_tag": "emitter_dom_events"
+      },
+      {
+        "id": "d",
+        "text": "Streams replace EventEmitter in Node.js 14+ for better performance",
+        "misconception_tag": "streams_replace_emitter"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "All Node.js Streams (Readable, Writable, Transform, Duplex) extend EventEmitter. They inherit the event system (emitting 'data', 'end', 'error' events) and add stream-specific behavior: chunked data processing, backpressure (controlling data flow when a consumer is slower than a producer), and the pipe() API."
+  },
+  {
+    "question_id": "nodejs_theory_06",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the purpose of `package-lock.json` and when can it cause problems?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It locks the Node.js version required to run the project",
+        "misconception_tag": "lock_locks_node_version"
+      },
+      {
+        "id": "b",
+        "text": "It records the exact resolved versions of all dependencies (and their transitive dependencies), ensuring reproducible installs across environments"
+      },
+      {
+        "id": "c",
+        "text": "It prevents packages from being updated with `npm install`",
+        "misconception_tag": "lock_prevents_all_updates"
+      },
+      {
+        "id": "d",
+        "text": "It is automatically generated but should be added to .gitignore to avoid conflicts",
+        "misconception_tag": "lock_should_be_gitignored"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "package-lock.json pins exact versions and integrity hashes for every package in the dependency tree, guaranteeing that `npm ci` installs identical versions across dev, CI, and production. It should be committed to version control. Problems arise when multiple developers update dependencies separately, causing merge conflicts in the lock file."
+  },
+  {
+    "question_id": "nodejs_practical_05",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You build an Express middleware that logs request duration. Where should you call `next()` and where should you record the end time?\n\n```js\napp.use((req, res, next) => {\n  const start = Date.now();\n  // WHERE does the timing logic go?\n  next();\n});\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "Record end time after next() synchronously \u2014 next() is synchronous so the response is complete when it returns",
+        "misconception_tag": "next_is_synchronous_completion"
+      },
+      {
+        "id": "b",
+        "text": "Listen to the response's 'finish' event, which fires when the response has been fully sent to the client"
+      },
+      {
+        "id": "c",
+        "text": "Wrap next() in a setTimeout and record end time after the delay",
+        "misconception_tag": "settimeout_after_next"
+      },
+      {
+        "id": "d",
+        "text": "Record end time in a separate afterResponse middleware using app.use at the bottom",
+        "misconception_tag": "separate_after_middleware"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`next()` passes control to the next middleware but the response isn't sent until much later (after all middleware and route handlers run). The res 'finish' event fires when the response has been fully sent. This is the correct hook for measuring total request duration: `res.on('finish', () => console.log(Date.now() - start));`."
+  },
+  {
+    "question_id": "nodejs_practical_06",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Your Node.js app needs to handle environment-specific configuration (dev/staging/prod). What is the recommended approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Hard-code configuration values in different JavaScript files and switch imports based on NODE_ENV",
+        "misconception_tag": "hardcode_env_config"
+      },
+      {
+        "id": "b",
+        "text": "Use environment variables (process.env) for secrets and runtime config, with a .env file for local development loaded via dotenv, and never commit secrets"
+      },
+      {
+        "id": "c",
+        "text": "Store all configuration in package.json under a 'config' key",
+        "misconception_tag": "config_in_package_json"
+      },
+      {
+        "id": "d",
+        "text": "Use global variables set in a server startup script",
+        "misconception_tag": "global_vars_for_config"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The twelve-factor app methodology recommends storing configuration in environment variables. In Node.js this means reading from process.env. The dotenv library loads a .env file into process.env during local development. Secrets should never be hard-coded or committed to version control. CI/CD and hosting platforms inject environment variables at runtime."
+  },
+  {
+    "question_id": "nodejs_practical_07",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "An Express route handler throws an error inside an async function, but Express's default error handler never receives it. What is the fix?\n\n```js\napp.get('/user/:id', async (req, res) => {\n  const user = await db.findUser(req.params.id); // can throw\n  res.json(user);\n});\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "Express automatically catches async errors in route handlers",
+        "misconception_tag": "express_auto_catches_async"
+      },
+      {
+        "id": "b",
+        "text": "Wrap the body in try/catch and call next(err) explicitly, or use a wrapper that forwards rejected Promises to next()"
+      },
+      {
+        "id": "c",
+        "text": "Use process.on('unhandledRejection') to forward errors to Express",
+        "misconception_tag": "unhandled_rejection_to_express"
+      },
+      {
+        "id": "d",
+        "text": "Replace async/await with callbacks so Express can detect the error",
+        "misconception_tag": "must_use_callbacks_for_express_errors"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Express 4 does not automatically catch rejected Promises from async route handlers. Unhandled rejections silently fail. The fix is to wrap the handler body in try/catch and call next(err) on failure. Express 5 (currently in pre-release) natively supports async route handlers. Alternatively, a wrapper like express-async-errors patches this behavior for Express 4."
+  },
+  {
+    "question_id": "nodejs_practical_08",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You need to run multiple async operations where failure of any one should not stop the others, but you need to know which ones failed. Which Promise method is most appropriate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Promise.all \u2014 it collects all results regardless of failures",
+        "misconception_tag": "promise_all_ignores_failures"
+      },
+      {
+        "id": "b",
+        "text": "Promise.race \u2014 it returns the result of the fastest operation",
+        "misconception_tag": "promise_race_collects_all"
+      },
+      {
+        "id": "c",
+        "text": "Promise.allSettled \u2014 it waits for all Promises and returns an array with {status, value/reason} for each"
+      },
+      {
+        "id": "d",
+        "text": "Promise.any \u2014 it collects all fulfilled results and ignores rejections",
+        "misconception_tag": "promise_any_collects_all_fulfilled"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Promise.allSettled waits for all Promises to complete (regardless of success or failure) and returns an array of result objects with a `status` field ('fulfilled' or 'rejected') and either a `value` or `reason`. This lets you inspect exactly which operations succeeded and which failed without short-circuiting."
+  },
+  {
+    "question_id": "nodejs_edge_04",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A Node.js app uses `require()` to load a module in a hot code path (called thousands of times per second). Is there a performance concern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes \u2014 require() re-reads and re-executes the file on every call",
+        "misconception_tag": "require_no_caching"
+      },
+      {
+        "id": "b",
+        "text": "No \u2014 require() caches the module after the first load; subsequent calls return the cached exports instantly"
+      },
+      {
+        "id": "c",
+        "text": "Yes \u2014 the module cache lookup itself is O(n) and slows down with many modules",
+        "misconception_tag": "module_cache_is_slow"
+      },
+      {
+        "id": "d",
+        "text": "No \u2014 Node.js pre-loads all require() calls at startup, so there is no runtime cost",
+        "misconception_tag": "require_preloaded_at_startup"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "require() uses an internal module cache (require.cache). After the first load, the module's exports are stored. Subsequent require() calls for the same file path return the cached object without re-reading or re-executing the file. The cache lookup is a simple hash map access \u2014 effectively O(1) and negligible in hot paths."
+  },
+  {
+    "question_id": "nodejs_edge_05",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You call `process.nextTick()` recursively without any exit condition. What happens to the Node.js event loop?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Node.js limits nextTick recursion to 1000 calls and then moves to the next event loop phase",
+        "misconception_tag": "nexttick_has_limit"
+      },
+      {
+        "id": "b",
+        "text": "The nextTick queue starves the event loop \u2014 I/O callbacks, timers, and setImmediate never execute"
+      },
+      {
+        "id": "c",
+        "text": "The call stack overflows with a RangeError after a fixed number of recursive calls",
+        "misconception_tag": "nexttick_stackoverflow"
+      },
+      {
+        "id": "d",
+        "text": "Node.js moves recursive nextTick calls to the macrotask queue after 10 iterations",
+        "misconception_tag": "nexttick_promoted_to_macrotask"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "process.nextTick callbacks execute before the event loop moves to its next phase. If a nextTick callback schedules another nextTick, that one also runs before I/O \u2014 creating infinite starvation. Unlike setImmediate (which has max stack protection), nextTick has no built-in recursion limit. This is why setImmediate is recommended for recursive async operations."
+  },
+  {
+    "question_id": "nodejs_edge_06",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A developer does `module.exports = function() {}` in one file and `exports.foo = 'bar'` in another. They expect both patterns to work the same way. What is the difference?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are identical \u2014 exports and module.exports are the same object",
+        "misconception_tag": "exports_module_exports_identical"
+      },
+      {
+        "id": "b",
+        "text": "`module.exports = function(){}` replaces the entire exports object; `exports.foo = 'bar'` adds a property to the existing exports object. If you reassign module.exports, exports no longer points to it"
+      },
+      {
+        "id": "c",
+        "text": "`exports.foo` is only available in ES modules; module.exports is only for CommonJS",
+        "misconception_tag": "exports_only_esm"
+      },
+      {
+        "id": "d",
+        "text": "`module.exports` is deprecated in favor of `exports` in Node.js 18+",
+        "misconception_tag": "module_exports_deprecated"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Initially, `exports` is a reference to `module.exports`. Adding properties (exports.foo = ...) works because both reference the same object. But `module.exports = function(){}` replaces module.exports with a new value, breaking the reference link. After this reassignment, `exports` still points to the OLD empty object, while require() returns the new module.exports. Mixing both patterns in the same file causes bugs."
+  },
+  {
+    "question_id": "nodejs_theory_07",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is backpressure in Node.js streams and how does the pipe() method handle it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Backpressure is memory pressure from too many open file descriptors; pipe() closes idle streams automatically",
+        "misconception_tag": "backpressure_file_descriptors"
+      },
+      {
+        "id": "b",
+        "text": "Backpressure occurs when a writable stream cannot consume data as fast as a readable produces it; pipe() pauses the readable when the writable's buffer is full and resumes it when the buffer drains"
+      },
+      {
+        "id": "c",
+        "text": "Backpressure is handled by increasing Node.js's internal buffer size via the highWaterMark option",
+        "misconception_tag": "backpressure_buffer_increase"
+      },
+      {
+        "id": "d",
+        "text": "pipe() drops excess data when backpressure occurs to prevent memory overflow",
+        "misconception_tag": "pipe_drops_data"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Backpressure happens when a writable stream's internal buffer fills up (the write() method returns false). pipe() listens for the 'drain' event on the writable to know when to resume reading. Without backpressure handling, a fast readable would overwhelm a slow writable, causing unbounded memory growth. highWaterMark controls the buffer threshold that triggers backpressure."
+  },
+  {
+    "question_id": "nodejs_theory_08",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What are the phases of the Node.js event loop in order?",
+    "options": [
+      {
+        "id": "a",
+        "text": "timers \u2192 I/O callbacks \u2192 idle/prepare \u2192 poll \u2192 check \u2192 close callbacks"
+      },
+      {
+        "id": "b",
+        "text": "poll \u2192 timers \u2192 I/O callbacks \u2192 check \u2192 close callbacks \u2192 idle",
+        "misconception_tag": "poll_first_phase"
+      },
+      {
+        "id": "c",
+        "text": "microtasks \u2192 timers \u2192 poll \u2192 check \u2192 close callbacks",
+        "misconception_tag": "microtasks_are_phase"
+      },
+      {
+        "id": "d",
+        "text": "timers \u2192 poll \u2192 check \u2192 I/O callbacks \u2192 close callbacks \u2192 idle",
+        "misconception_tag": "wrong_io_position"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "The libuv event loop phases in order: 1) timers (setTimeout/setInterval callbacks), 2) pending callbacks (I/O errors deferred from previous iteration), 3) idle/prepare (internal use), 4) poll (retrieve new I/O events; block if no timers pending), 5) check (setImmediate callbacks), 6) close callbacks (e.g., socket.on('close')). process.nextTick and microtasks run between each phase."
+  },
+  {
+    "question_id": "nodejs_theory_09",
+    "skill_id": "nodejs",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between CommonJS (require/module.exports) and ES Modules (import/export) in Node.js?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are syntactically different but functionally identical at runtime",
+        "misconception_tag": "cjs_esm_identical_runtime"
+      },
+      {
+        "id": "b",
+        "text": "ES Modules are statically analyzed at load time, support tree-shaking, are asynchronous by design, and are not fully interoperable with CJS (e.g., CJS cannot require() an ESM file)"
+      },
+      {
+        "id": "c",
+        "text": "CommonJS is for server-side code; ES Modules are only for browser code",
+        "misconception_tag": "esm_browser_only"
+      },
+      {
+        "id": "d",
+        "text": "The only difference is syntax \u2014 both use synchronous loading under the hood in Node.js",
+        "misconception_tag": "both_sync_loading"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Key differences: CJS is synchronous (require() is blocking), loads at runtime, and is dynamically analyzable. ESM is statically analyzable (imports are resolved before execution), supports top-level await, and enables tree-shaking. In Node.js, you cannot require() an ESM file, but ESM can import CJS. ESM files use .mjs or \"type\":\"module\" in package.json."
+  },
+  {
+    "question_id": "nodejs_practical_09",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have a Node.js service processing jobs from a queue. Each job is async. You want to process up to 5 jobs concurrently but no more. How do you implement this concurrency limit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use Promise.all with all jobs \u2014 Promise.all handles concurrency automatically",
+        "misconception_tag": "promise_all_limits_concurrency"
+      },
+      {
+        "id": "b",
+        "text": "Use a semaphore/concurrency limiter: track active count, only start new jobs when active < 5, queue the rest"
+      },
+      {
+        "id": "c",
+        "text": "Use Worker Threads with a pool of 5 workers",
+        "misconception_tag": "worker_threads_for_async_concurrency"
+      },
+      {
+        "id": "d",
+        "text": "Use setInterval to start one job every 200ms to approximate 5 per second",
+        "misconception_tag": "setinterval_for_concurrency"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Promise.all fires everything simultaneously \u2014 no concurrency limit. The correct approach is a semaphore pattern: maintain a counter of active jobs. When a slot is free (active < 5), dequeue and start a job. When a job completes, decrement the counter and start the next queued job. Libraries like p-limit or p-queue implement this pattern elegantly."
+  },
+  {
+    "question_id": "nodejs_practical_10",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You implement a Transform stream to parse NDJSON (newline-delimited JSON). What is the critical challenge to handle?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Transform streams cannot parse text; they only work with binary Buffers",
+        "misconception_tag": "transform_no_text"
+      },
+      {
+        "id": "b",
+        "text": "Each chunk may not align with newline boundaries \u2014 a single chunk can contain partial lines or multiple lines; you must buffer incomplete lines across chunks"
+      },
+      {
+        "id": "c",
+        "text": "The encoding must be set to 'utf8' explicitly, otherwise JSON.parse will fail",
+        "misconception_tag": "encoding_only_issue"
+      },
+      {
+        "id": "d",
+        "text": "Transform streams process the entire input at once, so there are no chunk boundary issues",
+        "misconception_tag": "transform_processes_all_at_once"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Streams deliver data in arbitrary-sized chunks that may not respect newline boundaries. A chunk could end in the middle of a JSON object, or contain multiple complete objects. A correct NDJSON Transform must maintain an internal buffer: append each chunk to the buffer, split on newlines, parse complete lines, and retain any incomplete trailing data for the next chunk."
+  },
+  {
+    "question_id": "nodejs_practical_11",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "Your Express app has high memory usage. A heap dump shows thousands of retained EventEmitter instances. What is the most likely cause?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Too many routes are registered in Express",
+        "misconception_tag": "routes_cause_emitter_leak"
+      },
+      {
+        "id": "b",
+        "text": "EventEmitter listeners are added per request but never removed, causing a listener accumulation and preventing garbage collection of the emitter instances"
+      },
+      {
+        "id": "c",
+        "text": "The event loop is too slow and queues EventEmitters faster than it processes them",
+        "misconception_tag": "slow_event_loop_leaks_emitters"
+      },
+      {
+        "id": "d",
+        "text": "Node.js has a known bug where Express routes create duplicate EventEmitter instances",
+        "misconception_tag": "express_emitter_bug"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Every time a listener is added to an EventEmitter (e.g., emitter.on('event', handler)) and never removed (.off() or .removeListener()), that listener keeps a reference to its closure and the emitter itself alive in memory. If this happens per-request in a server, the count grows unboundedly. Use .once() for single-use listeners, always remove listeners on cleanup, and watch for Node.js MaxListenersExceededWarning as an early signal."
+  },
+  {
+    "question_id": "nodejs_practical_12",
+    "skill_id": "nodejs",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to share state between clustered Node.js worker processes. Why doesn't a module-level variable work, and what is the correct approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Module-level variables are cleared between requests in cluster mode",
+        "misconception_tag": "cluster_clears_module_vars"
+      },
+      {
+        "id": "b",
+        "text": "Each worker process is a separate OS process with its own memory; module-level variables are not shared. Use an external store like Redis, a database, or message passing via IPC"
+      },
+      {
+        "id": "c",
+        "text": "Shared memory (SharedArrayBuffer) between cluster workers is not supported in Node.js",
+        "misconception_tag": "sharedarraybuffer_not_supported"
+      },
+      {
+        "id": "d",
+        "text": "Use global variables instead of module variables \u2014 globals are shared across cluster workers",
+        "misconception_tag": "globals_shared_in_cluster"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Cluster workers are separate processes (forked with child_process.fork internally). Each has its own V8 heap and memory space. Module-level or global variables are duplicated, not shared. To share state: use an external data store (Redis, DB), use the cluster master as a coordinator via IPC (process.send/process.on('message')), or use shared memory (SharedArrayBuffer + Worker Threads, which IS supported but is different from cluster workers)."
+  },
+  {
+    "question_id": "nodejs_edge_07",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A developer writes an HTTP server where each request creates an interval:\n\n```js\napp.get('/stream', (req, res) => {\n  const id = setInterval(() => res.write('ping'), 1000);\n  res.on('close', () => clearInterval(id));\n});\n```\n\nIf the client disconnects abruptly (browser tab closed), does this leak memory?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes \u2014 the 'close' event is not emitted when the client disconnects abruptly",
+        "misconception_tag": "close_not_emitted_on_abrupt_disconnect"
+      },
+      {
+        "id": "b",
+        "text": "No \u2014 the 'close' event fires on the response when the connection is terminated from either side, clearing the interval"
+      },
+      {
+        "id": "c",
+        "text": "Yes \u2014 res.write will throw an error on next tick, but the interval continues running",
+        "misconception_tag": "res_write_throws_but_interval_continues"
+      },
+      {
+        "id": "d",
+        "text": "No \u2014 Node.js automatically clears all intervals associated with a closed connection",
+        "misconception_tag": "node_auto_clears_intervals"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The 'close' event on Node.js's ServerResponse (res) fires whenever the underlying TCP connection is closed \u2014 including when the client abruptly disconnects. Listening to res.on('close', ...) is the correct pattern for cleanup. The interval is cleared properly, preventing a memory leak. This is a correct implementation."
+  },
+  {
+    "question_id": "nodejs_edge_08",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "What happens when you call `JSON.stringify` on an object with a circular reference in Node.js?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It returns the string \"[Circular]\" for circular references",
+        "misconception_tag": "json_stringify_circular_string"
+      },
+      {
+        "id": "b",
+        "text": "It throws a TypeError: Converting circular structure to JSON"
+      },
+      {
+        "id": "c",
+        "text": "It produces a deeply nested JSON string until the stack overflows",
+        "misconception_tag": "json_stringify_stackoverflow"
+      },
+      {
+        "id": "d",
+        "text": "It ignores circular references and produces a flat JSON object",
+        "misconception_tag": "json_stringify_ignores_circular"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "JSON.stringify throws a TypeError when it detects a circular reference. To handle circular structures, use a custom replacer function that tracks seen objects, or use libraries like `flatted` or `json-stringify-safe` that serialize circular references as placeholder strings like \"[Circular ~]\"."
+  },
+  {
+    "question_id": "nodejs_edge_09",
+    "skill_id": "nodejs",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A Node.js process is not exiting after all code has run. What are likely causes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Node.js requires an explicit process.exit() call to terminate in all cases",
+        "misconception_tag": "node_requires_explicit_exit"
+      },
+      {
+        "id": "b",
+        "text": "Active handles or timers (open server, uncleared interval, open DB connection) keep the event loop alive"
+      },
+      {
+        "id": "c",
+        "text": "Unresolved Promises prevent the process from exiting",
+        "misconception_tag": "pending_promises_prevent_exit"
+      },
+      {
+        "id": "d",
+        "text": "The garbage collector runs indefinitely when memory usage is high, blocking exit",
+        "misconception_tag": "gc_blocks_exit"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Node.js exits when the event loop has nothing left to do AND there are no active handles or refs. An unclosed HTTP server (.listen()), an un-cleared setInterval, an open database connection, or an active socket will keep the process alive. Use server.close(), clearInterval(), connection.end(), or ref/unref() on handles to allow graceful exit."
+  }
+]

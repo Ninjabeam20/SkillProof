@@ -1,6 +1,55 @@
 **Current Active Agent:** Gemini (Planning/Review Mode)
-**Last Completed Prompt:** `prompts/06_gitignore_setup.md` ✅ (Manual Gemini Override)
-**Next Pending Prompt:** *(waiting for next task)*
+**Last Completed Prompt:** `prompts/06_taxonomy_and_ingestion.md` ✅
+**Next Pending Prompt:** Phase 7 — Authentication
+
+---
+
+## Prompt 06 — Taxonomy & Bulk Ingestion ✅ COMPLETE
+
+**Completed:** 2026-04-03
+
+### What was done:
+
+1. **Standardize 15 Skills (Step 1):**
+   - Overwrote `backend/data/taxonomy.json` — 80+ alias→canonical_id mappings covering exactly 15 skills: `javascript`, `python`, `java`, `system_design`, `cpp`, `html`, `css`, `nodejs`, `expressjs`, `fastapi`, `sql`, `nosql`, `rest_api`, `docker`, `react`.
+   - Overwrote `backend/data/skill_graph.json` — 15 SKG nodes with proper `tier`, `domain`, `prerequisites`, `concept_tags`, `edge_case_tags`. Meaningful visual edges: `html`→`css`, `html`→`javascript`→`react`, `javascript`→`nodejs`→`expressjs`, `python`→`fastapi`. No dangling edges.
+   - Removed all prototype skills (typescript, stats, ml_basics, random_forest, d3, data_viz).
+
+2. **Remove Evaluation Locks (Step 2):**
+   - `backend/routers/evaluation.py` — Neutered prerequisite enforcement in `POST /api/skg/queue`. All 15 skills always returned as unlocked (`prerequisites_met: true`, `missing_prerequisites: []`). Sorting simplified to tier→domain only.
+   - `GraphPage.jsx` — Complete rewrite. Removed `Lock` icon import, removed all `blocked` state logic, removed prerequisite warning panels in Node Inspector. Evaluate button active for any untested skill with questions.
+   - `SkillInputPage.jsx` — Removed "⚠ Missing prereqs" warning block from extracted skill cards.
+
+3. **Setup Bulk Question Ingestion (Step 3):**
+   - Created `backend/data/question_banks/` directory with README.md documenting the JSON schema and 15 valid canonical IDs.
+   - Created `backend/scripts/seed_questions.py` — Standalone ingestion script that:
+     - Connects to Postgres via `DATABASE_URL` (falls back to `postgresql://<os-user>@localhost:5432/skillproof`)
+     - Iterates all `.json` files in `question_banks/`
+     - Validates each question's `skill_id` against canonical IDs from `taxonomy.json`
+     - UPSERTs into the `questions` table (matches on `question_id` — updates existing, inserts new)
+     - Prints detailed per-file and summary statistics
+   - `backend/main.py` — Removed all auto-seed logic from the lifespan event. No more `json.load`, `Session`, `select`, or `Question` imports in main. App boots cleanly without seeding. Bumped version to `0.3.0`.
+
+### Files Created:
+- `backend/data/question_banks/README.md` — Schema docs and valid skill IDs
+- `backend/scripts/seed_questions.py` — Bulk UPSERT ingestion script
+
+### Files Modified:
+- `backend/data/taxonomy.json` — Complete rewrite (15 skills, 80+ aliases)
+- `backend/data/skill_graph.json` — Complete rewrite (15 SKG nodes)
+- `backend/main.py` — Removed auto-seed, bumped to v0.3.0
+- `backend/routers/evaluation.py` — Removed prerequisite enforcement
+- `frontend/src/pages/GraphPage.jsx` — Removed lock/blocked logic
+- `frontend/src/pages/SkillInputPage.jsx` — Removed prereq warnings
+
+### How to ingest questions:
+```bash
+# 1. Place .json files in backend/data/question_banks/
+# 2. Run the seed script
+cd backend
+source venv/bin/activate
+python scripts/seed_questions.py
+```
 
 ---
 

@@ -1,0 +1,452 @@
+[
+  {
+    "question_id": "git_theory_01",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the primary purpose of the staging area (index) in Git?",
+    "options": [
+      { "id": "a", "text": "To permanently store committed changes" },
+      { "id": "b", "text": "To prepare a set of changes that will be included in the next commit", "misconception_tag": null },
+      { "id": "c", "text": "To back up uncommitted changes to a remote server", "misconception_tag": "confuses_staging_with_remote_push" },
+      { "id": "d", "text": "To track which files are being ignored by Git", "misconception_tag": "confuses_staging_with_gitignore" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The staging area (index) is an intermediate area where Git tracks changes that are marked for the next commit. It allows selective inclusion of changes, unlike committing all working directory changes at once."
+  },
+  {
+    "question_id": "git_theory_02",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does a Git branch fundamentally represent?",
+    "options": [
+      { "id": "a", "text": "A full copy of the repository stored separately", "misconception_tag": "confuses_branch_with_fork" },
+      { "id": "b", "text": "A movable pointer to a specific commit", "misconception_tag": null },
+      { "id": "c", "text": "A locked snapshot of the codebase at a given time", "misconception_tag": "confuses_branch_with_tag" },
+      { "id": "d", "text": "A remote tracking reference to an upstream repository", "misconception_tag": "confuses_branch_with_remote_tracking" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A Git branch is simply a lightweight movable pointer to a commit. When you make a new commit, the branch pointer moves forward automatically. This is why branching in Git is fast and cheap."
+  },
+  {
+    "question_id": "git_theory_03",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Which of the following best describes what `git clone` does?",
+    "options": [
+      { "id": "a", "text": "Creates a new empty repository in the current directory" },
+      { "id": "b", "text": "Downloads only the latest commit of the default branch", "misconception_tag": "confuses_clone_with_shallow_clone" },
+      { "id": "c", "text": "Creates a local copy of a remote repository including its full history", "misconception_tag": null },
+      { "id": "d", "text": "Copies only the working tree without any Git metadata", "misconception_tag": "confuses_clone_with_plain_copy" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "`git clone` copies a remote repository to your local machine, including the full commit history, all branches, and all Git metadata. This is different from a shallow clone which limits history depth."
+  },
+  {
+    "question_id": "git_practical_01",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You modified three files but only want to commit two of them. What is the correct sequence of commands?",
+    "options": [
+      { "id": "a", "text": "`git commit -a -m 'message'` then manually remove the third file from history", "misconception_tag": "misuses_commit_a_flag" },
+      { "id": "b", "text": "`git add file1 file2` then `git commit -m 'message'`", "misconception_tag": null },
+      { "id": "c", "text": "`git stage file1 file2` then `git commit -m 'message'`", "misconception_tag": "invents_nonexistent_command" },
+      { "id": "d", "text": "`git commit file1 file2 -m 'message'` directly", "misconception_tag": "misunderstands_commit_syntax" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "You must explicitly stage only the files you want using `git add file1 file2`, then run `git commit -m 'message'`. Using `git commit -a` would stage all tracked modified files, which is not desired here."
+  },
+  {
+    "question_id": "git_practical_02",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Your teammate pushed changes to the remote `main` branch. You want to update your local `main` to reflect those changes without modifying your working directory. Which command should you use?",
+    "options": [
+      { "id": "a", "text": "`git fetch origin main`", "misconception_tag": null },
+      { "id": "b", "text": "`git pull origin main`", "misconception_tag": "also_merges_changes_into_working_branch" },
+      { "id": "c", "text": "`git sync origin main`", "misconception_tag": "invents_nonexistent_command" },
+      { "id": "d", "text": "`git update origin main`", "misconception_tag": "invents_nonexistent_command" }
+    ],
+    "correct_option_id": "a",
+    "explanation": "`git fetch` downloads the remote changes and updates remote-tracking branches (like `origin/main`) but does NOT merge them into your current branch or modify your working directory. `git pull` would also merge, which changes your working state."
+  },
+  {
+    "question_id": "git_practical_03",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You accidentally staged a file (`config.env`) that you do not want to commit. How do you unstage it while keeping your changes?",
+    "options": [
+      { "id": "a", "text": "`git reset HEAD config.env`", "misconception_tag": null },
+      { "id": "b", "text": "`git checkout config.env`", "misconception_tag": "discards_working_directory_changes" },
+      { "id": "c", "text": "`git stash config.env`", "misconception_tag": "stash_does_not_target_single_staged_file_this_way" },
+      { "id": "d", "text": "`git rm --cached config.env`", "misconception_tag": "removes_file_from_tracking_entirely" }
+    ],
+    "correct_option_id": "a",
+    "explanation": "`git reset HEAD <file>` removes the file from the staging area while leaving the working directory changes intact. `git checkout <file>` would discard the actual changes. `git rm --cached` would untrack the file entirely."
+  },
+  {
+    "question_id": "git_practical_04",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to create a new branch named `feature/login` and immediately switch to it. Which command achieves this in one step?",
+    "options": [
+      { "id": "a", "text": "`git branch feature/login && git checkout feature/login`" },
+      { "id": "b", "text": "`git checkout -b feature/login`", "misconception_tag": null },
+      { "id": "c", "text": "`git new feature/login`", "misconception_tag": "invents_nonexistent_command" },
+      { "id": "d", "text": "`git switch feature/login`", "misconception_tag": "switch_without_c_flag_does_not_create_branch" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`git checkout -b feature/login` creates the branch and switches to it in one step. `git switch feature/login` without the `-c` flag would fail if the branch does not exist. The two-command approach in option A works but is not a single step."
+  },
+  {
+    "question_id": "git_edge_01",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You run `git status` and see a file listed under both 'Changes to be committed' and 'Changes not staged for commit'. What does this indicate?",
+    "options": [
+      { "id": "a", "text": "Git has detected a conflict in the file", "misconception_tag": "confuses_state_with_merge_conflict" },
+      { "id": "b", "text": "The file was staged at one point, then modified again after staging", "misconception_tag": null },
+      { "id": "c", "text": "The file exists in two different branches simultaneously", "misconception_tag": "misunderstands_branch_scope" },
+      { "id": "d", "text": "Git is tracking duplicate copies of the same file", "misconception_tag": "invents_duplicate_tracking_behavior" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When a file appears in both sections, it means you staged a version of the file (captured its state in the index), then made additional edits afterward. The staged version and the current working-tree version differ. Committing now would commit the staged version, not the latest edits."
+  },
+  {
+    "question_id": "git_edge_02",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What happens when you run `git commit --amend` after already pushing the branch to a shared remote?",
+    "options": [
+      { "id": "a", "text": "The remote is automatically updated with the amended commit", "misconception_tag": "assumes_amend_auto_pushes" },
+      { "id": "b", "text": "It creates a new commit alongside the old one on the remote", "misconception_tag": "misunderstands_amend_as_additive" },
+      { "id": "c", "text": "The local and remote histories diverge; a force push would be required, risking overwriting others' work", "misconception_tag": null },
+      { "id": "d", "text": "Git refuses to amend if the branch has been pushed", "misconception_tag": "believes_git_prevents_amend_after_push" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "`git commit --amend` rewrites the last commit, changing its SHA. If already pushed, your local branch and the remote branch now have diverged histories. A `git push --force` is needed, which can overwrite teammates' work. This is dangerous on shared branches."
+  },
+  {
+    "question_id": "git_edge_03",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You add `*.log` to `.gitignore`, but one `.log` file is still being tracked by Git. Why?",
+    "options": [
+      { "id": "a", "text": "`.gitignore` only works for newly created files, not existing ones", "misconception_tag": null },
+      { "id": "b", "text": "The `.gitignore` file must be placed in the root to affect all directories", "misconception_tag": "misunderstands_gitignore_scope" },
+      { "id": "c", "text": "`.gitignore` patterns are case-sensitive on all platforms", "misconception_tag": "misattributes_cause_to_case_sensitivity" },
+      { "id": "d", "text": "The file was committed before `.gitignore` was created, so it is already tracked", "misconception_tag": null }
+    ],
+    "correct_option_id": "d",
+    "explanation": "`.gitignore` only prevents untracked files from being tracked. If a file was already committed and is being tracked, adding it to `.gitignore` has no effect. You must run `git rm --cached <file>` to stop tracking it, then commit that removal."
+  },
+  {
+    "question_id": "git_theory_04",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the fundamental difference between `git merge` and `git rebase`?",
+    "options": [
+      { "id": "a", "text": "Merge is for local branches only; rebase is for remote branches", "misconception_tag": "confuses_scope_of_operations" },
+      { "id": "b", "text": "Merge creates a new merge commit preserving branch history; rebase replays commits on top of another base, creating a linear history", "misconception_tag": null },
+      { "id": "c", "text": "Rebase is faster than merge because it skips conflict resolution", "misconception_tag": "believes_rebase_avoids_conflicts" },
+      { "id": "d", "text": "Merge rewrites commit hashes; rebase preserves them", "misconception_tag": "reverses_which_operation_rewrites_history" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`git merge` integrates changes by creating a new merge commit that has two parents, preserving the context of when branches diverged. `git rebase` moves or replays commits onto a new base commit, producing a linear history but rewriting commit SHAs."
+  },
+  {
+    "question_id": "git_theory_05",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What does `git stash` do to tracked and untracked files by default?",
+    "options": [
+      { "id": "a", "text": "Saves all modified files (tracked and untracked) and cleans the working directory", "misconception_tag": "believes_stash_includes_untracked_by_default" },
+      { "id": "b", "text": "Saves only staged changes and removes them from the index", "misconception_tag": "believes_stash_only_affects_staged_files" },
+      { "id": "c", "text": "Saves modifications to tracked files (both staged and unstaged) and cleans the working directory; untracked files are left alone by default", "misconception_tag": null },
+      { "id": "d", "text": "Creates a temporary branch and commits all changes to it", "misconception_tag": "confuses_stash_with_branch_creation" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "By default `git stash` saves modifications to tracked files (staged and unstaged) onto a stash stack and reverts the working directory to HEAD. Untracked files are NOT stashed unless you use the `-u` or `--include-untracked` flag."
+  },
+  {
+    "question_id": "git_theory_06",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is a 'detached HEAD' state in Git?",
+    "options": [
+      { "id": "a", "text": "A state where the HEAD file is corrupted or missing", "misconception_tag": "confuses_detached_HEAD_with_corruption" },
+      { "id": "b", "text": "A state where HEAD points directly to a commit SHA rather than to a branch reference", "misconception_tag": null },
+      { "id": "c", "text": "A state where the current branch has no upstream remote branch", "misconception_tag": "confuses_detached_HEAD_with_no_upstream" },
+      { "id": "d", "text": "A state where HEAD points to a tag that has been deleted", "misconception_tag": "misunderstands_detached_HEAD_trigger" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In detached HEAD state, HEAD points directly to a commit SHA instead of to a named branch reference. This can happen when you checkout a specific commit, tag, or remote branch. Commits made in this state are not associated with any branch and can be lost if you switch away without creating a new branch."
+  },
+  {
+    "question_id": "git_practical_05",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You are on `feature` branch and want to integrate the latest changes from `main` into your feature branch while maintaining a linear history. Which approach should you use?",
+    "options": [
+      { "id": "a", "text": "Run `git merge main` from the `feature` branch", "misconception_tag": "creates_merge_commit_not_linear" },
+      { "id": "b", "text": "Run `git rebase main` from the `feature` branch", "misconception_tag": null },
+      { "id": "c", "text": "Run `git cherry-pick main` from the `feature` branch", "misconception_tag": "cherry_pick_targets_specific_commits_not_branches" },
+      { "id": "d", "text": "Run `git pull --no-rebase main` from the `feature` branch", "misconception_tag": "no_rebase_flag_creates_merge_commit" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`git rebase main` from `feature` replays your feature commits on top of the latest `main` commit, producing a linear history. `git merge main` would create a merge commit. `cherry-pick` is for individual commits, not entire branches."
+  },
+  {
+    "question_id": "git_practical_06",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You want to apply a specific commit from another branch (`hotfix`) to your current branch without merging the entire branch. Which command do you use?",
+    "options": [
+      { "id": "a", "text": "`git merge hotfix`", "misconception_tag": "merges_entire_branch" },
+      { "id": "b", "text": "`git rebase hotfix`", "misconception_tag": "replays_all_commits_not_one" },
+      { "id": "c", "text": "`git cherry-pick <commit-sha>`", "misconception_tag": null },
+      { "id": "d", "text": "`git apply hotfix`", "misconception_tag": "invents_nonexistent_command_in_this_context" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "`git cherry-pick <commit-sha>` applies the changes from a specific commit onto the current branch, creating a new commit with the same changes but a different SHA. It is the correct tool for selectively applying individual commits."
+  },
+  {
+    "question_id": "git_practical_07",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Your last three commits are messy with typo fixes and debug code. Before raising a pull request, you want to combine them into one clean commit. What is the best approach?",
+    "options": [
+      { "id": "a", "text": "`git reset HEAD~3` then recommit everything", "misconception_tag": "valid_but_less_controlled_than_squash" },
+      { "id": "b", "text": "`git rebase -i HEAD~3` and squash or fixup the commits", "misconception_tag": null },
+      { "id": "c", "text": "`git merge --squash HEAD~3`", "misconception_tag": "merge_squash_is_for_branch_not_rewriting_own_commits" },
+      { "id": "d", "text": "`git commit --amend` run three times", "misconception_tag": "amend_only_modifies_the_last_commit" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`git rebase -i HEAD~3` opens an interactive editor letting you squash (combine with previous) or fixup (combine and discard message) commits. This gives precise control over the final commit message and content, making it the standard approach for cleaning up commit history before a PR."
+  },
+  {
+    "question_id": "git_practical_08",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You accidentally committed sensitive credentials to a local branch (not yet pushed). How should you remove that commit while keeping your working directory changes?",
+    "options": [
+      { "id": "a", "text": "`git revert HEAD`", "misconception_tag": "revert_creates_new_commit_does_not_erase_history" },
+      { "id": "b", "text": "`git reset --soft HEAD~1`", "misconception_tag": null },
+      { "id": "c", "text": "`git reset --hard HEAD~1`", "misconception_tag": "hard_reset_discards_working_directory_changes" },
+      { "id": "d", "text": "`git rm credentials.txt && git commit`", "misconception_tag": "removes_file_but_leaves_sensitive_commit_in_history" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`git reset --soft HEAD~1` removes the last commit but keeps all changes staged in the index and in the working directory. This lets you fix the issue (remove the credentials) before recommitting. `--hard` would discard all changes, and `revert` would create a new commit exposing the sensitive data in history."
+  },
+  {
+    "question_id": "git_edge_04",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You run `git rebase main` on your feature branch and encounter conflicts. After resolving them, what is the correct next step?",
+    "options": [
+      { "id": "a", "text": "`git rebase --continue`", "misconception_tag": null },
+      { "id": "b", "text": "`git commit -m 'resolved conflicts'`", "misconception_tag": "committing_during_rebase_creates_unintended_commit" },
+      { "id": "c", "text": "`git merge --continue`", "misconception_tag": "uses_merge_flag_instead_of_rebase_flag" },
+      { "id": "d", "text": "`git push --force` immediately", "misconception_tag": "skips_continuing_the_rebase_entirely" }
+    ],
+    "correct_option_id": "a",
+    "explanation": "After resolving conflicts during a rebase, you must stage the resolved files with `git add`, then run `git rebase --continue` to apply the next commit in the rebase sequence. Running `git commit` directly creates an unintended commit in the middle of the rebase operation."
+  },
+  {
+    "question_id": "git_edge_05",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference in outcome between `git reset --mixed HEAD~1` and `git reset --soft HEAD~1`?",
+    "options": [
+      { "id": "a", "text": "Both are identical in behavior", "misconception_tag": "treats_soft_and_mixed_as_same" },
+      { "id": "b", "text": "`--mixed` unstages changes (moves them to working directory); `--soft` keeps them staged", "misconception_tag": null },
+      { "id": "c", "text": "`--soft` unstages changes; `--mixed` keeps them staged", "misconception_tag": "reverses_behavior_of_soft_and_mixed" },
+      { "id": "d", "text": "`--mixed` deletes the changes; `--soft` keeps them in the commit", "misconception_tag": "confuses_mixed_with_hard_reset" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`git reset --soft HEAD~1` moves HEAD back one commit and keeps all changes staged in the index. `git reset --mixed HEAD~1` (the default) moves HEAD back and unstages the changes, leaving them only in the working directory. Neither discards working directory changes."
+  },
+  {
+    "question_id": "git_edge_06",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You run `git pull` and get a 'diverged' message. Both your local and the remote branch have new commits. What actually happens when you run `git pull` in this scenario by default?",
+    "options": [
+      { "id": "a", "text": "Git performs a fast-forward merge only if possible, otherwise aborts", "misconception_tag": "believes_pull_aborts_on_diverge" },
+      { "id": "b", "text": "Git automatically rebases your local commits onto the remote commits", "misconception_tag": "believes_pull_always_rebases" },
+      { "id": "c", "text": "Git performs a three-way merge and creates a merge commit combining both histories", "misconception_tag": null },
+      { "id": "d", "text": "Git discards your local commits and replaces them with the remote branch", "misconception_tag": "confuses_pull_with_hard_reset_to_remote" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "By default, `git pull` when branches have diverged performs a three-way merge between your local commits and the remote commits, creating a merge commit. This preserves both histories but can create a cluttered graph. You can change this behavior with `git pull --rebase` to get a linear history."
+  },
+  {
+    "question_id": "git_theory_07",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "In Git's object model, which four object types are stored in the `.git/objects` directory?",
+    "options": [
+      { "id": "a", "text": "commit, branch, tag, index", "misconception_tag": "confuses_branch_as_object_type" },
+      { "id": "b", "text": "commit, tree, blob, tag", "misconception_tag": null },
+      { "id": "c", "text": "commit, tree, blob, ref", "misconception_tag": "confuses_ref_as_object_type" },
+      { "id": "d", "text": "snapshot, pointer, hash, pack", "misconception_tag": "uses_conceptual_terms_not_actual_types" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Git's object store contains exactly four types: blob (file content), tree (directory structure referencing blobs/trees), commit (snapshot metadata pointing to a tree), and tag (annotated tag object). Branches and refs are not objects; they are pointers stored in `.git/refs`."
+  },
+  {
+    "question_id": "git_theory_08",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the purpose of the `reflog` in Git and when is it essential?",
+    "options": [
+      { "id": "a", "text": "It logs all network activity between local and remote repositories", "misconception_tag": "confuses_reflog_with_network_log" },
+      { "id": "b", "text": "It records every position HEAD and branch tips have pointed to locally, enabling recovery of lost commits after destructive operations", "misconception_tag": null },
+      { "id": "c", "text": "It stores all commit messages in a searchable index", "misconception_tag": "confuses_reflog_with_commit_message_search" },
+      { "id": "d", "text": "It tracks changes to the `.gitconfig` file over time", "misconception_tag": "invents_config_tracking_behavior" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The reflog records every time HEAD or a branch tip moves, including resets, rebases, and checkouts. It is a local safety net: if you accidentally destroy commits with a hard reset or bad rebase, you can use `git reflog` to find the old SHA and restore it with `git reset` or `git checkout`."
+  },
+  {
+    "question_id": "git_theory_09",
+    "skill_id": "git",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between `git revert` and `git reset` in the context of a shared public branch?",
+    "options": [
+      { "id": "a", "text": "They are equivalent; both can safely be used on public branches", "misconception_tag": "treats_revert_and_reset_as_equivalent" },
+      { "id": "b", "text": "`git revert` creates a new commit that undoes changes without rewriting history, making it safe for shared branches; `git reset` rewrites history and should not be used on shared branches", "misconception_tag": null },
+      { "id": "c", "text": "`git reset` is safer because it preserves all commit history", "misconception_tag": "reverses_safety_properties" },
+      { "id": "d", "text": "`git revert` deletes the commit object from the object store", "misconception_tag": "believes_revert_destroys_objects" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`git revert` adds a new commit that inversely applies the changes of a target commit, preserving history. This is safe for public/shared branches. `git reset` moves the branch pointer backward, effectively rewriting history. Force-pushing a reset to a shared branch causes divergence for all collaborators."
+  },
+  {
+    "question_id": "git_practical_09",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to split one large commit into two separate commits. Starting from an interactive rebase (`git rebase -i HEAD~1`), what is the correct sequence of actions?",
+    "options": [
+      { "id": "a", "text": "Mark the commit as 'squash', save, then `git commit --amend` twice", "misconception_tag": "squash_combines_not_splits" },
+      { "id": "b", "text": "Mark the commit as 'edit', save, then run `git reset HEAD~1`, selectively stage and commit the first set of changes, stage and commit the second set, then `git rebase --continue`", "misconception_tag": null },
+      { "id": "c", "text": "Mark the commit as 'reword', save, then split the message with a separator", "misconception_tag": "reword_only_changes_message" },
+      { "id": "d", "text": "Mark the commit as 'drop', manually create two new commits, then abort the rebase", "misconception_tag": "drop_removes_changes_cannot_be_recovered_this_way" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "To split a commit: in `git rebase -i` mark it as 'edit'. Git pauses at that commit. Run `git reset HEAD~1` to unstage all its changes back to the working directory. Then selectively stage and commit the first logical group, then stage and commit the second. Finally run `git rebase --continue` to finish the rebase."
+  },
+  {
+    "question_id": "git_practical_10",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A colleague force-pushed to the shared `main` branch, causing your local and remote histories to diverge badly. What is the safest recovery strategy?",
+    "options": [
+      { "id": "a", "text": "Run `git pull --rebase` to silently reconcile the histories", "misconception_tag": "may_create_conflicts_or_duplicate_commits" },
+      { "id": "b", "text": "Run `git reset --hard origin/main` to align your local branch with the remote", "misconception_tag": "discards_any_local_only_commits_without_review" },
+      { "id": "c", "text": "Use `git reflog` to identify the last known good commit, create a recovery branch from it, compare with `origin/main`, cherry-pick any lost commits, then coordinate with the team before force-pushing again", "misconception_tag": null },
+      { "id": "d", "text": "Delete the local repository and re-clone from origin", "misconception_tag": "loses_local_only_commits_and_reflog_permanently" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "The safest approach uses `git reflog` to find what was lost, creates a branch at that point, reviews differences, and cherry-picks needed commits. Blindly resetting to origin discards local-only work. Re-cloning loses the reflog. The key is to first understand what diverged before taking destructive action and to coordinate with the team."
+  },
+  {
+    "question_id": "git_practical_11",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You are using `git bisect` to find a regression. After running `git bisect start`, `git bisect bad`, and `git bisect good <sha>`, Git checks out a commit. The bug is not present. What do you do next?",
+    "options": [
+      { "id": "a", "text": "`git bisect bad`", "misconception_tag": "marks_a_good_commit_as_bad" },
+      { "id": "b", "text": "`git bisect good`", "misconception_tag": null },
+      { "id": "c", "text": "`git bisect skip`", "misconception_tag": "skip_is_for_untestable_commits_not_confirmed_good" },
+      { "id": "d", "text": "`git bisect reset` and start over", "misconception_tag": "unnecessarily_aborts_the_bisect_session" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When `git bisect` checks out a commit and the bug is not present, you mark it as `git bisect good`. Git then narrows the search range by checking out the midpoint between the known good and bad commits. `bisect skip` is used when you cannot test a commit (build failure, etc.)."
+  },
+  {
+    "question_id": "git_practical_12",
+    "skill_id": "git",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to permanently remove a large binary file that was accidentally committed 10 commits ago from ALL of the repository history. Which approach is appropriate?",
+    "options": [
+      { "id": "a", "text": "`git rm` the file and commit", "misconception_tag": "removes_file_from_working_tree_but_not_from_history" },
+      { "id": "b", "text": "`git revert` to the commit before the file was added", "misconception_tag": "revert_adds_new_commits_does_not_purge_objects" },
+      { "id": "c", "text": "Use `git filter-branch` or `git filter-repo` to rewrite all affected commits and remove the file from history, then force-push all branches", "misconception_tag": null },
+      { "id": "d", "text": "`git reset --hard` to the commit before the file was added", "misconception_tag": "loses_all_commits_after_that_point" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "To truly remove a file from all history, you must rewrite every commit that contains it using `git filter-branch` or the faster `git filter-repo` tool. This changes all affected commit SHAs. All collaborators must then re-clone or rebase. Simply `git rm`-ing the file leaves it in older commits and in the object store."
+  },
+  {
+    "question_id": "git_edge_07",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You perform an octopus merge (`git merge branch-a branch-b branch-c`). Under what condition will Git refuse to perform this merge?",
+    "options": [
+      { "id": "a", "text": "When any of the branches are more than 100 commits ahead", "misconception_tag": "invents_commit_count_limit" },
+      { "id": "b", "text": "When there are merge conflicts that require manual resolution", "misconception_tag": null },
+      { "id": "c", "text": "When the branches do not share a common ancestor", "misconception_tag": "unrelated_histories_error_applies_to_two_way_not_octopus_specifically" },
+      { "id": "d", "text": "When the total number of branches exceeds three", "misconception_tag": "invents_branch_count_limit" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Octopus merge is designed for merging multiple branches that do not have conflicts. Git will refuse an octopus merge if any conflicts require manual resolution, because it cannot interactively pause and ask you to resolve conflicts across multiple parents simultaneously. In that case, you must do sequential two-way merges."
+  },
+  {
+    "question_id": "git_edge_08",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You have commits A-B-C on `main`. You run `git rebase main` on a branch that also has commit B (same change, applied via cherry-pick earlier). What happens to commit B during the rebase?",
+    "options": [
+      { "id": "a", "text": "Git creates a duplicate of commit B, causing a conflict", "misconception_tag": "believes_rebase_always_creates_duplicates" },
+      { "id": "b", "text": "Git detects via patch-id that the changes in B are already present in the base and skips that commit", "misconception_tag": null },
+      { "id": "c", "text": "Git aborts the rebase because duplicate commits are not allowed", "misconception_tag": "believes_git_detects_and_refuses_duplicate_commits" },
+      { "id": "d", "text": "Git merges both copies of B into a single supersized commit", "misconception_tag": "invents_supersized_merge_behavior" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Git uses patch-id (a hash of the diff content) to detect when a commit being rebased introduces changes already present in the upstream. If the patch-id matches, Git skips that commit during rebase rather than re-applying it. This prevents duplicate commits when cherry-picked changes later appear in the upstream branch."
+  },
+  {
+    "question_id": "git_edge_09",
+    "skill_id": "git",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You run `git push origin main` and get: `error: failed to push some refs... Updates were rejected because the tip of your current branch is behind its remote counterpart`. You have NOT made any new local commits. What is the most likely cause?",
+    "options": [
+      { "id": "a", "text": "Your SSH key is not authorized for the remote", "misconception_tag": "auth_errors_have_different_messages" },
+      { "id": "b", "text": "A collaborator force-pushed to `origin/main` after your last fetch, rewriting history so your local SHA is no longer in the remote's history", "misconception_tag": null },
+      { "id": "c", "text": "Your local Git version is incompatible with the remote server", "misconception_tag": "version_mismatch_produces_different_errors" },
+      { "id": "d", "text": "The remote branch is protected and requires a pull request", "misconception_tag": "branch_protection_produces_different_error_message" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "If you have no new local commits yet the push is rejected with 'behind its remote counterpart', the most likely cause is that someone force-pushed to the remote, rewriting its history. Your local commit is no longer an ancestor of the remote tip. You must fetch and inspect the situation before deciding how to reconcile."
+  }
+]

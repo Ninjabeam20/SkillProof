@@ -1,0 +1,896 @@
+[
+  {
+    "question_id": "javascript_core_theory_01",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the difference between `==` and `===` in JavaScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`==` compares only values; `===` compares both value and type without coercion"
+      },
+      {
+        "id": "b",
+        "text": "`==` is faster than `===` because it skips the type check",
+        "misconception_tag": "double_equals_faster"
+      },
+      {
+        "id": "c",
+        "text": "`===` throws an error when types differ",
+        "misconception_tag": "strict_equality_throws"
+      },
+      {
+        "id": "d",
+        "text": "They are identical in modern JavaScript engines",
+        "misconception_tag": "equality_operators_identical"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "`==` performs type coercion before comparing (e.g., '5' == 5 is true). `===` (strict equality) compares both value and type without any coercion (e.g., '5' === 5 is false). Using `===` is generally safer and more predictable."
+  },
+  {
+    "question_id": "javascript_core_theory_02",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does `typeof null` return in JavaScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "\"null\"",
+        "misconception_tag": "typeof_null_returns_null"
+      },
+      {
+        "id": "b",
+        "text": "\"undefined\"",
+        "misconception_tag": "typeof_null_returns_undefined"
+      },
+      {
+        "id": "c",
+        "text": "\"object\""
+      },
+      {
+        "id": "d",
+        "text": "\"boolean\"",
+        "misconception_tag": "typeof_null_returns_boolean"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "typeof null returns \"object\" \u2014 this is a well-known historical bug in JavaScript that has never been fixed to preserve backward compatibility. null is not an object; it is a primitive that represents intentional absence of a value. Always use strict equality (=== null) to check for null."
+  },
+  {
+    "question_id": "javascript_core_theory_03",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Which of the following best describes JavaScript's event loop?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It runs JavaScript code in multiple threads simultaneously",
+        "misconception_tag": "event_loop_multithreaded"
+      },
+      {
+        "id": "b",
+        "text": "It is a mechanism that allows JavaScript to perform non-blocking operations by offloading tasks to the browser/Node APIs and processing callbacks from a queue when the call stack is empty"
+      },
+      {
+        "id": "c",
+        "text": "It is a loop that polls for user events like clicks and keypresses",
+        "misconception_tag": "event_loop_polls_user_events"
+      },
+      {
+        "id": "d",
+        "text": "It manages memory allocation by collecting unused objects in the call stack",
+        "misconception_tag": "event_loop_manages_memory"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "JavaScript is single-threaded. The event loop enables concurrency by delegating async work (timers, I/O, fetch) to platform APIs. When the call stack is empty, the event loop picks the next callback from the task queue and pushes it onto the stack for execution."
+  },
+  {
+    "question_id": "javascript_core_practical_01",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "What is the output of the following code?\n\n```js\nconsole.log(typeof undefined);\nconsole.log(typeof undeclaredVariable);\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "\"undefined\" then ReferenceError",
+        "misconception_tag": "typeof_undeclared_throws"
+      },
+      {
+        "id": "b",
+        "text": "\"undefined\" then \"undefined\""
+      },
+      {
+        "id": "c",
+        "text": "\"null\" then \"undefined\"",
+        "misconception_tag": "typeof_undefined_is_null"
+      },
+      {
+        "id": "d",
+        "text": "ReferenceError on the first line",
+        "misconception_tag": "typeof_undefined_throws"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "typeof is special: it does not throw a ReferenceError for undeclared variables. Both `typeof undefined` and `typeof undeclaredVariable` return the string \"undefined\". This makes typeof a safe way to check if a variable exists without causing an error."
+  },
+  {
+    "question_id": "javascript_core_practical_02",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A developer writes a function to double all values in an array:\n\n```js\nconst nums = [1, 2, 3];\nnums.forEach(n => n * 2);\nconsole.log(nums);\n```\n\nWhat is logged?",
+    "options": [
+      {
+        "id": "a",
+        "text": "[2, 4, 6]",
+        "misconception_tag": "foreach_returns_new_array"
+      },
+      {
+        "id": "b",
+        "text": "[1, 2, 3] \u2014 forEach does not mutate or return a new array; the multiplication result is discarded"
+      },
+      {
+        "id": "c",
+        "text": "undefined \u2014 forEach returns undefined and console.log receives that",
+        "misconception_tag": "foreach_logs_return"
+      },
+      {
+        "id": "d",
+        "text": "A ReferenceError because forEach callbacks cannot perform arithmetic",
+        "misconception_tag": "foreach_no_arithmetic"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "forEach iterates over elements and calls the callback but ignores the return value. The original array is unchanged. To produce a new doubled array, use .map(n => n * 2), which returns a new array with the callback's return values."
+  },
+  {
+    "question_id": "javascript_core_practical_03",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "What does the following code log?\n\n```js\nfunction greet(name = 'World') {\n  return `Hello, ${name}!`;\n}\nconsole.log(greet(undefined));\nconsole.log(greet(null));\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "\"Hello, World!\" then \"Hello, World!\"",
+        "misconception_tag": "null_triggers_default"
+      },
+      {
+        "id": "b",
+        "text": "\"Hello, undefined!\" then \"Hello, null!\"",
+        "misconception_tag": "undefined_not_default"
+      },
+      {
+        "id": "c",
+        "text": "\"Hello, World!\" then \"Hello, null!\""
+      },
+      {
+        "id": "d",
+        "text": "TypeError on both calls",
+        "misconception_tag": "default_param_throws"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Default parameter values only activate when the argument is `undefined` (or omitted). Passing `undefined` explicitly triggers the default ('World'). Passing `null` is a deliberate value \u2014 null does NOT trigger the default, so the template literal renders 'Hello, null!'."
+  },
+  {
+    "question_id": "javascript_core_practical_04",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Which method should you use to create a shallow copy of an object `obj` in JavaScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`JSON.parse(JSON.stringify(obj))` \u2014 this is the standard shallow copy method",
+        "misconception_tag": "json_parse_is_shallow"
+      },
+      {
+        "id": "b",
+        "text": "`Object.assign({}, obj)` or `{ ...obj }` \u2014 both create a shallow copy"
+      },
+      {
+        "id": "c",
+        "text": "`obj.clone()` \u2014 all objects have a built-in clone method",
+        "misconception_tag": "builtin_clone_method"
+      },
+      {
+        "id": "d",
+        "text": "`Object.freeze(obj)` \u2014 freezing creates an immutable copy",
+        "misconception_tag": "freeze_creates_copy"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Object.assign({}, obj) and the spread operator { ...obj } both create shallow copies \u2014 they copy own enumerable properties one level deep. Nested objects are still shared by reference. JSON.parse(JSON.stringify()) is a deep copy, not shallow, and loses non-serializable values like functions and undefined."
+  },
+  {
+    "question_id": "javascript_core_edge_01",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What is the output of the following?\n\n```js\nconsole.log(0.1 + 0.2 === 0.3);\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "true \u2014 JavaScript handles decimal arithmetic accurately",
+        "misconception_tag": "js_accurate_decimals"
+      },
+      {
+        "id": "b",
+        "text": "false \u2014 floating point representation makes 0.1 + 0.2 not exactly equal to 0.3"
+      },
+      {
+        "id": "c",
+        "text": "true \u2014 the === operator rounds floating point numbers before comparing",
+        "misconception_tag": "strict_equality_rounds_floats"
+      },
+      {
+        "id": "d",
+        "text": "A TypeError because === cannot compare floating point values",
+        "misconception_tag": "strict_equality_no_floats"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Due to IEEE 754 binary floating point representation, 0.1 + 0.2 evaluates to 0.30000000000000004, not exactly 0.3. The === comparison returns false. To compare floats, use Number.EPSILON: Math.abs(0.1 + 0.2 - 0.3) < Number.EPSILON."
+  },
+  {
+    "question_id": "javascript_core_edge_02",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What does the following code output?\n\n```js\nconsole.log([] + []);\nconsole.log([] + {});\nconsole.log({} + []);\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "\"\" then \"[object Object]\" then \"[object Object]\""
+      },
+      {
+        "id": "b",
+        "text": "0 then NaN then NaN",
+        "misconception_tag": "array_object_coercion_numeric"
+      },
+      {
+        "id": "c",
+        "text": "\"\" then \"[object Object]\" then 0",
+        "misconception_tag": "object_plus_array_is_zero"
+      },
+      {
+        "id": "d",
+        "text": "TypeError on all three",
+        "misconception_tag": "plus_operator_throws_for_objects"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "[] converts to \"\" (empty string), {} converts to \"[object Object]\". So: [] + [] = \"\" + \"\" = \"\". [] + {} = \"\" + \"[object Object]\" = \"[object Object]\". {} + [] when evaluated as an expression (not a statement) also gives \"[object Object]\". When {} is at the start of a statement, the parser treats it as a block, making it +[] = 0 \u2014 but as an expression it's \"[object Object]\"."
+  },
+  {
+    "question_id": "javascript_core_edge_03",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What is the result of `NaN === NaN` in JavaScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "true \u2014 NaN is equal to itself by identity",
+        "misconception_tag": "nan_equals_itself"
+      },
+      {
+        "id": "b",
+        "text": "false \u2014 NaN is the only value in JavaScript not equal to itself"
+      },
+      {
+        "id": "c",
+        "text": "undefined \u2014 comparison with NaN always returns undefined",
+        "misconception_tag": "nan_comparison_undefined"
+      },
+      {
+        "id": "d",
+        "text": "TypeError \u2014 NaN cannot be used with the === operator",
+        "misconception_tag": "nan_throws_typeerror"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "NaN (Not-a-Number) is the only JavaScript value that is not equal to itself. Both == and === return false for NaN === NaN. To check for NaN, use Number.isNaN(value) or isNaN(value) (though isNaN coerces its argument first, so Number.isNaN is preferred)."
+  },
+  {
+    "question_id": "javascript_core_theory_04",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between a microtask and a macrotask in the JavaScript event loop?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Microtasks are smaller tasks that run in parallel with macrotasks on a separate thread",
+        "misconception_tag": "microtasks_parallel"
+      },
+      {
+        "id": "b",
+        "text": "Microtasks (e.g., Promise callbacks) are processed after the current task completes but before the next macrotask; macrotasks (e.g., setTimeout) are processed one per event loop iteration"
+      },
+      {
+        "id": "c",
+        "text": "Macrotasks always run before microtasks in every event loop iteration",
+        "misconception_tag": "macrotasks_before_microtasks"
+      },
+      {
+        "id": "d",
+        "text": "They are identical \u2014 the terms are interchangeable in modern JavaScript",
+        "misconception_tag": "microtask_macrotask_identical"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "After each macrotask (script execution, setTimeout, setInterval), JavaScript drains the entire microtask queue (Promises, queueMicrotask, MutationObserver) before picking up the next macrotask. This means multiple promise chains can resolve before the next timer callback fires."
+  },
+  {
+    "question_id": "javascript_core_theory_05",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is a closure in JavaScript and what problem does it solve?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A closure is a syntax for immediately invoking a function expression, preventing variable leakage into global scope",
+        "misconception_tag": "closure_is_iife"
+      },
+      {
+        "id": "b",
+        "text": "A closure is when a function retains access to its outer lexical scope even after the outer function has returned"
+      },
+      {
+        "id": "c",
+        "text": "A closure is a way to close or terminate a running function early using a return statement",
+        "misconception_tag": "closure_terminates_function"
+      },
+      {
+        "id": "d",
+        "text": "A closure is a design pattern for encapsulating class state in object-oriented JavaScript",
+        "misconception_tag": "closure_is_class_pattern_only"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A closure forms when an inner function references variables from its outer function's scope. When the outer function returns, those variables are kept alive because the inner function holds a reference to them. Closures enable data encapsulation, factory functions, and callback patterns with preserved context."
+  },
+  {
+    "question_id": "javascript_core_theory_06",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the prototype chain in JavaScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A linked list of objects where each object has a __proto__ property pointing to its parent, allowing property lookup to walk up the chain until it reaches null"
+      },
+      {
+        "id": "b",
+        "text": "A chain of class inheritance defined by the extends keyword in ES6 classes",
+        "misconception_tag": "prototype_chain_only_es6_classes"
+      },
+      {
+        "id": "c",
+        "text": "A sequence of function calls made when a constructor is invoked using the new keyword",
+        "misconception_tag": "prototype_chain_is_call_stack"
+      },
+      {
+        "id": "d",
+        "text": "A mechanism for importing and chaining module exports using import/export syntax",
+        "misconception_tag": "prototype_chain_is_modules"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Every JavaScript object has an internal [[Prototype]] (accessible via __proto__ or Object.getPrototypeOf). When you access a property not found on the object, JavaScript walks up the prototype chain until the property is found or null is reached (the end of the chain). ES6 classes are syntactic sugar over this prototype-based system."
+  },
+  {
+    "question_id": "javascript_core_practical_05",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the output of this code?\n\n```js\nconst obj = { a: 1 };\nconst copy = Object.assign({}, obj);\ncopy.a = 99;\nconsole.log(obj.a);\n\nconst obj2 = { nested: { b: 2 } };\nconst copy2 = Object.assign({}, obj2);\ncopy2.nested.b = 99;\nconsole.log(obj2.nested.b);\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "1 then 2 \u2014 Object.assign creates a deep copy",
+        "misconception_tag": "object_assign_deep_copy"
+      },
+      {
+        "id": "b",
+        "text": "99 then 2 \u2014 both levels are deep-copied",
+        "misconception_tag": "object_assign_deep_nested"
+      },
+      {
+        "id": "c",
+        "text": "1 then 99 \u2014 Object.assign is a shallow copy; nested objects share the same reference"
+      },
+      {
+        "id": "d",
+        "text": "99 then 99 \u2014 Object.assign copies all references including top-level",
+        "misconception_tag": "object_assign_all_references"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Object.assign performs a shallow copy. Primitive values (like `a: 1`) are copied by value, so changing copy.a doesn't affect obj.a (result: 1). Nested objects are copied by reference, so copy2.nested and obj2.nested point to the same object \u2014 mutating one mutates the other (result: 99)."
+  },
+  {
+    "question_id": "javascript_core_practical_06",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A developer needs to remove duplicate values from an array of primitives. Which approach is most concise and correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`arr.filter((v, i) => arr.indexOf(v) === i)` \u2014 using indexOf to keep only the first occurrence"
+      },
+      {
+        "id": "b",
+        "text": "`[...new Set(arr)]` \u2014 Set only stores unique values; spread converts it back to an array"
+      },
+      {
+        "id": "c",
+        "text": "`arr.reduce((acc, v) => acc.includes(v) ? acc : [...acc, v], [])` \u2014 using reduce with includes"
+      },
+      {
+        "id": "d",
+        "text": "All three approaches are correct; B is the most concise"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "All three correctly remove duplicates from a primitive array. Option A (indexOf) and C (reduce+includes) are O(n\u00b2) approaches. Option B ([...new Set(arr)]) is O(n) and most concise \u2014 Set's internal hash map makes lookups O(1). For large arrays, B is also the most performant."
+  },
+  {
+    "question_id": "javascript_core_practical_07",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A developer wants to execute three independent API calls concurrently and wait for all of them before proceeding. Which is the correct approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Chain them with .then(): fetchA().then(() => fetchB()).then(() => fetchC())",
+        "misconception_tag": "then_chain_is_concurrent"
+      },
+      {
+        "id": "b",
+        "text": "Use async/await sequentially: `await fetchA(); await fetchB(); await fetchC();`",
+        "misconception_tag": "sequential_await_is_concurrent"
+      },
+      {
+        "id": "c",
+        "text": "Use Promise.all([fetchA(), fetchB(), fetchC()]) to run all three concurrently and wait for all to resolve"
+      },
+      {
+        "id": "d",
+        "text": "Use Promise.race([fetchA(), fetchB(), fetchC()]) to get the fastest response",
+        "misconception_tag": "race_waits_for_all"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Promise.all fires all three fetches at the same time (concurrently) and resolves when all three resolve, or rejects if any one rejects. Chained .then() and sequential await both run requests one after the other (serially), wasting time. Promise.race resolves/rejects as soon as the first one settles, discarding the rest."
+  },
+  {
+    "question_id": "javascript_core_practical_08",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the output of the following code?\n\n```js\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "0, 1, 2 \u2014 setTimeout captures each value of i at the time of call",
+        "misconception_tag": "var_closure_captures_by_value"
+      },
+      {
+        "id": "b",
+        "text": "3, 3, 3 \u2014 var is function-scoped; all callbacks share the same i which is 3 after the loop"
+      },
+      {
+        "id": "c",
+        "text": "0, 1, 2 \u2014 setTimeout runs synchronously with delay 0",
+        "misconception_tag": "settimeout_zero_is_sync"
+      },
+      {
+        "id": "d",
+        "text": "undefined, undefined, undefined \u2014 i is hoisted as undefined",
+        "misconception_tag": "var_hoisted_as_undefined_in_loop"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "var is function-scoped (not block-scoped). All three arrow functions in setTimeout close over the same i variable. By the time the callbacks fire (after the loop completes), i is 3. The classic fix is to use let (which creates a new binding per iteration) or wrap in an IIFE that captures the current value."
+  },
+  {
+    "question_id": "javascript_core_edge_04",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the output of the following code?\n\n```js\nconsole.log(1);\nsetTimeout(() => console.log(2), 0);\nPromise.resolve().then(() => console.log(3));\nconsole.log(4);\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "1, 2, 3, 4",
+        "misconception_tag": "settimeout_before_promise"
+      },
+      {
+        "id": "b",
+        "text": "1, 4, 2, 3",
+        "misconception_tag": "settimeout_before_microtask"
+      },
+      {
+        "id": "c",
+        "text": "1, 4, 3, 2"
+      },
+      {
+        "id": "d",
+        "text": "1, 3, 4, 2",
+        "misconception_tag": "promise_runs_between_sync"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Synchronous code runs first: 1 then 4. After the call stack empties, microtasks (Promise callbacks) run before macrotasks (setTimeout): 3 then 2. Full order: 1, 4, 3, 2."
+  },
+  {
+    "question_id": "javascript_core_edge_05",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "What does the following produce?\n\n```js\nconst a = [1, 2, 3];\nconst b = [1, 2, 3];\nconsole.log(a == b);\nconsole.log(a === b);\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "true then true \u2014 arrays with the same elements are considered equal",
+        "misconception_tag": "array_equality_by_value"
+      },
+      {
+        "id": "b",
+        "text": "true then false \u2014 == compares by value; === compares by reference",
+        "misconception_tag": "double_equals_compares_array_values"
+      },
+      {
+        "id": "c",
+        "text": "false then false \u2014 both operators compare references for objects/arrays"
+      },
+      {
+        "id": "d",
+        "text": "false then true \u2014 === has special handling for arrays",
+        "misconception_tag": "strict_equality_special_arrays"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Arrays are objects in JavaScript. Both == and === compare object references, not contents. `a` and `b` are two different array instances in memory, so both comparisons return false. To compare array contents, use JSON.stringify or compare element-by-element."
+  },
+  {
+    "question_id": "javascript_core_edge_06",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the output?\n\n```js\nfunction foo() {\n  console.log(this);\n}\nconst bar = { foo };\nconst baz = bar.foo;\nbar.foo();\nbaz();\n```\n(Assume non-strict mode, browser environment)",
+    "options": [
+      {
+        "id": "a",
+        "text": "bar object then bar object \u2014 this is bound at function definition time",
+        "misconception_tag": "this_bound_at_definition"
+      },
+      {
+        "id": "b",
+        "text": "bar object then window (global object) \u2014 this is determined by how the function is called"
+      },
+      {
+        "id": "c",
+        "text": "undefined then undefined \u2014 foo is an arrow function",
+        "misconception_tag": "foo_is_arrow_function"
+      },
+      {
+        "id": "d",
+        "text": "window then window \u2014 regular functions always use the global this",
+        "misconception_tag": "this_always_global"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In non-strict mode, `this` is determined by the call site. `bar.foo()` calls foo as a method of bar, so `this` is bar. `baz()` calls the same function as a standalone function (no object context), so `this` defaults to the global object (window in browsers). This is why arrow functions or explicit binding (.bind) are needed for predictable this."
+  },
+  {
+    "question_id": "javascript_core_theory_07",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between `Promise.all`, `Promise.allSettled`, `Promise.any`, and `Promise.race`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are all equivalent and resolve when the first promise settles",
+        "misconception_tag": "all_promise_combinators_equal"
+      },
+      {
+        "id": "b",
+        "text": "Promise.all rejects on first failure; Promise.allSettled waits for all regardless of outcome; Promise.any resolves on first success; Promise.race resolves/rejects on first settlement"
+      },
+      {
+        "id": "c",
+        "text": "Promise.race and Promise.any are identical; Promise.all and Promise.allSettled are identical",
+        "misconception_tag": "race_any_identical"
+      },
+      {
+        "id": "d",
+        "text": "Promise.allSettled rejects if any promise rejects, just like Promise.all",
+        "misconception_tag": "allsettled_rejects_on_failure"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Promise.all: resolves with all values or rejects at first rejection. Promise.allSettled: always resolves with an array of {status, value/reason} for every promise. Promise.any: resolves with the first fulfilled value, rejects only if all reject. Promise.race: resolves or rejects with the first settled promise, regardless of success/failure."
+  },
+  {
+    "question_id": "javascript_core_theory_08",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the Temporal Dead Zone (TDZ) in JavaScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The time between when a script is loaded and when it is executed by the JavaScript engine",
+        "misconception_tag": "tdz_is_load_time"
+      },
+      {
+        "id": "b",
+        "text": "The period between the start of a block scope and the point where a let or const variable is initialized, during which accessing the variable throws a ReferenceError"
+      },
+      {
+        "id": "c",
+        "text": "A zone in memory where garbage-collected variables are temporarily stored before deletion",
+        "misconception_tag": "tdz_is_gc_zone"
+      },
+      {
+        "id": "d",
+        "text": "The delay between setting a variable with var and it being available in the global scope",
+        "misconception_tag": "tdz_applies_to_var"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "let and const declarations are hoisted (the JS engine knows they exist), but unlike var they are NOT initialized to undefined. Between the start of their containing block and the declaration line, they exist in the Temporal Dead Zone. Any attempt to read or write them in the TDZ throws a ReferenceError."
+  },
+  {
+    "question_id": "javascript_core_theory_09",
+    "skill_id": "javascript_core",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between `WeakMap` and `Map` in JavaScript, and when would you prefer a WeakMap?",
+    "options": [
+      {
+        "id": "a",
+        "text": "WeakMap has weaker performance guarantees than Map; use Map for production code",
+        "misconception_tag": "weakmap_worse_performance"
+      },
+      {
+        "id": "b",
+        "text": "WeakMap keys must be primitives; Map keys can be any value",
+        "misconception_tag": "weakmap_primitive_keys"
+      },
+      {
+        "id": "c",
+        "text": "WeakMap holds weak references to object keys, allowing them to be garbage collected if no other reference exists; it is non-iterable and has no .size"
+      },
+      {
+        "id": "d",
+        "text": "WeakMap is identical to Map but automatically clears entries after a timeout",
+        "misconception_tag": "weakmap_auto_clears"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "WeakMap keys must be objects (not primitives), and the references are weak \u2014 if the key object has no other references, it can be garbage collected and its entry silently removed. This prevents memory leaks when associating metadata with DOM nodes or objects. WeakMap is not iterable (no .forEach, no .size) because its content is non-deterministic."
+  },
+  {
+    "question_id": "javascript_core_practical_09",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need a function that accepts any number of arguments and returns their sum. It must also be curriable: `sum(1)(2)(3)()` should return 6. Which implementation is correct?\n\n```js\n// A\nfunction sum(...args) { return args.reduce((a, b) => a + b, 0); }\n\n// B\nfunction sum(a) { return function(b) { return a + b; }; }\n\n// C\nfunction sum(...args) {\n  return function(...more) {\n    if (more.length === 0) return args.reduce((a, b) => a + b, 0);\n    return sum(...args, ...more);\n  };\n}\n\n// D\nconst sum = new Proxy(Function, { apply: (t, _, args) => args.reduce((a,b) => a+b,0) });\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "A \u2014 rest parameters handle any number of arguments",
+        "misconception_tag": "rest_params_handle_currying"
+      },
+      {
+        "id": "b",
+        "text": "B \u2014 recursive closures are the standard currying pattern",
+        "misconception_tag": "binary_curry_is_variadic"
+      },
+      {
+        "id": "c",
+        "text": "C \u2014 it accumulates arguments across calls and terminates when called with no arguments"
+      },
+      {
+        "id": "d",
+        "text": "D \u2014 Proxy intercepts all function calls and sums arguments automatically",
+        "misconception_tag": "proxy_handles_currying"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Only Option C satisfies both requirements. It accumulates all arguments across chained calls. When called with no arguments, it computes the total. A only handles a single call. B only handles exactly two arguments. D is syntactically incorrect and conceptually wrong for this use case."
+  },
+  {
+    "question_id": "javascript_core_practical_10",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A developer notices that an async function inside a forEach loop doesn't seem to await properly:\n\n```js\nconst results = [];\n[1,2,3].forEach(async (n) => {\n  const res = await fetchData(n);\n  results.push(res);\n});\nconsole.log(results); // always []\n```\n\nWhat is the correct fix?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Replace forEach with a for...of loop and await each call: `for (const n of [1,2,3]) { results.push(await fetchData(n)); }`"
+      },
+      {
+        "id": "b",
+        "text": "Use Promise.all with map: `const results = await Promise.all([1,2,3].map(n => fetchData(n)));`"
+      },
+      {
+        "id": "c",
+        "text": "Add `await` before forEach: `await [1,2,3].forEach(...)`",
+        "misconception_tag": "awaiting_foreach_works"
+      },
+      {
+        "id": "d",
+        "text": "Both A and B are correct \u2014 A runs fetches serially; B runs them concurrently"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "forEach ignores the return value of its callback, so async callbacks' Promises are discarded. The loop completes synchronously before any fetch resolves. Option A (for...of with await) runs fetches one at a time. Option B (Promise.all + map) runs them concurrently and is faster. Both correctly await the results. Awaiting forEach itself doesn't help because forEach returns undefined."
+  },
+  {
+    "question_id": "javascript_core_practical_11",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to debounce a search input so the API is called 300ms after the user stops typing. Which implementation is correct?\n\n```js\n// A\nfunction debounce(fn, delay) {\n  let timer;\n  return function(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\n// B\nfunction debounce(fn, delay) {\n  return function(...args) {\n    setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\n// C\nfunction debounce(fn, delay) {\n  let timer;\n  return function(...args) {\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "A \u2014 it clears the previous timer on each call, ensuring fn only fires after the delay has elapsed without a new call"
+      },
+      {
+        "id": "b",
+        "text": "B \u2014 setting a new timeout on each keystroke delays the call",
+        "misconception_tag": "new_timeout_is_debounce"
+      },
+      {
+        "id": "c",
+        "text": "C \u2014 overwriting the timer variable prevents the old timer from firing",
+        "misconception_tag": "overwrite_timer_cancels_it"
+      },
+      {
+        "id": "d",
+        "text": "All three are equivalent implementations of debounce",
+        "misconception_tag": "all_debounce_equal"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Option A is the correct debounce. clearTimeout cancels any pending timer before creating a new one, so fn only fires after 300ms of inactivity. Option B creates a new timer on every keystroke without canceling previous ones \u2014 fn fires for every keystroke after the delay (throttle-like, not debounce). Option C overwrites the timer variable but does NOT call clearTimeout, so all previous timers still fire."
+  },
+  {
+    "question_id": "javascript_core_practical_12",
+    "skill_id": "javascript_core",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You want to implement a memoize function that caches results of expensive function calls. The function can receive object arguments. What is the critical challenge and how should it be addressed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use a plain object as cache with JSON.stringify(args) as the key to handle object arguments"
+      },
+      {
+        "id": "b",
+        "text": "Use a Map as cache with a string representation of args \u2014 objects are naturally comparable by Map",
+        "misconception_tag": "map_compares_objects_by_value"
+      },
+      {
+        "id": "c",
+        "text": "The critical challenge is that objects as keys via reference equality means two structurally identical objects produce cache misses; JSON.stringify is a common workaround but fails for non-serializable values"
+      },
+      {
+        "id": "d",
+        "text": "Memoization cannot work with object arguments \u2014 it is only valid for primitive arguments",
+        "misconception_tag": "memoize_only_primitives"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Memoization caches by key. Primitive args are easy. Object args are compared by reference in Map/object keys, so two calls with {a:1} create two different keys despite identical content. JSON.stringify({a:1}) works but is lossy for undefined, functions, and circular references. For complex cases, deep-equality keying or specialized libraries (like memoize-one) are used."
+  },
+  {
+    "question_id": "javascript_core_edge_07",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "What does the following code output and why?\n\n```js\nasync function main() {\n  try {\n    setTimeout(() => { throw new Error('oops'); }, 0);\n  } catch(e) {\n    console.log('caught:', e.message);\n  }\n}\nmain();\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "'caught: oops' \u2014 try/catch wraps the setTimeout callback",
+        "misconception_tag": "trycatch_wraps_async_callback"
+      },
+      {
+        "id": "b",
+        "text": "Uncaught Error: oops \u2014 the error is thrown in a separate macrotask, outside the try/catch's scope"
+      },
+      {
+        "id": "c",
+        "text": "Nothing \u2014 async functions swallow errors thrown in setTimeout",
+        "misconception_tag": "async_swallows_settimeout_errors"
+      },
+      {
+        "id": "d",
+        "text": "A rejected Promise is returned from main() containing the error",
+        "misconception_tag": "settimeout_error_rejects_promise"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "try/catch only catches synchronous errors and rejected Promises (with await). The setTimeout callback executes in a future macrotask \u2014 after main() has already returned and the try/catch is no longer on the call stack. The thrown error becomes an uncaught exception in the global scope."
+  },
+  {
+    "question_id": "javascript_core_edge_08",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "What does this output?\n\n```js\nconst obj = {\n  value: 42,\n  getValue: function() { return this.value; },\n  getValueArrow: () => this.value\n};\nconsole.log(obj.getValue());\nconsole.log(obj.getValueArrow());\n```\n(Browser, non-strict mode)",
+    "options": [
+      {
+        "id": "a",
+        "text": "42 then 42 \u2014 both methods access the same object",
+        "misconception_tag": "arrow_method_same_this"
+      },
+      {
+        "id": "b",
+        "text": "42 then undefined \u2014 arrow functions capture `this` from their definition context (the outer scope, not obj)"
+      },
+      {
+        "id": "c",
+        "text": "undefined then 42 \u2014 regular functions have no this in object literals",
+        "misconception_tag": "regular_method_no_this"
+      },
+      {
+        "id": "d",
+        "text": "42 then TypeError \u2014 arrow functions cannot be object methods",
+        "misconception_tag": "arrow_cannot_be_method"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "getValue is a regular function; this is determined by the call site (obj), so this.value is 42. getValueArrow is an arrow function defined in the object literal scope (likely the global/module scope), NOT obj. Arrow functions capture `this` lexically at definition time. In a browser's global scope, this.value is undefined."
+  },
+  {
+    "question_id": "javascript_core_edge_09",
+    "skill_id": "javascript_core",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Consider the following code:\n\n```js\nfunction* gen() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst g = gen();\nconsole.log(g.next());\nconsole.log(g.next());\nconsole.log([...g]);\n```\n\nWhat is logged by the spread operator?",
+    "options": [
+      {
+        "id": "a",
+        "text": "[1, 2, 3] \u2014 spread restarts the generator",
+        "misconception_tag": "spread_restarts_generator"
+      },
+      {
+        "id": "b",
+        "text": "[3] \u2014 spread picks up from the last yielded value",
+        "misconception_tag": "spread_from_last_yield"
+      },
+      {
+        "id": "c",
+        "text": "[3] \u2014 the generator is exhausted after yielding 1 and 2; spread collects only the remaining value"
+      },
+      {
+        "id": "d",
+        "text": "[] \u2014 the generator is fully exhausted after two .next() calls",
+        "misconception_tag": "generator_exhausted_after_two_nexts"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Generators are stateful iterators. After two .next() calls, values 1 and 2 have been consumed. The spread operator `[...g]` calls .next() repeatedly until done:true. Only `yield 3` remains, so spread produces [3]. The generator's state is not reset between calls."
+  }
+]

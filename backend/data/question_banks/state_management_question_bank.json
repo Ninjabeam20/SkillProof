@@ -1,0 +1,896 @@
+[
+  {
+    "question_id": "state_management_theory_01",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the fundamental problem that state management libraries like Redux are designed to solve?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They replace the need for a backend API by storing data locally in the browser",
+        "misconception_tag": "state_mgmt_replaces_backend"
+      },
+      {
+        "id": "b",
+        "text": "They make application state predictable and centralized, making it easier to track, debug, and share state across components without prop drilling"
+      },
+      {
+        "id": "c",
+        "text": "They improve rendering performance by preventing all re-renders in a component tree",
+        "misconception_tag": "state_mgmt_prevents_rerenders"
+      },
+      {
+        "id": "d",
+        "text": "They synchronize state between the server and client automatically",
+        "misconception_tag": "state_mgmt_auto_syncs_server"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "As applications grow, passing state through many component levels (prop drilling) becomes unmanageable. State management solutions centralize state in a single store, making it accessible from anywhere in the component tree. They also provide predictability through enforced update patterns (like reducers) and enable debugging tools like time-travel debugging."
+  },
+  {
+    "question_id": "state_management_theory_02",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What are the three core principles of Redux?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Single source of truth, state is read-only, changes are made with pure functions (reducers)"
+      },
+      {
+        "id": "b",
+        "text": "Immutability, modularity, and reactivity \u2014 state updates trigger component re-renders automatically",
+        "misconception_tag": "redux_reactivity_principle"
+      },
+      {
+        "id": "c",
+        "text": "Global state, local state, and derived state must be stored in the Redux store",
+        "misconception_tag": "redux_three_state_types"
+      },
+      {
+        "id": "d",
+        "text": "Actions, reducers, and selectors \u2014 every state access must go through all three",
+        "misconception_tag": "redux_requires_all_three_every_time"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Redux's three principles: 1) Single source of truth \u2014 the entire app state lives in one store. 2) State is read-only \u2014 the only way to change state is to dispatch an action. 3) Changes are made with pure functions \u2014 reducers take previous state + action and return new state without mutating the original."
+  },
+  {
+    "question_id": "state_management_theory_03",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the difference between local component state and global application state?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Local state is stored in variables; global state is stored in localStorage",
+        "misconception_tag": "local_variable_global_localstorage"
+      },
+      {
+        "id": "b",
+        "text": "Local state is only relevant to one component and its subtree; global state is shared across multiple distant components in the application"
+      },
+      {
+        "id": "c",
+        "text": "Local state is synchronous; global state requires async updates through middleware",
+        "misconception_tag": "local_sync_global_async"
+      },
+      {
+        "id": "d",
+        "text": "There is no meaningful difference \u2014 all state should be global in modern applications",
+        "misconception_tag": "all_state_should_be_global"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Local state (e.g., whether a dropdown is open) only matters to the component managing it. Global state (e.g., the authenticated user, a shopping cart) is needed by multiple unrelated components. A key principle: keep state as local as possible. Only lift to global state when multiple distant components genuinely need access to the same data."
+  },
+  {
+    "question_id": "state_management_practical_01",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "In Redux, a component dispatches an action to add an item to a cart. The reducer receives `state = [{id:1}]` and `action = {type:'ADD_ITEM', payload:{id:2}}`. Which reducer implementation is correct?\n\n```js\n// A\nreturn state.push(action.payload);\n\n// B\nreturn [...state, action.payload];\n\n// C\nstate.push(action.payload); return state;\n\n// D\nreturn state.concat(action.payload);\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "A only \u2014 Array.push() returns the new array",
+        "misconception_tag": "push_returns_array"
+      },
+      {
+        "id": "b",
+        "text": "B and D \u2014 both return new arrays without mutating the original state"
+      },
+      {
+        "id": "c",
+        "text": "C \u2014 mutating state is acceptable as long as you return it",
+        "misconception_tag": "mutate_and_return_ok"
+      },
+      {
+        "id": "d",
+        "text": "All four are equivalent in a Redux reducer",
+        "misconception_tag": "all_reducer_patterns_equal"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Redux reducers must be pure functions that return NEW state without mutating the original. Option A: Array.push() returns the NEW LENGTH (a number), not the array \u2014 wrong return type. Option B: spread creates a new array \u2014 correct. Option C: mutates the existing array and returns the same reference \u2014 Redux cannot detect the change. Option D: Array.concat() returns a new array without mutation \u2014 correct."
+  },
+  {
+    "question_id": "state_management_practical_02",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A React component uses `useSelector` to read a slice of Redux state. When should it re-render?",
+    "options": [
+      {
+        "id": "a",
+        "text": "On every Redux action dispatch, regardless of whether the selected state changed",
+        "misconception_tag": "rerender_on_every_action"
+      },
+      {
+        "id": "b",
+        "text": "Only when the value returned by the selector function changes (by reference equality)"
+      },
+      {
+        "id": "c",
+        "text": "Only when the component's parent re-renders",
+        "misconception_tag": "rerender_follows_parent"
+      },
+      {
+        "id": "d",
+        "text": "On every store subscription tick, which fires approximately 60 times per second",
+        "misconception_tag": "store_subscription_60fps"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "useSelector subscribes to the Redux store but only triggers a re-render when the selected value changes (using strict === reference equality by default). If an action is dispatched but the relevant slice of state doesn't change, the component does not re-render. Returning new object references from selectors on every call will cause unnecessary re-renders \u2014 use memoized selectors (e.g., via Reselect) for derived data."
+  },
+  {
+    "question_id": "state_management_practical_03",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "When should you choose Zustand over Redux for state management in a React application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Zustand is only for small projects; Redux must be used for production applications",
+        "misconception_tag": "zustand_not_production"
+      },
+      {
+        "id": "b",
+        "text": "When you want simpler setup with less boilerplate, direct state mutation via Immer, and a smaller bundle size, without the need for Redux DevTools or a strict unidirectional data flow"
+      },
+      {
+        "id": "c",
+        "text": "Zustand is better for server state; Redux is better for client state",
+        "misconception_tag": "zustand_server_redux_client"
+      },
+      {
+        "id": "d",
+        "text": "Zustand is always the better choice \u2014 it is a strict superset of Redux's capabilities",
+        "misconception_tag": "zustand_superset_of_redux"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Zustand provides a minimal, hook-based API with very little boilerplate. It uses Immer internally (or directly) for intuitive 'mutating' syntax that produces new state. It has a tiny bundle size and no required provider setup. Redux shines when you need strict action traceability (via Redux DevTools), a large ecosystem (Redux Toolkit, RTK Query), or team conventions around unidirectional data flow."
+  },
+  {
+    "question_id": "state_management_practical_04",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A developer stores server-fetched user data in a Redux store. When the component mounts, it dispatches a fetch action. The store already has that user's data from a previous visit to the same route. What is the typical approach to avoid redundant fetches?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Always refetch \u2014 the Redux store cannot reliably know if data is still fresh",
+        "misconception_tag": "always_refetch_redux"
+      },
+      {
+        "id": "b",
+        "text": "Check if the data exists in the store before dispatching the fetch action; skip the fetch if data is present"
+      },
+      {
+        "id": "c",
+        "text": "Clear the store on every route navigation to ensure data is never stale",
+        "misconception_tag": "clear_store_on_navigate"
+      },
+      {
+        "id": "d",
+        "text": "Redux automatically deduplicates identical API calls",
+        "misconception_tag": "redux_deduplicates_fetches"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A selector can check if data already exists in the store. The component or thunk checks this before dispatching a fetch. RTK Query and React Query handle this automatically with cache invalidation and deduplication built in \u2014 a key reason these libraries are preferred over manual Redux thunks for server state management."
+  },
+  {
+    "question_id": "state_management_edge_01",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "In a Redux reducer, you return `{ ...state, items: state.items }` without modifying items. Does this cause re-renders in connected components?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No \u2014 spreading state returns the same object reference, so React/Redux detects no change",
+        "misconception_tag": "spread_returns_same_reference"
+      },
+      {
+        "id": "b",
+        "text": "Yes \u2014 spreading state creates a NEW top-level object reference, which may trigger re-renders in components that select the top-level state object"
+      },
+      {
+        "id": "c",
+        "text": "No \u2014 Redux compares state deeply and skips re-renders when values are the same",
+        "misconception_tag": "redux_deep_comparison"
+      },
+      {
+        "id": "d",
+        "text": "Yes \u2014 any reducer call causes all connected components to re-render regardless",
+        "misconception_tag": "all_reducers_trigger_rerender"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Spread creates a new object ({ ...state }). If a component uses useSelector(state => state) or selects the top-level state object, the new reference triggers a re-render even if all values are identical. Components that select specific primitive values (state.count) are unaffected because the values themselves haven't changed. This is why selectors should return the most granular values possible."
+  },
+  {
+    "question_id": "state_management_edge_02",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A developer initializes Zustand state with an object: `const useStore = create(set => ({ user: null }))`. Multiple components call `useStore()` with no selector. What happens when any part of the store changes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only the component that triggered the state change re-renders",
+        "misconception_tag": "zustand_only_triggering_component_rerenders"
+      },
+      {
+        "id": "b",
+        "text": "All components that called useStore() without a selector re-render because they subscribed to the entire store object"
+      },
+      {
+        "id": "c",
+        "text": "No component re-renders because useStore() without a selector returns a read-only snapshot",
+        "misconception_tag": "usestore_no_selector_no_rerender"
+      },
+      {
+        "id": "d",
+        "text": "Zustand batches all re-renders and only applies them once per frame",
+        "misconception_tag": "zustand_batches_per_frame"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In Zustand, calling useStore() without a selector subscribes to the entire store state object. Any change to any property creates a new state reference, causing all subscribing components to re-render. The fix is to use a selector: useStore(state => state.user) \u2014 the component only re-renders when the selected value (user) changes."
+  },
+  {
+    "question_id": "state_management_edge_03",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What happens if a Redux action type string collides between two different slices (both have a 'SET_LOADING' action)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Redux throws an error at runtime when duplicate action types are detected",
+        "misconception_tag": "redux_throws_duplicate_actions"
+      },
+      {
+        "id": "b",
+        "text": "Both reducers respond to the dispatched action \u2014 any reducer that handles that action type will process it"
+      },
+      {
+        "id": "c",
+        "text": "Only the first registered reducer handles the action; subsequent ones are skipped",
+        "misconception_tag": "first_reducer_wins"
+      },
+      {
+        "id": "d",
+        "text": "Only the reducer in the same slice as the dispatching component handles the action",
+        "misconception_tag": "reducer_scoped_to_component"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Redux dispatches every action to ALL reducers. If two slices handle the same action type string, both reducers will update their respective slices. This can be intentional (cross-slice coordination) or a bug. Redux Toolkit's createSlice prefixes action types with the slice name (e.g., 'users/setLoading') to prevent accidental collisions."
+  },
+  {
+    "question_id": "state_management_theory_04",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between Redux Thunk and Redux Saga for handling async operations?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Thunk is for simple async calls; Saga is only for real-time WebSocket connections",
+        "misconception_tag": "saga_only_websockets"
+      },
+      {
+        "id": "b",
+        "text": "Thunk lets action creators return functions (instead of objects) for imperative async logic; Saga uses generator functions and declarative effects for complex async flows with easier testing and cancellation"
+      },
+      {
+        "id": "c",
+        "text": "They are identical \u2014 Saga is just a newer version of Thunk with different syntax",
+        "misconception_tag": "saga_is_new_thunk"
+      },
+      {
+        "id": "d",
+        "text": "Thunk is synchronous middleware; Saga handles all asynchronous operations including Promises",
+        "misconception_tag": "thunk_is_synchronous"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Thunk is simple: action creators return a function (dispatch, getState) => {} that performs async work imperatively. Saga uses generators and effects (call, put, take, fork) \u2014 the saga itself is a pure generator that yields descriptors, making it highly testable. Saga supports complex patterns: debouncing, throttling, cancellation, race conditions. Thunk is simpler for basic async; Saga shines for complex orchestration."
+  },
+  {
+    "question_id": "state_management_theory_05",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the distinction between server state and client state in modern React applications?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Server state is stored in a database; client state is stored in the browser \u2014 they are identical data at different locations",
+        "misconception_tag": "server_client_same_data_different_location"
+      },
+      {
+        "id": "b",
+        "text": "Server state is remote data that requires async fetching, caching, and synchronization; client state is purely UI state (e.g., modal open/closed) that doesn't need to persist on a server"
+      },
+      {
+        "id": "c",
+        "text": "Server state is managed by SSR frameworks; client state is managed by client-side libraries like React",
+        "misconception_tag": "ssr_manages_server_state"
+      },
+      {
+        "id": "d",
+        "text": "They are the same \u2014 all application state should be stored in a single Redux store to maintain a single source of truth",
+        "misconception_tag": "all_state_in_redux"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Server state (user profiles, product lists) lives on the server, requires async fetching, can become stale, and needs cache invalidation. Libraries like React Query / TanStack Query and RTK Query are specialized for server state. Client state (modal visibility, form draft) is synchronous, always current, and doesn't need to persist externally. Using Redux for server state adds complexity that specialized libraries handle better."
+  },
+  {
+    "question_id": "state_management_theory_06",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is Immer and how does it simplify Redux reducers?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Immer is a time-travel debugging library that records every state change in Redux",
+        "misconception_tag": "immer_is_time_travel"
+      },
+      {
+        "id": "b",
+        "text": "Immer is a performance library that batches Redux actions to reduce re-renders",
+        "misconception_tag": "immer_batches_actions"
+      },
+      {
+        "id": "c",
+        "text": "Immer allows you to write 'mutating' code on a draft object and produces a new immutable state behind the scenes, eliminating the need for manual spread/copy operations in reducers"
+      },
+      {
+        "id": "d",
+        "text": "Immer is a testing utility that mocks Redux store updates in unit tests",
+        "misconception_tag": "immer_is_testing_utility"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Immer uses JavaScript Proxies to create a draft of the current state. You can 'mutate' the draft (e.g., draft.items.push(item)) as if it were a regular object. Immer tracks all changes and produces a new, structurally-shared immutable state. Redux Toolkit uses Immer internally in createSlice, which is why you can write state.items.push(item) in RTK reducers without violating immutability."
+  },
+  {
+    "question_id": "state_management_practical_05",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A component needs the count of items in the cart AND the total price. Both are derived from the same `cartItems` array in the Redux store. What is the best pattern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Store `count` and `totalPrice` as separate fields in the Redux state and update them in the reducer alongside cartItems"
+      },
+      {
+        "id": "b",
+        "text": "Use a memoized selector (e.g., via Reselect's createSelector) to derive `count` and `totalPrice` from `cartItems` without storing redundant state"
+      },
+      {
+        "id": "c",
+        "text": "Compute count and totalPrice inside each component using useSelector individually \u2014 no memoization needed",
+        "misconception_tag": "compute_inline_no_memoize"
+      },
+      {
+        "id": "d",
+        "text": "Store computed values in a separate cache slice and invalidate it whenever cartItems changes",
+        "misconception_tag": "separate_cache_slice"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Derived state (values computed from existing state) should never be stored in Redux \u2014 it creates synchronization bugs. Reselect's createSelector creates memoized selectors that only recompute when their inputs change. If cartItems hasn't changed, the selector returns the cached computation, preventing unnecessary re-renders. Option A introduces redundant state that can go out of sync. Option C recomputes on every render without memoization."
+  },
+  {
+    "question_id": "state_management_practical_06",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You are using React Query to fetch user data. The user updates their profile. How should you update the cached query data?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Manually clear localStorage and reload the page to force React Query to refetch",
+        "misconception_tag": "localstorage_clear_for_query_invalidation"
+      },
+      {
+        "id": "b",
+        "text": "After the mutation succeeds, call `queryClient.invalidateQueries(['user', userId])` to mark the cache as stale and trigger a background refetch"
+      },
+      {
+        "id": "c",
+        "text": "Update the React component's local state to reflect the new values \u2014 React Query will sync with local state automatically",
+        "misconception_tag": "local_state_syncs_react_query"
+      },
+      {
+        "id": "d",
+        "text": "React Query invalidates relevant queries automatically after any mutation",
+        "misconception_tag": "react_query_auto_invalidates"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "React Query's cache is invalidated explicitly. After a successful mutation (useMutation), call queryClient.invalidateQueries() with the relevant query key. React Query marks the data as stale and refetches it in the background. Alternatively, use queryClient.setQueryData() for optimistic updates to update the cache directly without a round trip. React Query does NOT automatically invalidate queries \u2014 this must be done manually."
+  },
+  {
+    "question_id": "state_management_practical_07",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A shopping cart in a React app should persist across browser refreshes. What is the best approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Redux state persists automatically across refreshes because it is stored in memory",
+        "misconception_tag": "redux_persists_automatically"
+      },
+      {
+        "id": "b",
+        "text": "Use redux-persist to serialize the Redux store to localStorage/sessionStorage and rehydrate it on startup"
+      },
+      {
+        "id": "c",
+        "text": "Use React's built-in usePersist hook to persist component state across sessions",
+        "misconception_tag": "usepersist_hook_exists"
+      },
+      {
+        "id": "d",
+        "text": "Store cart state in a cookie \u2014 all state management libraries read cookies automatically on mount",
+        "misconception_tag": "state_mgmt_reads_cookies"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Redux state exists only in memory and is wiped on page refresh. redux-persist subscribes to the store and serializes designated slices to localStorage or sessionStorage. On app startup, it rehydrates the store from the persisted snapshot. Alternatively, manually persist to localStorage via useEffect and initialize state from localStorage. For Zustand, the persist middleware handles this built-in."
+  },
+  {
+    "question_id": "state_management_practical_08",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "In a React application using Context API for theme state, adding a new theme requires re-rendering the entire app. What is the most efficient solution?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use multiple smaller Context providers \u2014 split theme into separate color, font, and spacing contexts"
+      },
+      {
+        "id": "b",
+        "text": "Migrate to Redux \u2014 Redux prevents all context-related re-renders",
+        "misconception_tag": "redux_prevents_context_rerenders"
+      },
+      {
+        "id": "c",
+        "text": "Wrap consuming components with React.memo so they skip re-renders when theme hasn't changed for them",
+        "misconception_tag": "memo_prevents_context_rerender"
+      },
+      {
+        "id": "d",
+        "text": "Stabilize the context value with useMemo to prevent new object references when the theme hasn't changed"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "Context re-renders all consumers when the value changes (by reference). If the Provider passes an object like `{theme, setTheme}` inline, a new object is created on every render even if theme hasn't changed. Wrapping the value in useMemo gives it a stable reference. Option A (splitting contexts) also helps if only one subcontext changes. React.memo doesn't prevent context re-renders."
+  },
+  {
+    "question_id": "state_management_edge_04",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You use Reselect's createSelector with two input selectors. The second input selector always returns a new array reference (e.g., filtering items). How does this affect memoization?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reselect performs deep equality checks, so new array references with the same contents don't break memoization",
+        "misconception_tag": "reselect_deep_equality"
+      },
+      {
+        "id": "b",
+        "text": "Memoization is broken \u2014 Reselect uses reference equality for input selectors. A new array reference on every call causes the output selector to recompute every time"
+      },
+      {
+        "id": "c",
+        "text": "Reselect automatically caches the filtered array result to avoid recomputation",
+        "misconception_tag": "reselect_caches_filter"
+      },
+      {
+        "id": "d",
+        "text": "The selector only recomputes if the LAST input selector changes \u2014 earlier inputs are ignored",
+        "misconception_tag": "only_last_input_matters"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Reselect memoizes based on referential equality (===) of all input selector results. If an input selector returns filter(predicate) \u2014 a new array reference every call \u2014 Reselect sees a 'changed' input and recomputes the output selector. The fix: move the filtering into the result function (not an input selector), or ensure the input selector is also memoized, or use a library like proxy-memoize for structural sharing."
+  },
+  {
+    "question_id": "state_management_edge_05",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A React Query cache has `staleTime: 0` (default) and `cacheTime: 5 minutes`. A component unmounts and remounts 2 minutes later. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The data is refetched immediately on remount because staleTime: 0 means data is always stale",
+        "misconception_tag": "staletime_0_always_refetches_fresh"
+      },
+      {
+        "id": "b",
+        "text": "The data is refetched immediately AND the cached (stale) data is shown first while the background fetch completes \u2014 stale-while-revalidate behavior"
+      },
+      {
+        "id": "c",
+        "text": "The cache is empty because the component was unmounted \u2014 cacheTime starts when the component mounts, not unmounts",
+        "misconception_tag": "cachetime_starts_on_mount"
+      },
+      {
+        "id": "d",
+        "text": "No refetch \u2014 the data is fresh because cacheTime (5 min) has not expired",
+        "misconception_tag": "cachetime_means_still_fresh"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "staleTime: 0 means data becomes stale immediately after fetching. cacheTime (gcTime in v5) determines how long inactive query data is kept in memory \u2014 here 5 minutes. On remount at 2 minutes, the data is still in cache (within 5 min cacheTime) but is stale (staleTime: 0). React Query returns the stale cached data immediately (for fast display) and triggers a background refetch. This is the stale-while-revalidate pattern."
+  },
+  {
+    "question_id": "state_management_edge_06",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "In Redux, two components both dispatch the same action type simultaneously (within the same event loop tick). What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Redux processes both dispatches concurrently and merges the results",
+        "misconception_tag": "redux_concurrent_dispatch"
+      },
+      {
+        "id": "b",
+        "text": "Redux queues dispatches and processes them sequentially; the second dispatch runs against the state produced by the first"
+      },
+      {
+        "id": "c",
+        "text": "Redux throws an error: 'Cannot dispatch while reducer is running'",
+        "misconception_tag": "redux_throws_concurrent_dispatch"
+      },
+      {
+        "id": "d",
+        "text": "Only the first dispatch is processed; the second is dropped as a duplicate",
+        "misconception_tag": "redux_drops_duplicate_dispatch"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Redux's dispatch is synchronous and processes actions one at a time. If two dispatches happen within the same tick, the first runs through the reducer and updates the store. The second dispatch then runs against the already-updated state. React 18's automatic batching may batch the resulting re-renders, but the state updates are applied sequentially."
+  },
+  {
+    "question_id": "state_management_theory_07",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is atomic state management (as in Jotai or Recoil) and how does it differ from store-based state management (Redux, Zustand)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Atomic state is stored in Web Workers to prevent blocking the main thread",
+        "misconception_tag": "atomic_state_web_workers"
+      },
+      {
+        "id": "b",
+        "text": "Atomic state splits application state into small independent units (atoms) that components subscribe to individually, enabling fine-grained reactivity without a monolithic store"
+      },
+      {
+        "id": "c",
+        "text": "Atomic state uses JavaScript's atomic operations (Atomics API) for thread-safe state updates",
+        "misconception_tag": "atomic_state_atomics_api"
+      },
+      {
+        "id": "d",
+        "text": "Atomic state requires all state updates to happen in a single database transaction to maintain consistency",
+        "misconception_tag": "atomic_state_db_transactions"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Atomic state managers (Jotai, Recoil) define state as small, composable atoms. Components subscribe to specific atoms \u2014 they only re-render when their subscribed atoms change. Unlike a central store (Redux/Zustand) where changes can affect many subscribers, atoms provide surgical reactivity. Atoms can be derived from other atoms, creating a reactive dependency graph without a top-level store object."
+  },
+  {
+    "question_id": "state_management_theory_08",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the 'zombie child' problem in Redux and how do React-Redux hooks mitigate it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Zombie child refers to memory-leaked Redux subscriptions from unmounted components",
+        "misconception_tag": "zombie_child_memory_leak"
+      },
+      {
+        "id": "b",
+        "text": "In older React-Redux, a child component could re-render with new Redux state before its parent, causing stale prop-derived selector reads that reference deleted state entities"
+      },
+      {
+        "id": "c",
+        "text": "Zombie child is when a Redux reducer returns undefined, creating empty state nodes",
+        "misconception_tag": "zombie_child_undefined_reducer"
+      },
+      {
+        "id": "d",
+        "text": "Zombie child occurs when two reducers handle the same action, causing conflicting state updates",
+        "misconception_tag": "zombie_child_conflicting_reducers"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The zombie child problem: when a parent and child both subscribe to the Redux store, React may render the child first with a new store state before the parent has re-rendered. If the parent passes props derived from an entity that was deleted in this new state, the child's selector may read invalid data (the 'zombie' \u2014 a component that should no longer exist still reading stale data). React-Redux hooks use React's context and batching to ensure parent renders before child, preventing this issue."
+  },
+  {
+    "question_id": "state_management_theory_09",
+    "skill_id": "state_management",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between `useSyncExternalStore` and `useContext` for subscribing to external state?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are identical \u2014 React internally uses useContext to implement useSyncExternalStore",
+        "misconception_tag": "usesyncexternalstore_is_usecontext"
+      },
+      {
+        "id": "b",
+        "text": "useSyncExternalStore is designed for external (non-React) stores with its own subscription mechanism; it ensures consistent reads in Concurrent Mode by preventing tearing; useContext is for React-managed context values"
+      },
+      {
+        "id": "c",
+        "text": "useSyncExternalStore is only for server-side rendering; useContext is for client-side state",
+        "misconception_tag": "usesyncexternalstore_ssr_only"
+      },
+      {
+        "id": "d",
+        "text": "useContext prevents re-renders on unrelated context changes; useSyncExternalStore re-renders on every store update",
+        "misconception_tag": "usecontext_prevents_rerenders"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "useSyncExternalStore (React 18) is specifically for subscribing to external mutable stores (like Redux, Zustand, or any non-React observable). It accepts subscribe and getSnapshot functions, ensuring React reads a consistent snapshot during render \u2014 preventing 'tearing' where different components see different states in the same render pass under Concurrent Mode. useContext works for React-managed context but doesn't provide these Concurrent Mode guarantees for external stores."
+  },
+  {
+    "question_id": "state_management_practical_09",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You implement optimistic updates with React Query. A user deletes an item. You update the cache immediately but the server returns an error. How should this be handled?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The UI stays updated \u2014 the user doesn't need to know about transient server errors",
+        "misconception_tag": "ignore_server_errors_optimistic"
+      },
+      {
+        "id": "b",
+        "text": "In the useMutation's onMutate, save the previous cache snapshot. In onError, call queryClient.setQueryData to restore the previous snapshot and show an error to the user"
+      },
+      {
+        "id": "c",
+        "text": "React Query automatically rolls back optimistic updates when a mutation fails",
+        "misconception_tag": "react_query_auto_rollback"
+      },
+      {
+        "id": "d",
+        "text": "Invalidate all queries on error to force a full refetch from the server"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The React Query optimistic update pattern: 1) onMutate \u2014 save the current cache snapshot and apply the optimistic update. 2) onError \u2014 restore the snapshot (rollback). 3) onSettled \u2014 invalidate the query to ensure fresh data from the server. React Query does not auto-rollback; this must be implemented explicitly using the snapshot saved in onMutate's context."
+  },
+  {
+    "question_id": "state_management_practical_10",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have a Redux store where one slice needs to react to an action dispatched by another slice (e.g., reset user preferences when 'auth/logout' is dispatched). How do you implement cross-slice state coordination?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Import the logout action from the auth slice and add a case for it in the preferences reducer using createSlice's extraReducers"
+      },
+      {
+        "id": "b",
+        "text": "Dispatch two separate actions: 'auth/logout' and 'preferences/reset' from the component",
+        "misconception_tag": "dispatch_two_actions_for_cross_slice"
+      },
+      {
+        "id": "c",
+        "text": "Use a Redux middleware that intercepts 'auth/logout' and dispatches 'preferences/reset' automatically",
+        "misconception_tag": "middleware_only_solution"
+      },
+      {
+        "id": "d",
+        "text": "Both A and C are valid \u2014 A handles it in the reducer (preferred for simple cases); C handles it in middleware (preferred for complex cascading logic)"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "Option A (extraReducers in Redux Toolkit) is the clean, idiomatic way for simple cross-slice reactions. The preferences slice explicitly handles 'auth/logout' without importing the entire auth slice \u2014 just the action creator. Option C (middleware) is better when the reaction involves async work, multiple slices, or complex conditional logic. Both are valid; choice depends on complexity."
+  },
+  {
+    "question_id": "state_management_practical_11",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A large e-commerce app stores a normalized entities dictionary `{ users: {}, products: {}, orders: {} }` in Redux. A component needs to display an order with its user and product details. How do you efficiently select this denormalized data?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Store denormalized copies of orders (with embedded user and product objects) in the Redux store alongside the normalized entities",
+        "misconception_tag": "store_denormalized_copies"
+      },
+      {
+        "id": "b",
+        "text": "Use a memoized selector that joins the order with its related user and product from the entities dictionaries"
+      },
+      {
+        "id": "c",
+        "text": "Fetch user and product data separately via API in the component when it needs to display the order",
+        "misconception_tag": "fetch_on_component_mount"
+      },
+      {
+        "id": "d",
+        "text": "Use Redux's built-in entity adapters to automatically denormalize related entities",
+        "misconception_tag": "entity_adapters_auto_denormalize"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Normalized state avoids duplication and keeps updates consistent. To display denormalized data, write a memoized selector (via Reselect) that takes the order ID, looks up the order, then joins the related user and product from the entities dictionaries. This is efficient \u2014 the selector only recomputes when the relevant entities change. Redux Toolkit's createEntityAdapter helps manage the entity dictionaries but doesn't auto-denormalize."
+  },
+  {
+    "question_id": "state_management_practical_12",
+    "skill_id": "state_management",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A Zustand store manages a list of 10,000 items. A component renders a counter of selected items. When any item's non-selection-related property changes (e.g., name), the counter re-renders unnecessarily. How do you fix this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use useShallow from Zustand to shallowly compare the selected slice on each render"
+      },
+      {
+        "id": "b",
+        "text": "Write a selector that returns only the count of selected items: `useStore(state => state.items.filter(i => i.selected).length)`"
+      },
+      {
+        "id": "c",
+        "text": "Wrap the counter component in React.memo to prevent all re-renders",
+        "misconception_tag": "memo_fixes_zustand_selector"
+      },
+      {
+        "id": "d",
+        "text": "Store selectedCount as a separate derived value in the Zustand store and update it whenever items change"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The selector `state => state.items.filter(i => i.selected).length` returns a primitive number. Zustand compares the previous and new return value using strict equality. If the count hasn't changed (no items were selected/deselected), the component doesn't re-render even if item names changed. Option A (useShallow) helps when selecting arrays/objects. Option D stores derived state, which Zustand's computed values or middleware can handle, but it adds complexity."
+  },
+  {
+    "question_id": "state_management_edge_07",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A Redux Saga uses `takeLatest` to handle search API calls. The user types quickly and triggers 5 searches in 500ms. What does takeLatest guarantee?",
+    "options": [
+      {
+        "id": "a",
+        "text": "All 5 API calls are made; responses are returned in the order they were sent",
+        "misconception_tag": "takelatest_all_calls_ordered"
+      },
+      {
+        "id": "b",
+        "text": "Only the most recent API call is active at any time; takeLatest cancels the previous saga task when a new action arrives"
+      },
+      {
+        "id": "c",
+        "text": "The first API call is protected from cancellation; subsequent calls are queued",
+        "misconception_tag": "takelatest_protects_first"
+      },
+      {
+        "id": "d",
+        "text": "All 5 calls run concurrently and the results are merged in the reducer",
+        "misconception_tag": "takelatest_concurrent_merge"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "takeLatest(pattern, saga) listens for actions matching the pattern. When a new matching action arrives while a previous saga is still running, it cancels the previous task and starts a new one. For the 5 rapid searches, only the last one completes fully. This prevents race conditions where an older response for 'ap' overwrites results for 'apple'. It effectively implements debounce at the saga level."
+  },
+  {
+    "question_id": "state_management_edge_08",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You initialize a Redux store with `preloadedState` from server-side rendering. The client-side JavaScript then initializes reducers with their `initialState` defaults. What is the expected behavior?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The client's initialState always overrides preloadedState \u2014 server state is discarded",
+        "misconception_tag": "initialstate_overrides_preloaded"
+      },
+      {
+        "id": "b",
+        "text": "preloadedState takes precedence over reducer initialState defaults for the slices it provides; slices not covered by preloadedState use their reducer defaults"
+      },
+      {
+        "id": "c",
+        "text": "Redux merges preloadedState and initialState deeply \u2014 conflicting keys are resolved by taking the preloadedState value for primitives and merging objects",
+        "misconception_tag": "redux_deep_merges_state"
+      },
+      {
+        "id": "d",
+        "text": "Redux throws an error if preloadedState and reducer initialState have any overlapping keys",
+        "misconception_tag": "redux_throws_overlap"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When createStore (or configureStore) receives preloadedState, it passes that state to each reducer as the initial `state` argument. If a reducer receives a defined value from preloadedState, it uses that instead of its default parameter. This enables SSR hydration: the server pre-populates the store, the client uses that data immediately without needing to re-fetch. Slices absent from preloadedState fall back to their reducer defaults."
+  },
+  {
+    "question_id": "state_management_edge_09",
+    "skill_id": "state_management",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "React Query's `useQuery` has both `staleTime: Infinity` and `refetchOnWindowFocus: true`. What happens when the user switches browser tabs and returns?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The query refetches on focus because refetchOnWindowFocus takes precedence over staleTime",
+        "misconception_tag": "refetchfocus_overrides_staletime"
+      },
+      {
+        "id": "b",
+        "text": "The query does NOT refetch \u2014 staleTime: Infinity means data is never considered stale; refetchOnWindowFocus only triggers a refetch for stale data"
+      },
+      {
+        "id": "c",
+        "text": "Both settings cancel each other out and React Query uses its default behavior",
+        "misconception_tag": "settings_cancel_each_other"
+      },
+      {
+        "id": "d",
+        "text": "React Query throws a configuration error when staleTime and refetchOnWindowFocus are both set",
+        "misconception_tag": "config_conflict_throws"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "refetchOnWindowFocus triggers a background refetch ONLY if the data is considered stale. staleTime: Infinity means the data NEVER becomes stale (it is always considered fresh). Since the data is always fresh, refetchOnWindowFocus has no effect \u2014 no refetch occurs on focus. This combination is useful for data that rarely changes (e.g., user preferences or feature flags) where you want to avoid unnecessary API calls."
+  }
+]

@@ -1,0 +1,899 @@
+[
+  {
+    "question_id": "mongodb_theory_01",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the primary unit of data storage in MongoDB, and how does it differ from rows in a relational database?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Rows \u2014 MongoDB stores data in the same tabular format as relational databases",
+        "misconception_tag": "conflates_mongodb_with_relational_model"
+      },
+      {
+        "id": "b",
+        "text": "Documents \u2014 JSON-like structures stored in BSON format that can have nested objects and arrays, with no requirement for a fixed schema"
+      },
+      {
+        "id": "c",
+        "text": "Collections \u2014 MongoDB's equivalent of a row, containing all data for a given type",
+        "misconception_tag": "confuses_collection_with_document"
+      },
+      {
+        "id": "d",
+        "text": "Fields \u2014 each field in MongoDB is stored as an independent unit with its own document identity",
+        "misconception_tag": "confuses_field_with_document"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MongoDB stores data as BSON (Binary JSON) documents. Unlike relational rows which must conform to a fixed schema, documents are flexible \u2014 each document in a collection can have different fields, nested objects, and arrays. This schema flexibility is a core MongoDB characteristic."
+  },
+  {
+    "question_id": "mongodb_theory_02",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the _id field in a MongoDB document and what happens if you don't provide it on insert?",
+    "options": [
+      {
+        "id": "a",
+        "text": "_id is optional metadata; documents without it are stored without a unique identifier",
+        "misconception_tag": "treats_id_as_optional"
+      },
+      {
+        "id": "b",
+        "text": "_id is the mandatory primary key; if not provided, MongoDB automatically generates an ObjectId for it"
+      },
+      {
+        "id": "c",
+        "text": "_id is a reference to the collection name; MongoDB sets it automatically from the collection path",
+        "misconception_tag": "confuses_id_with_collection_reference"
+      },
+      {
+        "id": "d",
+        "text": "_id must always be an integer; MongoDB rejects non-integer _id values",
+        "misconception_tag": "restricts_id_to_integer_type"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "_id is the primary key of every MongoDB document and must be unique within a collection. If not provided, MongoDB auto-generates a 12-byte ObjectId (timestamp + machine ID + process ID + counter). _id can be of any type (string, integer, UUID, etc.) as long as it is unique."
+  },
+  {
+    "question_id": "mongodb_theory_03",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does the MongoDB aggregation pipeline do, and how does it differ from a simple find() query?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The aggregation pipeline only supports GROUP BY operations; find() handles all other queries",
+        "misconception_tag": "limits_pipeline_to_groupby"
+      },
+      {
+        "id": "b",
+        "text": "The aggregation pipeline passes documents through a series of stages (match, group, project, sort, etc.) allowing complex transformations; find() only supports basic filtering and projection"
+      },
+      {
+        "id": "c",
+        "text": "The aggregation pipeline is faster than find() for all queries because it uses a compiled execution plan",
+        "misconception_tag": "assumes_pipeline_always_faster"
+      },
+      {
+        "id": "d",
+        "text": "find() and aggregation pipeline are interchangeable; aggregation is just a syntactic alias",
+        "misconception_tag": "dismisses_functional_difference"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The aggregation pipeline processes documents through sequential stages: $match (filter), $group (aggregate), $project (reshape), $sort, $lookup (join), $unwind, etc. Each stage transforms the stream of documents. find() is limited to filtering documents and projecting fields. The pipeline is essential for analytics, grouping, joining collections, and multi-step transformations."
+  },
+  {
+    "question_id": "mongodb_practical_01",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You have a 'users' collection. You need to find all users where age is greater than 25 AND city is 'Mumbai'. Which query is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "db.users.find({ age: { $gt: 25 }, city: 'Mumbai' })"
+      },
+      {
+        "id": "b",
+        "text": "db.users.find({ $and: [{ age: > 25 }, { city: 'Mumbai' }] })",
+        "misconception_tag": "uses_invalid_gt_syntax_outside_operator"
+      },
+      {
+        "id": "c",
+        "text": "db.users.find({ age > 25, city == 'Mumbai' })",
+        "misconception_tag": "uses_javascript_comparison_operators_in_query"
+      },
+      {
+        "id": "d",
+        "text": "db.users.find().where('age').gt(25).where('city').equals('Mumbai')",
+        "misconception_tag": "uses_mongoose_query_builder_as_native_driver"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "MongoDB query operators use the $gt syntax inside a field object. Multiple conditions in the top-level query object are implicitly ANDed. Option B has invalid JavaScript (> 25 is not valid BSON). Option C uses JavaScript comparison operators which are not valid in MongoDB queries. Option D is Mongoose ORM syntax, not native MongoDB driver."
+  },
+  {
+    "question_id": "mongodb_practical_02",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You want to update only the 'status' field of a document with _id = 1 to 'inactive', without affecting any other fields. Which command is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "db.collection.update({ _id: 1 }, { status: 'inactive' })",
+        "misconception_tag": "replaces_entire_document_without_update_operator"
+      },
+      {
+        "id": "b",
+        "text": "db.collection.updateOne({ _id: 1 }, { $set: { status: 'inactive' } })"
+      },
+      {
+        "id": "c",
+        "text": "db.collection.updateOne({ _id: 1 }, { status: 'inactive' })",
+        "misconception_tag": "omits_set_operator_causing_replacement"
+      },
+      {
+        "id": "d",
+        "text": "db.collection.findOneAndModify({ _id: 1 }, { status: 'inactive' })",
+        "misconception_tag": "uses_nonexistent_findOneAndModify_without_operator"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Without the $set operator, MongoDB replaces the entire document with the update document, removing all other fields. $set updates only the specified fields, leaving others intact. Always use $set (or $unset, $inc, etc.) to perform partial updates. Option A uses the deprecated update() but also lacks $set."
+  },
+  {
+    "question_id": "mongodb_practical_03",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A 'products' collection has documents with an embedded array of 'tags'. You need to find all products that have 'electronics' as one of their tags. Which query is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "db.products.find({ tags: { $in: ['electronics'] } })"
+      },
+      {
+        "id": "b",
+        "text": "db.products.find({ tags: 'electronics' })"
+      },
+      {
+        "id": "c",
+        "text": "db.products.find({ tags: { $eq: 'electronics' } })"
+      },
+      {
+        "id": "d",
+        "text": "All of A, B, and C produce the same result"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "All three queries are equivalent in MongoDB when matching array elements. MongoDB automatically checks if the value exists in the array when you use equality comparison on an array field. { tags: 'electronics' } checks if 'electronics' is an element of the tags array. $eq behaves the same. $in with a single value is also equivalent. All three return documents where 'electronics' is an element of tags."
+  },
+  {
+    "question_id": "mongodb_practical_04",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to count the number of documents in a collection where status = 'active'. Which is the most efficient approach in MongoDB?",
+    "options": [
+      {
+        "id": "a",
+        "text": "db.collection.find({ status: 'active' }).toArray().length",
+        "misconception_tag": "fetches_all_documents_to_count_in_application"
+      },
+      {
+        "id": "b",
+        "text": "db.collection.countDocuments({ status: 'active' })"
+      },
+      {
+        "id": "c",
+        "text": "db.collection.aggregate([{ $match: { status: 'active' } }, { $count: 'total' }])",
+        "misconception_tag": "uses_aggregation_when_countdocuments_suffices"
+      },
+      {
+        "id": "d",
+        "text": "db.collection.estimatedDocumentCount({ status: 'active' })",
+        "misconception_tag": "uses_estimated_count_which_ignores_filter"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "countDocuments({ status: 'active' }) is the correct and efficient method for filtered counts. It uses the query predicate and can leverage indexes. Option A fetches all matching documents to memory just to count \u2014 extremely inefficient. Option C works but is verbose. Option D (estimatedDocumentCount) ignores query predicates and only returns the total document count using collection metadata."
+  },
+  {
+    "question_id": "mongodb_edge_01",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You insert a document: db.test.insertOne({ value: null }). Then query: db.test.find({ value: null }). What documents are returned?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only the document where value is explicitly null",
+        "misconception_tag": "ignores_missing_field_match"
+      },
+      {
+        "id": "b",
+        "text": "Documents where value is null AND documents where the value field does not exist at all"
+      },
+      {
+        "id": "c",
+        "text": "No documents \u2014 querying for null requires $exists: false syntax",
+        "misconception_tag": "assumes_null_query_requires_exists"
+      },
+      {
+        "id": "d",
+        "text": "Only documents where the value field is missing (undefined)",
+        "misconception_tag": "confuses_null_with_missing_field_behavior"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In MongoDB, a query { field: null } matches documents where the field equals null AND documents where the field does not exist. This is a common source of bugs. To match only explicit null values, use: { field: { $eq: null, $exists: true } }. To match only missing fields: { field: { $exists: false } }."
+  },
+  {
+    "question_id": "mongodb_edge_02",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A MongoDB collection has no schema validation configured. What happens when you insert a document with a field that has a different type than other documents in the same collection?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An error is thrown because MongoDB enforces type consistency within a collection",
+        "misconception_tag": "assumes_implicit_type_enforcement"
+      },
+      {
+        "id": "b",
+        "text": "The document is inserted successfully; MongoDB allows mixed types for the same field across documents"
+      },
+      {
+        "id": "c",
+        "text": "MongoDB converts the value to match the most common type in the collection",
+        "misconception_tag": "assumes_automatic_type_coercion"
+      },
+      {
+        "id": "d",
+        "text": "The document is inserted but the mismatched field is silently dropped",
+        "misconception_tag": "assumes_schema_enforcement_by_removal"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MongoDB is schema-less by default. Without JSON Schema validation (available via $jsonSchema in validator option), any document with any field types can be inserted. This flexibility is powerful but requires application-level discipline. Different documents in the same collection can have the same field name storing different types (e.g., age as integer in one document and string in another)."
+  },
+  {
+    "question_id": "mongodb_edge_03",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You call db.collection.find() without any arguments. What does this return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An error because find() requires at least a query filter",
+        "misconception_tag": "assumes_filter_required"
+      },
+      {
+        "id": "b",
+        "text": "A cursor to all documents in the collection"
+      },
+      {
+        "id": "c",
+        "text": "Only the first document as a default safety mechanism",
+        "misconception_tag": "assumes_default_limit_of_one"
+      },
+      {
+        "id": "d",
+        "text": "The collection metadata and schema information",
+        "misconception_tag": "confuses_find_with_getCollectionInfos"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "db.collection.find() with no arguments returns a cursor to all documents in the collection \u2014 equivalent to SELECT * FROM table. The cursor lazily fetches documents in batches. In the mongo shell, it automatically displays the first 20 documents. In application code, you must iterate the cursor to access documents. Use with caution on large collections."
+  },
+  {
+    "question_id": "mongodb_theory_04",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between $lookup and embedding documents in MongoDB for modeling relationships?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$lookup is always superior to embedding because it normalizes data like a relational database",
+        "misconception_tag": "assumes_relational_approach_is_always_better"
+      },
+      {
+        "id": "b",
+        "text": "Embedding co-locates related data in one document for fast reads but duplicates data; $lookup performs a join at query time (more expensive) but avoids data duplication and is better for frequently updated shared data"
+      },
+      {
+        "id": "c",
+        "text": "Embedding and $lookup produce identical query performance; the choice is purely stylistic",
+        "misconception_tag": "dismisses_performance_difference"
+      },
+      {
+        "id": "d",
+        "text": "$lookup can only join on _id fields; embedding must be used for all other relationships",
+        "misconception_tag": "restricts_lookup_to_id_fields"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Embedding (denormalization) puts related data inside the parent document, enabling single-document reads with no joins. Ideal for one-to-few relationships with data that is read together and rarely updated independently. $lookup (aggregation stage) performs a left outer join across collections at query time \u2014 slower than embedded reads but avoids data duplication and inconsistency for frequently-changed shared data (one-to-many or many-to-many)."
+  },
+  {
+    "question_id": "mongodb_theory_05",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is a replica set in MongoDB and how does it support high availability?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A replica set is a sharded cluster where data is split across multiple nodes for horizontal scaling",
+        "misconception_tag": "confuses_replica_set_with_sharding"
+      },
+      {
+        "id": "b",
+        "text": "A replica set is a group of MongoDB instances that maintain the same dataset; a primary handles writes, secondaries replicate asynchronously, and automatic failover elects a new primary if the current one fails"
+      },
+      {
+        "id": "c",
+        "text": "A replica set requires manual intervention to promote a secondary to primary during failover",
+        "misconception_tag": "assumes_manual_failover_in_replica_set"
+      },
+      {
+        "id": "d",
+        "text": "A replica set distributes writes across all nodes simultaneously for higher write throughput",
+        "misconception_tag": "confuses_replica_set_with_multi_master_setup"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A MongoDB replica set has one primary (accepts all writes) and multiple secondaries (replicate from primary's oplog). If the primary fails, an election among secondaries automatically selects a new primary. Minimum 3 nodes (or 2 + arbiter) are needed for a majority vote. Replica sets provide redundancy, automatic failover, and optionally allow reads from secondaries (with possible stale data)."
+  },
+  {
+    "question_id": "mongodb_theory_06",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the purpose of the writeConcern option in MongoDB write operations?",
+    "options": [
+      {
+        "id": "a",
+        "text": "writeConcern controls the maximum number of documents that can be written in a single operation",
+        "misconception_tag": "confuses_write_concern_with_batch_size"
+      },
+      {
+        "id": "b",
+        "text": "writeConcern specifies the level of acknowledgment required from the replica set before confirming a write \u2014 controlling the durability and consistency guarantee of the write"
+      },
+      {
+        "id": "c",
+        "text": "writeConcern encrypts write operations before storing them to disk",
+        "misconception_tag": "confuses_write_concern_with_encryption"
+      },
+      {
+        "id": "d",
+        "text": "writeConcern is only relevant for sharded clusters, not standalone instances",
+        "misconception_tag": "incorrectly_scopes_write_concern_to_sharding"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "writeConcern defines how many replica set members must acknowledge a write before the operation returns. w:1 (default) = primary only acknowledges. w:'majority' = majority of voting members must acknowledge, providing stronger durability. w:0 = fire and forget. j:true = wait for write to be journaled. Higher write concerns increase durability but reduce write throughput."
+  },
+  {
+    "question_id": "mongodb_practical_05",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A 'orders' collection has documents containing an embedded 'items' array with objects having 'productId' and 'quantity'. You need to find all orders where any item has productId = 'ABC' and quantity > 5. Which query is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "db.orders.find({ 'items.productId': 'ABC', 'items.quantity': { $gt: 5 } })",
+        "misconception_tag": "dot_notation_without_elemmatch_matches_independently"
+      },
+      {
+        "id": "b",
+        "text": "db.orders.find({ items: { $elemMatch: { productId: 'ABC', quantity: { $gt: 5 } } } })"
+      },
+      {
+        "id": "c",
+        "text": "db.orders.find({ items: { productId: 'ABC', quantity: { $gt: 5 } } })",
+        "misconception_tag": "exact_subdocument_match_requires_exact_field_set"
+      },
+      {
+        "id": "d",
+        "text": "db.orders.find({ 'items': { $all: [{ productId: 'ABC' }, { quantity: { $gt: 5 } }] } })",
+        "misconception_tag": "misuses_all_for_subdocument_conditions"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Option A is a common mistake: { 'items.productId': 'ABC', 'items.quantity': { $gt: 5 } } matches documents where ANY item has productId='ABC' AND ANY item (possibly different) has quantity>5. $elemMatch ensures BOTH conditions must be satisfied by the SAME array element. Option C performs an exact document match requiring exactly those two fields."
+  },
+  {
+    "question_id": "mongodb_practical_06",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You need to add a new field 'score' with value 0 to all documents in a collection that don't already have it, without overwriting existing scores. Which command achieves this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "db.collection.updateMany({}, { $set: { score: 0 } })",
+        "misconception_tag": "overwrites_existing_score_values"
+      },
+      {
+        "id": "b",
+        "text": "db.collection.updateMany({ score: { $exists: false } }, { $set: { score: 0 } })"
+      },
+      {
+        "id": "c",
+        "text": "db.collection.updateMany({ score: null }, { $set: { score: 0 } })",
+        "misconception_tag": "null_check_misses_existing_zero_values_and_includes_null"
+      },
+      {
+        "id": "d",
+        "text": "db.collection.updateMany({}, { $setOnInsert: { score: 0 } })",
+        "misconception_tag": "setOnInsert_only_applies_during_upsert_insert"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Using $exists: false in the filter targets only documents where the 'score' field is absent. $set then adds the field with value 0. Option A overwrites all documents including those with existing scores. Option C matches null values AND missing fields. $setOnInsert only applies during an upsert's insert path, not to existing documents."
+  },
+  {
+    "question_id": "mongodb_practical_07",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A collection stores user events. You need an aggregation that counts events per user per day and returns only users who had more than 10 events on any single day. Which pipeline is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "[{ $group: { _id: { userId: '$userId', day: { $dateToString: { format: '%Y-%m-%d', date: '$timestamp' } } }, count: { $sum: 1 } } }, { $match: { count: { $gt: 10 } } }]"
+      },
+      {
+        "id": "b",
+        "text": "[{ $match: { count: { $gt: 10 } } }, { $group: { _id: '$userId', count: { $sum: 1 } } }]",
+        "misconception_tag": "places_match_before_group_using_field_not_yet_computed"
+      },
+      {
+        "id": "c",
+        "text": "[{ $group: { _id: '$userId', count: { $sum: 1 } } }, { $match: { count: { $gt: 10 } } }]",
+        "misconception_tag": "groups_only_by_user_not_by_user_and_day"
+      },
+      {
+        "id": "d",
+        "text": "[{ $group: { _id: '$userId' } }, { $project: { dailyCount: { $sum: '$events' } } }, { $match: { dailyCount: { $gt: 10 } } }]",
+        "misconception_tag": "incorrect_pipeline_stage_logic"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "The correct pipeline groups by both userId AND day (using $dateToString to format the date), computes the count per group, then filters with $match on count > 10. Option C groups only by userId (misses the per-day requirement). Option B tries to $match on 'count' before it's computed in $group \u2014 'count' doesn't exist at that stage."
+  },
+  {
+    "question_id": "mongodb_practical_08",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You want to ensure a field 'email' is unique across all documents in a collection. What is the correct way to enforce this in MongoDB?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Add a schema validation rule: { $jsonSchema: { required: ['email'] } }",
+        "misconception_tag": "confuses_required_with_uniqueness"
+      },
+      {
+        "id": "b",
+        "text": "Create a unique index: db.collection.createIndex({ email: 1 }, { unique: true })"
+      },
+      {
+        "id": "c",
+        "text": "MongoDB does not support uniqueness constraints; enforce uniqueness in application code",
+        "misconception_tag": "incorrectly_denies_unique_index_support"
+      },
+      {
+        "id": "d",
+        "text": "Use _id as the email field since _id is always unique",
+        "misconception_tag": "forces_email_into_primary_key_field"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MongoDB enforces uniqueness through unique indexes. createIndex({ email: 1 }, { unique: true }) creates a unique constraint on the email field. Attempting to insert or update a document with a duplicate email will throw a duplicate key error (E11000). Note: if some documents don't have the email field, consider { sparse: true } to allow multiple documents without the field."
+  },
+  {
+    "question_id": "mongodb_edge_04",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A unique index exists on 'email'. Two documents in the collection don't have the 'email' field at all. Will MongoDB allow both documents to coexist?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, always \u2014 missing fields are treated as undefined, not null, so no conflict occurs",
+        "misconception_tag": "assumes_missing_fields_exempt_from_unique"
+      },
+      {
+        "id": "b",
+        "text": "No \u2014 without sparse: true, a non-sparse unique index treats missing fields as null, allowing only one document without the field"
+      },
+      {
+        "id": "c",
+        "text": "Yes, always \u2014 unique indexes in MongoDB only apply to documents that explicitly have the field",
+        "misconception_tag": "assumes_unique_indexes_are_sparse_by_default"
+      },
+      {
+        "id": "d",
+        "text": "No \u2014 MongoDB requires all indexed fields to be present in every document",
+        "misconception_tag": "assumes_indexed_fields_are_mandatory"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Without the sparse: true option, a non-sparse unique index indexes missing fields as null. Since null must be unique, only one document can have a missing email field. Adding { unique: true, sparse: true } tells MongoDB to only index documents that have the field, allowing multiple documents to omit it."
+  },
+  {
+    "question_id": "mongodb_edge_05",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You run: db.orders.find({ amount: { $gt: '100' } }). The 'amount' field stores numeric values (e.g., 150). Will any documents be returned?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, MongoDB auto-converts the string '100' to a number for comparison",
+        "misconception_tag": "assumes_automatic_type_coercion"
+      },
+      {
+        "id": "b",
+        "text": "No \u2014 MongoDB is type-strict; comparing a number field with a string value returns no results because strings sort after numbers in BSON type order"
+      },
+      {
+        "id": "c",
+        "text": "Yes, but only if the amount value is literally the string '100' or higher",
+        "misconception_tag": "assumes_the_field_stores_strings"
+      },
+      {
+        "id": "d",
+        "text": "An error is thrown because $gt cannot compare mixed types",
+        "misconception_tag": "assumes_mixed_type_comparison_is_an_error"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MongoDB does NOT coerce types for comparisons. $gt: '100' compares against the string '100'. Numeric fields (type Double/Int) are a different BSON type than strings. In BSON comparison order, numbers come before strings, so no numeric document will be greater than a string value. This is a silent bug \u2014 no error, just empty results. Always ensure query types match document field types."
+  },
+  {
+    "question_id": "mongodb_edge_06",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You use db.collection.find().sort({ name: 1 }).limit(10).skip(1000) for pagination. What performance issue arises at deep pages?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No performance issue \u2014 skip() uses an index to jump directly to the target offset",
+        "misconception_tag": "assumes_skip_uses_index_seek"
+      },
+      {
+        "id": "b",
+        "text": "MongoDB must scan and discard the first 1000 documents even with an index, making deep pagination O(n) \u2014 increasingly slow at higher skip values"
+      },
+      {
+        "id": "c",
+        "text": "limit() and skip() cancel each other out at large values, returning all documents",
+        "misconception_tag": "misunderstands_interaction_of_limit_and_skip"
+      },
+      {
+        "id": "d",
+        "text": "sort() prevents index usage when combined with skip(), causing a full collection scan",
+        "misconception_tag": "incorrectly_blames_sort_for_skip_issue"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MongoDB's skip() must traverse and discard the skipped documents \u2014 there is no random-access seek in cursor navigation. At skip=1000, MongoDB reads 1000 documents before returning results. At skip=100000, it reads 100,000 documents. This is O(n) at deep pages. The solution is range-based (keyset) pagination using the last seen _id or sort field value as a boundary: { _id: { $gt: lastId } }."
+  },
+  {
+    "question_id": "mongodb_theory_07",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is MongoDB's Change Streams feature and what are its underlying requirements?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Change Streams is a polling mechanism that periodically checks for document changes in a collection",
+        "misconception_tag": "confuses_change_streams_with_polling"
+      },
+      {
+        "id": "b",
+        "text": "Change Streams provides real-time notifications of database changes by tailing the oplog; requires a replica set (or sharded cluster) \u2014 not available on standalone instances"
+      },
+      {
+        "id": "c",
+        "text": "Change Streams works on standalone MongoDB instances and does not require replication",
+        "misconception_tag": "assumes_change_streams_work_without_replica_set"
+      },
+      {
+        "id": "d",
+        "text": "Change Streams only supports insert operations; updates and deletes require manual tracking",
+        "misconception_tag": "restricts_change_streams_to_inserts"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Change Streams uses the oplog (operations log) \u2014 MongoDB's replication log \u2014 to provide a real-time stream of data changes. Since the oplog only exists in replica sets and sharded clusters, Change Streams require these topologies. They support all DML operations (insert, update, replace, delete) and can be filtered using aggregation pipeline stages."
+  },
+  {
+    "question_id": "mongodb_theory_08",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "How does MongoDB's WiredTiger storage engine handle concurrent reads and writes, and what mechanism provides document-level concurrency?",
+    "options": [
+      {
+        "id": "a",
+        "text": "WiredTiger uses table-level locking \u2014 only one read or write can occur per collection at a time",
+        "misconception_tag": "attributes_mmapv1_locking_to_wiredtiger"
+      },
+      {
+        "id": "b",
+        "text": "WiredTiger uses MVCC (Multi-Version Concurrency Control) with document-level locking \u2014 readers don't block writers and writers don't block readers except when updating the same document"
+      },
+      {
+        "id": "c",
+        "text": "WiredTiger uses row-level locking inherited from InnoDB for maximum compatibility",
+        "misconception_tag": "confuses_wiredtiger_with_mysql_innodb"
+      },
+      {
+        "id": "d",
+        "text": "WiredTiger requires all writes to be serialized through a single thread to ensure consistency",
+        "misconception_tag": "assumes_single_threaded_write_model"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "WiredTiger (MongoDB's default storage engine since 3.0) uses MVCC to maintain multiple versions of documents, allowing reads to see a consistent snapshot without blocking writes. Document-level concurrency control means different documents in the same collection can be written concurrently. Conflict occurs only when multiple writers target the exact same document simultaneously."
+  },
+  {
+    "question_id": "mongodb_theory_09",
+    "skill_id": "mongodb",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is MongoDB's aggregation pipeline $facet stage and when would you use it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$facet is an alias for $group that allows multiple grouping keys in a single stage",
+        "misconception_tag": "confuses_facet_with_group"
+      },
+      {
+        "id": "b",
+        "text": "$facet runs multiple sub-pipelines on the same input documents simultaneously, returning their results as separate fields in a single document \u2014 useful for computing multiple aggregations in one pass"
+      },
+      {
+        "id": "c",
+        "text": "$facet is used to create indexes on aggregated results for faster subsequent queries",
+        "misconception_tag": "confuses_facet_with_index_creation"
+      },
+      {
+        "id": "d",
+        "text": "$facet splits the pipeline into parallel shards for distributed processing",
+        "misconception_tag": "confuses_facet_with_sharding_mechanism"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "$facet processes the same input documents through multiple independent sub-pipelines, combining all results into a single output document. This is ideal for faceted search (e.g., simultaneously computing category counts, price range histograms, and total results from one query pass), avoiding multiple round-trips to the database for related aggregations."
+  },
+  {
+    "question_id": "mongodb_practical_09",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A 'sessions' collection stores user sessions as documents with start and end timestamps. You need to find, using a single aggregation, the average session duration per day for the last 30 days. What pipeline structure is most appropriate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "[{ $match: { start: { $gte: thirtyDaysAgo } } }, { $project: { day: { $dateToString: { format: '%Y-%m-%d', date: '$start' } }, duration: { $subtract: ['$end', '$start'] } } }, { $group: { _id: '$day', avgDuration: { $avg: '$duration' } } }, { $sort: { _id: 1 } }]"
+      },
+      {
+        "id": "b",
+        "text": "[{ $group: { _id: '$day', avgDuration: { $avg: { $subtract: ['$end', '$start'] } } } }, { $match: { _id: { $gte: thirtyDaysAgo } } }]",
+        "misconception_tag": "groups_before_match_and_references_nonexistent_day_field"
+      },
+      {
+        "id": "c",
+        "text": "[{ $match: { start: { $gte: thirtyDaysAgo } } }, { $group: { _id: null, avgDuration: { $avg: { $subtract: ['$end', '$start'] } } } }]",
+        "misconception_tag": "groups_all_sessions_into_one_group_ignoring_daily_breakdown"
+      },
+      {
+        "id": "d",
+        "text": "[{ $project: { duration: { $subtract: ['$end', '$start'] } } }, { $match: { start: { $gte: thirtyDaysAgo } } }]",
+        "misconception_tag": "places_match_after_project_losing_index_optimization"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "The optimal pipeline: (1) $match early to filter and use index on 'start', reducing documents processed by subsequent stages. (2) $project to compute the day string and duration. (3) $group by day to compute average duration. (4) $sort by day ascending. Option D places $match after $project, missing index optimization. Option B references 'day' before it's projected."
+  },
+  {
+    "question_id": "mongodb_practical_10",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to implement a counter that increments atomically every time a user views a product. Multiple concurrent requests may arrive simultaneously. Which MongoDB operation handles this correctly?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Read the current count, add 1 in application code, then write it back with updateOne",
+        "misconception_tag": "read_modify_write_race_condition"
+      },
+      {
+        "id": "b",
+        "text": "db.products.updateOne({ _id: productId }, { $inc: { viewCount: 1 } })"
+      },
+      {
+        "id": "c",
+        "text": "db.products.findOneAndUpdate({ _id: productId }, { $set: { viewCount: currentCount + 1 } })",
+        "misconception_tag": "set_with_precomputed_value_is_not_atomic"
+      },
+      {
+        "id": "d",
+        "text": "Use a MongoDB transaction to lock the document, read, increment, and write",
+        "misconception_tag": "uses_transaction_when_atomic_operator_suffices"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "$inc is an atomic operation at the document level in MongoDB. It reads the current value and increments it in a single atomic operation on the server side, regardless of concurrency. Option A (read-modify-write) has a race condition. Option C computes the new value in application code (not atomic). Option D works but is unnecessary overhead \u2014 $inc is inherently atomic."
+  },
+  {
+    "question_id": "mongodb_practical_11",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A sharded MongoDB cluster has a 'transactions' collection sharded by 'customerId'. A query filters on 'transactionDate' only (not on customerId). What is the performance implication?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The query runs efficiently because MongoDB automatically routes based on the most selective predicate",
+        "misconception_tag": "assumes_smart_routing_without_shard_key"
+      },
+      {
+        "id": "b",
+        "text": "The query becomes a scatter-gather operation \u2014 mongos broadcasts it to all shards, each executes the query, and results are merged, increasing latency linearly with shard count"
+      },
+      {
+        "id": "c",
+        "text": "The query fails because MongoDB requires the shard key in all queries",
+        "misconception_tag": "assumes_shard_key_required_in_all_queries"
+      },
+      {
+        "id": "d",
+        "text": "The query runs on the primary shard only, returning only a subset of results",
+        "misconception_tag": "assumes_primary_shard_only_execution"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In a sharded cluster, queries that include the shard key (customerId) allow mongos to route the query to specific shards (targeted queries). Without the shard key, mongos performs a scatter-gather: it broadcasts the query to all shards, collects results, and merges them. This scales poorly as shard count grows. Choosing the right shard key based on query patterns is critical for sharded cluster performance."
+  },
+  {
+    "question_id": "mongodb_practical_12",
+    "skill_id": "mongodb",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have a multi-document transaction in MongoDB that updates documents across two collections. The transaction runs for 60 seconds due to processing logic. What will happen?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The transaction commits successfully after 60 seconds since MongoDB has no transaction time limit",
+        "misconception_tag": "assumes_no_transaction_time_limit"
+      },
+      {
+        "id": "b",
+        "text": "MongoDB aborts the transaction \u2014 by default, transactions have a 60-second (or configurable) maximum lifetime; exceeding it causes automatic abort"
+      },
+      {
+        "id": "c",
+        "text": "The transaction is paused after 30 seconds and resumes when resources are available",
+        "misconception_tag": "invents_pause_and_resume_behavior"
+      },
+      {
+        "id": "d",
+        "text": "The transaction commits the work completed within the first 60 seconds and discards the rest",
+        "misconception_tag": "assumes_partial_commit_after_timeout"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MongoDB multi-document transactions have a default maximum lifetime of 60 seconds (transactionLifetimeLimitSeconds). If the transaction is not committed within this window, MongoDB automatically aborts it and releases all locks. Long-running logic should not be placed inside transactions. Process data, then open a short transaction to commit the result."
+  },
+  {
+    "question_id": "mongodb_edge_07",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You use $unwind on an array field that is empty ([]) in some documents. What happens to those documents in the pipeline?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The document is passed through with an empty array, unchanged",
+        "misconception_tag": "assumes_unwind_preserves_empty_arrays"
+      },
+      {
+        "id": "b",
+        "text": "The document is removed from the pipeline result unless { preserveNullAndEmptyArrays: true } is specified"
+      },
+      {
+        "id": "c",
+        "text": "The $unwind stage throws an error when it encounters an empty array",
+        "misconception_tag": "assumes_empty_array_causes_unwind_error"
+      },
+      {
+        "id": "d",
+        "text": "The document is duplicated \u2014 one copy with the empty array and one with null",
+        "misconception_tag": "invents_duplication_behavior"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "$unwind deconstructs an array, outputting one document per array element. For empty arrays ([]), there are no elements to output, so the document is effectively filtered out. Similarly, documents where the array field is null or missing are dropped. Use { path: '$field', preserveNullAndEmptyArrays: true } to retain these documents (with a null value for the unwound field)."
+  },
+  {
+    "question_id": "mongodb_edge_08",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A MongoDB collection uses ObjectId as _id. A developer queries: db.collection.find({ _id: '507f1f77bcf86cd799439011' }). The collection has a document with that ObjectId. Is it returned?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, MongoDB automatically converts the string to an ObjectId for comparison",
+        "misconception_tag": "assumes_automatic_objectid_string_conversion"
+      },
+      {
+        "id": "b",
+        "text": "No \u2014 the query passes a string, but the document has an ObjectId type; they are different BSON types and no match occurs"
+      },
+      {
+        "id": "c",
+        "text": "Yes, but only in older MongoDB versions; newer versions are type-strict",
+        "misconception_tag": "introduces_false_version_dependency"
+      },
+      {
+        "id": "d",
+        "text": "An error is thrown because string values cannot be compared to ObjectId fields",
+        "misconception_tag": "assumes_type_mismatch_causes_error"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MongoDB is BSON type-strict for comparisons. ObjectId and String are different BSON types. Querying { _id: '507f1f77...' } looks for a document where _id is the STRING '507f1f77...', not the ObjectId. The correct query is: { _id: ObjectId('507f1f77bcf86cd799439011') }. This is a very common bug when building queries with string inputs from APIs."
+  },
+  {
+    "question_id": "mongodb_edge_09",
+    "skill_id": "mongodb",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You run explain('executionStats') on a query and see 'totalDocsExamined: 50000' but 'nReturned: 5'. What does this indicate and what should you do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The query is optimized \u2014 examining 50,000 docs to return 5 is the expected MongoDB behavior",
+        "misconception_tag": "accepts_poor_index_efficiency_as_normal"
+      },
+      {
+        "id": "b",
+        "text": "The query has poor index efficiency \u2014 it scans 50,000 documents to return 5, suggesting a missing index, an index that is not selective enough, or a query that prevents index use (e.g., function on field)"
+      },
+      {
+        "id": "c",
+        "text": "The query uses a covered index but the projection caused extra document fetches",
+        "misconception_tag": "confuses_doc_examination_with_projection_issue"
+      },
+      {
+        "id": "d",
+        "text": "totalDocsExamined reflects collection size, not actual scanned documents, so there is no issue",
+        "misconception_tag": "misinterprets_totalDocsExamined_metric"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "An efficient query has totalDocsExamined close to nReturned. A ratio of 50,000:5 (10,000x) indicates a severe index problem. The optimizer is either using a poor index (low selectivity) or doing a collection scan. Actions: check the winning plan in explain output, ensure a suitable index exists for all query predicates, verify no functions are applied to indexed fields, and check field type mismatches."
+  }
+]

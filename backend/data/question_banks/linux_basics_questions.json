@@ -1,0 +1,452 @@
+[
+  {
+    "question_id": "linux_basics_theory_01",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does the first character in a Linux file permission string (e.g., `-rwxr-xr-x`) indicate?",
+    "options": [
+      { "id": "a", "text": "The permission level of the owner", "misconception_tag": "confuses_first_char_with_permission_bits" },
+      { "id": "b", "text": "The file type: `-` for regular file, `d` for directory, `l` for symbolic link", "misconception_tag": null },
+      { "id": "c", "text": "Whether the file is hidden", "misconception_tag": "confuses_file_type_indicator_with_hidden_file_convention" },
+      { "id": "d", "text": "The number of hard links to the file", "misconception_tag": "confuses_file_type_with_link_count" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The first character in a Linux permission string indicates the file type: `-` for a regular file, `d` for a directory, `l` for a symbolic link, `b` for a block device, `c` for a character device, etc. The following 9 characters are the permission bits in three groups: owner, group, and others."
+  },
+  {
+    "question_id": "linux_basics_theory_02",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the purpose of the `root` user in Linux?",
+    "options": [
+      { "id": "a", "text": "It is the first user account created during installation and has no special privileges", "misconception_tag": "downplays_root_privileges" },
+      { "id": "b", "text": "It is the superuser with unrestricted access to all files, processes, and system settings", "misconception_tag": null },
+      { "id": "c", "text": "It is a system service account used to run background processes only", "misconception_tag": "confuses_root_with_service_account" },
+      { "id": "d", "text": "It is the same as any other user but stored at the root of the filesystem", "misconception_tag": "confuses_root_user_with_root_filesystem_location" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The `root` user (UID 0) is the superuser in Linux with unrestricted access to the entire system. Root can read/write any file, kill any process, install software, and change system configuration. Because of this power, it is a security best practice to use `sudo` for administrative tasks rather than logging in as root directly."
+  },
+  {
+    "question_id": "linux_basics_theory_03",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the difference between a hard link and a symbolic (soft) link in Linux?",
+    "options": [
+      { "id": "a", "text": "A hard link is faster to access; a symbolic link is for cross-device links only", "misconception_tag": "partially_correct_but_incomplete_and_misleading" },
+      { "id": "b", "text": "A hard link is a direct directory entry pointing to the same inode; a symbolic link is a separate file that stores the path to the target", "misconception_tag": null },
+      { "id": "c", "text": "Hard links can link to directories; symbolic links cannot", "misconception_tag": "reverses_the_restriction_hard_links_cannot_link_directories" },
+      { "id": "d", "text": "They are functionally identical; the difference is only in how they are created", "misconception_tag": "treats_hard_and_soft_links_as_functionally_identical" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A hard link creates another directory entry pointing to the same inode (same file data). Deleting the original file doesn't delete the data until all hard links are removed. A symbolic link is a separate file that stores a path string pointing to the target. If the target is deleted, the symlink becomes dangling. Hard links cannot span filesystems or point to directories (in most cases)."
+  },
+  {
+    "question_id": "linux_basics_practical_01",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You want to find all `.log` files in `/var/log` and its subdirectories. Which command should you use?",
+    "options": [
+      { "id": "a", "text": "`ls -R /var/log/*.log`", "misconception_tag": "ls_glob_does_not_recurse_into_subdirectories" },
+      { "id": "b", "text": "`find /var/log -name '*.log'`", "misconception_tag": null },
+      { "id": "c", "text": "`grep -r '.log' /var/log`", "misconception_tag": "grep_searches_file_contents_not_filenames" },
+      { "id": "d", "text": "`locate *.log /var/log`", "misconception_tag": "locate_searches_a_database_not_real_time_filesystem" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`find /var/log -name '*.log'` recursively searches the `/var/log` directory tree for files matching the `*.log` pattern. `ls` with globbing doesn't recurse properly. `grep -r` searches file contents. `locate` uses a pre-built index that may be outdated."
+  },
+  {
+    "question_id": "linux_basics_practical_02",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to give a script file (`deploy.sh`) execute permission for the owner only. Which command achieves this?",
+    "options": [
+      { "id": "a", "text": "`chmod 777 deploy.sh`", "misconception_tag": "gives_execute_to_everyone_not_owner_only" },
+      { "id": "b", "text": "`chmod u+x deploy.sh`", "misconception_tag": null },
+      { "id": "c", "text": "`chown +x deploy.sh`", "misconception_tag": "chown_changes_ownership_not_permissions" },
+      { "id": "d", "text": "`chmod a+x deploy.sh`", "misconception_tag": "a_means_all_not_owner_only" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`chmod u+x deploy.sh` adds execute (`+x`) permission for the user/owner (`u`) only. `chmod a+x` adds execute for all (user, group, others). `chmod 777` gives full read/write/execute to everyone. `chown` changes file ownership, not permissions."
+  },
+  {
+    "question_id": "linux_basics_practical_03",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You want to view the last 50 lines of a log file and continue watching for new lines in real time. Which command is correct?",
+    "options": [
+      { "id": "a", "text": "`cat -n 50 /var/log/app.log`", "misconception_tag": "cat_n_flag_is_for_line_numbers_not_line_count" },
+      { "id": "b", "text": "`tail -n 50 -f /var/log/app.log`", "misconception_tag": null },
+      { "id": "c", "text": "`head -n 50 /var/log/app.log`", "misconception_tag": "head_shows_first_lines_not_last_and_does_not_follow" },
+      { "id": "d", "text": "`watch tail /var/log/app.log`", "misconception_tag": "watch_reruns_command_periodically_not_streaming_follow" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`tail -n 50 -f /var/log/app.log` shows the last 50 lines and then follows (`-f`) the file, displaying new lines as they are appended. This is the standard command for monitoring live log files. `head` shows the beginning. `watch tail` would refresh the view periodically but is not a streaming follow."
+  },
+  {
+    "question_id": "linux_basics_practical_04",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You want to check which process is listening on port 8080. Which command should you use?",
+    "options": [
+      { "id": "a", "text": "`ping localhost:8080`", "misconception_tag": "ping_tests_connectivity_not_port_listeners" },
+      { "id": "b", "text": "`netstat -tlnp | grep 8080` or `ss -tlnp | grep 8080`", "misconception_tag": null },
+      { "id": "c", "text": "`ps aux | grep 8080`", "misconception_tag": "ps_searches_process_names_not_port_bindings" },
+      { "id": "d", "text": "`cat /proc/net/8080`", "misconception_tag": "invents_nonexistent_proc_path" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`netstat -tlnp` or the modern equivalent `ss -tlnp` lists all TCP listening sockets with the process name and PID. Piping through `grep 8080` filters for port 8080. `ps aux` shows all processes but doesn't show port bindings. `ping` tests ICMP connectivity, not ports."
+  },
+  {
+    "question_id": "linux_basics_edge_01",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You run `rm -rf /tmp/myapp /` by mistake (with a space before the slash). What happens on a modern Linux system?",
+    "options": [
+      { "id": "a", "text": "Only `/tmp/myapp` is deleted; the trailing `/` is ignored", "misconception_tag": "believes_trailing_slash_is_ignored" },
+      { "id": "b", "text": "Modern Linux systems with `--preserve-root` (default) refuse to delete `/` and show an error", "misconception_tag": null },
+      { "id": "c", "text": "The entire filesystem is silently deleted without any warning", "misconception_tag": "describes_old_behavior_without_preserve_root" },
+      { "id": "d", "text": "The command requires `sudo` to delete system directories, so it fails without escalation", "misconception_tag": "sudo_requirement_depends_on_file_ownership_not_command" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Modern Linux distributions configure `rm` with `--preserve-root` by default (often compiled in). This causes `rm -rf /` to fail with an error: 'it is dangerous to operate recursively on /'. However, `--no-preserve-root` can override this. The space matters: it makes `/` a separate argument. This is a famous dangerous command."
+  },
+  {
+    "question_id": "linux_basics_edge_02",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You create a file named `-rf` in the current directory. How do you delete it safely?",
+    "options": [
+      { "id": "a", "text": "`rm -rf`", "misconception_tag": "shell_interprets_rf_as_flags_not_filename" },
+      { "id": "b", "text": "`rm ./-rf`", "misconception_tag": null },
+      { "id": "c", "text": "`del -rf`", "misconception_tag": "del_is_a_windows_command_not_linux" },
+      { "id": "d", "text": "`rm '-rf'`", "misconception_tag": "quoting_flag_like_filename_still_parsed_as_option_by_some_shells" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When a filename starts with `-`, the shell interprets it as a flag/option. To avoid this, prefix the path with `./`, which tells `rm` it is a path relative to the current directory (`rm ./-rf`). Alternatively, use `rm -- -rf` where `--` signals the end of options. Simply running `rm -rf` would be interpreted as flags."
+  },
+  {
+    "question_id": "linux_basics_edge_03",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You run `echo $HOME` and it prints nothing. What is the most likely reason?",
+    "options": [
+      { "id": "a", "text": "The `HOME` variable is a restricted variable and cannot be echoed", "misconception_tag": "invents_restricted_variable_behavior" },
+      { "id": "b", "text": "The `HOME` environment variable is not set in the current shell session", "misconception_tag": null },
+      { "id": "c", "text": "`echo` does not support environment variables; use `printenv` instead", "misconception_tag": "echo_works_fine_with_env_vars" },
+      { "id": "d", "text": "The shell requires `$ENV:HOME` syntax for environment variables", "misconception_tag": "confuses_linux_shell_syntax_with_powershell" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When `echo $HOME` prints nothing, it means the `HOME` environment variable is not set. This can happen in minimal or restricted environments (like some Docker containers or chroot jails). You can verify with `env | grep HOME` or `printenv HOME`. In normal user sessions, `HOME` is always set to the user's home directory path."
+  },
+  {
+    "question_id": "linux_basics_theory_04",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between a process's stdin, stdout, and stderr in Linux, and how are they represented as file descriptors?",
+    "options": [
+      { "id": "a", "text": "They are virtual memory regions; stdin is 0, stdout is 1, stderr is 2", "misconception_tag": "correctly_identifies_numbers_but_wrong_description" },
+      { "id": "b", "text": "They are file descriptors opened by default for every process: stdin (0) for input, stdout (1) for output, stderr (2) for error messages", "misconception_tag": null },
+      { "id": "c", "text": "stdin and stdout are the same descriptor; stderr is separate for errors", "misconception_tag": "conflates_stdin_and_stdout" },
+      { "id": "d", "text": "They are kernel buffers numbered 1, 2, 3 for stdin, stdout, stderr respectively", "misconception_tag": "off_by_one_error_in_file_descriptor_numbers" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Every process in Linux starts with three open file descriptors: 0 (stdin - standard input), 1 (stdout - standard output), 2 (stderr - standard error). These are just file descriptors like any other and can be redirected. For example, `2>/dev/null` redirects stderr to /dev/null, and `2>&1` redirects stderr to wherever stdout currently points."
+  },
+  {
+    "question_id": "linux_basics_theory_05",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is `systemd` and how does it differ from older init systems like SysV init?",
+    "options": [
+      { "id": "a", "text": "systemd is a package manager that replaces apt and yum", "misconception_tag": "confuses_systemd_with_package_manager" },
+      { "id": "b", "text": "systemd is PID 1 and an init system that starts services in parallel using dependency declarations, replaces sequential shell script-based SysV init", "misconception_tag": null },
+      { "id": "c", "text": "systemd is a shell that replaces bash for system scripts", "misconception_tag": "confuses_systemd_with_shell_replacement" },
+      { "id": "d", "text": "systemd and SysV init are functionally identical; systemd just has a different syntax", "misconception_tag": "treats_systemd_and_sysvinit_as_functionally_identical" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "systemd is the init system (PID 1) on most modern Linux distributions. Unlike SysV init which starts services sequentially via numbered shell scripts in `/etc/init.d/`, systemd uses unit files with dependency declarations enabling parallel startup, on-demand socket activation, and centralized logging via journald. It manages services, sockets, timers, mounts, and more."
+  },
+  {
+    "question_id": "linux_basics_theory_06",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What does the sticky bit do when set on a directory like `/tmp`?",
+    "options": [
+      { "id": "a", "text": "It prevents the directory from being deleted even by root", "misconception_tag": "overstates_sticky_bit_protection" },
+      { "id": "b", "text": "It allows only the file owner, directory owner, or root to delete or rename files within that directory, even if others have write permission on the directory", "misconception_tag": null },
+      { "id": "c", "text": "It makes files in the directory permanent and immune to `rm` commands", "misconception_tag": "confuses_sticky_bit_with_immutable_flag" },
+      { "id": "d", "text": "It pins the directory's contents in memory for faster access", "misconception_tag": "describes_old_unused_meaning_of_sticky_bit" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When the sticky bit is set on a directory (shown as `t` in permissions), users with write access to the directory can only delete or rename their own files — not files owned by others. This is critical for shared directories like `/tmp` where multiple users have write access but should not be able to delete each other's temporary files."
+  },
+  {
+    "question_id": "linux_basics_practical_05",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You need to run a long-running process that continues after you disconnect from the SSH session. Which command should you use?",
+    "options": [
+      { "id": "a", "text": "Run the command in the foreground normally; SSH keeps it alive", "misconception_tag": "ssh_session_death_kills_foreground_processes" },
+      { "id": "b", "text": "Use `nohup command &` or run inside a `tmux` or `screen` session", "misconception_tag": null },
+      { "id": "c", "text": "Use `bg command` to run it in the background permanently", "misconception_tag": "bg_only_resumes_stopped_jobs_does_not_survive_session_end" },
+      { "id": "d", "text": "Use `daemon command` to daemonize it", "misconception_tag": "daemon_is_not_a_standard_universal_command" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`nohup command &` makes the process immune to SIGHUP (sent when the terminal closes) and runs it in the background. `tmux` or `screen` maintain a persistent terminal session that survives SSH disconnection, letting you reconnect later. Standard background jobs (`&`) receive SIGHUP when the session ends and are typically killed."
+  },
+  {
+    "question_id": "linux_basics_practical_06",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You want to search for the string `ERROR` in all `.log` files in the current directory and display the filename and line number for each match. Which command is correct?",
+    "options": [
+      { "id": "a", "text": "`grep ERROR *.log`", "misconception_tag": "missing_n_flag_for_line_numbers" },
+      { "id": "b", "text": "`grep -n 'ERROR' *.log`", "misconception_tag": null },
+      { "id": "c", "text": "`find . -name '*.log' | grep ERROR`", "misconception_tag": "pipes_filenames_to_grep_not_file_contents" },
+      { "id": "d", "text": "`cat *.log | grep -n ERROR`", "misconception_tag": "cat_pipe_loses_filename_context" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`grep -n 'ERROR' *.log` searches all `.log` files for `ERROR`, prefixing each match with the filename and line number (`-n`). When multiple files are given, grep automatically includes the filename in output. Piping `cat` through grep loses the filename context. The `find | grep` approach pipes filenames to grep, which would search filenames not file contents."
+  },
+  {
+    "question_id": "linux_basics_practical_07",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You need to schedule a script (`/opt/backup.sh`) to run every day at 2:30 AM. How do you configure this?",
+    "options": [
+      { "id": "a", "text": "Add it to `/etc/init.d/` with a time configuration file", "misconception_tag": "init_d_is_for_service_startup_not_scheduling" },
+      { "id": "b", "text": "Run `crontab -e` and add the line: `30 2 * * * /opt/backup.sh`", "misconception_tag": null },
+      { "id": "c", "text": "Create a systemd service with `At=02:30`", "misconception_tag": "systemd_timers_use_oncalendar_not_at_keyword" },
+      { "id": "d", "text": "Run `at 02:30 /opt/backup.sh` to schedule a one-time execution", "misconception_tag": "at_command_is_one_time_not_recurring" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Cron is the standard Linux task scheduler. `crontab -e` opens the user's crontab file for editing. The line `30 2 * * * /opt/backup.sh` means: minute 30, hour 2, any day of month, any month, any day of week. `at` runs a command once at a specific time. systemd timers use `OnCalendar=` syntax."
+  },
+  {
+    "question_id": "linux_basics_practical_08",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You need to check disk usage sorted by size for all directories in `/var`. Which command gives you a human-readable, sorted summary?",
+    "options": [
+      { "id": "a", "text": "`ls -lh /var`", "misconception_tag": "ls_shows_file_sizes_not_directory_content_sizes" },
+      { "id": "b", "text": "`df -h /var`", "misconception_tag": "df_shows_filesystem_usage_not_per_directory_sizes" },
+      { "id": "c", "text": "`du -sh /var/* | sort -h`", "misconception_tag": null },
+      { "id": "d", "text": "`stat /var/*`", "misconception_tag": "stat_shows_inode_metadata_not_recursive_size" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "`du -sh /var/*` shows the disk usage of each item in `/var` in human-readable format (`-s` for summary per item, `-h` for human-readable). Piping to `sort -h` sorts numerically with size unit awareness (so 1G > 100M). `df` shows filesystem-level usage. `ls -lh` shows file sizes but directories are always shown as 4K regardless of content."
+  },
+  {
+    "question_id": "linux_basics_edge_04",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You run `chmod 000 /etc/passwd`. What is the likely immediate consequence on a running system?",
+    "options": [
+      { "id": "a", "text": "All user passwords are immediately deleted", "misconception_tag": "confuses_file_permissions_with_password_deletion" },
+      { "id": "b", "text": "Current logged-in sessions continue working, but new login attempts and any program that reads `/etc/passwd` (like `ls -l`) will fail", "misconception_tag": null },
+      { "id": "c", "text": "The system immediately locks up and requires a reboot", "misconception_tag": "overstates_immediate_impact_on_running_sessions" },
+      { "id": "d", "text": "Nothing changes because `/etc/passwd` is protected by the kernel from permission changes", "misconception_tag": "believes_kernel_protects_critical_files_from_chmod" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Setting `/etc/passwd` to `000` removes all permissions. Running processes and open sessions continue because they have the file data in memory or open file descriptors. New logins will fail because PAM and login tools can't read the file. Commands like `ls -l` (which uses UIDs to resolve usernames via `/etc/passwd`) will show numeric UIDs instead of names. Recovery requires root access or a rescue environment."
+  },
+  {
+    "question_id": "linux_basics_edge_05",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You delete a large log file with `rm /var/log/app.log` but disk usage does not decrease. Why?",
+    "options": [
+      { "id": "a", "text": "The filesystem has not yet flushed the delete to disk", "misconception_tag": "filesystem_flush_does_not_hold_disk_space_this_long" },
+      { "id": "b", "text": "A running process still has the file open; the disk space is not freed until all file handles are closed", "misconception_tag": null },
+      { "id": "c", "text": "`rm` moves files to a trash bin, not immediately deletes them", "misconception_tag": "linux_rm_has_no_trash_bin_by_default" },
+      { "id": "d", "text": "The file was on a tmpfs filesystem which does not release space immediately", "misconception_tag": "tmpfs_releases_space_when_file_is_unlinked_regardless" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In Linux, `rm` unlinks the filename from the directory but the inode and data blocks are only freed when all file descriptors pointing to the file are closed. If a process (like a logger) still has the file open, the disk space is held. The fix is to either restart the process or truncate the file in place: `> /var/log/app.log` or `truncate -s 0 /var/log/app.log` while the process still has it open."
+  },
+  {
+    "question_id": "linux_basics_edge_06",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You run `sudo command` and get `sudo: command not found`. However, running the command without `sudo` as root works fine. What is the most likely cause?",
+    "options": [
+      { "id": "a", "text": "sudo is not installed on the system", "misconception_tag": "if_sudo_itself_works_it_is_installed" },
+      { "id": "b", "text": "sudo uses a restricted PATH that does not include the directory where `command` is installed", "misconception_tag": null },
+      { "id": "c", "text": "The command requires a GUI and sudo cannot run graphical applications", "misconception_tag": "confuses_gui_restriction_with_path_issue" },
+      { "id": "d", "text": "The user is not in the sudoers file", "misconception_tag": "if_sudo_runs_and_reports_command_not_found_user_is_authorized" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`sudo` uses a secure, restricted `PATH` (defined in `/etc/sudoers` as `secure_path`) that typically includes `/usr/bin`, `/usr/sbin`, etc. If the command is installed in a non-standard location like `/usr/local/bin` or `~/.local/bin`, it won't be found. Solutions: use the full path (`sudo /usr/local/bin/command`), or modify `secure_path` in sudoers."
+  },
+  {
+    "question_id": "linux_basics_theory_07",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is an inode in Linux, and what information does it store versus what it does not store?",
+    "options": [
+      { "id": "a", "text": "An inode is the file's data content stored in a contiguous block on disk", "misconception_tag": "confuses_inode_with_data_blocks" },
+      { "id": "b", "text": "An inode stores metadata (permissions, owner, timestamps, size, data block pointers) but NOT the filename or the file content itself", "misconception_tag": null },
+      { "id": "c", "text": "An inode stores the filename and permissions but not the file content or timestamps", "misconception_tag": "incorrectly_includes_filename_in_inode" },
+      { "id": "d", "text": "An inode stores only the file type and the absolute path to the file", "misconception_tag": "invents_absolute_path_storage_in_inode" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "An inode (index node) stores file metadata: file type, permissions, owner UID/GID, timestamps (atime, mtime, ctime), size, link count, and pointers to the data blocks. Crucially, it does NOT store the filename (that's in the directory entry) or the file content itself (that's in data blocks). This separation is why hard links work: multiple directory entries can point to the same inode."
+  },
+  {
+    "question_id": "linux_basics_theory_08",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the purpose of `/proc` filesystem in Linux?",
+    "options": [
+      { "id": "a", "text": "A directory where running processes save their log files", "misconception_tag": "confuses_proc_with_log_directory" },
+      { "id": "b", "text": "A virtual filesystem that provides a real-time interface to kernel data structures: process info, hardware info, and kernel parameters", "misconception_tag": null },
+      { "id": "c", "text": "A permanent storage location for process configuration files", "misconception_tag": "confuses_proc_with_configuration_storage" },
+      { "id": "d", "text": "A directory that stores compiled processor-specific binaries for the running CPU architecture", "misconception_tag": "misinterprets_proc_as_processor_related_storage" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`/proc` is a pseudo-filesystem that exposes kernel internals as files. `/proc/<PID>/` contains per-process information (cmdline, memory maps, file descriptors). `/proc/cpuinfo` shows CPU details. `/proc/meminfo` shows memory stats. `/proc/sys/` exposes kernel parameters that can be tuned with `sysctl`. Nothing in `/proc` is stored on disk — it is generated dynamically by the kernel."
+  },
+  {
+    "question_id": "linux_basics_theory_09",
+    "skill_id": "linux_basics",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between a process and a thread in Linux at the kernel level?",
+    "options": [
+      { "id": "a", "text": "Threads are handled by user-space libraries only; the Linux kernel only knows about processes", "misconception_tag": "describes_old_pthreads_userspace_model_not_modern_linux" },
+      { "id": "b", "text": "Processes and threads are both represented as tasks in Linux; threads share the same memory space and file descriptors with their parent, created with `clone()` using shared resource flags", "misconception_tag": null },
+      { "id": "c", "text": "Processes can have multiple CPUs; threads are restricted to a single CPU core", "misconception_tag": "invents_cpu_affinity_distinction" },
+      { "id": "d", "text": "Threads are lighter than processes because they don't have file descriptors or signal handlers", "misconception_tag": "threads_share_file_descriptors_and_signals_with_process" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Linux does not have a separate concept of 'thread' at the kernel level. Both processes and threads are 'tasks' (task_struct). The difference is in resource sharing: `fork()` creates a new process with its own copies of memory and file descriptors. `clone()` with flags like `CLONE_VM` and `CLONE_FILES` creates a thread that shares the same virtual memory space and file descriptor table with the parent."
+  },
+  {
+    "question_id": "linux_basics_practical_09",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You suspect a service is consuming excessive memory and gradually using more over time. How would you investigate this on a running Linux system?",
+    "options": [
+      { "id": "a", "text": "Check `/var/log/syslog` for memory warnings, then restart the service", "misconception_tag": "logs_may_not_show_gradual_leak_restart_hides_it" },
+      { "id": "b", "text": "Use `top` or `htop` to observe real-time memory growth per PID; use `cat /proc/<PID>/status` or `smaps` to inspect virtual/resident/shared memory; use `valgrind` for leak detection in development", "misconception_tag": null },
+      { "id": "c", "text": "Run `df -h` to check available disk space linked to memory usage", "misconception_tag": "df_checks_disk_not_memory" },
+      { "id": "d", "text": "Use `dmesg` to read memory allocation errors from the kernel", "misconception_tag": "dmesg_may_show_oom_kills_after_the_fact_not_gradual_monitoring" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`top`/`htop` shows real-time per-process memory (RES = resident, VIRT = virtual). Tracking the RES column over time reveals growth. `/proc/<PID>/status` shows VmRSS (resident set size). `/proc/<PID>/smaps` provides detailed memory mapping breakdown. For code-level leak detection, `valgrind --leak-check=full` is the standard tool in development environments."
+  },
+  {
+    "question_id": "linux_basics_practical_10",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to extract lines 100 to 200 from a very large log file (10GB) efficiently without reading the entire file. Which command is most efficient?",
+    "options": [
+      { "id": "a", "text": "`cat file.log | head -200 | tail -101`", "misconception_tag": "cat_reads_entire_file_into_pipeline_inefficiently" },
+      { "id": "b", "text": "`grep -n '' file.log | sed -n '100,200p'`", "misconception_tag": "grep_n_reads_entire_file_and_adds_overhead" },
+      { "id": "c", "text": "`sed -n '100,200p' file.log`", "misconception_tag": null },
+      { "id": "d", "text": "`awk 'NR>=100 && NR<=200' file.log`", "misconception_tag": "valid_but_slightly_less_efficient_than_sed_for_simple_range" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "`sed -n '100,200p' file.log` prints lines 100-200 with minimal overhead. `sed` reads the file sequentially and stops processing after line 200 (with `q` optimization in some versions). `awk` is also correct but slightly more overhead for this simple case. `cat | head | tail` pipes unnecessarily. For very large files, you can also use `sed -n '100,200p;201q'` to quit immediately after line 200."
+  },
+  {
+    "question_id": "linux_basics_practical_11",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to find all files modified in the last 24 hours under `/opt/app` and archive them to `/backup/changes.tar.gz`. What is the correct command pipeline?",
+    "options": [
+      { "id": "a", "text": "`ls -lt /opt/app | tar -czf /backup/changes.tar.gz`", "misconception_tag": "ls_output_cannot_be_piped_to_tar_correctly" },
+      { "id": "b", "text": "`find /opt/app -mtime -1 | tar -czf /backup/changes.tar.gz -T -`", "misconception_tag": null },
+      { "id": "c", "text": "`find /opt/app -newer 24h | xargs tar -czf /backup/changes.tar.gz`", "misconception_tag": "newer_flag_requires_a_reference_file_not_time_string" },
+      { "id": "d", "text": "`tar -czf /backup/changes.tar.gz --newer='24 hours' /opt/app`", "misconception_tag": "tar_newer_requires_a_file_reference_not_a_time_string_in_this_syntax" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`find /opt/app -mtime -1` finds files modified less than 1 day (24 hours) ago. Piping to `tar -czf /backup/changes.tar.gz -T -` tells tar to read the file list from stdin (`-T -`). This efficiently handles files with spaces in names. `-mtime -1` means 'less than 1 unit of 24 hours', so files modified within the last 24 hours."
+  },
+  {
+    "question_id": "linux_basics_practical_12",
+    "skill_id": "linux_basics",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A script runs as a cron job but fails silently. You see no output. How do you debug it effectively?",
+    "options": [
+      { "id": "a", "text": "Run the script manually as root to see if it works", "misconception_tag": "manual_run_as_root_has_different_env_than_cron" },
+      { "id": "b", "text": "Add `2>&1 | mail -s 'cron output' admin@example.com` to the crontab entry, or redirect output to a log file, and check that the script's environment (PATH, env vars) matches what cron provides", "misconception_tag": null },
+      { "id": "c", "text": "Check `/var/log/cron` for the script's stdout output", "misconception_tag": "cron_logs_job_execution_but_not_script_output" },
+      { "id": "d", "text": "Add `set -x` to the crontab header line", "misconception_tag": "set_x_belongs_in_the_script_not_the_crontab_entry" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Cron jobs run in a minimal environment (no user profile, limited PATH). Common debug steps: redirect stdout and stderr to a log file (`* * * * * /script.sh >> /tmp/cron.log 2>&1`), check that required env vars are set in the script, prefix the script path with full paths for all commands, and confirm the script has execute permission. `/var/log/cron` only shows if the job ran, not its output."
+  },
+  {
+    "question_id": "linux_basics_edge_07",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You run `kill -9 <PID>` on a process but it does not disappear from `ps aux`. The process shows status `Z`. What is happening and how do you resolve it?",
+    "options": [
+      { "id": "a", "text": "SIGKILL was blocked by the process signal handler; use `kill -15` instead", "misconception_tag": "sigkill_cannot_be_caught_blocked_or_ignored" },
+      { "id": "b", "text": "The process is a zombie: it has exited but its parent has not yet called `wait()` to collect the exit status; kill the parent process or wait for it to reap the zombie", "misconception_tag": null },
+      { "id": "c", "text": "The process is stuck in an infinite loop and SIGKILL has not been processed yet", "misconception_tag": "sigkill_is_delivered_by_kernel_without_process_cooperation" },
+      { "id": "d", "text": "The process is a kernel thread and cannot be killed from userspace", "misconception_tag": "kernel_threads_also_disappear_after_sigkill_if_they_are_killable" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A zombie process (`Z` status) has already terminated but its parent hasn't called `wait()` to collect its exit status. The process entry is kept in the process table until the parent reads it. SIGKILL cannot help because the process is already dead. Solutions: send SIGCHLD to the parent to prompt it to call `wait()`, or kill the parent process, which causes init/systemd to adopt and reap the zombie automatically."
+  },
+  {
+    "question_id": "linux_basics_edge_08",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You run a bash script with `./script.sh` and it executes correctly. You then run `bash script.sh` from the same directory and get unexpected behavior. What is the most likely cause?",
+    "options": [
+      { "id": "a", "text": "Bash does not support scripts run with the `bash` command", "misconception_tag": "invents_restriction_on_bash_command_invocation" },
+      { "id": "b", "text": "The shebang line (`#!/bin/bash`) is ignored when running with `bash script.sh`, so if the script relies on shell-specific behavior or a specific interpreter (e.g., `#!/usr/bin/env python3`), the wrong interpreter is used", "misconception_tag": null },
+      { "id": "c", "text": "File permissions are different between the two invocation methods", "misconception_tag": "permissions_are_irrelevant_when_passing_to_bash_directly" },
+      { "id": "d", "text": "The current working directory changes when running with `bash script.sh`", "misconception_tag": "cwd_is_the_same_in_both_invocation_methods" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When you run `./script.sh`, the kernel reads the shebang line and uses the specified interpreter. When you run `bash script.sh`, the shebang is ignored — bash is always used regardless. If the script has `#!/usr/bin/env python3` or `#!/bin/sh` (where sh ≠ bash), the behavior differs. Also, `bash script.sh` inherits the current environment while `./script.sh` respects the shebang precisely."
+  },
+  {
+    "question_id": "linux_basics_edge_09",
+    "skill_id": "linux_basics",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You have a bash script: `files=$(ls /tmp/*.tmp); rm $files`. This works in testing but deletes wrong files in production where filenames contain spaces. Why and what is the fix?",
+    "options": [
+      { "id": "a", "text": "The `$()` syntax cannot handle spaces in filenames; use backticks instead", "misconception_tag": "backticks_have_the_same_word_splitting_problem" },
+      { "id": "b", "text": "Unquoted `$files` undergoes word splitting on whitespace, breaking filenames with spaces into separate tokens; use an array and proper quoting: `files=(/tmp/*.tmp); rm -- \"${files[@]}\"`", "misconception_tag": null },
+      { "id": "c", "text": "The `ls` command strips spaces from filenames in its output", "misconception_tag": "ls_does_not_strip_spaces_word_splitting_is_the_issue" },
+      { "id": "d", "text": "The `rm` command does not support filenames with spaces", "misconception_tag": "rm_handles_spaces_fine_when_properly_quoted" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When `$files` is unquoted, bash performs word splitting, splitting the string at whitespace characters. A filename like `my file.tmp` becomes two tokens: `my` and `file.tmp`. The fix is to use a bash array: `files=(/tmp/*.tmp)` stores each glob result as a separate array element, then `rm -- \"${files[@]}\"` expands each element as a separate, properly quoted argument to `rm`."
+  }
+]

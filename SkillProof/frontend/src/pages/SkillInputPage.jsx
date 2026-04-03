@@ -323,17 +323,7 @@ export function SkillInputPage() {
                       </div>
                     </div>
 
-                    {!skill.prerequisites_met && (
-                      <div
-                        className="mt-2 text-[10px] px-2 py-1 rounded"
-                        style={{
-                          background: 'var(--color-partial-dim)',
-                          color: 'var(--color-partial)',
-                        }}
-                      >
-                        ⚠ Missing prereqs: {skill.missing_prerequisites.join(', ')}
-                      </div>
-                    )}
+
                   </motion.div>
                 )
               })}

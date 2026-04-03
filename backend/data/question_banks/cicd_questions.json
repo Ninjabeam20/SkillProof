@@ -1,0 +1,452 @@
+[
+  {
+    "question_id": "cicd_theory_01",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the core difference between Continuous Integration (CI) and Continuous Delivery (CD)?",
+    "options": [
+      { "id": "a", "text": "CI is for backend systems; CD is for frontend systems", "misconception_tag": "confuses_ci_cd_with_system_type" },
+      { "id": "b", "text": "CI automates building and testing on every code change; CD automates releasing validated builds to a staging or production environment", "misconception_tag": null },
+      { "id": "c", "text": "CI and CD are the same thing with different names", "misconception_tag": "treats_ci_and_cd_as_identical" },
+      { "id": "d", "text": "CI runs only on the main branch; CD runs on all branches", "misconception_tag": "confuses_branch_strategy_with_ci_cd_definition" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Continuous Integration (CI) focuses on frequently merging code and automatically building and testing it to catch integration issues early. Continuous Delivery (CD) extends CI by automating the release process so every passing build can be deployed to staging or production with minimal manual intervention."
+  },
+  {
+    "question_id": "cicd_theory_02",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is a CI/CD pipeline artifact?",
+    "options": [
+      { "id": "a", "text": "A historical record of all pipeline executions", "misconception_tag": "confuses_artifact_with_pipeline_logs" },
+      { "id": "b", "text": "A file or set of files produced by a pipeline job that can be stored, shared between jobs, or deployed", "misconception_tag": null },
+      { "id": "c", "text": "A configuration file that defines the pipeline stages", "misconception_tag": "confuses_artifact_with_pipeline_config" },
+      { "id": "d", "text": "A notification sent when a pipeline fails", "misconception_tag": "confuses_artifact_with_notification" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A pipeline artifact is any file produced during a pipeline run, such as compiled binaries, Docker images, test reports, or coverage files. Artifacts can be passed between stages (e.g., build artifact consumed by deploy stage) or stored for later download and analysis."
+  },
+  {
+    "question_id": "cicd_theory_03",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the primary purpose of a pipeline trigger?",
+    "options": [
+      { "id": "a", "text": "To stop a running pipeline when an error occurs", "misconception_tag": "confuses_trigger_with_error_handler" },
+      { "id": "b", "text": "To define the event or condition that automatically starts a pipeline run", "misconception_tag": null },
+      { "id": "c", "text": "To set environment variables for the pipeline", "misconception_tag": "confuses_trigger_with_env_config" },
+      { "id": "d", "text": "To specify which runner or agent executes the pipeline", "misconception_tag": "confuses_trigger_with_runner_config" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A pipeline trigger defines what event causes the pipeline to start automatically, such as a push to a branch, a pull request, a scheduled cron time, or an API call. Without triggers, pipelines would only run manually."
+  },
+  {
+    "question_id": "cicd_practical_01",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "In a GitHub Actions workflow, you want a job to run only when code is pushed to the `main` branch. Which configuration achieves this?",
+    "options": [
+      { "id": "a", "text": "`on: push` with no branch filter", "misconception_tag": "triggers_on_all_branches_not_just_main" },
+      { "id": "b", "text": "`on: push: branches: [main]`", "misconception_tag": null },
+      { "id": "c", "text": "`when: branch == main`", "misconception_tag": "uses_gitlab_ci_syntax_in_github_actions" },
+      { "id": "d", "text": "`trigger: main`", "misconception_tag": "invents_nonexistent_github_actions_syntax" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In GitHub Actions, you filter push triggers by branch using `on: push: branches: [main]`. Without the branch filter, the workflow runs on pushes to ALL branches. The `when` keyword is GitLab CI syntax and `trigger: main` is not valid GitHub Actions YAML."
+  },
+  {
+    "question_id": "cicd_practical_02",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Your pipeline has three stages: `build`, `test`, `deploy`. The `test` stage must not run if `build` fails. Which CI/CD concept ensures this by default?",
+    "options": [
+      { "id": "a", "text": "Pipeline caching", "misconception_tag": "confuses_caching_with_stage_dependency" },
+      { "id": "b", "text": "Sequential stage execution with failure propagation: a failed stage stops subsequent stages from running", "misconception_tag": null },
+      { "id": "c", "text": "Pipeline artifacts", "misconception_tag": "confuses_artifacts_with_execution_control" },
+      { "id": "d", "text": "Branch protection rules", "misconception_tag": "confuses_branch_protection_with_pipeline_flow" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In most CI/CD systems, stages run sequentially by default and a pipeline stops when any stage fails. If `build` fails, `test` and `deploy` never run. This fail-fast behavior prevents wasted compute on stages that depend on earlier, failed stages."
+  },
+  {
+    "question_id": "cicd_practical_03",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You want your GitHub Actions job to install Node.js dependencies but avoid re-downloading them on every run. What should you add to the workflow?",
+    "options": [
+      { "id": "a", "text": "Use `persist: true` on the `npm install` step", "misconception_tag": "invents_nonexistent_persist_option" },
+      { "id": "b", "text": "Add `actions/cache` step keyed on the `package-lock.json` hash before the install step", "misconception_tag": null },
+      { "id": "c", "text": "Use `artifact: node_modules` to store and restore them", "misconception_tag": "artifacts_are_not_optimized_for_caching_and_have_size_limits" },
+      { "id": "d", "text": "Run `npm ci --save` to persist the node_modules directory", "misconception_tag": "npm_ci_save_flag_does_not_persist_across_runs" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "`actions/cache` with a key based on the hash of `package-lock.json` caches the `node_modules` directory. If the lockfile hasn't changed, the cache is restored and `npm install` is skipped or much faster. This is the standard way to speed up dependency installation in GitHub Actions."
+  },
+  {
+    "question_id": "cicd_practical_04",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to pass a database password to your CI/CD pipeline without exposing it in logs or the config file. What is the correct approach?",
+    "options": [
+      { "id": "a", "text": "Hardcode it in the `.yml` pipeline config file and restrict access to the repository", "misconception_tag": "exposes_secret_in_version_control" },
+      { "id": "b", "text": "Store it as a masked CI/CD secret variable (e.g., GitHub Actions Secret or GitLab CI Variable) and reference it as an environment variable", "misconception_tag": null },
+      { "id": "c", "text": "Base64 encode it and store it in the config file", "misconception_tag": "encoding_is_not_encryption_still_exposed" },
+      { "id": "d", "text": "Pass it as a command-line argument in the pipeline step and it will be auto-masked", "misconception_tag": "cli_args_appear_in_process_lists_and_logs" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "CI/CD platforms provide secret/variable stores (GitHub Actions Secrets, GitLab CI Variables marked as masked) that inject values as environment variables at runtime. These values are masked in logs and never stored in the pipeline config file. Hardcoding or base64-encoding secrets in config files exposes them in version history."
+  },
+  {
+    "question_id": "cicd_edge_01",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "Your CI pipeline passes all tests but the deployed application crashes in production. Which principle does this most likely indicate a violation of?",
+    "options": [
+      { "id": "a", "text": "The pipeline is running too slowly", "misconception_tag": "misattributes_issue_to_performance" },
+      { "id": "b", "text": "Parity between CI/CD environments and production is insufficient — tests pass in a different environment than where the app runs", "misconception_tag": null },
+      { "id": "c", "text": "The version control system has a conflict", "misconception_tag": "misattributes_runtime_crash_to_vcs_conflict" },
+      { "id": "d", "text": "The CI runner does not have enough memory", "misconception_tag": "misattributes_production_crash_to_ci_resources" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "This is an environment parity problem (a violation of the '12-factor app' dev/prod parity principle). Tests passing in CI but the app crashing in production typically means the environments differ: different OS, different environment variables, different dependency versions, different configurations, or different backing services. The CI environment should mirror production as closely as possible."
+  },
+  {
+    "question_id": "cicd_edge_02",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A developer pushes code that breaks the build. The team cannot merge any new PRs until it is fixed. Which CI/CD practice does this scenario highlight the importance of?",
+    "options": [
+      { "id": "a", "text": "Long-lived feature branches to isolate broken code", "misconception_tag": "long_lived_branches_worsen_integration_problems" },
+      { "id": "b", "text": "Treating a broken CI build as the highest priority to fix immediately ('stop the line' culture)", "misconception_tag": null },
+      { "id": "c", "text": "Disabling the build gate to allow other PRs to merge", "misconception_tag": "bypassing_the_gate_propagates_broken_code" },
+      { "id": "d", "text": "Running the pipeline manually instead of on every push", "misconception_tag": "manual_pipelines_reduce_feedback_frequency" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A core CI practice is treating a broken build as a critical issue requiring immediate attention. The broken build blocks everyone, so fixing it is the highest priority — the 'stop the line' principle from lean manufacturing. Disabling gates or avoiding the issue propagates instability across the codebase."
+  },
+  {
+    "question_id": "cicd_edge_03",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "Your pipeline caches `node_modules` keyed on `package-lock.json`. A developer adds a new package but forgets to commit the updated `package-lock.json`. What happens when the pipeline runs?",
+    "options": [
+      { "id": "a", "text": "The pipeline detects the mismatch and automatically runs `npm install`", "misconception_tag": "believes_pipeline_auto_detects_lockfile_mismatch" },
+      { "id": "b", "text": "The stale cache is restored (old `node_modules`), the new package is missing, and the build likely fails", "misconception_tag": null },
+      { "id": "c", "text": "The cache is invalidated because a `package.json` changed even without `package-lock.json` update", "misconception_tag": "cache_key_is_only_on_lockfile_not_package_json_in_this_config" },
+      { "id": "d", "text": "The pipeline skips caching entirely if any file is missing", "misconception_tag": "invents_skip_behavior_on_missing_file" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The cache key is the hash of `package-lock.json`. Since the lockfile wasn't updated, the hash matches the previous cache, which is restored. The new package (present in `package.json` but not in the restored `node_modules`) is missing, causing a runtime import error or build failure. This is a real-world footgun with npm and CI caching."
+  },
+  {
+    "question_id": "cicd_theory_04",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between Continuous Delivery and Continuous Deployment?",
+    "options": [
+      { "id": "a", "text": "They are synonyms used interchangeably in the industry", "misconception_tag": "treats_delivery_and_deployment_as_identical" },
+      { "id": "b", "text": "Continuous Delivery requires a manual approval gate before production; Continuous Deployment automatically pushes every passing build to production without human approval", "misconception_tag": null },
+      { "id": "c", "text": "Continuous Deployment is only for cloud-native applications; Continuous Delivery works everywhere", "misconception_tag": "invents_infrastructure_restriction" },
+      { "id": "d", "text": "Continuous Delivery runs tests; Continuous Deployment skips them for speed", "misconception_tag": "invents_test_skipping_behavior" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Continuous Delivery means every passing build is in a deployable state and CAN be released to production, but the actual release requires a manual trigger or approval. Continuous Deployment removes that manual gate entirely — every commit that passes all automated checks is automatically deployed to production."
+  },
+  {
+    "question_id": "cicd_theory_05",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is a deployment strategy called 'blue-green deployment' and what problem does it solve?",
+    "options": [
+      { "id": "a", "text": "Running two separate CI pipelines for frontend and backend to avoid conflicts", "misconception_tag": "confuses_blue_green_with_dual_pipeline_strategy" },
+      { "id": "b", "text": "Maintaining two identical production environments where traffic is switched from the current (blue) to the new (green) version, enabling instant rollback by switching back", "misconception_tag": null },
+      { "id": "c", "text": "Deploying to production and staging in parallel and comparing outputs", "misconception_tag": "confuses_blue_green_with_canary_or_shadow_deployment" },
+      { "id": "d", "text": "Using two different cloud providers for redundancy in case one fails", "misconception_tag": "confuses_blue_green_with_multi_cloud_redundancy" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Blue-green deployment maintains two identical production environments. The current version runs in 'blue'. The new version is deployed to 'green' while blue stays live. After validation, traffic is switched to green. If issues arise, rollback is instant by switching traffic back to blue. This eliminates downtime and provides a fast rollback path."
+  },
+  {
+    "question_id": "cicd_theory_06",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the purpose of a 'gate' or 'approval step' in a CD pipeline?",
+    "options": [
+      { "id": "a", "text": "To automatically roll back a deployment if tests fail", "misconception_tag": "confuses_gate_with_automatic_rollback" },
+      { "id": "b", "text": "To pause the pipeline and require a human decision or automated quality check before proceeding to the next environment", "misconception_tag": null },
+      { "id": "c", "text": "To merge feature branches into the main branch after review", "misconception_tag": "confuses_gate_with_pull_request_review" },
+      { "id": "d", "text": "To monitor application performance in production after deployment", "misconception_tag": "confuses_gate_with_post_deployment_monitoring" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A gate (or approval step) is a pause point in the pipeline that requires explicit action before proceeding. This can be a human clicking 'approve', a ticket being marked resolved, or an automated quality threshold being met (e.g., test coverage above 80%). Gates are common between staging and production environments."
+  },
+  {
+    "question_id": "cicd_practical_05",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "In a GitHub Actions workflow, you have a `deploy` job that should only run after both `test-unit` and `test-integration` jobs pass. How do you configure this?",
+    "options": [
+      { "id": "a", "text": "List `test-unit` and `test-integration` sequentially before `deploy` in the YAML file", "misconception_tag": "yaml_order_does_not_imply_dependency" },
+      { "id": "b", "text": "Use `needs: [test-unit, test-integration]` in the `deploy` job definition", "misconception_tag": null },
+      { "id": "c", "text": "Use `depends: [test-unit, test-integration]` in the `deploy` job definition", "misconception_tag": "uses_gitlab_ci_keyword_in_github_actions" },
+      { "id": "d", "text": "Add `if: success()` to the deploy job", "misconception_tag": "success_condition_alone_does_not_establish_dependency" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In GitHub Actions, the `needs` keyword creates an explicit job dependency. The `deploy` job with `needs: [test-unit, test-integration]` will only start after BOTH listed jobs complete successfully. YAML file order does not control execution order — `needs` does. `depends` is GitLab CI syntax."
+  },
+  {
+    "question_id": "cicd_practical_06",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You want your GitLab CI pipeline to run a `security-scan` job only on merge requests targeting the `main` branch, not on regular pushes. How do you configure this?",
+    "options": [
+      { "id": "a", "text": "Use `only: merge_requests` without branch filtering", "misconception_tag": "runs_on_all_merge_requests_not_just_main_targeting" },
+      { "id": "b", "text": "Use `rules: - if: '$CI_PIPELINE_SOURCE == \"merge_request_event\" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == \"main\"'`", "misconception_tag": null },
+      { "id": "c", "text": "Use `when: merge_request_main`", "misconception_tag": "invents_nonexistent_when_value" },
+      { "id": "d", "text": "Use `only: [main]` on the job", "misconception_tag": "only_main_runs_on_pushes_to_main_not_MRs_targeting_main" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "GitLab CI's `rules` keyword with predefined variables gives fine-grained control. `$CI_PIPELINE_SOURCE == 'merge_request_event'` ensures the job only runs in MR pipelines, and `$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == 'main'` further filters to only MRs targeting `main`. Using `only: [main]` would run on direct pushes to main, not on MRs."
+  },
+  {
+    "question_id": "cicd_practical_07",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Your pipeline builds a Docker image and needs to push it to a registry and then use the same image tag in the deploy job. How do you reliably share the image tag between jobs in GitHub Actions?",
+    "options": [
+      { "id": "a", "text": "Hardcode the image tag in both jobs", "misconception_tag": "hardcoded_tags_lead_to_stale_or_incorrect_references" },
+      { "id": "b", "text": "Use job outputs: set the tag as a step output in the build job and reference it via `needs.<job>.outputs.<name>` in the deploy job", "misconception_tag": null },
+      { "id": "c", "text": "Write the tag to a file and use `actions/upload-artifact` to share it", "misconception_tag": "valid_but_more_complex_than_job_outputs_for_simple_values" },
+      { "id": "d", "text": "Set it as a global environment variable at the workflow level before any jobs run", "misconception_tag": "workflow_level_env_cannot_be_computed_dynamically_from_job_steps" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "GitHub Actions job outputs allow passing values between jobs. In the build job, a step sets `echo 'IMAGE_TAG=...' >> $GITHUB_OUTPUT`. The build job declares it as an output. The deploy job references it via `needs.build.outputs.IMAGE_TAG`. This is clean, type-safe, and purpose-built for inter-job data sharing."
+  },
+  {
+    "question_id": "cicd_practical_08",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A deployment to production fails midway. Your database migration ran successfully but the new application containers failed to start. What deployment technique would have prevented partial state?",
+    "options": [
+      { "id": "a", "text": "Running the migration and deployment in parallel", "misconception_tag": "parallel_execution_worsens_partial_state_risk" },
+      { "id": "b", "text": "Using database transaction rollback as a deployment step", "misconception_tag": "db_transactions_work_within_single_db_connections_not_across_deployment_steps" },
+      { "id": "c", "text": "Making migrations backward-compatible so the old app version can still run against the new schema, enabling rollback of the app without rolling back the migration", "misconception_tag": null },
+      { "id": "d", "text": "Disabling migrations in the CI/CD pipeline entirely", "misconception_tag": "avoidance_is_not_a_deployment_technique" }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Backward-compatible (or 'expand and contract') migrations allow both the old and new application versions to work with the same database schema. If the new app fails to start, the old version can be kept running without rolling back the migration. This is the standard safe deployment pattern for databases in continuous delivery."
+  },
+  {
+    "question_id": "cicd_edge_04",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You cache `node_modules` in your CI pipeline. After updating a package to fix a security vulnerability, the pipeline still uses the old vulnerable version. Why?",
+    "options": [
+      { "id": "a", "text": "The CI runner has a firewall blocking the npm registry", "misconception_tag": "misattributes_issue_to_network_block" },
+      { "id": "b", "text": "The cache key did not change because `package-lock.json` was not updated or committed, so the stale cache is restored", "misconception_tag": null },
+      { "id": "c", "text": "npm always installs the version specified in package.json, ignoring the cache", "misconception_tag": "misunderstands_how_ci_caching_works_with_npm" },
+      { "id": "d", "text": "The pipeline needs to be manually triggered to pick up security updates", "misconception_tag": "manual_trigger_does_not_bypass_incorrect_cache_logic" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The cache key is typically a hash of `package-lock.json`. If the developer ran `npm update` or `npm install <package>` locally but forgot to commit the updated `package-lock.json`, the hash in CI remains the same. The old cached `node_modules` is restored, and the vulnerable version persists. Always commit both `package.json` and `package-lock.json` together."
+  },
+  {
+    "question_id": "cicd_edge_05",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "Your pipeline runs integration tests that require a real database. Tests occasionally fail non-deterministically. What is the most likely root cause and best fix?",
+    "options": [
+      { "id": "a", "text": "The CI machine is too slow; upgrade to a faster runner", "misconception_tag": "misattributes_flakiness_to_hardware_performance" },
+      { "id": "b", "text": "Tests share state (e.g., database rows) between test runs, causing ordering-dependent failures; each test should set up and tear down its own isolated data", "misconception_tag": null },
+      { "id": "c", "text": "Integration tests should be replaced with unit tests that mock the database", "misconception_tag": "avoidance_rather_than_fix_and_mocks_reduce_integration_coverage" },
+      { "id": "d", "text": "The database version in CI does not match production; upgrade CI database", "misconception_tag": "version_mismatch_causes_consistent_failures_not_flaky_ones" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Non-deterministic test failures in integration tests almost always indicate test isolation problems. Tests that leave data behind (or depend on initial data) cause other tests to behave differently depending on execution order. The fix is transactional test isolation (roll back after each test), truncating tables between tests, or using per-test database schemas."
+  },
+  {
+    "question_id": "cicd_edge_06",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A GitHub Actions workflow has `on: pull_request`. A malicious external contributor opens a PR with a workflow modification that exfiltrates `GITHUB_TOKEN`. Does GitHub Actions execute this modified workflow?",
+    "options": [
+      { "id": "a", "text": "Yes, GitHub runs the modified workflow from the PR head branch immediately", "misconception_tag": "believes_all_pr_workflows_run_without_restriction" },
+      { "id": "b", "text": "No, for first-time contributors GitHub requires a maintainer to approve running workflows from PRs", "misconception_tag": null },
+      { "id": "c", "text": "Yes, but GitHub automatically revokes the GITHUB_TOKEN before the job runs", "misconception_tag": "believes_github_auto_revokes_token_for_external_prs" },
+      { "id": "d", "text": "No, GitHub Actions never runs on pull requests from forks", "misconception_tag": "overstates_restriction_fork_prs_can_run_with_approval" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "GitHub Actions requires approval for first-time contributors (and can be configured to require it for all external contributors). The workflow from the head branch (attacker's fork) is NOT run automatically. A maintainer must review and approve it. `GITHUB_TOKEN` in fork PRs also has read-only permissions by default as an additional safeguard."
+  },
+  {
+    "question_id": "cicd_theory_07",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is 'shift-left security' in the context of CI/CD pipelines?",
+    "options": [
+      { "id": "a", "text": "Moving security checks to the left side of the YAML file for visual clarity", "misconception_tag": "interprets_left_as_literal_yaml_position" },
+      { "id": "b", "text": "Integrating security testing (SAST, dependency scanning, secret detection) early in the pipeline so vulnerabilities are caught at commit or PR time rather than post-deployment", "misconception_tag": null },
+      { "id": "c", "text": "Restricting who can push code to the left (main) branch", "misconception_tag": "confuses_shift_left_with_branch_protection" },
+      { "id": "d", "text": "Running security audits after every production deployment", "misconception_tag": "post_deployment_audits_are_shift_right_not_shift_left" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Shift-left security means moving security concerns earlier in the development lifecycle — to the left on the traditional timeline from development to production. By running SAST, dependency vulnerability scans, and secret detection in CI pipelines at PR time, teams catch and fix vulnerabilities before they reach production, where they are far more costly to remediate."
+  },
+  {
+    "question_id": "cicd_theory_08",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is a 'canary deployment' and how does it reduce deployment risk compared to a full release?",
+    "options": [
+      { "id": "a", "text": "It deploys the new version only to a canary (staging) environment and never to production until manually promoted", "misconception_tag": "confuses_canary_with_standard_staging_flow" },
+      { "id": "b", "text": "It rolls out the new version to a small percentage of production traffic first, monitors for errors, and gradually increases the percentage if healthy", "misconception_tag": null },
+      { "id": "c", "text": "It runs two versions of the application simultaneously and takes the average of their responses", "misconception_tag": "confuses_canary_with_shadow_or_parallel_deployment" },
+      { "id": "d", "text": "It deploys to production during off-peak hours to limit blast radius", "misconception_tag": "confuses_time_based_deployment_with_traffic_based_canary" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Canary deployment routes a small percentage of real production traffic (e.g., 1-5%) to the new version while the majority still goes to the stable version. If error rates, latency, or business metrics degrade for the canary traffic, the rollout is halted and the canary is removed before most users are impacted. Blast radius is limited to a fraction of users."
+  },
+  {
+    "question_id": "cicd_theory_09",
+    "skill_id": "cicd",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the 'DORA metrics' framework and which four metrics does it track?",
+    "options": [
+      { "id": "a", "text": "A Docker orchestration reporting system tracking CPU, memory, network, and disk usage", "misconception_tag": "confuses_dora_with_container_metrics" },
+      { "id": "b", "text": "A software delivery performance framework tracking: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Time to Restore Service", "misconception_tag": null },
+      { "id": "c", "text": "A CI/CD pipeline quality framework tracking: build time, test coverage, code complexity, and pipeline cost", "misconception_tag": "confuses_dora_with_pipeline_quality_metrics" },
+      { "id": "d", "text": "A security compliance framework tracking: vulnerability count, patch frequency, incident rate, and audit score", "misconception_tag": "confuses_dora_with_security_compliance_metrics" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "DORA (DevOps Research and Assessment) metrics are four key measures of software delivery performance: Deployment Frequency (how often you deploy to production), Lead Time for Changes (time from commit to production), Change Failure Rate (percentage of deployments causing incidents), and Time to Restore Service (how quickly you recover from failures)."
+  },
+  {
+    "question_id": "cicd_practical_09",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need a GitHub Actions workflow that runs a matrix of tests across Node.js versions 16, 18, and 20. How do you configure this without duplicating jobs?",
+    "options": [
+      { "id": "a", "text": "Create three separate identical jobs with different `node-version` env vars", "misconception_tag": "duplicates_jobs_instead_of_using_matrix" },
+      { "id": "b", "text": "Use `strategy: matrix: node-version: [16, 18, 20]` in the job and reference `${{ matrix.node-version }}` in the setup step", "misconception_tag": null },
+      { "id": "c", "text": "Use `parallel: [16, 18, 20]` in the job definition", "misconception_tag": "invents_nonexistent_parallel_keyword" },
+      { "id": "d", "text": "Use `foreach: node-version` with a separate versions file", "misconception_tag": "invents_nonexistent_foreach_syntax" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "GitHub Actions matrix strategy automatically creates N job instances from a list of values. `strategy: matrix: node-version: [16, 18, 20]` creates three parallel jobs. Each accesses its specific value via `${{ matrix.node-version }}`, which is passed to `actions/setup-node`. This is DRY, parallel, and easy to extend."
+  },
+  {
+    "question_id": "cicd_practical_10",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You want to implement infrastructure-as-code deployments in your pipeline where Terraform plans are shown in PR comments and only applied after approval. What is the correct pipeline design?",
+    "options": [
+      { "id": "a", "text": "Run `terraform apply` on every push to any branch and revert if the PR is rejected", "misconception_tag": "applies_infrastructure_changes_before_review" },
+      { "id": "b", "text": "On PR: run `terraform plan` and post output as a PR comment. On merge to main: run `terraform apply` after a manual approval gate", "misconception_tag": null },
+      { "id": "c", "text": "Run `terraform validate` only; let engineers apply manually from their laptops", "misconception_tag": "manual_applies_bypass_pipeline_control_and_auditability" },
+      { "id": "d", "text": "Run `terraform plan` and `terraform apply` in the same job with `--auto-approve` to avoid manual steps", "misconception_tag": "auto_approve_skips_human_review_of_dangerous_infrastructure_changes" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The safe IaC pipeline pattern is: plan on PR (so reviewers can see what will change), post the plan as a PR comment for visibility, and apply only after the PR is merged to the protected main branch, ideally with an additional approval gate. `--auto-approve` without human review of infrastructure changes is dangerous in production pipelines."
+  },
+  {
+    "question_id": "cicd_practical_11",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "Your team uses GitOps for Kubernetes deployments. A pipeline builds and pushes a Docker image. What is the correct GitOps next step to trigger a cluster update?",
+    "options": [
+      { "id": "a", "text": "Run `kubectl apply` directly from the CI pipeline with cluster credentials", "misconception_tag": "imperative_kubectl_bypasses_gitops_reconciliation" },
+      { "id": "b", "text": "Update the image tag reference in the GitOps repository (e.g., Helm values or Kustomize overlay), commit it, and let the GitOps operator (ArgoCD/Flux) detect the change and reconcile the cluster", "misconception_tag": null },
+      { "id": "c", "text": "Restart the cluster nodes so they pull the latest image from the registry", "misconception_tag": "nodes_do_not_auto_pull_new_images_on_restart" },
+      { "id": "d", "text": "Push the image tag to the cluster using `docker push` with `--target cluster`", "misconception_tag": "invents_nonexistent_docker_push_flag" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In GitOps, the Git repository is the single source of truth for cluster state. After building a new image, the CI pipeline commits the new image tag to the GitOps config repo. ArgoCD or Flux continuously watches the repo, detects the tag change, and reconciles the cluster to match the desired state. Direct `kubectl apply` from CI bypasses the Git audit trail and reconciliation loop."
+  },
+  {
+    "question_id": "cicd_practical_12",
+    "skill_id": "cicd",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to run a pipeline step that requires access to a cloud provider (AWS) using OIDC federation instead of long-lived access keys. What is the security advantage and how does this work in GitHub Actions?",
+    "options": [
+      { "id": "a", "text": "OIDC requires storing the secret in an encrypted vault, which is more secure than environment variables", "misconception_tag": "confuses_oidc_federation_with_vault_integration" },
+      { "id": "b", "text": "GitHub Actions requests a short-lived token from the OIDC provider for each job run; AWS validates the token and issues temporary credentials, eliminating long-lived secrets", "misconception_tag": null },
+      { "id": "c", "text": "OIDC stores AWS credentials in the GitHub repository settings as a read-only secret", "misconception_tag": "describes_traditional_secret_approach_not_oidc" },
+      { "id": "d", "text": "OIDC encrypts the access key at rest so it cannot be stolen from logs", "misconception_tag": "believes_oidc_is_just_encryption_for_existing_keys" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With OIDC federation, GitHub Actions requests a short-lived JWT from GitHub's OIDC provider at job start. AWS is configured to trust this OIDC provider. The pipeline exchanges the JWT for temporary AWS credentials (via `AssumeRoleWithWebIdentity`). These credentials expire automatically and no long-lived access keys need to be stored in GitHub Secrets, eliminating the risk of key leakage or theft."
+  },
+  {
+    "question_id": "cicd_edge_07",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Your pipeline builds and tags Docker images with the Git commit SHA. A deploy job references this tag. Six months later, a build fails because the image is no longer in the registry. What architectural decision caused this and how should it be prevented?",
+    "options": [
+      { "id": "a", "text": "SHA-based tags are too long; use semantic version tags instead", "misconception_tag": "tag_length_is_not_the_problem" },
+      { "id": "b", "text": "The registry has an image retention policy that deleted old images; production-deployed image tags should be protected from deletion policies", "misconception_tag": null },
+      { "id": "c", "text": "Docker images expire after 180 days by default", "misconception_tag": "invents_nonexistent_docker_expiry_default" },
+      { "id": "d", "text": "The pipeline should rebuild the image from source before every deployment", "misconception_tag": "rebuilding_creates_different_image_defeating_immutable_artifact_purpose" }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Container registries often have lifecycle policies (e.g., 'delete images not pulled in 90 days' or 'keep only the last 50 tags') to save storage costs. If a deployed image tag is deleted, rollback or re-deployment fails. Production-deployed images should be explicitly protected with retention policy exceptions or copied to a separate long-lived registry to prevent unexpected deletion."
+  },
+  {
+    "question_id": "cicd_edge_08",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Two developers simultaneously open PRs that both modify a shared database migration file. Both pipelines pass. PR-A is merged first. When PR-B is merged, it breaks production. Why?",
+    "options": [
+      { "id": "a", "text": "The CI pipeline did not run on PR-B after PR-A was merged, so the conflict was not detected before merge", "misconception_tag": null },
+      { "id": "b", "text": "Database migrations automatically conflict when two developers modify them", "misconception_tag": "migrations_only_conflict_if_not_rebased_and_re_tested" },
+      { "id": "c", "text": "The CI environment did not have a database configured", "misconception_tag": "if_env_was_missing_both_prs_would_have_failed" },
+      { "id": "d", "text": "The merge broke git history integrity", "misconception_tag": "git_history_integrity_is_unrelated_to_migration_logic" }
+    ],
+    "correct_option_id": "a",
+    "explanation": "PR-B's pipeline ran against its own base branch before PR-A was merged. After PR-A merges, PR-B's branch is now outdated — it hasn't incorporated PR-A's migration changes. The CI pipeline passed in isolation but the combined state was never tested. The fix is to require PRs to be up-to-date with main before merging (branch protection) and re-run CI after the update."
+  },
+  {
+    "question_id": "cicd_edge_09",
+    "skill_id": "cicd",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Your pipeline uses a reusable workflow that is defined in a central shared repository. A team updates the shared workflow to fix a critical bug. Which teams automatically benefit from the fix without any changes on their end?",
+    "options": [
+      { "id": "a", "text": "All teams that reference the workflow with a floating reference like `@main` or `@latest`", "misconception_tag": null },
+      { "id": "b", "text": "All teams regardless of how they reference the workflow", "misconception_tag": "pinned_sha_references_do_not_auto_update" },
+      { "id": "c", "text": "No teams; all reusable workflows must be manually updated in every caller", "misconception_tag": "overstates_restriction_floating_refs_do_auto_update" },
+      { "id": "d", "text": "Only teams that have write access to the central repository", "misconception_tag": "access_controls_are_unrelated_to_automatic_workflow_updates" }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Teams referencing the reusable workflow with a floating reference like `@main` or `@v2` (a mutable tag) automatically use the updated version on their next pipeline run. Teams that pinned to a specific commit SHA (e.g., `@abc1234`) will NOT automatically pick up the fix — they must update their reference explicitly. This is the security vs. convenience tradeoff of pinned vs. floating references."
+  }
+]

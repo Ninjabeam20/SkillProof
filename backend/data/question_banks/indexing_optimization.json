@@ -1,0 +1,898 @@
+[
+  {
+    "question_id": "indexing_optimization_theory_01",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the primary data structure used by most relational databases for B-Tree indexes, and what property makes it efficient for range queries?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Hash table \u2014 O(1) lookup makes range queries fast",
+        "misconception_tag": "confuses_hash_with_btree"
+      },
+      {
+        "id": "b",
+        "text": "Balanced tree \u2014 sorted order allows range scans by traversing leaf nodes sequentially"
+      },
+      {
+        "id": "c",
+        "text": "Linked list \u2014 sequential traversal enables range scans",
+        "misconception_tag": "confuses_linked_list_with_btree_leaves"
+      },
+      {
+        "id": "d",
+        "text": "Bitmap \u2014 bit comparisons enable fast range filtering",
+        "misconception_tag": "confuses_bitmap_index_with_btree"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "B-Tree indexes maintain sorted order across balanced tree nodes, with all values stored in leaf nodes that are linked sequentially. This structure supports both point lookups (O(log n)) and range scans (traverse from start to end of range along leaf nodes) efficiently."
+  },
+  {
+    "question_id": "indexing_optimization_theory_02",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is index selectivity and why does it matter for query performance?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Selectivity is the number of rows an index covers; more rows means higher selectivity and better performance",
+        "misconception_tag": "confuses_coverage_with_selectivity"
+      },
+      {
+        "id": "b",
+        "text": "Selectivity is the ratio of distinct values to total rows; higher selectivity means fewer rows per value, making the index more useful"
+      },
+      {
+        "id": "c",
+        "text": "Selectivity is how quickly an index can be built; it has no effect on query performance",
+        "misconception_tag": "confuses_build_time_with_query_efficiency"
+      },
+      {
+        "id": "d",
+        "text": "Selectivity measures index size on disk; smaller indexes are more selective",
+        "misconception_tag": "confuses_size_with_selectivity"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Selectivity = distinct values / total rows. High selectivity (close to 1.0) means each indexed value maps to few rows, making the index very discriminating. A column like 'gender' with 2 values has low selectivity and is rarely useful as a standalone index. The query optimizer uses selectivity to decide whether to use an index or perform a table scan."
+  },
+  {
+    "question_id": "indexing_optimization_theory_03",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is a covering index?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An index that covers all rows in a table, ensuring no row is excluded from index scans",
+        "misconception_tag": "confuses_covering_with_full_table_index"
+      },
+      {
+        "id": "b",
+        "text": "An index that contains all columns needed to satisfy a query, eliminating the need to access the base table"
+      },
+      {
+        "id": "c",
+        "text": "An index that automatically covers foreign key relationships",
+        "misconception_tag": "confuses_covering_index_with_foreign_key_index"
+      },
+      {
+        "id": "d",
+        "text": "An index that spans multiple tables via joins",
+        "misconception_tag": "no_such_cross_table_index_type"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A covering index includes all columns referenced by a query (in SELECT, WHERE, ORDER BY, etc.), allowing the database to serve the query entirely from the index without a heap/table lookup. This eliminates expensive random I/O to the base table and can dramatically improve performance."
+  },
+  {
+    "question_id": "indexing_optimization_practical_01",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A query runs: SELECT * FROM users WHERE email = 'user@example.com'; The table has 1 million rows and no index on email. The DBA adds an index on (email). What type of scan will the database likely use after adding the index?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Sequential scan (full table scan), because SELECT * requires all columns",
+        "misconception_tag": "assumes_select_star_prevents_index_use"
+      },
+      {
+        "id": "b",
+        "text": "Index seek on email, followed by a table/heap fetch for remaining columns"
+      },
+      {
+        "id": "c",
+        "text": "Index-only scan, because email is the only filtered column",
+        "misconception_tag": "confuses_index_seek_with_index_only_scan"
+      },
+      {
+        "id": "d",
+        "text": "Bitmap index scan regardless of cardinality",
+        "misconception_tag": "assumes_bitmap_scan_for_all_indexed_queries"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With an index on email and a highly selective equality condition, the database performs an index seek to find the matching entry, then follows the row pointer to fetch all columns from the heap/table (since SELECT * requires columns not in the index). An index-only scan would only be possible if all required columns were in the index."
+  },
+  {
+    "question_id": "indexing_optimization_practical_02",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You have a composite index on (last_name, first_name). Which query can use this index effectively?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT * FROM employees WHERE first_name = 'John';",
+        "misconception_tag": "skips_leading_column_in_composite_index"
+      },
+      {
+        "id": "b",
+        "text": "SELECT * FROM employees WHERE last_name = 'Smith';"
+      },
+      {
+        "id": "c",
+        "text": "SELECT * FROM employees WHERE first_name = 'John' AND last_name = 'Smith';",
+        "misconception_tag": "both_columns_but_wrong_order_in_where"
+      },
+      {
+        "id": "d",
+        "text": "Both B and C"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "A composite index on (last_name, first_name) can be used for: (1) queries filtering only on last_name (leading column), and (2) queries filtering on both last_name and first_name. A query filtering only on first_name cannot use this index effectively because the index is ordered by last_name first. Option B and C both use the leading column, so D is correct."
+  },
+  {
+    "question_id": "indexing_optimization_practical_03",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A table has an index on the 'age' column. Which condition will cause the optimizer to likely skip the index and perform a full table scan?",
+    "options": [
+      {
+        "id": "a",
+        "text": "WHERE age = 30"
+      },
+      {
+        "id": "b",
+        "text": "WHERE age BETWEEN 25 AND 35"
+      },
+      {
+        "id": "c",
+        "text": "WHERE age > 18",
+        "misconception_tag": "range_scan_may_skip_index_if_low_selectivity"
+      },
+      {
+        "id": "d",
+        "text": "WHERE YEAR(CURRENT_DATE) - age > 18",
+        "misconception_tag": "function_on_column_prevents_index_usage"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "Applying a function to an indexed column (YEAR(CURRENT_DATE) - age) prevents the optimizer from using the index because the index is built on raw 'age' values, not on computed expressions. Without a function-based index, the database must evaluate the expression for every row. Options A, B, and C can use the index."
+  },
+  {
+    "question_id": "indexing_optimization_practical_04",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A table 'orders' is frequently queried as: SELECT * FROM orders WHERE status = 'pending' ORDER BY created_at ASC; Status has only 3 values: pending, completed, cancelled. Should you create an index on (status)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, any indexed column improves query performance",
+        "misconception_tag": "assumes_all_indexes_always_help"
+      },
+      {
+        "id": "b",
+        "text": "No, status has low selectivity; the optimizer will likely prefer a full table scan for large result sets"
+      },
+      {
+        "id": "c",
+        "text": "Yes, but only if combined with ORDER BY in the index definition",
+        "misconception_tag": "partially_correct_but_misses_selectivity_root_cause"
+      },
+      {
+        "id": "d",
+        "text": "No, because ORDER BY prevents index usage entirely",
+        "misconception_tag": "assumes_order_by_blocks_index"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With only 3 distinct values and a substantial portion of rows likely being 'pending', the index has low selectivity. The optimizer may prefer a full table scan over random I/O through a low-selectivity index. A composite index on (status, created_at) would be more useful and could also serve the ORDER BY."
+  },
+  {
+    "question_id": "indexing_optimization_edge_01",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "An index exists on column 'name'. The query is: SELECT * FROM users WHERE name LIKE '%smith'; Will the index be used?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, LIKE always uses available indexes",
+        "misconception_tag": "assumes_like_always_uses_index"
+      },
+      {
+        "id": "b",
+        "text": "No, a leading wildcard (%) prevents B-Tree index usage because the prefix is unknown"
+      },
+      {
+        "id": "c",
+        "text": "Yes, but only for case-insensitive collations",
+        "misconception_tag": "introduces_irrelevant_collation_condition"
+      },
+      {
+        "id": "d",
+        "text": "Yes, if the index is a hash index",
+        "misconception_tag": "confuses_hash_index_with_btree_for_like"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "B-Tree indexes are ordered by value prefix. A trailing wildcard (name LIKE 'smith%') can use the index by scanning from the 'smith' prefix. A leading wildcard ('%smith') requires checking every value, making an index scan no better than a table scan. Full-text indexes are the appropriate solution for suffix or substring searches."
+  },
+  {
+    "question_id": "indexing_optimization_edge_02",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You drop an index to improve write performance. What unexpected side effect might occur even though the queries you tested all ran faster?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No side effects; faster writes always improve overall application performance",
+        "misconception_tag": "assumes_write_speed_is_only_metric"
+      },
+      {
+        "id": "b",
+        "text": "Queries not in your test suite that relied on the index may now run significantly slower, including foreign key checks"
+      },
+      {
+        "id": "c",
+        "text": "The database will automatically recreate the index after a restart",
+        "misconception_tag": "assumes_automatic_index_recreation"
+      },
+      {
+        "id": "d",
+        "text": "Write performance will revert to original speed after the buffer cache warms up",
+        "misconception_tag": "confuses_cache_warmup_with_index_impact"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Indexes serve multiple purposes beyond the queries you tested: foreign key constraint checks, ORDER BY optimization, JOIN optimizations, and queries from other application paths. Dropping an index without profiling all dependent query paths risks hidden regressions. In some databases, dropping an index on a foreign key column makes FK checks perform full scans."
+  },
+  {
+    "question_id": "indexing_optimization_edge_03",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A table has an index on (col_a, col_b). You query: SELECT col_a, col_b FROM t WHERE col_b = 5; Can the optimizer use the index?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, using an index seek directly on col_b",
+        "misconception_tag": "skips_leading_column_rule"
+      },
+      {
+        "id": "b",
+        "text": "No, col_b is not the leading column so the index cannot be seeked; a full table scan occurs"
+      },
+      {
+        "id": "c",
+        "text": "Yes, using an index scan (full index scan) since both queried columns are in the index"
+      },
+      {
+        "id": "d",
+        "text": "No, because composite indexes cannot be used for single-column queries",
+        "misconception_tag": "over-restricts_composite_index_usage"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "While the optimizer cannot perform an index seek (because col_b is not the leading key), it can still do an index scan \u2014 scanning the entire index to find rows where col_b = 5. This is cheaper than a table scan because the index only contains col_a and col_b, making it a covering index scan. The optimizer may choose this over a heap scan."
+  },
+  {
+    "question_id": "indexing_optimization_theory_04",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is index cardinality and how does the query optimizer use it during query planning?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Cardinality is the number of indexes on a table; more indexes increases cardinality and query speed",
+        "misconception_tag": "confuses_index_count_with_cardinality"
+      },
+      {
+        "id": "b",
+        "text": "Cardinality is the number of distinct values in an indexed column; the optimizer uses it to estimate result set size and choose between index scan and table scan"
+      },
+      {
+        "id": "c",
+        "text": "Cardinality is the physical size of an index in bytes; larger indexes have higher cardinality and are always preferred",
+        "misconception_tag": "confuses_physical_size_with_cardinality"
+      },
+      {
+        "id": "d",
+        "text": "Cardinality is updated in real-time as rows are inserted; it always reflects exact current values",
+        "misconception_tag": "assumes_real_time_statistics_update"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Cardinality = number of distinct values in a column. The optimizer uses statistics (which include cardinality) to estimate how many rows will match a predicate. High cardinality \u2192 few rows per value \u2192 index scan is efficient. Low cardinality \u2192 many rows per value \u2192 table scan may be cheaper. Statistics are typically updated periodically, not in real-time."
+  },
+  {
+    "question_id": "indexing_optimization_theory_05",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between a clustered index and a non-clustered index?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A clustered index stores data in memory; a non-clustered index stores data on disk",
+        "misconception_tag": "confuses_storage_medium_with_index_type"
+      },
+      {
+        "id": "b",
+        "text": "A clustered index defines the physical order of data rows in the table; a non-clustered index is a separate structure with pointers to the actual rows"
+      },
+      {
+        "id": "c",
+        "text": "A clustered index can only be on the primary key; a non-clustered index can be on any column",
+        "misconception_tag": "restricts_clustered_index_to_primary_key_only"
+      },
+      {
+        "id": "d",
+        "text": "A clustered index is always faster than a non-clustered index for all query types",
+        "misconception_tag": "assumes_clustered_always_faster"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A clustered index determines the physical storage order of the table rows \u2014 there can only be one per table. A non-clustered index is a separate B-Tree structure containing the index key and a row locator (pointer). While clustered indexes eliminate the extra lookup step, non-clustered covering indexes can outperform clustered indexes for certain queries."
+  },
+  {
+    "question_id": "indexing_optimization_theory_06",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is index fragmentation and what are the two main types?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Index fragmentation is the splitting of indexes across multiple disk files; internal and external fragmentation",
+        "misconception_tag": "confuses_file_fragmentation_with_index_fragmentation"
+      },
+      {
+        "id": "b",
+        "text": "Index fragmentation is when index pages are partially full (internal) or pages are out of logical order (external/logical); both degrade scan performance"
+      },
+      {
+        "id": "c",
+        "text": "Index fragmentation occurs when two indexes share the same columns; it always requires dropping one index",
+        "misconception_tag": "confuses_redundant_indexes_with_fragmentation"
+      },
+      {
+        "id": "d",
+        "text": "Index fragmentation is a read-only concern; writes are never affected",
+        "misconception_tag": "ignores_write_overhead_from_fragmentation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Internal fragmentation occurs when index pages are not fully utilized (many partially-filled pages, wasting space and I/O). External (logical) fragmentation occurs when the logical order of pages differs from their physical order, degrading sequential scan performance. Both are caused by INSERT/UPDATE/DELETE operations and are addressed by REBUILD or REORGANIZE operations."
+  },
+  {
+    "question_id": "indexing_optimization_practical_05",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A slow query is: SELECT id, email, created_at FROM users WHERE status = 'active' ORDER BY created_at DESC LIMIT 50; The table has 5 million rows, 80% of which are 'active'. What index would best optimize this query?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Index on (status)",
+        "misconception_tag": "ignores_sort_and_low_selectivity"
+      },
+      {
+        "id": "b",
+        "text": "Index on (created_at DESC)",
+        "misconception_tag": "ignores_status_filter"
+      },
+      {
+        "id": "c",
+        "text": "Composite index on (status, created_at DESC) INCLUDE (id, email)",
+        "misconception_tag": "include_columns_not_supported_in_all_databases"
+      },
+      {
+        "id": "d",
+        "text": "Composite index on (status, created_at DESC) \u2014 with id and email added if the database supports INCLUDE columns"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "Since 80% of rows are 'active' (low selectivity), the optimizer may still table scan. The ideal index is (status, created_at DESC) to filter by status and then use the sorted order to avoid a sort operation. Adding id and email as included (non-key) columns creates a covering index, eliminating the table lookup. The exact syntax for INCLUDE varies by database."
+  },
+  {
+    "question_id": "indexing_optimization_practical_06",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "After adding an index on 'orders.customer_id', INSERT performance degraded. Why, and what is the trade-off?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Indexes lock the table during reads, blocking concurrent inserts",
+        "misconception_tag": "confuses_index_lock_behavior"
+      },
+      {
+        "id": "b",
+        "text": "Every INSERT must also update the index structure (B-Tree insertion, possible page splits), adding write overhead"
+      },
+      {
+        "id": "c",
+        "text": "The index doubled the table size, causing I/O contention during inserts",
+        "misconception_tag": "overstates_size_impact_as_primary_cause"
+      },
+      {
+        "id": "d",
+        "text": "Indexes are rebuilt from scratch on every INSERT, causing O(n) overhead",
+        "misconception_tag": "assumes_full_rebuild_per_insert"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Every DML operation (INSERT, UPDATE, DELETE) must maintain all associated indexes. For B-Tree indexes, each insert requires finding the correct position, inserting an entry, and potentially triggering page splits. With many indexes, write performance degrades proportionally. The trade-off is read performance (faster SELECTs) vs. write overhead (slower INSERTs/UPDATEs/DELETEs)."
+  },
+  {
+    "question_id": "indexing_optimization_practical_07",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You are designing an index for: SELECT * FROM logs WHERE tenant_id = 5 AND log_level IN ('ERROR', 'WARN') AND created_at > NOW() - INTERVAL '7 days'; Which column should be the leading column of the composite index?",
+    "options": [
+      {
+        "id": "a",
+        "text": "created_at, because range queries benefit from being last in a composite index",
+        "misconception_tag": "correct_principle_wrong_column_order"
+      },
+      {
+        "id": "b",
+        "text": "log_level, because it has the highest discriminating power between ERROR and WARN",
+        "misconception_tag": "ignores_equality_vs_range_column_order_rule"
+      },
+      {
+        "id": "c",
+        "text": "tenant_id, because it is an equality predicate and should come before range predicates in a composite index"
+      },
+      {
+        "id": "d",
+        "text": "All three columns should be equally distributed in the index to balance the workload",
+        "misconception_tag": "misunderstands_composite_index_ordering"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "The rule for composite indexes: equality predicates (=, IN) should come before range predicates (>, <, BETWEEN) in the column order. tenant_id = 5 is an equality filter and should be the leading column. log_level IN ('ERROR','WARN') is also effectively equality and comes next. created_at (range) comes last. This maximizes index selectivity on each segment."
+  },
+  {
+    "question_id": "indexing_optimization_practical_08",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A table has both a clustered index on primary key (id) and a non-clustered index on (email). When fetching a row by email, how many I/O lookups does the database typically perform?",
+    "options": [
+      {
+        "id": "a",
+        "text": "One \u2014 the non-clustered index directly contains the full row",
+        "misconception_tag": "assumes_non_clustered_has_full_row"
+      },
+      {
+        "id": "b",
+        "text": "Two \u2014 one to find the clustered key in the non-clustered index, one to fetch the row from the clustered index"
+      },
+      {
+        "id": "c",
+        "text": "Three \u2014 one for non-clustered seek, one for clustered seek, one for data page read",
+        "misconception_tag": "overcounts_lookup_steps"
+      },
+      {
+        "id": "d",
+        "text": "Zero \u2014 indexes are cached in memory and require no I/O",
+        "misconception_tag": "conflates_cache_behavior_with_logical_operations"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In a table with a clustered index, non-clustered indexes store the clustering key (not a physical row pointer) as the row locator. Fetching by email involves: (1) seek into the non-clustered index to find the clustered key (id), then (2) seek into the clustered index using that id to retrieve the full row. This is called a key lookup or bookmark lookup."
+  },
+  {
+    "question_id": "indexing_optimization_edge_04",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "Statistics on a table were last updated 3 months ago. The column 'status' had 90% 'active' rows then, but now 90% are 'archived'. What will likely happen when the optimizer runs a query filtering on status = 'active'?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The optimizer detects stale statistics and automatically updates them before planning",
+        "misconception_tag": "assumes_automatic_stats_refresh_pre_query"
+      },
+      {
+        "id": "b",
+        "text": "The optimizer uses the stale statistics, may choose an index seek (expecting few rows), but returns many rows \u2014 causing an inefficient plan"
+      },
+      {
+        "id": "c",
+        "text": "The query fails because stale statistics invalidate index usage",
+        "misconception_tag": "assumes_stale_stats_cause_query_failure"
+      },
+      {
+        "id": "d",
+        "text": "The optimizer always falls back to a full table scan when statistics are stale",
+        "misconception_tag": "assumes_table_scan_fallback_for_stale_stats"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The optimizer trusts its statistics to estimate row counts. With stale data showing 10% 'active' rows (low cardinality), it may plan an index seek expecting a small result set. In reality, status='active' now returns many rows, making a table scan more efficient. This mismatch (row estimate vs. actual) causes a suboptimal plan. Regular ANALYZE/UPDATE STATISTICS prevents this."
+  },
+  {
+    "question_id": "indexing_optimization_edge_05",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You have a partial index: CREATE INDEX idx_pending ON orders(created_at) WHERE status = 'pending'; A query runs: SELECT * FROM orders WHERE status = 'pending' AND created_at > '2024-01-01'; Will this index be used for: SELECT * FROM orders WHERE created_at > '2024-01-01'?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, the partial index covers the created_at filter regardless of the status condition",
+        "misconception_tag": "ignores_partial_index_predicate"
+      },
+      {
+        "id": "b",
+        "text": "No, the partial index only applies to queries that include the status = 'pending' condition"
+      },
+      {
+        "id": "c",
+        "text": "Yes, if created_at is highly selective the optimizer will use it and ignore the status condition",
+        "misconception_tag": "assumes_optimizer_ignores_partial_predicate"
+      },
+      {
+        "id": "d",
+        "text": "Only if the query is run within a transaction",
+        "misconception_tag": "introduces_irrelevant_transaction_condition"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A partial index is only valid for queries whose WHERE clause is compatible with (implies) the index's predicate. The index WHERE status = 'pending' means it only indexes rows where status = 'pending'. A query without that condition might need to return non-pending rows, which are absent from the partial index \u2014 so it cannot be used safely."
+  },
+  {
+    "question_id": "indexing_optimization_edge_06",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "An index exists on (col_a, col_b, col_c). A query filters: WHERE col_a = 1 AND col_c = 3 (skipping col_b). How much of the index can be used?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The full composite index is used for both col_a and col_c",
+        "misconception_tag": "assumes_non_contiguous_index_usage"
+      },
+      {
+        "id": "b",
+        "text": "Only the col_a portion is used for index seek; col_c requires a filter on the index scan or a table lookup"
+      },
+      {
+        "id": "c",
+        "text": "No part of the index is used because col_b is skipped",
+        "misconception_tag": "assumes_full_index_invalidation_on_skip"
+      },
+      {
+        "id": "d",
+        "text": "The index is used in reverse order: col_c first, then col_a",
+        "misconception_tag": "assumes_optimizer_reorders_index_usage"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A composite index can only be seeked contiguously from the leading column. With col_a = 1, the optimizer can seek to col_a entries. But since col_b is not filtered, it cannot further narrow using col_c directly within the index seek. After the col_a seek, it must scan all col_b values and apply col_c as a filter. The index is partially useful but not fully leveraged."
+  },
+  {
+    "question_id": "indexing_optimization_theory_07",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is an Index Skip Scan and under what conditions does the query optimizer choose it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A Skip Scan skips every other index page to speed up range queries on large indexes",
+        "misconception_tag": "confuses_skip_scan_with_page_skipping"
+      },
+      {
+        "id": "b",
+        "text": "A Skip Scan allows the optimizer to use a composite index even when the leading column is not in the query, by logically splitting the index into sub-ranges per leading column value"
+      },
+      {
+        "id": "c",
+        "text": "A Skip Scan is used when LIMIT is specified to skip irrelevant rows early in execution",
+        "misconception_tag": "confuses_skip_scan_with_limit_optimization"
+      },
+      {
+        "id": "d",
+        "text": "A Skip Scan is always slower than a full table scan and is used only as a last resort",
+        "misconception_tag": "incorrectly_characterizes_skip_scan_performance"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Index Skip Scan (supported in Oracle, MySQL 8+, and PostgreSQL) allows a composite index to be used even without the leading column in the WHERE clause. The optimizer probes distinct values of the leading column and performs a sub-range scan for each, effectively simulating multiple seeks. It is efficient when the leading column has few distinct values."
+  },
+  {
+    "question_id": "indexing_optimization_theory_08",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is an index-organized table (IOT) in Oracle or a clustered table in PostgreSQL (heap vs. cluster), and what are the key trade-offs?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An IOT stores data as a regular heap with an additional sorted index copy \u2014 it doubles storage but halves query time",
+        "misconception_tag": "confuses_iot_with_redundant_copy"
+      },
+      {
+        "id": "b",
+        "text": "An IOT stores the entire row within the B-Tree leaf nodes of the primary key index, eliminating the separate heap; fast for primary key lookups but slower for non-key column access patterns"
+      },
+      {
+        "id": "c",
+        "text": "An IOT is identical to a materialized view and is always up-to-date",
+        "misconception_tag": "confuses_iot_with_materialized_view"
+      },
+      {
+        "id": "d",
+        "text": "An IOT clusters rows by insert order, making sequential scans always faster regardless of access pattern",
+        "misconception_tag": "confuses_iot_with_heap_insertion_order"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "An Index-Organized Table (IOT) stores the entire row in the B-Tree leaf, so primary key lookups require no separate heap access. Trade-offs: faster PK lookups, but secondary index lookups require an extra step (secondary index stores the PK, then IOT lookup). Also, wide rows increase B-Tree page splits. IOTs are optimal for workloads dominated by PK access."
+  },
+  {
+    "question_id": "indexing_optimization_theory_09",
+    "skill_id": "indexing_optimization",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is a bitmap index and why is it generally unsuitable for OLTP workloads with high concurrency?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Bitmap indexes use more disk space than B-Tree indexes, making OLTP writes slow due to storage overhead",
+        "misconception_tag": "misidentifies_storage_as_primary_concern"
+      },
+      {
+        "id": "b",
+        "text": "Bitmap indexes store a bit per row per value, enabling efficient AND/OR operations; but updating a single row locks the entire bitmap for that value, causing severe lock contention in concurrent writes"
+      },
+      {
+        "id": "c",
+        "text": "Bitmap indexes cannot be used for equality queries, limiting their use in OLTP",
+        "misconception_tag": "incorrectly_restricts_bitmap_usage"
+      },
+      {
+        "id": "d",
+        "text": "Bitmap indexes require the table to be sorted, preventing concurrent inserts",
+        "misconception_tag": "introduces_false_sorting_requirement"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Bitmap indexes are ideal for low-cardinality columns in read-heavy OLAP workloads because multiple bitmaps can be ANDed/ORed efficiently. However, each bitmap entry covers many rows. When a single row is updated, the entire bitmap for that value must be locked, serializing all concurrent updates to any row sharing that value. This makes them unsuitable for OLTP with frequent DML."
+  },
+  {
+    "question_id": "indexing_optimization_practical_09",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A multi-tenant SaaS application has a table: events(event_id, tenant_id, user_id, event_type, payload JSONB, created_at). The most common queries filter by tenant_id and event_type, occasionally by user_id. 95% of queries from any tenant retrieve the last 24 hours. What is the most operationally effective indexing strategy?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Single index on tenant_id only to partition workload by tenant"
+      },
+      {
+        "id": "b",
+        "text": "Composite index on (tenant_id, event_type, created_at DESC) covering the most selective equality columns first, with created_at DESC to serve recent-data range queries efficiently"
+      },
+      {
+        "id": "c",
+        "text": "Separate indexes on tenant_id, event_type, user_id, and created_at individually to cover all query patterns",
+        "misconception_tag": "over_indexes_with_separate_single_column_indexes"
+      },
+      {
+        "id": "d",
+        "text": "Composite index on (created_at DESC, tenant_id, event_type) to prioritize the recency filter",
+        "misconception_tag": "puts_range_column_before_equality_columns"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Equality predicates (tenant_id, event_type) should come before the range predicate (created_at) in the composite index. This allows seeks on tenant+event_type and then range scans on created_at within that partition. Adding user_id as an optional fourth column or separate index handles the occasional user_id filter without wasting space on the primary index."
+  },
+  {
+    "question_id": "indexing_optimization_practical_10",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You run EXPLAIN ANALYZE on a query and see: 'Index Scan using idx_created_at on orders (cost=0.56..8.58 rows=1 width=200) (actual time=0.052..150.5 rows=50000 loops=1)'. What does this tell you and what should you do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The index is working correctly; the cost estimate is accurate and the query is efficient",
+        "misconception_tag": "ignores_row_estimate_vs_actual_discrepancy"
+      },
+      {
+        "id": "b",
+        "text": "Statistics are severely outdated \u2014 the optimizer expected 1 row but found 50,000, leading to a suboptimal plan; run ANALYZE to update statistics and consider a more selective index"
+      },
+      {
+        "id": "c",
+        "text": "The index should be dropped because it scanned 50,000 rows, indicating low selectivity",
+        "misconception_tag": "drops_index_without_considering_alternatives"
+      },
+      {
+        "id": "d",
+        "text": "The query is performing a table scan disguised as an index scan; both are equivalent in this case",
+        "misconception_tag": "equates_index_scan_with_table_scan"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The massive discrepancy between estimated rows (1) and actual rows (50,000) reveals severely stale statistics. The optimizer chose an index scan (efficient for small results) but it ended up scanning and doing 50,000 heap lookups \u2014 much worse than a sequential table scan. Running ANALYZE updates statistics so the optimizer can choose a better plan (likely a sequential scan or a more appropriate index)."
+  },
+  {
+    "question_id": "indexing_optimization_practical_11",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A write-heavy table receives 50,000 inserts per second. It currently has 8 indexes. Engineers want to add a new index to support a reporting query. What investigation steps should be taken before adding the index?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Add the index during off-peak hours to minimize disruption, then monitor write throughput for 24 hours",
+        "misconception_tag": "skips_analysis_jumps_to_implementation"
+      },
+      {
+        "id": "b",
+        "text": "Measure current write latency baseline; profile whether the reporting query can use an existing index or be rewritten; test the new index on a replica under production load; create it with CONCURRENTLY option if supported"
+      },
+      {
+        "id": "c",
+        "text": "Drop 2 existing indexes to compensate for the new one, keeping the total at 7",
+        "misconception_tag": "arbitrary_index_count_balancing"
+      },
+      {
+        "id": "d",
+        "text": "Use a materialized view instead since the table is write-heavy and indexes are always harmful at this scale",
+        "misconception_tag": "overgeneralizes_write_performance_concern"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "At 50,000 inserts/second, each new index adds measurable write overhead. The correct approach: establish a baseline, check if existing indexes cover the query, test impact on a replica, and use CREATE INDEX CONCURRENTLY (PostgreSQL) or equivalent to avoid locking the table during index creation. Profiling before acting prevents production write degradation."
+  },
+  {
+    "question_id": "indexing_optimization_practical_12",
+    "skill_id": "indexing_optimization",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to support a query: SELECT * FROM products WHERE lower(name) = 'laptop'; There is an index on (name). Will the index be used, and if not, what is the fix?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, the index on name will be used because lower() is a trivial transformation",
+        "misconception_tag": "assumes_function_transformation_is_transparent_to_index"
+      },
+      {
+        "id": "b",
+        "text": "No, applying lower() to the indexed column prevents index usage; create a functional index on lower(name) instead"
+      },
+      {
+        "id": "c",
+        "text": "No, but adding a case-insensitive collation to the column automatically fixes the problem without a new index",
+        "misconception_tag": "partially_correct_but_collation_may_not_apply_retroactively"
+      },
+      {
+        "id": "d",
+        "text": "No, and the only fix is to store a pre-lowercased copy of the column",
+        "misconception_tag": "ignores_functional_index_as_solution"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Applying a function (lower()) to an indexed column prevents the standard index from being used because the index contains the original values, not the lowercased ones. The fix is to create a functional/expression index: CREATE INDEX idx_name_lower ON products (lower(name)); This indexes the transformed values and allows the optimizer to use it for lower(name) = 'laptop'."
+  },
+  {
+    "question_id": "indexing_optimization_edge_07",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A UNIQUE index exists on (tenant_id, email). Two concurrent transactions both attempt to insert the same (tenant_id, email) pair. Neither has committed yet. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Both inserts succeed immediately; the uniqueness violation is detected only at COMMIT time",
+        "misconception_tag": "delays_constraint_check_to_commit"
+      },
+      {
+        "id": "b",
+        "text": "The second transaction blocks waiting for the first to either commit or rollback; if the first commits, the second fails with a unique violation; if the first rolls back, the second proceeds"
+      },
+      {
+        "id": "c",
+        "text": "Both transactions fail immediately because the database detects the conflict at parse time",
+        "misconception_tag": "assumes_conflict_detected_pre_execution"
+      },
+      {
+        "id": "d",
+        "text": "One transaction is randomly chosen to succeed; the other is automatically retried",
+        "misconception_tag": "assumes_automatic_retry_behavior"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "For UNIQUE constraint violations with concurrent inserts, most databases acquire a lock on the would-be duplicate key. The second insert waits for the first transaction to complete. If the first commits, the second fails with a unique violation error. If the first rolls back, the lock is released and the second transaction proceeds successfully. This is deterministic, not random."
+  },
+  {
+    "question_id": "indexing_optimization_edge_08",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You create a covering index on (user_id, status, amount) for a query: SELECT amount FROM orders WHERE user_id = 5 AND status = 'active'; After running EXPLAIN, you see a 'Heap Fetch' operation still occurring. Why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The database always performs a heap fetch regardless of covering indexes",
+        "misconception_tag": "assumes_heap_fetch_is_always_required"
+      },
+      {
+        "id": "b",
+        "text": "In PostgreSQL, the visibility map may indicate that the index cannot confirm tuple visibility (due to unvacuumed dead rows), requiring a heap fetch to check transaction visibility"
+      },
+      {
+        "id": "c",
+        "text": "The amount column was too large to fit in the index, so it was excluded automatically",
+        "misconception_tag": "confuses_column_size_with_index_inclusion"
+      },
+      {
+        "id": "d",
+        "text": "Covering indexes never eliminate heap fetches in any database",
+        "misconception_tag": "overgeneralizes_heap_fetch_requirement"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In PostgreSQL, index-only scans require the visibility map to indicate that all tuples on a page are visible to all transactions (i.e., the page has been vacuumed). If the visibility map bit is not set (dirty pages with dead tuples), PostgreSQL must fetch the heap page to check tuple visibility, defeating the index-only scan. Running VACUUM updates the visibility map and enables true index-only scans."
+  },
+  {
+    "question_id": "indexing_optimization_edge_09",
+    "skill_id": "indexing_optimization",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You drop and recreate an index on a live production table with 100 million rows using CREATE INDEX (not CONCURRENTLY). What is the exact operational risk?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The index build may fail if the table has more rows than the index can support",
+        "misconception_tag": "introduces_false_row_count_limit"
+      },
+      {
+        "id": "b",
+        "text": "A full table lock (exclusive lock in most databases) is held for the entire duration of the index build, blocking all reads and writes for potentially hours"
+      },
+      {
+        "id": "c",
+        "text": "Only write operations are blocked; reads proceed normally during index creation",
+        "misconception_tag": "underestimates_lock_scope"
+      },
+      {
+        "id": "d",
+        "text": "The index is created in the background with no locking impact",
+        "misconception_tag": "confuses_standard_create_index_with_concurrent"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Standard CREATE INDEX (without CONCURRENTLY) acquires a ShareLock or stronger, blocking all DML (writes) and in some databases reads too for the full build duration. On a 100M row table, this can take minutes to hours depending on disk speed and RAM. CREATE INDEX CONCURRENTLY (PostgreSQL) or equivalent takes longer but only requires brief metadata locks, avoiding prolonged table unavailability."
+  }
+]

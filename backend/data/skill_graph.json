@@ -1,112 +1,152 @@
 [
   {
+    "skill_id": "html",
+    "canonical_name": "HTML",
+    "aliases": ["html5", "hypertext markup language"],
+    "tier": 2,
+    "domain": "Web",
+    "prerequisites": [],
+    "concept_tags": ["semantic-elements", "forms", "accessibility", "dom-structure"],
+    "edge_case_tags": ["quirks-mode", "void-elements", "content-model-violations"]
+  },
+  {
+    "skill_id": "css",
+    "canonical_name": "CSS",
+    "aliases": ["css3", "cascading style sheets", "stylesheets"],
+    "tier": 2,
+    "domain": "Web",
+    "prerequisites": ["html"],
+    "concept_tags": ["box-model", "flexbox", "grid", "specificity", "responsive-design"],
+    "edge_case_tags": ["z-index-stacking", "margin-collapse", "pseudo-element-gotchas"]
+  },
+  {
+    "skill_id": "javascript",
+    "canonical_name": "JavaScript",
+    "aliases": ["js", "ecmascript", "es6", "vanilla js"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": ["html"],
+    "concept_tags": ["closures", "prototypes", "event-loop", "async-await", "promises"],
+    "edge_case_tags": ["type-coercion", "hoisting", "this-binding", "scope-chain"]
+  },
+  {
     "skill_id": "react",
     "canonical_name": "React",
     "aliases": ["react js", "react.js", "reactjs"],
     "tier": 1,
     "domain": "Web",
     "prerequisites": ["javascript"],
-    "concept_tags": ["component-lifecycle", "hooks", "state-management", "virtual-dom"],
-    "edge_case_tags": ["stale-closure", "key-reconciliation", "effect-cleanup"]
-  },
-  {
-    "skill_id": "javascript",
-    "canonical_name": "JavaScript",
-    "aliases": ["js", "ecmascript"],
-    "tier": 1,
-    "domain": "Web",
-    "prerequisites": [],
-    "concept_tags": ["closures", "prototypes", "event-loop", "async-await"],
-    "edge_case_tags": ["type-coercion", "hoisting", "this-binding"]
-  },
-  {
-    "skill_id": "typescript",
-    "canonical_name": "TypeScript",
-    "aliases": ["ts"],
-    "tier": 1,
-    "domain": "Web",
-    "prerequisites": ["javascript"],
-    "concept_tags": ["type-system", "generics", "interfaces", "enums"],
-    "edge_case_tags": ["structural-typing", "type-narrowing", "declaration-merging"]
-  },
-  {
-    "skill_id": "sql",
-    "canonical_name": "SQL",
-    "aliases": ["sql server", "mysql", "postgresql", "postgres", "sqlite"],
-    "tier": 1,
-    "domain": "DB",
-    "prerequisites": [],
-    "concept_tags": ["joins", "indexing", "normalization", "transactions"],
-    "edge_case_tags": ["null-handling", "implicit-conversion", "deadlocks"]
-  },
-  {
-    "skill_id": "docker",
-    "canonical_name": "Docker",
-    "aliases": ["docker compose", "dockerfile", "containerization"],
-    "tier": 2,
-    "domain": "DevOps",
-    "prerequisites": [],
-    "concept_tags": ["images", "containers", "volumes", "networking"],
-    "edge_case_tags": ["layer-caching", "multi-stage-builds", "pid-1-problem"]
+    "concept_tags": ["component-lifecycle", "hooks", "state-management", "virtual-dom", "jsx"],
+    "edge_case_tags": ["stale-closure", "key-reconciliation", "effect-cleanup", "batched-updates"]
   },
   {
     "skill_id": "python",
     "canonical_name": "Python",
-    "aliases": ["python3"],
+    "aliases": ["python3", "py"],
     "tier": 1,
-    "domain": "ML",
+    "domain": "Web",
     "prerequisites": [],
-    "concept_tags": ["generators", "decorators", "list-comprehensions", "oop"],
-    "edge_case_tags": ["mutable-defaults", "gil", "late-binding-closures"]
+    "concept_tags": ["generators", "decorators", "list-comprehensions", "oop", "context-managers"],
+    "edge_case_tags": ["mutable-defaults", "gil", "late-binding-closures", "shallow-copy"]
   },
   {
-    "skill_id": "stats",
-    "canonical_name": "Statistics",
-    "aliases": ["statistical analysis"],
+    "skill_id": "java",
+    "canonical_name": "Java",
+    "aliases": ["java se", "java ee", "jdk", "j2ee"],
     "tier": 1,
-    "domain": "ML",
+    "domain": "Web",
     "prerequisites": [],
-    "concept_tags": ["distributions", "hypothesis-testing", "correlation", "regression"],
-    "edge_case_tags": ["simpsons-paradox", "p-hacking", "multicollinearity"]
+    "concept_tags": ["oop", "collections", "generics", "concurrency", "jvm"],
+    "edge_case_tags": ["autoboxing", "classloader", "memory-model", "checked-exceptions"]
   },
   {
-    "skill_id": "ml_basics",
-    "canonical_name": "ML Basics",
-    "aliases": ["machine learning", "ml"],
+    "skill_id": "cpp",
+    "canonical_name": "C++",
+    "aliases": ["c++", "c plus plus", "cplusplus"],
     "tier": 1,
-    "domain": "ML",
-    "prerequisites": ["python", "stats"],
-    "concept_tags": ["supervised-learning", "bias-variance", "cross-validation", "feature-engineering"],
-    "edge_case_tags": ["data-leakage", "class-imbalance", "overfitting-detection"]
+    "domain": "Web",
+    "prerequisites": [],
+    "concept_tags": ["pointers", "memory-management", "stl", "templates", "raii"],
+    "edge_case_tags": ["undefined-behavior", "dangling-pointers", "object-slicing", "vtable"]
   },
   {
-    "skill_id": "random_forest",
-    "canonical_name": "Random Forest",
-    "aliases": ["randomforest"],
-    "tier": 1,
-    "domain": "ML",
-    "prerequisites": ["ml_basics"],
-    "concept_tags": ["ensemble-methods", "bagging", "feature-importance", "out-of-bag-error"],
-    "edge_case_tags": ["correlated-features", "high-cardinality-splits", "extrapolation-failure"]
-  },
-  {
-    "skill_id": "d3",
-    "canonical_name": "D3.js",
-    "aliases": ["d3.js", "d3js"],
+    "skill_id": "nodejs",
+    "canonical_name": "Node.js",
+    "aliases": ["node", "nodejs", "node.js", "node js"],
     "tier": 1,
     "domain": "Web",
     "prerequisites": ["javascript"],
-    "concept_tags": ["selections", "data-binding", "scales", "transitions"],
-    "edge_case_tags": ["enter-update-exit", "key-functions", "nested-data"]
+    "concept_tags": ["event-loop", "streams", "modules", "npm", "async-patterns"],
+    "edge_case_tags": ["callback-hell", "memory-leaks", "event-emitter-limits", "cluster-ipc"]
   },
   {
-    "skill_id": "data_viz",
-    "canonical_name": "Data Visualization",
-    "aliases": ["data viz"],
-    "tier": 2,
+    "skill_id": "expressjs",
+    "canonical_name": "Express.js",
+    "aliases": ["express", "expressjs", "express.js", "express js"],
+    "tier": 1,
     "domain": "Web",
-    "prerequisites": ["stats"],
-    "concept_tags": ["chart-types", "color-theory", "perceptual-ranking", "annotation"],
-    "edge_case_tags": ["misleading-axes", "overplotting", "accessibility"]
+    "prerequisites": ["nodejs"],
+    "concept_tags": ["middleware", "routing", "error-handling", "templating", "static-files"],
+    "edge_case_tags": ["middleware-order", "async-error-propagation", "body-parser-limits"]
+  },
+  {
+    "skill_id": "fastapi",
+    "canonical_name": "FastAPI",
+    "aliases": ["fast api"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": ["python"],
+    "concept_tags": ["dependency-injection", "pydantic-models", "async-endpoints", "openapi"],
+    "edge_case_tags": ["lifespan-events", "background-tasks", "response-model-validation"]
+  },
+  {
+    "skill_id": "sql",
+    "canonical_name": "SQL",
+    "aliases": ["mysql", "postgresql", "postgres", "sqlite", "sql server", "structured query language"],
+    "tier": 1,
+    "domain": "DB",
+    "prerequisites": [],
+    "concept_tags": ["joins", "indexing", "normalization", "transactions", "subqueries"],
+    "edge_case_tags": ["null-handling", "implicit-conversion", "deadlocks", "n-plus-one"]
+  },
+  {
+    "skill_id": "nosql",
+    "canonical_name": "NoSQL",
+    "aliases": ["mongodb", "mongo", "dynamodb", "cassandra", "redis", "couchdb", "firestore"],
+    "tier": 1,
+    "domain": "DB",
+    "prerequisites": [],
+    "concept_tags": ["document-model", "key-value-stores", "denormalization", "eventual-consistency"],
+    "edge_case_tags": ["write-conflicts", "schema-evolution", "hot-partitions", "consistency-tradeoffs"]
+  },
+  {
+    "skill_id": "rest_api",
+    "canonical_name": "REST API",
+    "aliases": ["rest", "restful", "restful api", "rest apis", "api design", "api development"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": [],
+    "concept_tags": ["http-methods", "status-codes", "resource-modeling", "versioning", "hateoas"],
+    "edge_case_tags": ["idempotency", "pagination-cursors", "content-negotiation", "rate-limiting"]
+  },
+  {
+    "skill_id": "docker",
+    "canonical_name": "Docker",
+    "aliases": ["docker compose", "dockerfile", "containerization", "containers"],
+    "tier": 2,
+    "domain": "DevOps",
+    "prerequisites": [],
+    "concept_tags": ["images", "containers", "volumes", "networking", "compose"],
+    "edge_case_tags": ["layer-caching", "multi-stage-builds", "pid-1-problem", "build-context"]
+  },
+  {
+    "skill_id": "system_design",
+    "canonical_name": "System Design",
+    "aliases": ["system architecture", "systems design", "distributed systems", "high level design", "hld"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": [],
+    "concept_tags": ["load-balancing", "caching", "message-queues", "database-scaling", "microservices"],
+    "edge_case_tags": ["cap-theorem", "split-brain", "thundering-herd", "backpressure"]
   }
 ]

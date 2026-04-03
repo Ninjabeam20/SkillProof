@@ -1,0 +1,902 @@
+[
+  {
+    "question_id": "transactions_acid_theory_01",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Which ACID property ensures that if a transaction fails midway, all its changes are rolled back as if it never happened?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Consistency",
+        "misconception_tag": "confuses_consistency_with_atomicity"
+      },
+      {
+        "id": "b",
+        "text": "Isolation",
+        "misconception_tag": "confuses_isolation_with_atomicity"
+      },
+      {
+        "id": "c",
+        "text": "Atomicity"
+      },
+      {
+        "id": "d",
+        "text": "Durability",
+        "misconception_tag": "confuses_durability_with_atomicity"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Atomicity ensures that all operations in a transaction succeed together or none of them do. If a transaction fails at any point, the database is rolled back to its state before the transaction began, ensuring no partial updates persist."
+  },
+  {
+    "question_id": "transactions_acid_theory_02",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does the Durability property of ACID guarantee?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Once committed, a transaction's changes survive system crashes and are persisted to durable storage"
+      },
+      {
+        "id": "b",
+        "text": "Transactions cannot be corrupted by concurrent transactions",
+        "misconception_tag": "confuses_durability_with_isolation"
+      },
+      {
+        "id": "c",
+        "text": "The database remains in a valid state after each transaction",
+        "misconception_tag": "confuses_durability_with_consistency"
+      },
+      {
+        "id": "d",
+        "text": "Committed transactions are replicated to at least two nodes",
+        "misconception_tag": "confuses_durability_with_replication"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Durability guarantees that once a transaction commits, its changes are permanently stored \u2014 typically via write-ahead logs (WAL) \u2014 and will survive crashes, power failures, or restarts. It does not require replication, though replication enhances durability further."
+  },
+  {
+    "question_id": "transactions_acid_theory_03",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is a 'dirty read' in the context of database transaction isolation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reading data that has been deleted but not yet physically removed",
+        "misconception_tag": "confuses_dirty_read_with_ghost_row"
+      },
+      {
+        "id": "b",
+        "text": "Reading uncommitted data from another transaction that may later be rolled back"
+      },
+      {
+        "id": "c",
+        "text": "Reading data that has been corrupted by a hardware failure",
+        "misconception_tag": "confuses_dirty_read_with_data_corruption"
+      },
+      {
+        "id": "d",
+        "text": "Reading data that was committed but then modified by a subsequent transaction",
+        "misconception_tag": "confuses_dirty_read_with_non_repeatable_read"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A dirty read occurs when transaction T2 reads data written by T1, which has not yet committed. If T1 rolls back, T2 has read data that never officially existed. Dirty reads are prevented by all isolation levels above READ UNCOMMITTED."
+  },
+  {
+    "question_id": "transactions_acid_practical_01",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A banking application transfers $500 from Account A to Account B. The code runs: UPDATE accounts SET balance = balance - 500 WHERE id = 1; followed by UPDATE accounts SET balance = balance + 500 WHERE id = 2; If the second UPDATE fails due to a network error, what must happen to ensure ACID compliance?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The first UPDATE must also be rolled back automatically if both are within the same transaction"
+      },
+      {
+        "id": "b",
+        "text": "Only the failed second UPDATE is retried; the first UPDATE is committed as-is",
+        "misconception_tag": "allows_partial_commit"
+      },
+      {
+        "id": "c",
+        "text": "Both UPDATEs are retried from scratch automatically by the database",
+        "misconception_tag": "assumes_automatic_retry_by_database"
+      },
+      {
+        "id": "d",
+        "text": "The transaction commits the first UPDATE and logs an error for the second",
+        "misconception_tag": "allows_partial_transaction_commit"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Atomicity requires that both operations either succeed together or fail together. If the second UPDATE fails and both are in the same transaction, the database must roll back the first UPDATE as well, restoring Account A's balance. Without wrapping both operations in a transaction, partial updates would corrupt data integrity."
+  },
+  {
+    "question_id": "transactions_acid_practical_02",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Two concurrent transactions T1 and T2 both read a product's stock count (10 units). T1 decrements by 3 (stock = 7) and commits. T2 also decrements by 5 based on its original read (stock = 5) and commits. What is the final stock count and what anomaly has occurred?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Final stock = 2. This is the correct outcome; no anomaly occurred",
+        "misconception_tag": "misses_lost_update_anomaly"
+      },
+      {
+        "id": "b",
+        "text": "Final stock = 5. This is a lost update anomaly \u2014 T1's update was overwritten by T2's stale read"
+      },
+      {
+        "id": "c",
+        "text": "Final stock = 7. T2's transaction is rolled back automatically",
+        "misconception_tag": "assumes_automatic_conflict_rollback"
+      },
+      {
+        "id": "d",
+        "text": "Final stock = 10. Both transactions cancel each other out",
+        "misconception_tag": "assumes_mutual_cancellation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "This is a lost update anomaly. T2 read stock=10 before T1 committed. T2 computed stock=10-5=5 and wrote 5, overwriting T1's already-committed value of 7. T1's decrement is effectively lost. The correct final value should be 10-3-5=2. Preventing lost updates requires REPEATABLE READ isolation, optimistic locking, or SELECT FOR UPDATE."
+  },
+  {
+    "question_id": "transactions_acid_practical_03",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to perform a long-running report query that must see a consistent snapshot of data (no changes visible during the report). Which isolation level is most appropriate and why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "READ UNCOMMITTED \u2014 fastest and allows the report to see the most current data",
+        "misconception_tag": "prioritizes_speed_over_consistency"
+      },
+      {
+        "id": "b",
+        "text": "READ COMMITTED \u2014 each statement sees committed data, providing good consistency",
+        "misconception_tag": "read_committed_allows_non_repeatable_reads_within_transaction"
+      },
+      {
+        "id": "c",
+        "text": "REPEATABLE READ or SERIALIZABLE \u2014 ensures the transaction sees a consistent snapshot for its entire duration"
+      },
+      {
+        "id": "d",
+        "text": "No isolation level is needed for read-only transactions",
+        "misconception_tag": "assumes_reads_need_no_isolation"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "REPEATABLE READ ensures that data read at the start of a transaction does not change during the transaction. SERIALIZABLE provides the strongest guarantee. For a report that reads multiple tables over a long duration, READ COMMITTED would allow non-repeatable reads (values changing between queries within the same transaction), producing inconsistent report data."
+  },
+  {
+    "question_id": "transactions_acid_practical_04",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A developer wraps a single SELECT statement in a BEGIN/COMMIT block. Is this necessary for read operations?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, all SQL statements must be in explicit transactions to be ACID compliant",
+        "misconception_tag": "assumes_explicit_transaction_required_for_acid"
+      },
+      {
+        "id": "b",
+        "text": "No, but it can be useful if you want to control the isolation level or take a consistent snapshot across multiple reads"
+      },
+      {
+        "id": "c",
+        "text": "No, and wrapping a SELECT in a transaction causes it to acquire write locks",
+        "misconception_tag": "assumes_transaction_wrapper_causes_write_lock"
+      },
+      {
+        "id": "d",
+        "text": "Yes, without BEGIN/COMMIT, SELECT results are not guaranteed to reflect the latest committed data",
+        "misconception_tag": "misunderstands_autocommit_behavior"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Most databases run in autocommit mode by default, wrapping each statement in an implicit transaction. An explicit BEGIN/COMMIT around a single SELECT is not required but can be intentional: to set a specific isolation level, to get a consistent multi-statement snapshot, or to use explicit savepoints. It does not acquire write locks unless FOR UPDATE/SHARE is added."
+  },
+  {
+    "question_id": "transactions_acid_edge_01",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A transaction executes successfully and you call COMMIT. The server crashes 1 millisecond after COMMIT returns to the client. Is the data guaranteed to be persisted?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No, because the data may still be in the OS page cache and not yet on disk",
+        "misconception_tag": "ignores_fsync_and_wal_guarantees"
+      },
+      {
+        "id": "b",
+        "text": "Yes, if the database is configured with synchronous WAL writes (fsync enabled), the commit record is on durable storage before the COMMIT returns"
+      },
+      {
+        "id": "c",
+        "text": "No, because a 1ms crash always causes data loss regardless of configuration",
+        "misconception_tag": "assumes_crash_always_causes_loss"
+      },
+      {
+        "id": "d",
+        "text": "It depends on whether the transaction modified more than one table",
+        "misconception_tag": "introduces_irrelevant_table_count_condition"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Durability is enforced through Write-Ahead Logging (WAL) with synchronous fsync. When COMMIT returns to the client, the WAL record has been flushed to durable storage. A crash after COMMIT will replay the WAL and recover the committed data. Databases with fsync=off (not recommended) sacrifice durability for performance."
+  },
+  {
+    "question_id": "transactions_acid_edge_02",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "Transaction T1 begins and reads row X (value = 100). Transaction T2 then updates row X to 200 and commits. T1 reads row X again. Under READ COMMITTED, what does T1 see on the second read?",
+    "options": [
+      {
+        "id": "a",
+        "text": "100 \u2014 T1 sees its original snapshot and is protected from external changes",
+        "misconception_tag": "confuses_read_committed_with_repeatable_read"
+      },
+      {
+        "id": "b",
+        "text": "200 \u2014 READ COMMITTED allows T1 to see T2's committed change on subsequent reads"
+      },
+      {
+        "id": "c",
+        "text": "An error \u2014 T1 is aborted because T2 modified the data it read",
+        "misconception_tag": "assumes_conflict_causes_abort"
+      },
+      {
+        "id": "d",
+        "text": "NULL \u2014 the row is locked by T1's initial read",
+        "misconception_tag": "assumes_read_acquires_lock"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Under READ COMMITTED, each statement within a transaction sees the latest committed data at the time that statement executes. T1's second read sees T2's committed update (200). This is called a non-repeatable read. REPEATABLE READ prevents this by maintaining a consistent snapshot throughout the transaction."
+  },
+  {
+    "question_id": "transactions_acid_edge_03",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "Is it possible for a ROLLBACK to fail in SQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No, ROLLBACK always succeeds because it only undoes changes already in memory",
+        "misconception_tag": "assumes_rollback_never_fails"
+      },
+      {
+        "id": "b",
+        "text": "Yes, in rare scenarios such as disk failure during undo log write or loss of connection before rollback completes"
+      },
+      {
+        "id": "c",
+        "text": "No, databases guarantee rollback success regardless of system state",
+        "misconception_tag": "overstates_rollback_guarantee"
+      },
+      {
+        "id": "d",
+        "text": "Yes, ROLLBACK fails if more than 1000 rows were modified",
+        "misconception_tag": "introduces_false_row_limit"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "While rollback is designed to be reliable, it can fail in extreme scenarios: disk failure during undo log access, OS-level crash mid-rollback, or loss of the database connection. Most databases handle incomplete rollbacks on restart by completing them via recovery. However, in distributed systems, partial rollbacks are a known failure mode requiring careful transaction management."
+  },
+  {
+    "question_id": "transactions_acid_theory_04",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is a phantom read and which isolation level specifically prevents it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A phantom read is when a row disappears between two reads; prevented by READ COMMITTED",
+        "misconception_tag": "confuses_phantom_with_deleted_row"
+      },
+      {
+        "id": "b",
+        "text": "A phantom read is when new rows appear in a repeated query due to another transaction's INSERT; prevented by SERIALIZABLE (and REPEATABLE READ in some databases via gap locks)"
+      },
+      {
+        "id": "c",
+        "text": "A phantom read is when a row's values change between two reads; prevented by REPEATABLE READ",
+        "misconception_tag": "confuses_phantom_read_with_non_repeatable_read"
+      },
+      {
+        "id": "d",
+        "text": "A phantom read is reading data from a dropped table; prevented by SERIALIZABLE",
+        "misconception_tag": "confuses_phantom_with_dropped_table_read"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A phantom read occurs when T1 runs the same range query twice and sees different rows because T2 inserted (or deleted) rows in that range between T1's queries. SERIALIZABLE prevents this completely. REPEATABLE READ in some databases (e.g., MySQL InnoDB) uses next-key locks to prevent phantoms; in others (PostgreSQL's MVCC), it uses snapshot isolation but relies on SERIALIZABLE for strict phantom prevention."
+  },
+  {
+    "question_id": "transactions_acid_theory_05",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between pessimistic and optimistic locking strategies?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pessimistic locking commits immediately; optimistic locking waits for the transaction to complete",
+        "misconception_tag": "inverts_definitions"
+      },
+      {
+        "id": "b",
+        "text": "Pessimistic locking acquires locks before reading/writing to prevent conflicts; optimistic locking assumes no conflict, checks for conflicts only at commit time, and retries if a conflict is detected"
+      },
+      {
+        "id": "c",
+        "text": "Pessimistic locking is used in read-heavy workloads; optimistic locking is for write-heavy workloads",
+        "misconception_tag": "reverses_typical_workload_suitability"
+      },
+      {
+        "id": "d",
+        "text": "Both strategies acquire the same locks; the difference is only in naming convention",
+        "misconception_tag": "dismisses_operational_difference"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Pessimistic locking (SELECT FOR UPDATE) blocks concurrent access to prevent conflicts upfront \u2014 suitable for high-contention scenarios. Optimistic locking (version numbers or timestamps) allows concurrent reads and writes, checking for conflicts at commit time \u2014 suitable for low-contention, read-heavy workloads. Optimistic locking has higher throughput but requires retry logic."
+  },
+  {
+    "question_id": "transactions_acid_theory_06",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is a savepoint in a database transaction, and how does it differ from a full rollback?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A savepoint commits partial transaction results; a full rollback undoes only uncommitted changes",
+        "misconception_tag": "confuses_savepoint_with_partial_commit"
+      },
+      {
+        "id": "b",
+        "text": "A savepoint marks a point within a transaction to which you can partially roll back, while keeping the rest of the transaction alive; a full rollback undoes the entire transaction"
+      },
+      {
+        "id": "c",
+        "text": "A savepoint creates a new nested transaction; a full rollback closes all nested transactions",
+        "misconception_tag": "confuses_savepoint_with_nested_transaction"
+      },
+      {
+        "id": "d",
+        "text": "Savepoints and rollbacks are identical in behavior; the only difference is syntax",
+        "misconception_tag": "dismisses_partial_rollback_distinction"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "SAVEPOINT name; marks a point within an ongoing transaction. ROLLBACK TO SAVEPOINT name; undoes only the work done after that savepoint, keeping earlier work intact and the transaction open. This is useful for complex transactions where certain steps can fail without aborting the entire operation. ROLLBACK without a savepoint undoes everything since BEGIN."
+  },
+  {
+    "question_id": "transactions_acid_practical_05",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Transaction T1 holds a lock on Row A and waits for Row B. Transaction T2 holds a lock on Row B and waits for Row A. What is this situation called and how do databases resolve it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Race condition \u2014 both transactions are retried simultaneously",
+        "misconception_tag": "confuses_deadlock_with_race_condition"
+      },
+      {
+        "id": "b",
+        "text": "Deadlock \u2014 the database detects the cycle in the wait-for graph and rolls back one transaction (typically the one with fewer resources used) to break the cycle"
+      },
+      {
+        "id": "c",
+        "text": "Livelock \u2014 both transactions continuously release and re-acquire locks without progress",
+        "misconception_tag": "confuses_deadlock_with_livelock"
+      },
+      {
+        "id": "d",
+        "text": "Starvation \u2014 one transaction is indefinitely deprived of resources by the other",
+        "misconception_tag": "confuses_deadlock_with_starvation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A deadlock occurs when two or more transactions form a circular wait dependency. Databases use a deadlock detector that periodically analyzes the wait-for graph. Upon detecting a cycle, the database selects a victim transaction (usually the one with the lowest cost to rollback) and rolls it back, releasing its locks and allowing the other transaction to proceed. Applications must handle deadlock errors with retry logic."
+  },
+  {
+    "question_id": "transactions_acid_practical_06",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A developer runs: BEGIN; UPDATE inventory SET qty = qty - 1 WHERE product_id = 5; -- application crashes here -- never sends COMMIT or ROLLBACK. What happens to the transaction?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The UPDATE is committed automatically after a timeout period",
+        "misconception_tag": "assumes_auto_commit_on_timeout"
+      },
+      {
+        "id": "b",
+        "text": "The database detects the disconnection, rolls back the incomplete transaction, and releases all locks"
+      },
+      {
+        "id": "c",
+        "text": "The UPDATE remains pending indefinitely, locking the row forever",
+        "misconception_tag": "assumes_indefinite_lock_without_cleanup"
+      },
+      {
+        "id": "d",
+        "text": "The transaction is committed when the database next runs its maintenance job",
+        "misconception_tag": "assumes_maintenance_job_commits_transactions"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When a client connection is terminated (crash, network drop), the database detects the disconnection and automatically rolls back any open transactions associated with that session. This is a core database responsibility to prevent dangling locks and uncommitted data. The row lock is released immediately, and the inventory qty is restored to its pre-transaction value."
+  },
+  {
+    "question_id": "transactions_acid_practical_07",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "An e-commerce checkout process must: (1) verify stock, (2) deduct stock, (3) create an order, (4) charge the payment. The payment step (4) calls an external API. Should step 4 be inside the database transaction?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, all four steps must be in one transaction for full ACID compliance",
+        "misconception_tag": "ignores_external_call_risk_inside_transaction"
+      },
+      {
+        "id": "b",
+        "text": "No, external API calls inside transactions hold locks for the API's duration, causing lock contention; use a saga or two-phase approach instead"
+      },
+      {
+        "id": "c",
+        "text": "Yes, if the payment fails, the database will automatically reverse the payment API call",
+        "misconception_tag": "assumes_database_can_rollback_external_calls"
+      },
+      {
+        "id": "d",
+        "text": "No, only write operations should be in transactions; reads and external calls should always be outside",
+        "misconception_tag": "overgeneralizes_exclusion_of_reads_and_external_calls"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Including an external API call inside a database transaction is an anti-pattern. The transaction holds database locks for the API's response duration (could be seconds), causing lock contention. Worse, the database cannot roll back the external API call if the transaction fails. The correct approach is the Saga pattern or two-phase commit: commit the database changes, then call the payment API, and handle failures with compensating transactions."
+  },
+  {
+    "question_id": "transactions_acid_practical_08",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Under SERIALIZABLE isolation, two concurrent transactions both execute: SELECT COUNT(*) FROM seats WHERE status = 'available'; and then INSERT a booking if count > 0. Both see available seats and proceed. What phenomenon can still occur and how to prevent it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No phenomenon \u2014 SERIALIZABLE prevents all concurrency issues including this scenario",
+        "misconception_tag": "assumes_serializable_prevents_all_issues"
+      },
+      {
+        "id": "b",
+        "text": "Write skew \u2014 both transactions read the same data and make decisions based on it, potentially violating application-level constraints; prevented by SELECT FOR UPDATE or application-level locking"
+      },
+      {
+        "id": "c",
+        "text": "Dirty read \u2014 both transactions read uncommitted data from each other",
+        "misconception_tag": "misidentifies_anomaly_as_dirty_read"
+      },
+      {
+        "id": "d",
+        "text": "Phantom read \u2014 new rows appear between the COUNT and INSERT operations",
+        "misconception_tag": "partially_correct_but_misses_write_skew_distinction"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "This is write skew \u2014 a specific anomaly where two transactions each read a shared condition (available seats), decide to proceed based on it, and write to separate (but related) rows. True SERIALIZABLE isolation (SSI in PostgreSQL) would detect this dependency and abort one transaction. In databases with weaker SERIALIZABLE implementations, SELECT FOR UPDATE on the seats being checked prevents concurrent reads from proceeding."
+  },
+  {
+    "question_id": "transactions_acid_edge_04",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "What happens if you issue COMMIT inside a stored procedure that was called from within an existing explicit transaction (in PostgreSQL)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The COMMIT immediately commits all work done so far in the outer transaction",
+        "misconception_tag": "assumes_inner_commit_commits_outer_transaction"
+      },
+      {
+        "id": "b",
+        "text": "In PostgreSQL, a COMMIT inside a function called within a transaction raises an error; COMMITs within transactions in stored procedures are handled differently from standalone procedure calls"
+      },
+      {
+        "id": "c",
+        "text": "The COMMIT is silently ignored and the outer transaction continues normally",
+        "misconception_tag": "assumes_inner_commit_silently_ignored"
+      },
+      {
+        "id": "d",
+        "text": "The stored procedure creates a nested transaction and commits only its own changes",
+        "misconception_tag": "confuses_savepoint_with_nested_transaction_commit"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In PostgreSQL, functions (CREATE FUNCTION) cannot issue COMMIT/ROLLBACK when called within a transaction \u2014 doing so raises an error. Procedures (CREATE PROCEDURE, PostgreSQL 11+) can call COMMIT, but only when called without an enclosing transaction. This behavior varies by database: SQL Server supports nested transactions with @@TRANCOUNT; MySQL has limited savepoint-based nesting."
+  },
+  {
+    "question_id": "transactions_acid_edge_05",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "In MySQL InnoDB under REPEATABLE READ, can phantom reads still occur?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, phantom reads always occur at REPEATABLE READ in all databases",
+        "misconception_tag": "ignores_innodb_gap_lock_prevention"
+      },
+      {
+        "id": "b",
+        "text": "No, InnoDB uses next-key locking under REPEATABLE READ to prevent phantom reads in most scenarios"
+      },
+      {
+        "id": "c",
+        "text": "Yes, but only for SELECT queries; INSERT/DELETE are always protected",
+        "misconception_tag": "incorrectly_distinguishes_dml_protection"
+      },
+      {
+        "id": "d",
+        "text": "Phantom reads cannot occur in any MySQL version regardless of isolation level",
+        "misconception_tag": "overstates_mysql_protection"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MySQL InnoDB at REPEATABLE READ uses a combination of MVCC (snapshot reads) and next-key locking (for locking reads like SELECT FOR UPDATE). Next-key locks lock not just the matching rows but also the gaps between index entries, preventing concurrent INSERTs into that range. This effectively prevents phantoms in most scenarios, which is stronger than standard REPEATABLE READ behavior."
+  },
+  {
+    "question_id": "transactions_acid_edge_06",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "Does wrapping multiple SELECTs in a single transaction improve performance in PostgreSQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No, transactions add overhead and should only be used for write operations",
+        "misconception_tag": "assumes_transactions_only_useful_for_writes"
+      },
+      {
+        "id": "b",
+        "text": "Yes in some cases \u2014 it reduces round-trips for snapshot acquisition and provides a consistent read view, but also delays connection reuse in connection pools"
+      },
+      {
+        "id": "c",
+        "text": "Yes, always \u2014 transactions cache all results in memory for faster access",
+        "misconception_tag": "assumes_transaction_caches_results"
+      },
+      {
+        "id": "d",
+        "text": "No effect \u2014 PostgreSQL treats each SELECT identically whether in a transaction or not",
+        "misconception_tag": "ignores_snapshot_isolation_cost"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In PostgreSQL, a transaction establishes a consistent snapshot at BEGIN. Multiple SELECTs within the same transaction share that snapshot (one snapshot acquisition instead of one per statement in READ COMMITTED). However, long-running transactions hold the snapshot, preventing VACUUM from reclaiming dead rows (tuple bloat risk). In connection pools, open transactions hold connections longer, reducing effective pool size."
+  },
+  {
+    "question_id": "transactions_acid_theory_07",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is Serializable Snapshot Isolation (SSI) and how does it differ from traditional lock-based SERIALIZABLE?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SSI is a marketing term for standard SERIALIZABLE implemented with row-level locks",
+        "misconception_tag": "dismisses_ssi_as_lock_based"
+      },
+      {
+        "id": "b",
+        "text": "SSI uses MVCC to detect serialization conflicts (dangerous read-write dependencies) at commit time without blocking readers, achieving serializable semantics with optimistic concurrency"
+      },
+      {
+        "id": "c",
+        "text": "SSI uses table-level locks like traditional SERIALIZABLE but releases them earlier to reduce contention",
+        "misconception_tag": "confuses_ssi_with_early_lock_release"
+      },
+      {
+        "id": "d",
+        "text": "SSI allows all anomalies but logs them for post-hoc correction",
+        "misconception_tag": "misrepresents_ssi_as_non_preventive"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Serializable Snapshot Isolation (SSI), used by PostgreSQL since version 9.1, tracks read-write dependencies between concurrent transactions. When a dangerous cycle of dependencies is detected (indicating a non-serializable execution), one transaction is aborted. Unlike traditional predicate locking (which blocks), SSI is optimistic \u2014 it allows concurrent execution and aborts only on actual conflicts, providing better throughput."
+  },
+  {
+    "question_id": "transactions_acid_theory_08",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "In the context of distributed databases, what does the CAP theorem state about ACID transactions across nodes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "CAP theorem proves that full ACID compliance is always achievable across distributed nodes with modern hardware",
+        "misconception_tag": "dismisses_cap_constraints"
+      },
+      {
+        "id": "b",
+        "text": "CAP theorem states that a distributed system can guarantee at most two of: Consistency, Availability, and Partition Tolerance; full ACID across nodes requires sacrificing availability during network partitions"
+      },
+      {
+        "id": "c",
+        "text": "CAP theorem only applies to NoSQL databases; SQL databases are exempt because they use ACID",
+        "misconception_tag": "incorrectly_exempts_sql_from_cap"
+      },
+      {
+        "id": "d",
+        "text": "CAP theorem states that distributed databases cannot achieve Atomicity; the other ACID properties are unaffected",
+        "misconception_tag": "limits_cap_impact_to_atomicity_only"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "CAP theorem (Brewer 2000): during a network partition (P), a distributed system must choose between Consistency (all nodes see the same data) and Availability (every request gets a response). Distributed ACID transactions require strong consistency, which means sacrificing availability during partitions. Systems like Google Spanner achieve ACID across nodes by accepting partition-related unavailability and using TrueTime for global ordering."
+  },
+  {
+    "question_id": "transactions_acid_theory_09",
+    "skill_id": "transactions_acid",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between 2PL (Two-Phase Locking) and MVCC (Multi-Version Concurrency Control) for achieving isolation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "2PL is used in NoSQL databases; MVCC is used only in relational databases",
+        "misconception_tag": "incorrectly_assigns_technologies_to_db_types"
+      },
+      {
+        "id": "b",
+        "text": "2PL acquires locks during transaction execution and releases them after commit, blocking concurrent access; MVCC maintains multiple data versions so readers see a snapshot without blocking writers and vice versa"
+      },
+      {
+        "id": "c",
+        "text": "Both 2PL and MVCC use the same locking mechanism; the only difference is when locks are released",
+        "misconception_tag": "conflates_2pl_and_mvcc"
+      },
+      {
+        "id": "d",
+        "text": "MVCC provides weaker isolation than 2PL and is only used for performance-critical applications",
+        "misconception_tag": "incorrectly_ranks_mvcc_isolation_strength"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "2PL (Two-Phase Locking) uses locks to prevent conflicts: shared locks for reads, exclusive locks for writes. Locks are held until transaction commit (strict 2PL). This causes readers to block writers and vice versa. MVCC stores multiple row versions, allowing readers to see a consistent snapshot without blocking, while writers create new versions. PostgreSQL and Oracle use MVCC. SQL Server uses both. MVCC generally provides higher concurrency but requires garbage collection of old versions."
+  },
+  {
+    "question_id": "transactions_acid_practical_09",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You are implementing a distributed transaction across two microservices (Order Service and Inventory Service), each with its own database. The Order Service commits but the Inventory Service fails. How should this be handled?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use a single global database transaction that spans both services",
+        "misconception_tag": "ignores_distributed_boundary_of_microservices"
+      },
+      {
+        "id": "b",
+        "text": "Implement the Saga pattern: each service has a local transaction with a compensating transaction; if Inventory fails, publish a compensating event to reverse the Order"
+      },
+      {
+        "id": "c",
+        "text": "Accept the inconsistency as an unavoidable limitation of microservices architecture",
+        "misconception_tag": "dismisses_consistency_solutions"
+      },
+      {
+        "id": "d",
+        "text": "Use Two-Phase Commit (2PC) coordinator to ensure atomic commitment across both databases",
+        "misconception_tag": "ignores_2pc_availability_and_coordinator_spof_risks"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The Saga pattern handles distributed transactions by breaking them into local transactions with compensating actions. If the Inventory step fails, a compensation (cancel order) is triggered. 2PC is also a valid answer but introduces a coordinator as a single point of failure and blocks availability during network partitions. Sagas are the preferred microservices approach for resilience, using event-driven compensations rather than distributed locks."
+  },
+  {
+    "question_id": "transactions_acid_practical_10",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A high-traffic system runs thousands of transactions per second. You observe increasing deadlock frequency. What systematic approaches reduce deadlocks without sacrificing correctness?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Increase the deadlock detection timeout so fewer deadlocks are detected",
+        "misconception_tag": "reducing_detection_does_not_reduce_deadlocks"
+      },
+      {
+        "id": "b",
+        "text": "Ensure all transactions access resources (tables/rows) in a consistent global order, reduce transaction duration, and use SELECT FOR UPDATE only when strictly necessary"
+      },
+      {
+        "id": "c",
+        "text": "Switch to READ UNCOMMITTED to eliminate locking entirely",
+        "misconception_tag": "sacrifices_correctness_for_concurrency"
+      },
+      {
+        "id": "d",
+        "text": "Use application-level sleep-and-retry without addressing the root cause of circular waits",
+        "misconception_tag": "treats_symptom_not_cause"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Systematic deadlock reduction: (1) Lock ordering \u2014 access shared resources in a globally consistent order to break circular waits. (2) Short transactions \u2014 reduce lock hold time. (3) Minimize lock scope \u2014 lock only what's needed, avoid speculative locking. (4) Use indexes \u2014 unindexed FK checks can escalate to table scans acquiring broad locks. (5) Batch updates in consistent order. Applications must also have retry logic for any residual deadlocks."
+  },
+  {
+    "question_id": "transactions_acid_practical_11",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A reporting query runs for 2 hours inside a PostgreSQL transaction. A DBA notices table bloat is growing rapidly. Why is the long transaction causing this, and what should be done?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The query is writing temporary results to the table, causing bloat",
+        "misconception_tag": "confuses_temp_write_with_bloat"
+      },
+      {
+        "id": "b",
+        "text": "PostgreSQL's MVCC keeps old row versions alive as long as any transaction might need them; the 2-hour snapshot prevents VACUUM from reclaiming dead tuples, causing table bloat"
+      },
+      {
+        "id": "c",
+        "text": "The long transaction acquires more locks over time, each requiring a table entry",
+        "misconception_tag": "confuses_lock_overhead_with_bloat"
+      },
+      {
+        "id": "d",
+        "text": "PostgreSQL automatically expands tables for long transactions to improve read performance",
+        "misconception_tag": "invents_nonexistent_behavior"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "PostgreSQL MVCC keeps old row versions (dead tuples) visible to any active transaction that might need them (based on xmin). A 2-hour transaction holds a snapshot from its start time. VACUUM cannot remove dead tuples created after the snapshot start, causing unbounded bloat. Solutions: run reports on read replicas, use logical replication snapshot, or break the query into smaller chunks. Monitor pg_stat_activity for long-running transactions."
+  },
+  {
+    "question_id": "transactions_acid_practical_12",
+    "skill_id": "transactions_acid",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You implement an idempotency key for payment processing: before inserting a payment, check if the idempotency_key exists, and if not, insert. Two concurrent requests arrive with the same key. What race condition exists and how to fix it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No race condition \u2014 the SELECT check prevents duplicates reliably",
+        "misconception_tag": "ignores_time_of_check_time_of_use_toctou"
+      },
+      {
+        "id": "b",
+        "text": "Check-then-act race condition (TOCTOU): both requests pass the SELECT check before either inserts; fix with INSERT ... ON CONFLICT DO NOTHING with a UNIQUE constraint on idempotency_key"
+      },
+      {
+        "id": "c",
+        "text": "Deadlock \u2014 both transactions wait for each other's SELECT to complete",
+        "misconception_tag": "misidentifies_toctou_as_deadlock"
+      },
+      {
+        "id": "d",
+        "text": "The second request will always fail because SELECT acquires an exclusive lock",
+        "misconception_tag": "assumes_select_acquires_exclusive_lock"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The classic Time-of-Check-Time-of-Use (TOCTOU) race: both transactions SELECT and see no existing key, then both INSERT \u2014 resulting in a duplicate payment. The atomic solution is: use a UNIQUE constraint on idempotency_key and INSERT ... ON CONFLICT DO NOTHING (PostgreSQL) or INSERT IGNORE (MySQL). The database atomically checks and inserts at the unique index level, with the conflict case returning zero rows inserted. No separate SELECT needed."
+  },
+  {
+    "question_id": "transactions_acid_edge_07",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Transaction T1 uses SELECT FOR UPDATE on Row X and goes idle for 10 minutes waiting for user input. What operational risk does this create?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No risk \u2014 SELECT FOR UPDATE only holds a lock for the duration of the SELECT statement",
+        "misconception_tag": "assumes_for_update_lock_released_after_select"
+      },
+      {
+        "id": "b",
+        "text": "Row X is exclusively locked for 10 minutes, blocking any other transaction that needs to read or write Row X (in lock-based systems), causing application-level stalls or timeouts"
+      },
+      {
+        "id": "c",
+        "text": "The database automatically releases the lock after 30 seconds of idle time",
+        "misconception_tag": "assumes_automatic_lock_timeout_default"
+      },
+      {
+        "id": "d",
+        "text": "Only write operations are blocked; reads can still access Row X freely",
+        "misconception_tag": "assumes_for_update_only_blocks_writes"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "SELECT FOR UPDATE holds an exclusive row lock for the entire transaction duration. An idle transaction that acquired this lock will block all competing transactions (reads with FOR SHARE, writes) for as long as the transaction remains open. This is a severe anti-pattern for user-facing flows. Solutions: use lock timeouts (SET lock_timeout), avoid holding locks during user interactions, or use optimistic locking instead."
+  },
+  {
+    "question_id": "transactions_acid_edge_08",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "In PostgreSQL, after a transaction error occurs, you issue additional SQL commands without first rolling back. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The subsequent commands execute normally on the latest valid state of the database",
+        "misconception_tag": "assumes_auto_recovery_after_error"
+      },
+      {
+        "id": "b",
+        "text": "All subsequent commands within the transaction fail with 'ERROR: current transaction is aborted, commands ignored until end of transaction block'"
+      },
+      {
+        "id": "c",
+        "text": "PostgreSQL automatically creates a savepoint at the error point and continues the transaction",
+        "misconception_tag": "assumes_automatic_savepoint_on_error"
+      },
+      {
+        "id": "d",
+        "text": "The transaction commits all work done before the error and discards the failed statement",
+        "misconception_tag": "assumes_partial_commit_after_error"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "PostgreSQL enters an error state after any transaction error. All subsequent commands within the same transaction block are rejected with 'current transaction is aborted'. The only valid commands are ROLLBACK (to abort and restart) or ROLLBACK TO SAVEPOINT (if a savepoint was set before the error). This prevents partial work from being accidentally committed. Applications must handle this state explicitly."
+  },
+  {
+    "question_id": "transactions_acid_edge_09",
+    "skill_id": "transactions_acid",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Can the CONSISTENCY property of ACID be violated even when Atomicity, Isolation, and Durability all hold?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No, if A, I, and D hold, C is automatically guaranteed",
+        "misconception_tag": "assumes_c_is_derived_from_a_i_d"
+      },
+      {
+        "id": "b",
+        "text": "Yes, Consistency is defined by application-level constraints; if the application logic itself is wrong, the database can store logically inconsistent data even with full AID guarantees"
+      },
+      {
+        "id": "c",
+        "text": "No, databases enforce all consistency rules internally regardless of application code",
+        "misconception_tag": "overestimates_database_constraint_scope"
+      },
+      {
+        "id": "d",
+        "text": "Yes, but only when using NoSQL databases that lack schema enforcement",
+        "misconception_tag": "incorrectly_restricts_to_nosql"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Consistency in ACID refers to the database moving from one valid state to another, as defined by integrity constraints (foreign keys, checks, NOT NULL, etc.). However, application-level business rules (e.g., 'an order total must equal the sum of its line items') are not enforced by the database unless explicitly coded as constraints. An atomically committed, isolated, durable transaction can still violate business consistency if the application logic is incorrect."
+  }
+]

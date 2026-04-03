@@ -314,8 +314,8 @@ class QueueSkill(BaseModel):
     tier: int
     domain: str
     has_questions: bool
-    prerequisites_met: bool
-    missing_prerequisites: list[str]
+    prerequisites_met: bool = True        # Always unlocked (Phase 6)
+    missing_prerequisites: list[str] = []  # Visual only, never enforced
 
 
 class QueueResponse(BaseModel):
@@ -350,15 +350,11 @@ def get_evaluation_queue(req: QueueRequest):
                 tier=1,
                 domain="Unknown",
                 has_questions=claim.skill_id in skills_with_questions,
-                prerequisites_met=True,
-                missing_prerequisites=[],
             ))
             continue
 
-        prereqs = node.get("prerequisites", [])
-        missing = [p for p in prereqs if p not in claimed_ids]
-        prereqs_met = len(missing) == 0
-
+        # Phase 6: All skills are always unlocked. Visual edges exist
+        # in skill_graph.json for graph rendering but are not enforced.
         queue_items.append(QueueSkill(
             skill_id=claim.skill_id,
             canonical_name=node["canonical_name"],
@@ -366,13 +362,10 @@ def get_evaluation_queue(req: QueueRequest):
             tier=node["tier"],
             domain=node["domain"],
             has_questions=claim.skill_id in skills_with_questions,
-            prerequisites_met=prereqs_met,
-            missing_prerequisites=missing,
         ))
 
-    # Sort: prereqs_met first, then by tier (ascending), then by domain
+    # Sort by tier (ascending), then by domain
     queue_items.sort(key=lambda s: (
-        0 if s.prerequisites_met else 1,
         s.tier,
         s.domain,
     ))

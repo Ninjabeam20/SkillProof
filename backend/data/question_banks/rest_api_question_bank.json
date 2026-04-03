@@ -1,0 +1,895 @@
+[
+  {
+    "question_id": "rest_api_theory_01",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Which HTTP method is considered idempotent but NOT safe?",
+    "options": [
+      {
+        "id": "a",
+        "text": "GET \u2014 reading a resource has no side effects"
+      },
+      {
+        "id": "b",
+        "text": "POST \u2014 creating resources is the primary idempotent method",
+        "misconception_tag": "post_is_idempotent"
+      },
+      {
+        "id": "c",
+        "text": "PUT \u2014 making the same PUT request multiple times produces the same result"
+      },
+      {
+        "id": "d",
+        "text": "DELETE \u2014 deleting a resource twice produces a different result the second time",
+        "misconception_tag": "delete_not_idempotent"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "PUT is idempotent (calling it multiple times with the same body results in the same server state) but not safe (it modifies server state). GET is both safe and idempotent. POST is neither \u2014 each call typically creates a new resource. DELETE is idempotent (resource is absent after first or tenth call) but not safe."
+  },
+  {
+    "question_id": "rest_api_theory_02",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does it mean for a REST API to be stateless?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The API stores no data in a database \u2014 all data exists only in memory",
+        "misconception_tag": "stateless_means_no_database"
+      },
+      {
+        "id": "b",
+        "text": "Each request from a client must contain all the information needed for the server to process it; the server keeps no session state between requests"
+      },
+      {
+        "id": "c",
+        "text": "The API responds with the same data regardless of query parameters",
+        "misconception_tag": "stateless_means_same_response"
+      },
+      {
+        "id": "d",
+        "text": "The client does not need to maintain any state across requests",
+        "misconception_tag": "client_manages_no_state"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Statelessness is a core REST constraint. Every HTTP request must include all context needed (authentication tokens, parameters, body) to process it. The server does not store session information between requests. This enables scalability \u2014 any server instance can handle any request without needing shared session storage."
+  },
+  {
+    "question_id": "rest_api_theory_03",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the correct HTTP status code to return when a resource is created successfully?",
+    "options": [
+      {
+        "id": "a",
+        "text": "200 OK \u2014 success responses always use 200",
+        "misconception_tag": "200_for_creation"
+      },
+      {
+        "id": "b",
+        "text": "201 Created \u2014 indicates the request succeeded and a new resource was created"
+      },
+      {
+        "id": "c",
+        "text": "204 No Content \u2014 indicates successful creation with no body to return",
+        "misconception_tag": "204_for_creation"
+      },
+      {
+        "id": "d",
+        "text": "202 Accepted \u2014 creation is always asynchronous",
+        "misconception_tag": "202_for_creation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "201 Created is the correct status for a POST (or PUT) that successfully creates a new resource. It should ideally include a Location header pointing to the new resource's URL. 200 is for successful requests that return an existing resource. 204 is for successful requests that return no body (e.g., after a DELETE). 202 is for asynchronous processing."
+  },
+  {
+    "question_id": "rest_api_practical_01",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You are designing an API endpoint to update a user's email address only. Which method and URL combination is most RESTful?",
+    "options": [
+      {
+        "id": "a",
+        "text": "POST /users/update-email \u2014 actions should be in the URL path",
+        "misconception_tag": "actions_in_url"
+      },
+      {
+        "id": "b",
+        "text": "PUT /users/{id} with the full user object in the body"
+      },
+      {
+        "id": "c",
+        "text": "PATCH /users/{id} with only the email field in the body"
+      },
+      {
+        "id": "d",
+        "text": "GET /users/{id}/email?newEmail=foo@bar.com \u2014 query params pass new values",
+        "misconception_tag": "get_for_mutations"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "PATCH is designed for partial updates \u2014 you send only the fields you want to change. PUT is for full replacement of a resource (requires sending the entire representation). Using PATCH /users/{id} with only {\"email\": \"new@example.com\"} follows REST semantics correctly. Using verbs in URLs (update-email) is not RESTful. GET should never mutate state."
+  },
+  {
+    "question_id": "rest_api_practical_02",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A client sends a request to DELETE /users/999, but user 999 does not exist. What status code should the API return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "200 OK \u2014 the user doesn't exist, so the desired state (no user) is already achieved",
+        "misconception_tag": "200_for_nonexistent_delete"
+      },
+      {
+        "id": "b",
+        "text": "404 Not Found \u2014 the resource does not exist"
+      },
+      {
+        "id": "c",
+        "text": "204 No Content \u2014 DELETE always returns 204 regardless of existence",
+        "misconception_tag": "delete_always_204"
+      },
+      {
+        "id": "d",
+        "text": "400 Bad Request \u2014 the client sent an invalid user ID",
+        "misconception_tag": "nonexistent_id_is_400"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "404 Not Found is the standard response when a requested resource does not exist. Some APIs return 204 for idempotency reasons (the end result is the same \u2014 no user with that ID), but 404 is more semantically accurate and informative to the client. 400 is for malformed requests, not for valid IDs that simply don't match a record."
+  },
+  {
+    "question_id": "rest_api_practical_03",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "An API returns a list of thousands of products. What is the recommended approach for handling this response?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Return all products in a single response and let the client filter them",
+        "misconception_tag": "return_all_at_once"
+      },
+      {
+        "id": "b",
+        "text": "Use pagination with parameters like ?page=1&limit=20 or cursor-based pagination"
+      },
+      {
+        "id": "c",
+        "text": "Return a compressed ZIP archive containing all products",
+        "misconception_tag": "zip_for_large_lists"
+      },
+      {
+        "id": "d",
+        "text": "Use WebSockets to stream products one at a time to the client",
+        "misconception_tag": "websockets_for_pagination"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Returning thousands of records in one response causes large payloads, high memory usage, and slow response times. Pagination limits the response size. Offset-based pagination (?page=2&limit=20) is simple but can have consistency issues. Cursor-based pagination (using an opaque cursor to the last seen item) is more efficient for large datasets and avoids skipped/duplicated items during concurrent writes."
+  },
+  {
+    "question_id": "rest_api_practical_04",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A developer needs to pass an authentication token with every API request. Where is the correct place to send it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "As a query parameter: GET /api/data?token=abc123",
+        "misconception_tag": "token_in_query_param"
+      },
+      {
+        "id": "b",
+        "text": "In the request body for all HTTP methods",
+        "misconception_tag": "token_in_body"
+      },
+      {
+        "id": "c",
+        "text": "In the Authorization header: Authorization: Bearer abc123"
+      },
+      {
+        "id": "d",
+        "text": "In a custom X-Token header defined by the client",
+        "misconception_tag": "custom_header_for_token"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "The Authorization header is the standard location for authentication credentials. The Bearer scheme is used for JWT and OAuth tokens. Tokens in query parameters are logged in server access logs, browser history, and proxies \u2014 a security risk. Tokens in the body don't work for GET requests. Custom headers work but aren't standard and complicate CORS and middleware."
+  },
+  {
+    "question_id": "rest_api_edge_01",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A client POSTs the same order twice due to a network timeout (the first request reached the server but the response was lost). How should a well-designed API handle this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Accept both requests and create two orders \u2014 POST is not idempotent by design",
+        "misconception_tag": "post_always_creates_duplicate"
+      },
+      {
+        "id": "b",
+        "text": "Use idempotency keys: the client sends a unique Idempotency-Key header; the server deduplicates based on that key"
+      },
+      {
+        "id": "c",
+        "text": "Switch to PUT for order creation so it becomes idempotent automatically",
+        "misconception_tag": "put_for_idempotent_creation"
+      },
+      {
+        "id": "d",
+        "text": "There is no solution \u2014 duplicate POST requests are an unavoidable limitation of REST",
+        "misconception_tag": "no_post_idempotency_solution"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Idempotency keys (popularized by Stripe) are a standard pattern for making non-idempotent operations safe to retry. The client generates a unique key per operation and includes it in a header. The server stores the key and its result. If the same key arrives again, the server returns the cached response instead of re-executing. This prevents duplicate orders, charges, etc."
+  },
+  {
+    "question_id": "rest_api_edge_02",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A REST API returns HTTP 200 with a body of `{\"success\": false, \"error\": \"User not found\"}`. What is wrong with this approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Nothing \u2014 embedding error details in the body is the recommended approach",
+        "misconception_tag": "200_error_body_is_fine"
+      },
+      {
+        "id": "b",
+        "text": "The response body should be empty for errors \u2014 put all details in headers",
+        "misconception_tag": "error_details_in_headers"
+      },
+      {
+        "id": "c",
+        "text": "HTTP 200 signals success at the protocol level; clients and intermediaries (proxies, monitoring) will treat this as a success even though it's an error"
+      },
+      {
+        "id": "d",
+        "text": "The body format is wrong \u2014 errors should use XML instead of JSON",
+        "misconception_tag": "errors_require_xml"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Returning errors as HTTP 200 is an anti-pattern. HTTP status codes are a protocol-level contract: 200 means success. Using 200 for errors confuses caches, monitoring systems, client retry logic, and libraries that use status codes to route responses. Always use appropriate error codes: 404 for not found, 400 for bad input, 500 for server errors."
+  },
+  {
+    "question_id": "rest_api_edge_03",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What is the correct HTTP status code when a valid user tries to access a resource they do not have permission to view?",
+    "options": [
+      {
+        "id": "a",
+        "text": "401 Unauthorized \u2014 the user is not allowed to access this resource",
+        "misconception_tag": "401_for_forbidden"
+      },
+      {
+        "id": "b",
+        "text": "403 Forbidden \u2014 the user is authenticated but lacks permission for this resource"
+      },
+      {
+        "id": "c",
+        "text": "404 Not Found \u2014 some APIs hide forbidden resources to prevent enumeration"
+      },
+      {
+        "id": "d",
+        "text": "400 Bad Request \u2014 the user sent an invalid request by trying to access a resource they can't",
+        "misconception_tag": "400_for_permission_denied"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "401 Unauthorized means the user is not authenticated (missing or invalid credentials) and should log in. 403 Forbidden means the user IS authenticated but does not have permission for this specific resource. 404 is sometimes intentionally returned for forbidden resources to prevent information leakage about resource existence \u2014 a valid security strategy, but 403 is semantically correct."
+  },
+  {
+    "question_id": "rest_api_theory_04",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is HATEOAS and why is it considered a higher maturity level in REST API design?",
+    "options": [
+      {
+        "id": "a",
+        "text": "HATEOAS is a protocol for real-time bidirectional communication between REST clients and servers",
+        "misconception_tag": "hateoas_is_realtime"
+      },
+      {
+        "id": "b",
+        "text": "HATEOAS (Hypermedia as the Engine of Application State) means API responses include links to related actions and resources, making the API self-discoverable without out-of-band documentation"
+      },
+      {
+        "id": "c",
+        "text": "HATEOAS is a caching strategy where clients cache hypermedia links to avoid repeated server requests",
+        "misconception_tag": "hateoas_is_caching"
+      },
+      {
+        "id": "d",
+        "text": "HATEOAS is a security model where the API controls which endpoints a client can access based on authentication level",
+        "misconception_tag": "hateoas_is_security_model"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "HATEOAS is the highest level of Richardson's Maturity Model. Responses include hyperlinks describing available actions (e.g., a GET /orders/1 response includes a link to cancel the order if it's pending, but not if it's already shipped). Clients navigate the API through these links rather than constructing URLs themselves, reducing coupling between client and server."
+  },
+  {
+    "question_id": "rest_api_theory_05",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the difference between rate limiting and throttling in REST APIs?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are the same thing \u2014 the terms are used interchangeably",
+        "misconception_tag": "rate_limit_throttle_identical"
+      },
+      {
+        "id": "b",
+        "text": "Rate limiting caps the number of requests in a time window (excess requests are rejected); throttling delays or queues excess requests rather than rejecting them"
+      },
+      {
+        "id": "c",
+        "text": "Rate limiting applies to authenticated users; throttling applies to anonymous users",
+        "misconception_tag": "rate_auth_throttle_anon"
+      },
+      {
+        "id": "d",
+        "text": "Throttling is implemented client-side; rate limiting is server-side",
+        "misconception_tag": "throttle_client_side"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Rate limiting enforces a hard cap \u2014 too many requests in the window results in 429 Too Many Requests. Throttling reduces the speed of request processing rather than rejecting them outright \u2014 requests are slowed or queued. In practice, many systems use 'rate limiting' loosely for both. APIs communicate limits via headers like X-RateLimit-Limit and X-RateLimit-Remaining."
+  },
+  {
+    "question_id": "rest_api_theory_06",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is API versioning and what are the trade-offs between URL path versioning and header-based versioning?",
+    "options": [
+      {
+        "id": "a",
+        "text": "API versioning is not needed if you use semantic versioning in package.json",
+        "misconception_tag": "semver_replaces_api_versioning"
+      },
+      {
+        "id": "b",
+        "text": "URL path versioning (/v1/users) is visible and easy to test but pollutes the URL; header versioning (Accept: application/vnd.api+json;version=1) is cleaner but harder to test in browsers"
+      },
+      {
+        "id": "c",
+        "text": "Header versioning is always preferred because URLs should be stable and never change",
+        "misconception_tag": "header_versioning_always_preferred"
+      },
+      {
+        "id": "d",
+        "text": "URL path versioning is the only REST-compliant approach \u2014 headers cannot carry versioning information",
+        "misconception_tag": "only_url_versioning_restful"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Both approaches are widely used. URL versioning (/v1/, /v2/) is highly visible, cache-friendly, and easy to test with curl or a browser. It does create multiple URL namespaces. Header versioning (via Accept or custom headers) keeps URLs clean but is less discoverable and harder to test. Query parameter versioning (?version=1) is also used but considered less RESTful. Choose based on your API consumer needs."
+  },
+  {
+    "question_id": "rest_api_practical_05",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A mobile client experiences slow responses because the API returns full user objects (50 fields) but the client only needs name and avatar. What design pattern addresses this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Compress all API responses with gzip \u2014 compression reduces the effective payload size",
+        "misconception_tag": "gzip_instead_of_sparse_fields"
+      },
+      {
+        "id": "b",
+        "text": "Add a ?fields=name,avatar query parameter to allow sparse fieldsets / field projection"
+      },
+      {
+        "id": "c",
+        "text": "Switch to GraphQL \u2014 REST cannot support partial responses",
+        "misconception_tag": "rest_cannot_partial_response"
+      },
+      {
+        "id": "d",
+        "text": "Create a separate mobile-specific API endpoint that returns fewer fields",
+        "misconception_tag": "separate_endpoint_per_client"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Sparse fieldsets (field projection via ?fields=name,avatar) allow a single endpoint to serve different clients with different data needs without creating duplicated endpoints. This is a well-established REST pattern. GraphQL is an alternative that provides more flexible querying, but adding field filtering to REST is a simpler, compatible solution. Creating separate endpoints per client leads to endpoint proliferation."
+  },
+  {
+    "question_id": "rest_api_practical_06",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Your API endpoint GET /reports takes 30 seconds to generate a report. Clients time out. What is the correct REST pattern to address this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Increase the server timeout to 60 seconds to accommodate the long request",
+        "misconception_tag": "increase_timeout"
+      },
+      {
+        "id": "b",
+        "text": "Return 202 Accepted immediately, start processing asynchronously, and provide a polling endpoint (GET /reports/{jobId}/status) to check progress"
+      },
+      {
+        "id": "c",
+        "text": "Use HTTP/2 server push to stream the report data as it is generated",
+        "misconception_tag": "http2_push_for_long_jobs"
+      },
+      {
+        "id": "d",
+        "text": "Switch to a GraphQL subscription for real-time report updates",
+        "misconception_tag": "graphql_subscription_for_long_jobs"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The async job pattern is the RESTful solution for long-running operations. 202 Accepted tells the client the request was received and is being processed. The response body or Location header provides a job URL to poll. The client polls GET /reports/{jobId}/status until it gets 200 OK with the result or a failure status. This avoids connection timeouts and follows REST's stateless request model."
+  },
+  {
+    "question_id": "rest_api_practical_07",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A public REST API should allow JavaScript clients from different origins to call it. What must the server implement?",
+    "options": [
+      {
+        "id": "a",
+        "text": "CSRF tokens on every request to prevent cross-origin forgery",
+        "misconception_tag": "csrf_for_public_api_cors"
+      },
+      {
+        "id": "b",
+        "text": "CORS (Cross-Origin Resource Sharing) headers, specifically Access-Control-Allow-Origin"
+      },
+      {
+        "id": "c",
+        "text": "HTTPS \u2014 same-origin policy is bypassed when using HTTPS",
+        "misconception_tag": "https_bypasses_same_origin"
+      },
+      {
+        "id": "d",
+        "text": "JSON-P responses to bypass the same-origin policy",
+        "misconception_tag": "jsonp_modern_cors_solution"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Browsers enforce the same-origin policy, blocking JavaScript from reading responses from different origins. CORS is the standard mechanism to relax this. The server includes Access-Control-Allow-Origin (and related headers) in responses to tell the browser which origins are allowed. Preflight OPTIONS requests check permissions before non-simple requests. HTTPS, CSRF tokens, and JSONP do not solve CORS."
+  },
+  {
+    "question_id": "rest_api_practical_08",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "When should you use JWT (JSON Web Tokens) for API authentication vs. opaque session tokens stored in a database?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Always use JWT \u2014 they are more secure because they are signed",
+        "misconception_tag": "jwt_always_more_secure"
+      },
+      {
+        "id": "b",
+        "text": "Always use opaque tokens \u2014 JWT is insecure because payloads are base64 encoded",
+        "misconception_tag": "jwt_insecure_base64"
+      },
+      {
+        "id": "c",
+        "text": "JWTs are stateless and scale well for distributed systems but cannot be revoked before expiry without extra infrastructure; opaque tokens are easily revoked but require a database lookup per request"
+      },
+      {
+        "id": "d",
+        "text": "JWT and opaque tokens are technically identical \u2014 the choice is purely cosmetic",
+        "misconception_tag": "jwt_opaque_identical"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "JWTs are self-contained \u2014 the server verifies them cryptographically without a database lookup, making them ideal for distributed/microservice architectures. The downside: they cannot be invalidated before expiry without a blocklist (which reintroduces statefulness). Opaque tokens require a DB lookup per request but can be instantly revoked. The right choice depends on revocation requirements and architecture."
+  },
+  {
+    "question_id": "rest_api_edge_04",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A REST API uses ETag headers for caching. A client sends a GET request with `If-None-Match: \"abc123\"`. The resource has not changed. What should the server return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "200 OK with the full resource body \u2014 the server must always return the body",
+        "misconception_tag": "200_always_returns_body"
+      },
+      {
+        "id": "b",
+        "text": "304 Not Modified \u2014 the ETag matches, so the client's cached copy is still valid; no body is sent"
+      },
+      {
+        "id": "c",
+        "text": "412 Precondition Failed \u2014 the If-None-Match header is a precondition that failed",
+        "misconception_tag": "if_none_match_is_412"
+      },
+      {
+        "id": "d",
+        "text": "204 No Content \u2014 the resource is unchanged, so no content is returned",
+        "misconception_tag": "304_vs_204_etag"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "304 Not Modified is the correct response for a conditional GET where the ETag matches (resource unchanged). The server sends the status code and no body \u2014 the client uses its cached copy. This saves bandwidth and processing. 412 Precondition Failed is used when a conditional PUT/PATCH/DELETE fails (e.g., If-Match doesn't match, meaning someone else modified the resource first)."
+  },
+  {
+    "question_id": "rest_api_edge_05",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "An API client retries a PUT /orders/{id} request that timed out. The original request actually succeeded. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A duplicate order is created because PUT creates new resources on each call",
+        "misconception_tag": "put_creates_duplicate"
+      },
+      {
+        "id": "b",
+        "text": "The retry is safe \u2014 PUT is idempotent, so applying the same update twice produces the same result"
+      },
+      {
+        "id": "c",
+        "text": "The second PUT fails with 409 Conflict because the resource was already updated",
+        "misconception_tag": "put_retry_409"
+      },
+      {
+        "id": "d",
+        "text": "The order's version number increments twice, causing a data inconsistency",
+        "misconception_tag": "put_increments_version_twice"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "PUT's idempotency guarantee means retrying the same PUT request is safe \u2014 the server ends up in the same state as after the first successful request. This is fundamentally why PUT (full replace) is idempotent while POST (create new) is not. For APIs using optimistic locking (If-Match with version ETags), the retry would correctly get 412 if the resource was modified between calls."
+  },
+  {
+    "question_id": "rest_api_edge_06",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A REST API endpoint accepts both `application/json` and `application/xml`. A client sends a POST with `Content-Type: application/json` but includes `Accept: application/xml`. What should the server do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reject the request with 415 Unsupported Media Type because formats cannot be mixed",
+        "misconception_tag": "mixed_formats_rejected"
+      },
+      {
+        "id": "b",
+        "text": "Parse the JSON request body and return an XML response \u2014 Content-Type describes the request body; Accept describes the desired response format"
+      },
+      {
+        "id": "c",
+        "text": "Ignore the Accept header and always return JSON because the request was in JSON",
+        "misconception_tag": "request_format_determines_response"
+      },
+      {
+        "id": "d",
+        "text": "Return 406 Not Acceptable because Accept and Content-Type must match",
+        "misconception_tag": "accept_content_type_must_match"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Content-Type and Accept are independent. Content-Type describes the format of the REQUEST body. Accept describes the format the client wants in the RESPONSE. A client can POST JSON and ask for XML back. The server should parse the JSON body and return an XML response. If the server cannot produce XML, it returns 406 Not Acceptable."
+  },
+  {
+    "question_id": "rest_api_theory_07",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between optimistic concurrency control and pessimistic concurrency control in REST APIs?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Optimistic control uses database transactions; pessimistic control uses API-level locking",
+        "misconception_tag": "optimistic_db_pessimistic_api"
+      },
+      {
+        "id": "b",
+        "text": "Optimistic assumes conflicts are rare \u2014 it allows concurrent reads, then detects conflicts at write time using ETags/version numbers; pessimistic locks the resource immediately, preventing concurrent edits"
+      },
+      {
+        "id": "c",
+        "text": "Optimistic control is for read-heavy APIs; pessimistic is for write-heavy APIs \u2014 they are not related to conflict detection",
+        "misconception_tag": "optimistic_pessimistic_based_on_load"
+      },
+      {
+        "id": "d",
+        "text": "They are identical in REST \u2014 both use 409 Conflict to signal that an update failed",
+        "misconception_tag": "optimistic_pessimistic_identical"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Optimistic concurrency: client fetches resource (receives ETag/version), makes changes, then sends update with If-Match: {etag}. If the resource changed since the read, server returns 412 Precondition Failed \u2014 the client must re-fetch and retry. Pessimistic concurrency: client acquires a lock before editing (resource is unavailable to others during editing). Optimistic is more scalable; pessimistic prevents all conflicts but reduces throughput."
+  },
+  {
+    "question_id": "rest_api_theory_08",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the difference between REST and RPC (Remote Procedure Call) API styles, and when might you prefer each?",
+    "options": [
+      {
+        "id": "a",
+        "text": "REST and RPC are identical \u2014 both use HTTP and JSON",
+        "misconception_tag": "rest_rpc_identical"
+      },
+      {
+        "id": "b",
+        "text": "REST models resources (nouns) with uniform HTTP methods; RPC models operations (verbs) directly. REST is better for CRUD-heavy resource APIs; RPC (e.g., gRPC, JSON-RPC) is better for action-heavy or streaming APIs"
+      },
+      {
+        "id": "c",
+        "text": "RPC is only used for internal microservices; REST is only for public APIs",
+        "misconception_tag": "rpc_internal_rest_public"
+      },
+      {
+        "id": "d",
+        "text": "REST is faster than RPC because it uses HTTP/1.1; RPC uses older protocols",
+        "misconception_tag": "rest_faster_than_rpc"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "REST organizes APIs around resources (/orders, /users) using standard HTTP semantics. RPC organizes APIs around actions (/createOrder, /getUser). gRPC uses Protocol Buffers over HTTP/2 and supports streaming, making it ideal for high-performance internal services. REST's uniform interface makes it discoverable and cache-friendly. GraphQL is sometimes considered a form of RPC with a query language."
+  },
+  {
+    "question_id": "rest_api_theory_09",
+    "skill_id": "rest_api",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the N+1 problem in REST APIs and how does it differ from the same problem in GraphQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The N+1 problem is a database index issue \u2014 adding 1 to a primary key creates duplicate queries",
+        "misconception_tag": "n1_is_db_index_issue"
+      },
+      {
+        "id": "b",
+        "text": "In REST, N+1 occurs when fetching a list of N resources and then making N additional requests to fetch related data (e.g., GET /orders then N GETs for each order's user). In GraphQL, resolvers can trigger N+1 at the field level, solved by DataLoader batching"
+      },
+      {
+        "id": "c",
+        "text": "N+1 only affects GraphQL \u2014 REST's resource-oriented design prevents it",
+        "misconception_tag": "n1_only_graphql"
+      },
+      {
+        "id": "d",
+        "text": "N+1 is solved by always using nested URL patterns like /orders/{id}/users in REST",
+        "misconception_tag": "nested_urls_solve_n1"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In REST, N+1 arises when you fetch a list and then make individual requests for related data (1 call for orders + N calls for each user). Solutions include compound documents (including related data in the response), sparse fieldsets, or a dedicated batch endpoint. In GraphQL, N+1 occurs at the resolver level \u2014 solved by DataLoader which batches and caches per-request DB queries."
+  },
+  {
+    "question_id": "rest_api_practical_09",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You're designing an API for a banking app. A transfer needs to debit account A and credit account B atomically. How do you model this in REST?",
+    "options": [
+      {
+        "id": "a",
+        "text": "PATCH /accounts/A and PATCH /accounts/B in sequence \u2014 two separate calls",
+        "misconception_tag": "two_separate_patches"
+      },
+      {
+        "id": "b",
+        "text": "Model the transfer itself as a resource: POST /transfers with {from: A, to: B, amount: X} \u2014 the server handles atomicity"
+      },
+      {
+        "id": "c",
+        "text": "Use a distributed transaction protocol (2PC) exposed via REST headers",
+        "misconception_tag": "2pc_via_rest_headers"
+      },
+      {
+        "id": "d",
+        "text": "REST cannot model atomic multi-resource operations \u2014 use a different protocol",
+        "misconception_tag": "rest_cannot_atomic"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The correct RESTful approach is to model the transfer as its own resource. POST /transfers creates a Transfer object with source, destination, and amount. The server handles the atomic debit/credit within a database transaction. The transfer resource also provides an audit trail. Two separate PATCH calls cannot be atomic and risk partial failures leaving accounts in inconsistent states."
+  },
+  {
+    "question_id": "rest_api_practical_10",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "Your API returns a list of articles sorted by publication date. A client caches this list. When a new article is published, the cached list is stale. How should cache invalidation be designed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Set Cache-Control: no-cache on the articles list endpoint so it is never cached",
+        "misconception_tag": "no_cache_avoids_staleness"
+      },
+      {
+        "id": "b",
+        "text": "Use Cache-Control: max-age=60 so the cache expires frequently, limiting staleness to 60 seconds"
+      },
+      {
+        "id": "c",
+        "text": "Return an ETag based on the list's content hash; clients use If-None-Match for conditional revalidation, getting 304 when unchanged and fresh data when changed"
+      },
+      {
+        "id": "d",
+        "text": "Both B and C are valid trade-offs: B uses time-based expiry for simplicity; C uses content-based validation for accuracy"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "Both approaches have merit. max-age gives a TTL after which the cache revalidates \u2014 simple but allows data to be stale for up to max-age seconds. ETags provide precise content-based invalidation \u2014 the cache is updated immediately when content changes, but requires a round trip to revalidate. For a real-time news feed, ETags or a short max-age is appropriate. For less time-sensitive content, longer max-age suffices."
+  },
+  {
+    "question_id": "rest_api_practical_11",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "Your REST API needs to support bulk deletion of up to 1000 records by ID. GET and DELETE with a body are problematic. What is the most RESTful and practical approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Make 1000 individual DELETE /items/{id} requests \u2014 REST requires one endpoint per resource",
+        "misconception_tag": "1000_individual_deletes"
+      },
+      {
+        "id": "b",
+        "text": "POST /items/bulk-delete with a body containing the IDs \u2014 use POST for operations that don't fit standard methods"
+      },
+      {
+        "id": "c",
+        "text": "DELETE /items?ids=1,2,3,...1000 using query parameters"
+      },
+      {
+        "id": "d",
+        "text": "Both B and C are pragmatic solutions; B is more robust for large payloads and avoids URL length limits"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "Bulk operations are a known REST challenge. DELETE with a request body is technically allowed by HTTP but many clients/proxies/frameworks ignore it. Query parameter IDs (option C) hit URL length limits (~2000 chars) for 1000 IDs. POST with a body (option B) is safe, has no size limits, and is widely supported, though it violates strict REST semantics. Some APIs use DELETE with a body anyway, or define a batch resource (/items/batch). Option D correctly identifies the trade-offs."
+  },
+  {
+    "question_id": "rest_api_practical_12",
+    "skill_id": "rest_api",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You expose a webhook endpoint that receives events from a third-party service. How do you verify that requests genuinely come from that service and not an attacker?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Check the IP address of the incoming request against a known IP allowlist from the provider",
+        "misconception_tag": "ip_allowlist_for_webhooks"
+      },
+      {
+        "id": "b",
+        "text": "Verify the HMAC signature included in a header (e.g., X-Signature) by recomputing HMAC-SHA256 of the request body using a shared secret and comparing"
+      },
+      {
+        "id": "c",
+        "text": "Require the third-party to send an API key in the Authorization header",
+        "misconception_tag": "api_key_in_webhook"
+      },
+      {
+        "id": "d",
+        "text": "Require the request to come over HTTPS \u2014 TLS ensures the request is from the legitimate sender",
+        "misconception_tag": "https_authenticates_sender"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "HMAC signature verification is the industry standard for webhook authentication (used by Stripe, GitHub, etc.). The provider signs the request body with a shared secret using HMAC-SHA256 and includes the signature in a header. The receiver recomputes the signature and compares. IP allowlists can change and are brittle. API keys in headers can be leaked. HTTPS encrypts transit but doesn't authenticate the sender."
+  },
+  {
+    "question_id": "rest_api_edge_07",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A client uses cursor-based pagination on GET /feed and stores the cursor. Later, the items the cursor pointed to are deleted from the database. What should the API do when the client uses the stale cursor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Return 404 Not Found \u2014 the cursor's position no longer exists",
+        "misconception_tag": "stale_cursor_404"
+      },
+      {
+        "id": "b",
+        "text": "Return 400 Bad Request \u2014 the cursor is invalid",
+        "misconception_tag": "stale_cursor_400"
+      },
+      {
+        "id": "c",
+        "text": "Return the next available items after the cursor's last known position, or an empty page if none remain \u2014 the cursor should encode enough information to handle deletions gracefully"
+      },
+      {
+        "id": "d",
+        "text": "Return 410 Gone \u2014 the cursor expired and is permanently invalid",
+        "misconception_tag": "stale_cursor_410"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Cursor-based pagination should be resilient to deletions. A well-designed cursor encodes a stable sort key (like a timestamp or monotonic ID) rather than an absolute row offset. When the pointed-to item is deleted, the API returns items starting after that position. If none remain, it returns an empty page with a 200 status. Returning 400 or 404 breaks client pagination loops unnecessarily."
+  },
+  {
+    "question_id": "rest_api_edge_08",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Your API returns a `Retry-After` header with a 429 Too Many Requests response. The client ignores this header and immediately retries in a tight loop. What pattern prevents this from overwhelming your API?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The API should return 503 Service Unavailable instead of 429 \u2014 it forces clients to retry slower",
+        "misconception_tag": "503_prevents_tight_retry"
+      },
+      {
+        "id": "b",
+        "text": "Implement exponential backoff with jitter on the server side by adding increasing delays before responding",
+        "misconception_tag": "server_side_backoff"
+      },
+      {
+        "id": "c",
+        "text": "Add a circuit breaker or a token bucket / sliding window rate limiter that enforces the limit regardless of retry behavior, combined with IP-level blocking for abusive clients"
+      },
+      {
+        "id": "d",
+        "text": "Clients that ignore Retry-After cannot be controlled \u2014 documentation is the only remedy",
+        "misconception_tag": "only_documentation_helps"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "A well-implemented token bucket or sliding window rate limiter rejects requests regardless of how fast clients retry \u2014 each rejected request returns 429 with no additional cost to the server. For persistently abusive clients, circuit breakers or IP-level rate limiting (at the WAF/API gateway) add additional protection. Exponential backoff is a client-side pattern, not server-side."
+  },
+  {
+    "question_id": "rest_api_edge_09",
+    "skill_id": "rest_api",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A REST API endpoint returns different data based on the authenticated user's role (admin sees all fields; regular users see fewer fields). The response is cached by a CDN. What is the critical problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "CDNs cannot cache JSON \u2014 they only cache static assets like images and CSS",
+        "misconception_tag": "cdn_no_json_cache"
+      },
+      {
+        "id": "b",
+        "text": "The CDN may serve an admin's response to a regular user, exposing sensitive fields \u2014 the cache must vary by authentication identity"
+      },
+      {
+        "id": "c",
+        "text": "Role-based responses require cookies, which CDNs automatically block",
+        "misconception_tag": "cdn_blocks_cookies"
+      },
+      {
+        "id": "d",
+        "text": "The problem is only theoretical \u2014 CDNs hash request URLs and serve different cached versions per user automatically",
+        "misconception_tag": "cdn_hashes_per_user"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "CDNs cache responses by URL (and optionally by Vary header). If an admin and a regular user share the same URL, the CDN may serve the admin's cached response (with all fields) to a regular user. Solutions: add `Vary: Authorization` (not ideal \u2014 defeats caching for most setups), use separate endpoints per role, set Cache-Control: private (bypasses CDN), or add role to the cache key. For sensitive user-specific data, CDN caching should generally be avoided."
+  }
+]

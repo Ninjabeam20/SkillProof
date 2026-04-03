@@ -1,0 +1,3725 @@
+[
+  {
+    "question_id": "linear_regression_Q01",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "A residual plot against fitted values shows a fan-shaped spread that widens as fitted values increase. Which OLS assumption does this violate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Normality of residuals",
+        "misconception_tag": "confusing normality with homoscedasticity"
+      },
+      {
+        "id": "b",
+        "text": "Homoscedasticity (constant error variance)"
+      },
+      {
+        "id": "c",
+        "text": "Independence of observations",
+        "misconception_tag": "confusing autocorrelation with heteroscedasticity"
+      },
+      {
+        "id": "d",
+        "text": "Linearity of the relationship",
+        "misconception_tag": "attributing fan pattern to non-linearity"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A fan-shaped plot means error variance grows with fitted values — heteroscedasticity. Normality relates to the distribution shape of residuals, not their spread. Independence concerns correlation between observations, not variance structure. Non-linearity shows a curved trend, not expanding spread."
+  },
+  {
+    "question_id": "linear_regression_Q02",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does ordinary least squares (OLS) regression minimize when fitting a model?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The sum of absolute residuals",
+        "misconception_tag": "confusing OLS with LAD/MAE regression"
+      },
+      {
+        "id": "b",
+        "text": "The sum of squared residuals"
+      },
+      {
+        "id": "c",
+        "text": "The maximum individual residual",
+        "misconception_tag": "confusing with minimax objective"
+      },
+      {
+        "id": "d",
+        "text": "The mean absolute percentage error",
+        "misconception_tag": "confusing with MAPE loss"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "OLS minimizes the sum of squared residuals (SSR = Σ(yᵢ - ŷᵢ)²). This yields a unique closed-form solution (β = (X'X)⁻¹X'y) and penalizes large errors more heavily. MAE minimizes absolute residuals. Minimax minimizes worst-case error. MAPE is percentage-based and not used in OLS."
+  },
+  {
+    "question_id": "linear_regression_Q03",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "An R² of 0.78 is reported for a linear regression model. What does this value represent?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model is correct 78% of the time",
+        "misconception_tag": "treating R² as classification accuracy"
+      },
+      {
+        "id": "b",
+        "text": "78% of the variance in the target variable is explained by the predictors"
+      },
+      {
+        "id": "c",
+        "text": "The model's predictions are within 78% of actual values on average",
+        "misconception_tag": "confusing with MAPE"
+      },
+      {
+        "id": "d",
+        "text": "78% of the data points lie on the regression line",
+        "misconception_tag": "geometric misinterpretation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "R² = 1 - SS_res/SS_tot measures the proportion of target variance explained by the model. It is not an accuracy metric — regression has no binary correct/incorrect. It says nothing about how close predictions are in absolute terms or how many points lie exactly on the line."
+  },
+  {
+    "question_id": "linear_regression_Q04",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You fit: salary = 30000 + 500 × years_experience. A candidate has 8 years of experience. What is the predicted salary?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$4,000 — just the coefficient contribution",
+        "misconception_tag": "forgetting the intercept"
+      },
+      {
+        "id": "b",
+        "text": "$34,000 — intercept plus coefficient times years"
+      },
+      {
+        "id": "c",
+        "text": "$38,000 — adding 8 to both the intercept and coefficient",
+        "misconception_tag": "arithmetic confusion"
+      },
+      {
+        "id": "d",
+        "text": "$530,000 — multiplying all terms together",
+        "misconception_tag": "multiplicative confusion"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Prediction = 30000 + 500 × 8 = 30000 + 4000 = 34000. Option a forgets the intercept. Option c incorrectly adds 8 to both terms. Option d multiplies instead of using linear combination."
+  },
+  {
+    "question_id": "linear_regression_Q05",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Your linear regression model has train RMSE = 12.1 and test RMSE = 12.9. A colleague says this is overfitting. What is the correct response?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are correct — any test > train RMSE indicates overfitting",
+        "misconception_tag": "treating any gap as overfitting"
+      },
+      {
+        "id": "b",
+        "text": "They are wrong — a small gap is expected and the model generalizes well"
+      },
+      {
+        "id": "c",
+        "text": "They are correct only if R² < 0.5",
+        "misconception_tag": "mixing unrelated thresholds"
+      },
+      {
+        "id": "d",
+        "text": "The RMSE values need to be normalized before comparing",
+        "misconception_tag": "unnecessary step for same-scale comparison"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A marginal test/train gap (12.9 vs 12.1) is expected due to sampling variation — the model has seen training data but not test data. True overfitting shows a large gap (e.g., train=5, test=40). Without domain context the absolute values cannot be judged. Normalization is irrelevant since both use the same target scale."
+  },
+  {
+    "question_id": "linear_regression_Q06",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You want to include a categorical feature 'region' with 4 unique values in a linear regression. How many binary dummy variables should you create?",
+    "options": [
+      {
+        "id": "a",
+        "text": "4 — one per category",
+        "misconception_tag": "dummy variable trap — perfect multicollinearity"
+      },
+      {
+        "id": "b",
+        "text": "3 — k-1 to avoid perfect multicollinearity"
+      },
+      {
+        "id": "c",
+        "text": "1 — encode as 1, 2, 3, 4 ordinal",
+        "misconception_tag": "treating nominal as ordinal"
+      },
+      {
+        "id": "d",
+        "text": "2 — one per pair of categories",
+        "misconception_tag": "incorrect encoding logic"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With k categories, create k-1 dummies to avoid the dummy variable trap. The dropped category becomes the reference baseline. Using all 4 creates a column that is a linear combination of the others (they sum to 1), making X'X singular. Ordinal encoding imposes a false ordering on nominal categories."
+  },
+  {
+    "question_id": "linear_regression_Q07",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You apply StandardScaler to all features before fitting linear regression. How does this affect the model's out-of-sample predictions?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Predictions improve because the model converges better",
+        "misconception_tag": "confusing gradient descent behavior with OLS"
+      },
+      {
+        "id": "b",
+        "text": "Predictions are mathematically identical — only coefficient scale changes"
+      },
+      {
+        "id": "c",
+        "text": "R² increases because scaled features reduce variance",
+        "misconception_tag": "believing scaling changes fit quality"
+      },
+      {
+        "id": "d",
+        "text": "Scaling is mandatory for OLS to produce valid results",
+        "misconception_tag": "believing OLS requires standardization"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Linear regression predictions are scale-invariant. Standardization rescales coefficients inversely to feature scale — their dot product with standardized features produces the same prediction as unscaled. R² is scale-invariant by construction. OLS (unlike gradient descent) does not require standardization to converge correctly."
+  },
+  {
+    "question_id": "linear_regression_Q08",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You accidentally include both 'age_years' and 'age_months' (= age_years × 12) as features. You call model.fit() without error. What happened to the coefficients?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model detected duplication and used only age_years",
+        "misconception_tag": "expecting automatic deduplication"
+      },
+      {
+        "id": "b",
+        "text": "The design matrix is rank-deficient; coefficients are arbitrary and can take infinitely many valid combinations"
+      },
+      {
+        "id": "c",
+        "text": "R² dropped because the duplicate feature added noise",
+        "misconception_tag": "confusing multicollinearity with noise"
+      },
+      {
+        "id": "d",
+        "text": "Training halted due to a singular matrix exception",
+        "misconception_tag": "expecting explicit failure in sklearn"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "age_months = 12 × age_years creates perfect multicollinearity. X'X becomes singular. Most libraries (sklearn uses numpy lstsq or SVD) silently return some solution but coefficients are not unique — any pair (c, c/12) that sums to the same effect is equally valid. No exception is raised; the model fits but coefficients are meaningless."
+  },
+  {
+    "question_id": "linear_regression_Q09",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You have 6 training samples and 10 features. What is the expected behavior when you fit OLS linear regression?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model refuses to fit and raises an error",
+        "misconception_tag": "expecting explicit failure"
+      },
+      {
+        "id": "b",
+        "text": "The model perfectly fits training data (near-zero residuals) but generalizes poorly"
+      },
+      {
+        "id": "c",
+        "text": "The model underfits because there is not enough data",
+        "misconception_tag": "confusing p>n overfitting with underfitting"
+      },
+      {
+        "id": "d",
+        "text": "Coefficients are automatically regularized to prevent overfitting",
+        "misconception_tag": "believing OLS self-regularizes"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When p > n, the system is underdetermined — infinitely many hyperplanes pass through n points in p-dimensional space. OLS finds one such solution (via pseudoinverse), achieving near-perfect training fit (R²≈1). But the solution is extremely sensitive to any individual point, so generalization is catastrophic. OLS applies no regularization without explicit Ridge/Lasso."
+  },
+  {
+    "question_id": "linear_regression_Q10",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A feature has a coefficient p-value of 0.68 in your linear regression. Your manager insists you remove it. What is the risk of mechanically applying this rule?",
+    "options": [
+      {
+        "id": "a",
+        "text": "None — p > 0.05 definitively proves the feature is useless",
+        "misconception_tag": "mechanical p-value application"
+      },
+      {
+        "id": "b",
+        "text": "High multicollinearity can inflate p-values for genuinely useful features; predictive value should be assessed via cross-validation"
+      },
+      {
+        "id": "c",
+        "text": "Removing it will always increase test RMSE",
+        "misconception_tag": "overclaiming direction of effect"
+      },
+      {
+        "id": "d",
+        "text": "p-values are only valid for classification models",
+        "misconception_tag": "false scope restriction"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "p-values test whether a coefficient is distinguishable from zero given other features. Multicollinearity shares variance across correlated features, inflating standard errors and p-values for individually useful predictors. Predictive importance should be assessed by measuring CV performance with and without the feature. Mechanical p > 0.05 removal can eliminate genuinely valuable predictors."
+  },
+  {
+    "question_id": "linear_regression_Q11",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "Ridge regression (L2) is applied to a linear model. Compared to OLS, what is the exact tradeoff?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reduces bias at the cost of higher variance",
+        "misconception_tag": "inverted bias-variance tradeoff"
+      },
+      {
+        "id": "b",
+        "text": "Increases bias while reducing variance, improving generalization when OLS overfits"
+      },
+      {
+        "id": "c",
+        "text": "Eliminates irrelevant features by zeroing their coefficients",
+        "misconception_tag": "confusing Ridge with Lasso"
+      },
+      {
+        "id": "d",
+        "text": "Removes multicollinearity by decorrelating features before fitting",
+        "misconception_tag": "confusing Ridge with PCA preprocessing"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Ridge adds λ||β||² to the cost function, shrinking coefficients toward zero. This introduces bias (coefficients are no longer OLS estimates) but reduces variance (coefficients are more stable, less sensitive to training data perturbations). When OLS overfits (high variance), this tradeoff improves test performance. Lasso (L1) produces exact zeros; Ridge shrinks but rarely zeros. Ridge doesn't decorrelate features."
+  },
+  {
+    "question_id": "linear_regression_Q12",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "Model A: R² = 0.84, Adjusted R² = 0.82. Model B: R² = 0.86, Adjusted R² = 0.79. Which model is more parsimonious and why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Model B — higher R² means better fit regardless",
+        "misconception_tag": "ignoring parsimony penalty"
+      },
+      {
+        "id": "b",
+        "text": "Model A — its adjusted R² is higher, meaning its additional features contribute more efficiently"
+      },
+      {
+        "id": "c",
+        "text": "They are equivalent — both R² values are within acceptable range",
+        "misconception_tag": "treating small differences as noise"
+      },
+      {
+        "id": "d",
+        "text": "Model A — because lower R² indicates less overfitting",
+        "misconception_tag": "misreading R² as overfitting indicator"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Adjusted R² penalizes adding features that don't improve fit proportionally to the loss of degrees of freedom. Model B has higher R² but lower adjusted R² — its extra features explain some variance but not enough to justify the added complexity. Model A's features are more efficient. Parsimony favors Model A."
+  },
+  {
+    "question_id": "linear_regression_Q13",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "The Variance Inflation Factor (VIF) for predictor X₃ is 22. What does this tell you and what action is appropriate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "X₃ has high variance in the dataset; normalize it",
+        "misconception_tag": "confusing VIF with feature variance"
+      },
+      {
+        "id": "b",
+        "text": "X₃ is highly collinear with other predictors; its coefficient is unreliable — remove, combine, or use Ridge"
+      },
+      {
+        "id": "c",
+        "text": "X₃ is the most predictive feature; retain it",
+        "misconception_tag": "misreading high VIF as high importance"
+      },
+      {
+        "id": "d",
+        "text": "The dataset needs more samples to stabilize VIF",
+        "misconception_tag": "confusing VIF with sample-size issues"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "VIF = 1/(1 - R²ⱼ) where R²ⱼ is the R² from regressing X₃ on all other features. VIF=22 means 95.5% of X₃'s variance is explained by other features, inflating its coefficient's standard error 22-fold. The coefficient estimate is numerically unstable. Action: remove one correlated feature, use Ridge (which handles multicollinearity by distributing weight), or apply PCA."
+  },
+  {
+    "question_id": "linear_regression_Q14",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Production model: train RMSE = 5,200 and test RMSE = 21,800. The quickest intervention is:",
+    "options": [
+      {
+        "id": "a",
+        "text": "Add more features to improve accuracy",
+        "misconception_tag": "adding complexity worsens overfitting"
+      },
+      {
+        "id": "b",
+        "text": "Apply Ridge or Lasso regularization to penalize large coefficients"
+      },
+      {
+        "id": "c",
+        "text": "Use polynomial features to capture non-linearities",
+        "misconception_tag": "increasing complexity for an overfitting model"
+      },
+      {
+        "id": "d",
+        "text": "Retrain with a smaller learning rate",
+        "misconception_tag": "OLS has no learning rate"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Test RMSE 4× train RMSE is severe overfitting. The immediate targeted fix is regularization: Ridge (L2) or Lasso (L1) penalizes large coefficients, reducing model variance. Adding features or polynomial terms increases complexity, worsening overfitting. OLS is a closed-form solver with no learning rate parameter."
+  },
+  {
+    "question_id": "linear_regression_Q15",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Feature 'distance_km' has coefficient 0.03 and 'num_stops' has coefficient 9.2 in a delivery time model. A stakeholder says distance matters less. What is wrong with this conclusion?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Nothing — smaller coefficient always means less impact",
+        "misconception_tag": "scale-ignorant coefficient comparison"
+      },
+      {
+        "id": "b",
+        "text": "Coefficients are not comparable across features on different scales; standardize features to compare importance"
+      },
+      {
+        "id": "c",
+        "text": "The conclusion is valid if R² > 0.9",
+        "misconception_tag": "using R² to validate scale comparison"
+      },
+      {
+        "id": "d",
+        "text": "Coefficient comparison only matters for categorical features",
+        "misconception_tag": "incorrect scope restriction"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Coefficient magnitude reflects a one-unit change in that feature. If distance_km ranges 0–500 and num_stops ranges 0–5, the total effect of distance could be 0.03×500=15 minutes vs num_stops 9.2×5=46 minutes. Raw coefficient comparison across different-scale features is meaningless. Standardize features (z-score) then refit to get comparable standardized coefficients."
+  },
+  {
+    "question_id": "linear_regression_Q16",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You fit a linear regression and report test R² = 0.93 from a single 80/20 random split. What is the most important caveat?",
+    "options": [
+      {
+        "id": "a",
+        "text": "80/20 always produces biased estimates",
+        "misconception_tag": "treating split ratio as universally problematic"
+      },
+      {
+        "id": "b",
+        "text": "A single split is sensitive to which samples are in each partition; k-fold cross-validation gives more reliable generalization estimates"
+      },
+      {
+        "id": "c",
+        "text": "R² above 0.9 always indicates data leakage",
+        "misconception_tag": "treating high R² as automatic red flag"
+      },
+      {
+        "id": "d",
+        "text": "The model should be retrained on all data before R² is evaluated",
+        "misconception_tag": "conflating final model training with evaluation protocol"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A single random split can produce artificially high or low R² depending on which samples land in test. Cross-validation averages performance over multiple splits, reducing this variance. High R² is not inherently suspicious — domain context matters. R² is evaluated on held-out data; retraining on all data is done after evaluation for deployment, not for reporting metrics."
+  },
+  {
+    "question_id": "linear_regression_Q17",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You must predict house prices. The target 'price' ranges from $80K to $12M with heavy right skew. You apply log(price) as target and fit regression. How do you interpret a coefficient of 0.004 for 'sqft'?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Each additional sqft adds $0.004 to price",
+        "misconception_tag": "forgetting log-scale interpretation"
+      },
+      {
+        "id": "b",
+        "text": "Each additional sqft multiplies price by e^0.004 ≈ 1.004 — a 0.4% increase in price"
+      },
+      {
+        "id": "c",
+        "text": "Each additional sqft adds 0.4% to log(price) linearly with no multiplicative meaning",
+        "misconception_tag": "confusing additive log units with percentage"
+      },
+      {
+        "id": "d",
+        "text": "The coefficient is too small to be meaningful",
+        "misconception_tag": "incorrect threshold judgment"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When the target is log(price), a unit increase in sqft changes log(price) by 0.004. Back-transforming: new_price = original_price × e^0.004 ≈ original_price × 1.004. This means each sqft adds approximately 0.4% to price — a multiplicative, not additive, relationship on the original scale."
+  },
+  {
+    "question_id": "linear_regression_Q18",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You include both 'temp_celsius' and 'temp_fahrenheit' (F = 1.8C + 32) as features. The model fits without error. What is the mathematical consequence?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model uses only one column and ignores the other",
+        "misconception_tag": "expecting automatic deduplication"
+      },
+      {
+        "id": "b",
+        "text": "X'X is singular — infinitely many coefficient combinations satisfy the optimization, making both coefficients meaningless"
+      },
+      {
+        "id": "c",
+        "text": "R² increases because two temperature representations capture more variance",
+        "misconception_tag": "redundant features inflate in-sample R²"
+      },
+      {
+        "id": "d",
+        "text": "The model's predictions become the average of two separate temperature-based models",
+        "misconception_tag": "incorrect ensemble interpretation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "F = 1.8C + 32 is a perfect linear transformation. Including both creates exact linear dependence in X. X'X becomes rank-deficient (singular), so (X'X)⁻¹ does not exist uniquely. The solver returns one of infinitely many solutions. Any combination (β_C - 1.8k, β_F + k) for any k is equally valid. Both individual coefficients are meaningless; only their combined effect is identified."
+  },
+  {
+    "question_id": "linear_regression_Q19",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "The true relationship is y = 5x² + noise. You fit a linear model. Train RMSE = 38 and test RMSE = 41. What is the diagnosis?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Overfitting — the train/test gap indicates model complexity is too high",
+        "misconception_tag": "misreading small gap as overfitting"
+      },
+      {
+        "id": "b",
+        "text": "Underfitting — the linear model cannot capture the quadratic signal; both errors are systematically high"
+      },
+      {
+        "id": "c",
+        "text": "The model is well-calibrated — a small gap is ideal",
+        "misconception_tag": "accepting high absolute error as good"
+      },
+      {
+        "id": "d",
+        "text": "Add regularization to close the gap further",
+        "misconception_tag": "applying overfitting remedy to underfitting"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A train/test gap of only 3 (38 vs 41) with both values high indicates underfitting — the model is consistently wrong in the same way (missing the quadratic curve) on both sets. The fix is to increase model capacity by adding x² as a feature. Regularization reduces model complexity, making underfitting worse."
+  },
+  {
+    "question_id": "linear_regression_Q20",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You add 40 randomly generated noise columns to your feature matrix before fitting OLS. What happens to training R² and test R²?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Both decrease — noise features degrade the model",
+        "misconception_tag": "believing noise hurts in-sample fit"
+      },
+      {
+        "id": "b",
+        "text": "Training R² increases or stays the same; test R² decreases (overfitting to noise)"
+      },
+      {
+        "id": "c",
+        "text": "Both remain unchanged — OLS ignores irrelevant features",
+        "misconception_tag": "believing OLS filters noise automatically"
+      },
+      {
+        "id": "d",
+        "text": "Test R² increases because more columns = more information",
+        "misconception_tag": "more features always help fallacy"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "OLS minimizes training error; adding any column (even pure noise) can only keep or improve training R² because the model can always set the noise coefficient near zero without increasing training error. However, fitting noise slightly tilts the hyperplane, worsening generalization. OLS has no built-in feature selection — it fits all provided columns."
+  },
+  {
+    "question_id": "linear_regression_Q21",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "Under Gauss-Markov, OLS is BLUE. Heteroscedasticity (non-constant error variance) violates one condition. What precisely does this violation cost OLS?",
+    "options": [
+      {
+        "id": "a",
+        "text": "OLS becomes biased — expected coefficients no longer equal true coefficients",
+        "misconception_tag": "heteroscedasticity does not cause bias"
+      },
+      {
+        "id": "b",
+        "text": "OLS remains unbiased but is no longer minimum variance — WLS achieves lower variance"
+      },
+      {
+        "id": "c",
+        "text": "OLS cannot be computed — the normal equations have no solution",
+        "misconception_tag": "heteroscedasticity doesn't make the system unsolvable"
+      },
+      {
+        "id": "d",
+        "text": "OLS loses consistency — coefficients do not converge to true values as n → ∞",
+        "misconception_tag": "heteroscedasticity doesn't affect consistency"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Gauss-Markov requires: linearity, exogeneity (E[ε|X]=0), no perfect multicollinearity, homoscedasticity, and no autocorrelation. Violating homoscedasticity keeps E[ε|X]=0 so OLS remains unbiased and consistent. But OLS no longer achieves minimum variance — WLS, which weights observations inversely by variance, produces more efficient (lower-variance) estimates. OLS standard errors are also incorrect, invalidating hypothesis tests."
+  },
+  {
+    "question_id": "linear_regression_Q22",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "In the hat matrix H = X(X'X)⁻¹X', observation i has leverage h_ii = 1. What does this imply?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Observation i has the highest target value in the training set",
+        "misconception_tag": "confusing leverage with response magnitude"
+      },
+      {
+        "id": "b",
+        "text": "Observation i has zero residual — the regression surface is forced through this point regardless of its y value"
+      },
+      {
+        "id": "c",
+        "text": "Observation i is at the centroid of the feature space",
+        "misconception_tag": "inverting leverage concept"
+      },
+      {
+        "id": "d",
+        "text": "Observation i will be down-weighted during fitting",
+        "misconception_tag": "confusing with robust regression"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Leverage h_ii = 1 means observation i's fitted value equals its actual value exactly (ê_i = 0 always), regardless of y_i. The observation has total self-influence — it completely determines its own prediction. Leverage ranges [1/n, 1]; points far from the feature centroid have high leverage. h_ii = 1 means the point is fully 'using up' one dimension of the fit. Points near the centroid have leverage ≈ 1/n."
+  },
+  {
+    "question_id": "linear_regression_Q23",
+    "skill_id": "linear_regression",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "Elastic Net combines L1 and L2 penalties. In which specific data structure does it uniquely outperform both pure Lasso and pure Ridge?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When all features are independent with equal importance",
+        "misconception_tag": "Ridge is preferred here"
+      },
+      {
+        "id": "b",
+        "text": "When features form correlated groups and only some groups are relevant to the target"
+      },
+      {
+        "id": "c",
+        "text": "When n >> p and the signal-to-noise ratio is high",
+        "misconception_tag": "OLS or Ridge works fine here"
+      },
+      {
+        "id": "d",
+        "text": "When the target variable has a bimodal distribution",
+        "misconception_tag": "distribution of target is unrelated to regularization choice"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Pure Lasso randomly selects one feature from each correlated group (unstable selection). Pure Ridge keeps all correlated features with similar non-zero coefficients (no sparsity). Elastic Net's L1 component enforces group-level sparsity while L2 keeps selected group members together with similar coefficients. Ideal for genomics, NLP, or any domain with correlated feature clusters where group-level selection matters."
+  },
+  {
+    "question_id": "linear_regression_Q24",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A model deployed 8 months ago now has test RMSE = 34 vs original test RMSE = 11. Train RMSE is unchanged at 10. No code changes were made. What is the most likely root cause?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Overfitting worsened over time as the model saw more data",
+        "misconception_tag": "static models don't learn from new data"
+      },
+      {
+        "id": "b",
+        "text": "Data drift — the distribution of production inputs has shifted away from the training distribution"
+      },
+      {
+        "id": "c",
+        "text": "The regularization coefficient decayed over time",
+        "misconception_tag": "static models have fixed hyperparameters"
+      },
+      {
+        "id": "d",
+        "text": "Floating-point precision errors accumulated over 8 months of serving",
+        "misconception_tag": "fp errors don't accumulate in stateless batch predictions"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When a static (unchanging) model's performance degrades on new production data over time with stable training metrics, data drift is the canonical explanation. The world changed (user behavior, seasonality, market conditions, data pipelines) but the model didn't. Train RMSE is stable because the model hasn't changed — only new production data (different distribution) shows degraded performance."
+  },
+  {
+    "question_id": "linear_regression_Q25",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have n=2M samples and p=800 features. You want to fit linear regression. What is the primary scalability bottleneck with normal equations and what is the recommended approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Storing 2M rows in memory is the bottleneck; use chunked reading",
+        "misconception_tag": "memory is manageable for tabular data"
+      },
+      {
+        "id": "b",
+        "text": "Computing X'X is O(n×p²) — 1.28 trillion operations; use stochastic gradient descent or mini-batch methods"
+      },
+      {
+        "id": "c",
+        "text": "800 features exceed hardware floating-point limits",
+        "misconception_tag": "800 features is computationally trivial"
+      },
+      {
+        "id": "d",
+        "text": "OLS cannot handle datasets larger than 100K samples",
+        "misconception_tag": "false architectural limitation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Normal equations require: (1) computing X'X — O(n×p²), (2) inverting p×p matrix — O(p³). With n=2M and p=800: X'X computation = 2M × 640K = 1.28 trillion operations. The p×p inversion (800³ ≈ 512M ops) is trivial by comparison. SGD/mini-batch gradient descent updates coefficients with O(p) per sample, making it O(n×p) total — 1.6 billion vs 1.28 trillion."
+  },
+  {
+    "question_id": "linear_regression_Q26",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You train on monthly sales data (48 months) using a random 80/20 split and get test R² = 0.91. Your lead says this number is meaningless. Why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Random split is always valid for any data type",
+        "misconception_tag": "ignoring temporal structure"
+      },
+      {
+        "id": "b",
+        "text": "Random split on time series causes leakage — future months in training predict past months in test; temporal split is required"
+      },
+      {
+        "id": "c",
+        "text": "48 samples is too small for any valid R² estimate",
+        "misconception_tag": "focusing on sample size not the real issue"
+      },
+      {
+        "id": "d",
+        "text": "R² is not a valid metric for time series",
+        "misconception_tag": "R² is valid; split methodology is the issue"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Time series data has temporal ordering. Random splitting allows months 40–48 to appear in training while months 5–10 appear in test. The model learns from 'the future' to predict 'the past' — data leakage. Correct evaluation: train on months 1–38, test on months 39–48. The high R²=0.91 is likely an artifact of this leakage, not genuine predictive power."
+  },
+  {
+    "question_id": "linear_regression_Q27",
+    "skill_id": "linear_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "After log-transforming the target (revenue) and fitting regression, predictions are in log scale. You apply exp() to get revenue predictions. A statistician warns your predictions are biased. Why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "exp() is the wrong inverse function; use 10^x instead",
+        "misconception_tag": "confusing natural log with log base 10"
+      },
+      {
+        "id": "b",
+        "text": "Due to Jensen's inequality, E[exp(log_ŷ)] < E[revenue]; exp() gives the geometric mean, underpredicting the arithmetic mean"
+      },
+      {
+        "id": "c",
+        "text": "The bias comes from training on log scale which distorts coefficients",
+        "misconception_tag": "log transformation doesn't distort coefficients"
+      },
+      {
+        "id": "d",
+        "text": "Bias only occurs if outliers exist in the training data",
+        "misconception_tag": "outliers are not the cause here"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "By Jensen's inequality, E[exp(X)] ≥ exp(E[X]) for convex functions. When predicting log(y) and back-transforming with exp(), you get the median of y (geometric mean), not the mean. The arithmetic mean requires the smearing correction: multiply exp(ŷ) by exp(σ²_ε/2) where σ²_ε is the residual variance on log scale. Without this correction, mean predictions are systematically downward-biased."
+  },
+  {
+    "question_id": "linear_regression_Q28",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "A single outlier has y = 10× the dataset mean. After fitting OLS, this outlier has near-zero residual but all other points have large residuals. What mechanism caused this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "OLS automatically detected and down-weighted the outlier",
+        "misconception_tag": "OLS does not down-weight; that is robust regression"
+      },
+      {
+        "id": "b",
+        "text": "The outlier has high leverage — OLS minimizes squared error, so the line tilted toward the outlier to eliminate its large contribution at the expense of all other points"
+      },
+      {
+        "id": "c",
+        "text": "The outlier increased R² by extending the fitted value range",
+        "misconception_tag": "confusing range extension with fit accuracy"
+      },
+      {
+        "id": "d",
+        "text": "The model is correctly handling the outlier through regularization",
+        "misconception_tag": "no regularization was mentioned"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "OLS minimizes Σ(yᵢ-ŷᵢ)². A point 10× the mean creates an enormous squared error term. Tilting the regression line toward it dramatically reduces this one large term, even if it increases many small residuals. This is the high-influence / high-leverage problem. Cook's distance quantifies this: it measures how much all fitted values change when the observation is removed."
+  },
+  {
+    "question_id": "linear_regression_Q29",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Lasso with α=0.0001 vs α=5000 on the same dataset. What do you expect from each extreme?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Both converge to the same OLS solution since Lasso is consistent",
+        "misconception_tag": "L1 is not OLS at any alpha"
+      },
+      {
+        "id": "b",
+        "text": "α=0.0001: near-OLS solution with most features non-zero. α=5000: all coefficients forced to zero, model predicts the training mean"
+      },
+      {
+        "id": "c",
+        "text": "Higher alpha always improves test performance — more regularization is better",
+        "misconception_tag": "more regularization leads to underfitting at extremes"
+      },
+      {
+        "id": "d",
+        "text": "Lasso becomes identical to Ridge at very high alpha",
+        "misconception_tag": "L1 and L2 penalties converge differently"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "At α→0 the L1 penalty is negligible; Lasso approaches OLS. At α→∞ the penalty dominates all terms; every coefficient is driven to zero (minimum of Σ|β| subject to fitting is β=0), and the model predicts the training mean (intercept-only). Neither extreme generalizes well — optimal α is found via cross-validation. High α causes severe underfitting."
+  },
+  {
+    "question_id": "linear_regression_Q30",
+    "skill_id": "linear_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Recursive Feature Elimination (RFE) with OLS removes features by smallest absolute coefficient each iteration. On a dataset with highly correlated features, this produces unstable results across different random seeds. Why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "RFE requires standardization to be stable — scale-normalize first",
+        "misconception_tag": "scaling helps but doesn't fix the correlation instability"
+      },
+      {
+        "id": "b",
+        "text": "With correlated features, OLS distributes weights arbitrarily among them; tiny perturbations change which gets the smallest coefficient, making elimination order non-deterministic"
+      },
+      {
+        "id": "c",
+        "text": "OLS coefficients are inherently random; RFE requires regularized regression",
+        "misconception_tag": "OLS is deterministic given the data"
+      },
+      {
+        "id": "d",
+        "text": "RFE only works reliably with more than 1000 samples",
+        "misconception_tag": "false sample size requirement"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In correlated feature groups, OLS has many near-equivalent solutions — the variance is shared arbitrarily among correlated predictors. Small data changes (different seeds → different train/validation splits) shift which correlated feature gets the small coefficient, producing different elimination orders. RFE with Ridge (stable coefficients due to L2 shrinkage distributing weight evenly) is more robust for correlated features."
+  },
+  {
+    "question_id": "logistic_regression_Q01",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Logistic regression outputs a value between 0 and 1. What mathematical function produces this output from the linear combination of inputs?",
+    "options": [
+      {
+        "id": "a",
+        "text": "ReLU function",
+        "misconception_tag": "confusing with neural network activation"
+      },
+      {
+        "id": "b",
+        "text": "Sigmoid (logistic) function: σ(z) = 1/(1 + e^(-z))"
+      },
+      {
+        "id": "c",
+        "text": "Softmax function",
+        "misconception_tag": "confusing binary with multi-class output"
+      },
+      {
+        "id": "d",
+        "text": "Hyperbolic tangent (tanh)",
+        "misconception_tag": "tanh outputs [-1,1] not [0,1]"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The sigmoid function maps any real number z to (0,1), making it interpretable as a probability. ReLU outputs [0,∞). Softmax is the multi-class generalization. Tanh maps to (-1,1) — used in neural networks but not standard logistic regression output."
+  },
+  {
+    "question_id": "logistic_regression_Q02",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What loss function does logistic regression minimize during training?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mean Squared Error — the same as linear regression",
+        "misconception_tag": "confusing regression and classification losses"
+      },
+      {
+        "id": "b",
+        "text": "Binary Cross-Entropy (Log Loss): -[y·log(p) + (1-y)·log(1-p)]"
+      },
+      {
+        "id": "c",
+        "text": "Hinge loss",
+        "misconception_tag": "confusing with SVM"
+      },
+      {
+        "id": "d",
+        "text": "Mean Absolute Error",
+        "misconception_tag": "MAE is a regression metric not standard for logistic regression"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Binary cross-entropy derives from maximum likelihood estimation for Bernoulli-distributed outputs. MSE is used for regression and produces a non-convex loss surface for logistic regression. Hinge loss is used in SVMs. MAE is a regression metric."
+  },
+  {
+    "question_id": "logistic_regression_Q03",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "A logistic regression coefficient for feature X is 1.2. What does this mean in terms of odds?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A unit increase in X increases the predicted probability by 1.2",
+        "misconception_tag": "confusing log-odds with probability"
+      },
+      {
+        "id": "b",
+        "text": "A unit increase in X multiplies the odds of the positive class by e^1.2 ≈ 3.32"
+      },
+      {
+        "id": "c",
+        "text": "A unit increase in X increases accuracy by 1.2%",
+        "misconception_tag": "coefficient has no direct accuracy interpretation"
+      },
+      {
+        "id": "d",
+        "text": "X is 1.2 times more predictive than average",
+        "misconception_tag": "vague and incorrect interpretation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Logistic regression models log(odds) = β₀ + β₁X. So odds = e^(β₀ + β₁X), and a unit increase in X multiplies odds by e^β₁ = e^1.2 ≈ 3.32. This is the odds ratio interpretation. Probability change depends on the current probability level, not just the coefficient."
+  },
+  {
+    "question_id": "logistic_regression_Q04",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You train a logistic regression on an email spam classifier. The model outputs probability = 0.73 for a test email. With a default threshold of 0.5, what is the prediction?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Not spam — 0.73 is the confidence in the prediction not the label",
+        "misconception_tag": "misinterpreting output direction"
+      },
+      {
+        "id": "b",
+        "text": "Spam — the probability exceeds the 0.5 threshold"
+      },
+      {
+        "id": "c",
+        "text": "Uncertain — 0.73 is not above 0.75 which is the standard threshold",
+        "misconception_tag": "inventing a non-standard threshold"
+      },
+      {
+        "id": "d",
+        "text": "The model needs retraining — 0.73 is too close to 1.0 to be reliable",
+        "misconception_tag": "misreading high confidence as unreliable"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The default classification threshold is 0.5. P(spam) = 0.73 > 0.5, so the model predicts spam. The threshold can be adjusted to trade off precision vs recall — 0.5 is the default, not 0.75. High probability (0.73) indicates strong confidence in spam classification."
+  },
+  {
+    "question_id": "logistic_regression_Q05",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Your logistic regression for fraud detection has accuracy = 98.5% on a test set where 1.5% of transactions are fraud. Is this model useful?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes — 98.5% accuracy is excellent for any use case",
+        "misconception_tag": "ignoring class imbalance problem"
+      },
+      {
+        "id": "b",
+        "text": "Not necessarily — a model that always predicts non-fraud also achieves 98.5% accuracy; check precision/recall on the fraud class"
+      },
+      {
+        "id": "c",
+        "text": "Yes — the model clearly learned to detect fraud since accuracy matches the dataset proportion",
+        "misconception_tag": "circular reasoning"
+      },
+      {
+        "id": "d",
+        "text": "No — logistic regression cannot handle imbalanced data",
+        "misconception_tag": "overly broad claim"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When positive class prevalence is 1.5%, a naive classifier that always predicts negative achieves 98.5% accuracy. This is the accuracy paradox. The model needs to be evaluated on precision, recall, F1, or AUC-ROC for the fraud (positive) class to determine if it has learned anything useful."
+  },
+  {
+    "question_id": "logistic_regression_Q06",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to compare two logistic regression models on an imbalanced binary dataset. Which metric best captures overall discriminative performance independent of threshold choice?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Accuracy",
+        "misconception_tag": "threshold-dependent and misleading on imbalanced data"
+      },
+      {
+        "id": "b",
+        "text": "AUC-ROC (Area Under the ROC Curve)"
+      },
+      {
+        "id": "c",
+        "text": "F1-score at threshold 0.5",
+        "misconception_tag": "threshold-dependent"
+      },
+      {
+        "id": "d",
+        "text": "Training log-loss",
+        "misconception_tag": "measures training fit not test generalization"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "AUC-ROC measures the probability that the model ranks a random positive higher than a random negative, across all thresholds. It is threshold-independent and class-imbalance robust. Accuracy and F1 depend on threshold choice. Training log-loss measures fit quality, not generalization discriminative power."
+  },
+  {
+    "question_id": "logistic_regression_Q07",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Your logistic regression model achieves AUC = 0.52 on the test set. What does this indicate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model performs well — AUC above 0.5 is always good",
+        "misconception_tag": "misunderstanding AUC scale"
+      },
+      {
+        "id": "b",
+        "text": "The model barely beats random guessing (AUC=0.5); the features provide almost no discriminative signal"
+      },
+      {
+        "id": "c",
+        "text": "The model needs more regularization to improve AUC",
+        "misconception_tag": "regularization won't fix lack of signal"
+      },
+      {
+        "id": "d",
+        "text": "AUC of 0.52 indicates the model is highly overfit",
+        "misconception_tag": "overfitting shows high train / low test gap, not low test AUC alone"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "AUC=0.5 is equivalent to random guessing. AUC=0.52 means the model is barely above chance — a coin flip would be almost as good. The issue is likely poor features, not model architecture or regularization. AUC=1.0 is perfect discrimination; AUC<0.5 means the model is inverting predictions."
+  },
+  {
+    "question_id": "logistic_regression_Q08",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A feature perfectly separates the two classes in your training data (all class-1 observations have feature > 5, all class-0 have feature < 5). What happens when you fit logistic regression?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model achieves perfect accuracy and the coefficient stabilizes",
+        "misconception_tag": "believing convergence occurs"
+      },
+      {
+        "id": "b",
+        "text": "Complete separation — the coefficient for that feature grows toward infinity and the model fails to converge"
+      },
+      {
+        "id": "c",
+        "text": "The model ignores the perfectly separating feature to avoid overfitting",
+        "misconception_tag": "logistic regression has no such mechanism"
+      },
+      {
+        "id": "d",
+        "text": "The model switches to a decision tree internally when perfect separation is detected",
+        "misconception_tag": "logistic regression doesn't switch algorithms"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Complete (perfect) separation causes the maximum likelihood estimator to not exist — the log-likelihood improves without bound as the coefficient grows toward infinity (sigmoid approaches a step function). Gradient descent or Newton's method will not converge. Solution: use regularization (L1/L2), Firth's penalized likelihood, or a different algorithm."
+  },
+  {
+    "question_id": "logistic_regression_Q09",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You have a binary classification task where 95% of labels are class 0. You train logistic regression with default settings. What problem are you most likely to encounter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Slow convergence due to class imbalance",
+        "misconception_tag": "convergence is not the primary concern"
+      },
+      {
+        "id": "b",
+        "text": "The model will predict class 0 for most or all samples, achieving high accuracy but zero recall for class 1"
+      },
+      {
+        "id": "c",
+        "text": "The sigmoid function becomes numerically unstable with imbalanced data",
+        "misconception_tag": "sigmoid is numerically stable regardless of balance"
+      },
+      {
+        "id": "d",
+        "text": "Logistic regression cannot fit imbalanced datasets",
+        "misconception_tag": "overly broad claim"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With 95% class-0 prevalence, the loss function is dominated by class-0 samples. The model minimizes loss by predicting class-0 almost always — achieving 95% accuracy but failing to detect any class-1 instances. Fixes: class_weight='balanced', threshold adjustment, oversampling (SMOTE), or undersampling."
+  },
+  {
+    "question_id": "logistic_regression_Q10",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You apply logistic regression to a dataset and find that training log-loss = 0.08 but test log-loss = 1.94. What is the most likely cause?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model is underfitting — both losses should be low",
+        "misconception_tag": "underfitting shows high training loss too"
+      },
+      {
+        "id": "b",
+        "text": "Severe overfitting — the model memorized training patterns that do not generalize"
+      },
+      {
+        "id": "c",
+        "text": "Log-loss values above 1.0 always indicate data quality issues",
+        "misconception_tag": "no such threshold exists"
+      },
+      {
+        "id": "d",
+        "text": "The test set has different class balance, inflating log-loss arithmetically",
+        "misconception_tag": "possible but overfitting is the primary suspect given the gap"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Training log-loss of 0.08 (near-perfect) vs test log-loss of 1.94 (near-random) indicates extreme overfitting. The model memorized training data. Fixes: add regularization (C parameter in sklearn — lower C = more regularization), reduce features, increase training data. Test class balance differences would cause moderate inflation, not 24× difference."
+  },
+  {
+    "question_id": "logistic_regression_Q11",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "In logistic regression, L1 regularization (Lasso) differs from L2 (Ridge) in its effect on coefficients. Which scenario justifies choosing L1?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When all features are expected to contribute equally",
+        "misconception_tag": "Ridge is preferred here"
+      },
+      {
+        "id": "b",
+        "text": "When you expect most features to be irrelevant and want automatic feature selection via sparse coefficients"
+      },
+      {
+        "id": "c",
+        "text": "When the dataset is too small for any regularization",
+        "misconception_tag": "small datasets need more not less regularization"
+      },
+      {
+        "id": "d",
+        "text": "When multicollinearity is severe",
+        "misconception_tag": "Ridge is more stable with multicollinearity"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "L1 penalty pushes coefficients to exactly zero due to the kink in the absolute value function at zero. This produces sparse models — natural feature selection. When you have many irrelevant features, L1 zeros them out. L2 shrinks all coefficients proportionally but rarely reaches zero. With multicollinearity, L2 distributes weight among correlated features more stably than L1's arbitrary selection."
+  },
+  {
+    "question_id": "logistic_regression_Q12",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "You tune the C parameter in sklearn's LogisticRegression. C=0.01 vs C=100. What is the tradeoff?",
+    "options": [
+      {
+        "id": "a",
+        "text": "C=0.01 increases model complexity; C=100 reduces it",
+        "misconception_tag": "inverting C's relationship to regularization"
+      },
+      {
+        "id": "b",
+        "text": "C=0.01 applies strong regularization (underfitting risk); C=100 applies weak regularization (overfitting risk)"
+      },
+      {
+        "id": "c",
+        "text": "C controls learning rate, not regularization strength",
+        "misconception_tag": "confusing C with gradient descent parameter"
+      },
+      {
+        "id": "d",
+        "text": "C only affects convergence speed, not model coefficients",
+        "misconception_tag": "confusing C with solver tolerance"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In sklearn, C = 1/λ where λ is regularization strength. Small C → large λ → strong regularization → coefficients pushed toward zero → underfitting risk. Large C → weak regularization → coefficients free to grow → overfitting risk. Default C=1.0 is moderate. Optimal C is tuned via cross-validation."
+  },
+  {
+    "question_id": "logistic_regression_Q13",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "When should you use class_weight='balanced' in logistic regression?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When features have different scales",
+        "misconception_tag": "class_weight is for label imbalance, not feature scale"
+      },
+      {
+        "id": "b",
+        "text": "When the target classes have significantly unequal prevalence and you want to prevent the model from ignoring the minority class"
+      },
+      {
+        "id": "c",
+        "text": "When training accuracy is below 90%",
+        "misconception_tag": "accuracy threshold doesn't determine class_weight need"
+      },
+      {
+        "id": "d",
+        "text": "Always — it improves performance in all scenarios",
+        "misconception_tag": "always-apply rules are incorrect; balanced hurts performance on balanced data"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "class_weight='balanced' reweights samples so each class contributes equally to the loss regardless of prevalence. This forces the model to pay attention to minority class samples. On balanced datasets, it is unnecessary and can slightly reduce majority class performance. The decision should be based on class distribution and the business cost of false negatives vs false positives."
+  },
+  {
+    "question_id": "logistic_regression_Q14",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You lower the classification threshold from 0.5 to 0.2 in a fraud detection model. What effect do you expect?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Precision increases, recall decreases",
+        "misconception_tag": "inverted direction for lowering threshold"
+      },
+      {
+        "id": "b",
+        "text": "Recall increases (more fraud caught), precision decreases (more false positives)"
+      },
+      {
+        "id": "c",
+        "text": "AUC increases because the threshold is lower",
+        "misconception_tag": "AUC is threshold-independent"
+      },
+      {
+        "id": "d",
+        "text": "Both precision and recall improve as the model becomes more sensitive",
+        "misconception_tag": "precision and recall trade off"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Lowering the threshold from 0.5 to 0.2 means more samples are classified as fraud (positive). This catches more true fraud (higher recall / true positive rate) but also flags more legitimate transactions (more false positives, lower precision). AUC is computed across all thresholds so it doesn't change with threshold adjustment."
+  },
+  {
+    "question_id": "logistic_regression_Q15",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Your logistic regression model has: Precision=0.91, Recall=0.31 for the positive class. What does this indicate about the model's behavior?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model is well-calibrated and conservative",
+        "misconception_tag": "treating high precision as well-calibrated"
+      },
+      {
+        "id": "b",
+        "text": "The model rarely predicts positive; when it does it is usually right, but it misses 69% of actual positives — consider lowering the threshold"
+      },
+      {
+        "id": "c",
+        "text": "The model is overfitting — high precision with low recall indicates memorization",
+        "misconception_tag": "confusing precision/recall tradeoff with overfitting"
+      },
+      {
+        "id": "d",
+        "text": "Increase regularization to improve recall",
+        "misconception_tag": "regularization won't fix the threshold issue"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Precision=0.91 means 91% of predicted positives are true positives — very few false alarms. Recall=0.31 means only 31% of actual positives are being caught — the model is very conservative, only predicting positive when very confident. Lowering the threshold will trade some precision for higher recall. This is appropriate when missing true positives is costly (e.g., disease diagnosis, fraud)."
+  },
+  {
+    "question_id": "logistic_regression_Q16",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You are building a logistic regression model for cancer diagnosis (positive = cancer). Which error is more costly and how should this affect your threshold choice?",
+    "options": [
+      {
+        "id": "a",
+        "text": "False positive (diagnosing healthy as cancer) is worse — set a high threshold to minimize false alarms",
+        "misconception_tag": "prioritizing specificity over sensitivity in life-critical context"
+      },
+      {
+        "id": "b",
+        "text": "False negative (missing cancer) is worse — lower the threshold to maximize recall even at the cost of more false positives"
+      },
+      {
+        "id": "c",
+        "text": "Both errors are equally costly — keep threshold at 0.5",
+        "misconception_tag": "treating domain context as irrelevant"
+      },
+      {
+        "id": "d",
+        "text": "Change the algorithm rather than adjusting threshold",
+        "misconception_tag": "algorithmic change doesn't address cost asymmetry"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In medical diagnosis for serious conditions, a false negative (telling a cancer patient they are healthy) is far more dangerous than a false positive (triggering more tests for a healthy patient). Lowering the threshold increases recall — catches more true cancer cases. The cost asymmetry should be explicitly encoded in the threshold choice or class weights, not ignored."
+  },
+  {
+    "question_id": "logistic_regression_Q17",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You train logistic regression with solver='lbfgs' and get a ConvergenceWarning. What are the appropriate fixes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Switch to a linear model — convergence warnings indicate the problem is non-linear",
+        "misconception_tag": "non-linearity is unrelated to convergence"
+      },
+      {
+        "id": "b",
+        "text": "Increase max_iter, standardize features, or reduce regularization strength (increase C)"
+      },
+      {
+        "id": "c",
+        "text": "Reduce the learning rate",
+        "misconception_tag": "lbfgs is a quasi-Newton method with no user-adjustable learning rate"
+      },
+      {
+        "id": "d",
+        "text": "The warning is benign and can be ignored in production",
+        "misconception_tag": "convergence warnings indicate the solution may be suboptimal"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "LBFGS convergence warnings mean the optimizer did not reach its tolerance criterion within max_iter steps. Fixes: (1) increase max_iter (most common fix), (2) StandardScaler features — poorly scaled features slow convergence, (3) add regularization if the problem is ill-conditioned. Ignoring the warning means predictions are based on a suboptimal solution."
+  },
+  {
+    "question_id": "logistic_regression_Q18",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You train a logistic regression with very high regularization (C=0.0001). Training accuracy = 51%, test accuracy = 50%. What happened?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Severe overfitting — training accuracy should be near 100%",
+        "misconception_tag": "high training accuracy indicates low regularization not high"
+      },
+      {
+        "id": "b",
+        "text": "Extreme underfitting — regularization forced all coefficients to near zero; the model predicts the majority class only"
+      },
+      {
+        "id": "c",
+        "text": "The model is well-regularized — similar train and test accuracy indicates perfect generalization",
+        "misconception_tag": "near-random performance is not good generalization"
+      },
+      {
+        "id": "d",
+        "text": "C=0.0001 causes numerical instability in the sigmoid function",
+        "misconception_tag": "C doesn't cause sigmoid instability"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "C=0.0001 means λ=10000 — enormous regularization. All coefficients are driven toward zero. The model essentially predicts the prior class probability for every sample (majority class baseline). 51% accuracy on a near-balanced dataset is barely above chance. Low C causes underfitting, not overfitting."
+  },
+  {
+    "question_id": "logistic_regression_Q19",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A logistic regression model outputs probability = 0.9999 for almost every test sample. Training accuracy is 99.8%, test accuracy is 51%. What most likely caused this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model learned a perfect decision boundary",
+        "misconception_tag": "perfect boundaries generalize well; this doesn't"
+      },
+      {
+        "id": "b",
+        "text": "Severe overfitting or data leakage — the model is extremely confident on training patterns but fails on test data"
+      },
+      {
+        "id": "c",
+        "text": "The sigmoid function saturated due to correct learning",
+        "misconception_tag": "saturation with poor generalization indicates overfitting"
+      },
+      {
+        "id": "d",
+        "text": "The dataset needs more features for the model to generalize",
+        "misconception_tag": "adding features to an overfitting model worsens it"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Extreme confidence (P≈1) combined with catastrophic test failure indicates the model memorized training labels. This is either: (1) severe overfitting without regularization, or (2) data leakage (training features contain target information from the future or directly). The sigmoid saturates near 1 when |z| is large — the model learned huge coefficients that fire confidently on training data."
+  },
+  {
+    "question_id": "logistic_regression_Q20",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You train a logistic regression on 10,000 samples with 500 features. Validation AUC = 0.62. You add 300 more features (some correlated, some random). Validation AUC = 0.61. What should you do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Keep all 800 features — more data is always better",
+        "misconception_tag": "more features leads to overfitting curse of dimensionality"
+      },
+      {
+        "id": "b",
+        "text": "Apply feature selection (e.g., RFE, Lasso) or reduce features — adding correlated/noise features hurt the model"
+      },
+      {
+        "id": "c",
+        "text": "Use PCA to combine all 800 features before retraining",
+        "misconception_tag": "PCA retains all dimensions; need to determine optimal number"
+      },
+      {
+        "id": "d",
+        "text": "Increase training data to 100,000 before any feature decisions",
+        "misconception_tag": "data collection before feature pruning is not always practical"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With n=10,000 and p=800, the ratio n/p = 12.5 is relatively low. Adding 300 more features (many irrelevant) increases noise in the decision boundary. Regularized logistic regression with L1 (Lasso) will zero out irrelevant features automatically, or use permutation importance / cross-validated RFE to select informative features."
+  },
+  {
+    "question_id": "logistic_regression_Q21",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "Logistic regression is a discriminative model. What is the key implication of this compared to a generative model like Naive Bayes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Discriminative models need more data to train",
+        "misconception_tag": "generative models need more data due to density estimation"
+      },
+      {
+        "id": "b",
+        "text": "Logistic regression models P(Y|X) directly without modeling the data distribution P(X); it can achieve better classification performance when model assumptions hold but cannot generate new samples"
+      },
+      {
+        "id": "c",
+        "text": "Discriminative models cannot handle multi-class classification",
+        "misconception_tag": "multinomial logistic regression handles multi-class"
+      },
+      {
+        "id": "d",
+        "text": "Discriminative models are always more accurate than generative models",
+        "misconception_tag": "generative models can outperform with limited data"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Discriminative models (logistic regression, SVM) model the conditional P(Y|X) directly. Generative models (Naive Bayes, LDA) model the joint P(X,Y) = P(X|Y)P(Y). Generative models make stronger assumptions but can work with less data and enable sampling. Discriminative models are often more accurate given sufficient data because they don't waste capacity modeling P(X)."
+  },
+  {
+    "question_id": "logistic_regression_Q22",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "In multi-class logistic regression (softmax regression), the gradient update for class k's weight vector is proportional to what quantity?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The difference between predicted probability for class k and the binary label",
+        "misconception_tag": "this describes binary cross-entropy gradient"
+      },
+      {
+        "id": "b",
+        "text": "The predicted probability for class k minus the one-hot indicator that the true class is k, summed over training examples"
+      },
+      {
+        "id": "c",
+        "text": "The log of the predicted probability for class k",
+        "misconception_tag": "log-probability is part of loss, not gradient"
+      },
+      {
+        "id": "d",
+        "text": "The dot product of the input vector with the weight vector for class k",
+        "misconception_tag": "this is the pre-softmax score, not the gradient"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Softmax regression loss = -Σ log P(y=k|x). The gradient ∂L/∂w_k = Σ (P(y=k|x) - 1[y=k]) × x. This is the prediction error (predicted probability minus one-hot true label) dotted with input features. For the true class, the gradient is (p_k - 1)x; for other classes it is (p_k - 0)x. This drives weights toward minimizing prediction-vs-truth discrepancy."
+  },
+  {
+    "question_id": "logistic_regression_Q23",
+    "skill_id": "logistic_regression",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "You apply isotonic regression for probability calibration after training a logistic regression. When is this preferable to Platt scaling?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When the training set is small and the calibration curve is monotone",
+        "misconception_tag": "isotonic regression overfits on small datasets"
+      },
+      {
+        "id": "b",
+        "text": "When the calibration curve has a complex non-monotone shape and you have sufficient calibration data (>1000 samples)"
+      },
+      {
+        "id": "c",
+        "text": "When the model outputs are perfectly calibrated already",
+        "misconception_tag": "calibration is unnecessary if already calibrated"
+      },
+      {
+        "id": "d",
+        "text": "Isotonic regression is always preferred because it is non-parametric",
+        "misconception_tag": "non-parametric models overfit on small calibration sets"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Platt scaling fits a sigmoid (2-parameter model) to map raw scores to probabilities — appropriate for small calibration sets and sigmoid-shaped miscalibration. Isotonic regression is a non-parametric step function — it fits complex calibration curves but requires larger calibration sets (>1000) to avoid overfitting. Use Platt scaling when data is limited; isotonic when the miscalibration curve is complex and data is abundant."
+  },
+  {
+    "question_id": "logistic_regression_Q24",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have a multi-class problem (5 classes) and use softmax logistic regression. At test time, the model outputs [0.22, 0.21, 0.20, 0.19, 0.18] for one sample. What is the concern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "None — the model correctly predicted the first class",
+        "misconception_tag": "treating argmax as reliable when probabilities are nearly equal"
+      },
+      {
+        "id": "b",
+        "text": "The probabilities are nearly uniform — the model is very uncertain; entropy is near maximum and the prediction is unreliable"
+      },
+      {
+        "id": "c",
+        "text": "The probabilities don't sum to exactly 1.0",
+        "misconception_tag": "they sum to 1.0; the issue is their distribution"
+      },
+      {
+        "id": "d",
+        "text": "Softmax cannot handle 5-class problems — use one-vs-rest instead",
+        "misconception_tag": "softmax naturally handles any number of classes"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Near-uniform output distribution means the model has high entropy — it is nearly equally unsure about all 5 classes. Predicting class 0 (argmax) with 22% confidence is barely better than random (20%). In production, samples with high entropy should trigger fallback to human review or a 'reject' option rather than a low-confidence forced prediction."
+  },
+  {
+    "question_id": "logistic_regression_Q25",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You want to explain a logistic regression model to a non-technical stakeholder. The model uses log-odds internally. How do you best communicate feature impact?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Show raw coefficients directly",
+        "misconception_tag": "raw coefficients are in log-odds scale, not intuitive"
+      },
+      {
+        "id": "b",
+        "text": "Convert coefficients to odds ratios (e^β) and explain as 'feature X multiplies odds of outcome by e^β'"
+      },
+      {
+        "id": "c",
+        "text": "Show feature importances as a percentage of total coefficient sum",
+        "misconception_tag": "arbitrary normalization without probability meaning"
+      },
+      {
+        "id": "d",
+        "text": "Use the model's AUC score to explain each feature's contribution",
+        "misconception_tag": "AUC is a model-level, not feature-level, metric"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Odds ratios (e^β) are the most communication-friendly transformation. 'Each additional year of experience multiplies the odds of promotion by 2.3' is intuitive. Raw log-odds coefficients (β=0.83) are abstract. Percentages of coefficient sum are not statistically meaningful. AUC is model-level and doesn't decompose by feature."
+  },
+  {
+    "question_id": "logistic_regression_Q26",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You train a logistic regression for customer churn. Positive class (churn) = 8% of data. You use class_weight='balanced', train, and get: Precision=0.31, Recall=0.79. Your manager wants to improve precision without retraining. What is the fastest lever?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Increase regularization strength",
+        "misconception_tag": "requires retraining"
+      },
+      {
+        "id": "b",
+        "text": "Raise the classification threshold (e.g., from 0.5 to 0.7) to only predict churn when the model is more confident"
+      },
+      {
+        "id": "c",
+        "text": "Switch to a different algorithm",
+        "misconception_tag": "requires retraining"
+      },
+      {
+        "id": "d",
+        "text": "Remove class_weight='balanced'",
+        "misconception_tag": "requires retraining"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Without retraining, only the decision threshold can be adjusted post-hoc. Raising the threshold (e.g., 0.5→0.7) makes the model more conservative — it only predicts churn when probability is high, reducing false positives and increasing precision. This comes at the cost of lower recall (missing more true churners). The precision-recall tradeoff at different thresholds is summarized by the PR curve."
+  },
+  {
+    "question_id": "logistic_regression_Q27",
+    "skill_id": "logistic_regression",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You observe that your logistic regression model has systematically high predicted probabilities (mean predicted prob = 0.73 for a 50/50 balanced dataset). What does this indicate and how do you fix it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model is discriminating well — high probabilities indicate confident predictions",
+        "misconception_tag": "high mean probability on a 50/50 dataset is a calibration problem"
+      },
+      {
+        "id": "b",
+        "text": "The model is miscalibrated (overconfident in the positive class); apply probability calibration (Platt scaling or isotonic regression)"
+      },
+      {
+        "id": "c",
+        "text": "The intercept term is too small; increase it manually",
+        "misconception_tag": "ad hoc intercept manipulation is not calibration"
+      },
+      {
+        "id": "d",
+        "text": "This is caused by class imbalance during training; resample the data",
+        "misconception_tag": "dataset is already balanced; resampling won't fix calibration"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "On a balanced dataset (50% positive), well-calibrated probabilities should average to ~0.50. Mean of 0.73 indicates the model is overconfident in the positive class — a systematic calibration error. Platt scaling fits a logistic regression on top of the model's outputs; isotonic regression uses a non-parametric step function. Both correct the probability outputs without changing the decision boundary ranking."
+  },
+  {
+    "question_id": "logistic_regression_Q28",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You train logistic regression on a dataset where one feature is a hash of the user ID (a unique identifier). The model achieves train AUC=0.99 but test AUC=0.51. What happened?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The hash feature added useful non-linear signal",
+        "misconception_tag": "hash of ID is pure noise on unseen users"
+      },
+      {
+        "id": "b",
+        "text": "The model memorized per-user patterns via the ID hash — classic data leakage / identifier feature overfitting"
+      },
+      {
+        "id": "c",
+        "text": "The model needs more regularization to handle hash features",
+        "misconception_tag": "regularization won't fix the conceptual problem"
+      },
+      {
+        "id": "d",
+        "text": "Hash features cause floating point overflow in logistic regression",
+        "misconception_tag": "technical confusion"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A hash of user ID is a unique identifier for each training user. The model learned 'user X always churns' or 'user Y never churns' — not generalizable patterns. On new users with unseen IDs, this feature is pure noise. This is identifier feature overfitting, a form of data leakage. ID-like features must always be excluded from training unless the task is explicitly per-user personalization with that user's data."
+  },
+  {
+    "question_id": "logistic_regression_Q29",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You use sklearn's LogisticRegressionCV with 5-fold CV to select C. The chosen C is the smallest value in your grid (C=0.001). What does this imply about your model?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model needs more regularization and you should try even smaller C values",
+        "misconception_tag": "C=0.001 IS strong regularization; smaller C means more not less"
+      },
+      {
+        "id": "b",
+        "text": "The model strongly benefits from regularization — it may have high variance (overfitting) or near-perfect separation; extend the grid downward (C=0.0001, 0.00001)"
+      },
+      {
+        "id": "c",
+        "text": "CV selected the correct amount of regularization and no further tuning is needed",
+        "misconception_tag": "hitting the grid boundary means the optimal value may be outside the grid"
+      },
+      {
+        "id": "d",
+        "text": "The dataset has too few samples for logistic regression to be reliable",
+        "misconception_tag": "sample size inference from C selection is incorrect"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When cross-validation selects the boundary value of a search grid, it signals the optimum may lie beyond the boundary. C=0.001 is the smallest value tested, and CV chose it — the model benefits from even stronger regularization. Extend the grid downward (C=0.0001, 0.00001) to find the true optimum. This commonly happens with high-dimensional data or near-separable classes."
+  },
+  {
+    "question_id": "logistic_regression_Q30",
+    "skill_id": "logistic_regression",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You train separate logistic regressions for two demographic groups A and B. Model A: AUC=0.88. Model B: AUC=0.82. The combined model: AUC=0.89. A colleague says the combined model is better. What hidden issue might exist?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The combined model overfits because it has more parameters",
+        "misconception_tag": "a single model doesn't have more parameters than two separate ones"
+      },
+      {
+        "id": "b",
+        "text": "The combined model may be individually unfair — its decisions may not perform equally across groups (different false positive/negative rates by group)"
+      },
+      {
+        "id": "c",
+        "text": "AUC cannot be compared across subgroups",
+        "misconception_tag": "AUC is comparable; fairness metrics are the concern"
+      },
+      {
+        "id": "d",
+        "text": "Combining groups always improves AUC due to more training data",
+        "misconception_tag": "more data helps accuracy but can mask disparate impact"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Aggregate AUC can look good while the model systematically disadvantages one demographic group. This is Fairness Through Unawareness failing — a model can have high overall AUC but very different false positive rates between groups (e.g., flagging more fraud for group A than B at the same threshold). Fairness metrics like equalized odds, demographic parity, or per-group precision/recall must be evaluated separately."
+  },
+  {
+    "question_id": "decision_trees_Q01",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What criterion does a decision tree use at each node to decide which feature to split on?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The feature with the highest mean value",
+        "misconception_tag": "using mean for splits is not a tree criterion"
+      },
+      {
+        "id": "b",
+        "text": "The feature that maximizes information gain (or minimizes Gini impurity after the split)"
+      },
+      {
+        "id": "c",
+        "text": "The feature with the most unique values",
+        "misconception_tag": "cardinality is not the splitting criterion"
+      },
+      {
+        "id": "d",
+        "text": "A randomly selected feature at each node",
+        "misconception_tag": "random selection describes Random Forest, not standard trees"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Decision trees select splits that maximize information purity of resulting child nodes. Information Gain measures reduction in entropy; Gini impurity measures probability of misclassification. Both quantify how well a split separates classes. Mean value is not a criterion. Random feature selection is the Random Forest modification."
+  },
+  {
+    "question_id": "decision_trees_Q02",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "A decision tree node with Gini impurity = 0 means what?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The node contains equal numbers of each class",
+        "misconception_tag": "equal classes = maximum impurity, Gini = 0.5 for binary"
+      },
+      {
+        "id": "b",
+        "text": "The node is a pure leaf — all samples belong to the same class"
+      },
+      {
+        "id": "c",
+        "text": "The node has been pruned and contains no samples",
+        "misconception_tag": "pruned nodes are removed, not zero-impurity"
+      },
+      {
+        "id": "d",
+        "text": "The feature used at this split has zero variance",
+        "misconception_tag": "zero variance relates to feature, not node purity"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Gini impurity = 1 - Σpᵢ². When all samples are one class (p=1 for that class), Gini = 1 - 1² = 0. This is a pure leaf — perfect classification. Gini = 0.5 for a binary node with equal class distribution. Pruning removes branches entirely."
+  },
+  {
+    "question_id": "decision_trees_Q03",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Why do decision trees tend to overfit when grown to full depth?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Full-depth trees use more memory, causing numerical errors",
+        "misconception_tag": "memory usage doesn't cause overfitting"
+      },
+      {
+        "id": "b",
+        "text": "Each leaf potentially contains just one training sample, memorizing noise rather than generalizable patterns"
+      },
+      {
+        "id": "c",
+        "text": "Full-depth trees cannot capture non-linear relationships",
+        "misconception_tag": "trees capture non-linearity naturally"
+      },
+      {
+        "id": "d",
+        "text": "Gini impurity increases at deeper nodes causing unstable predictions",
+        "misconception_tag": "Gini decreases with depth, reaching zero at pure leaves"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "An unconstrained tree can grow until every leaf contains a single sample (or pure samples), achieving perfect training accuracy. These fine-grained splits capture noise specific to training data. On new data, these memorized splits fail to generalize. Regularization: max_depth, min_samples_split, min_samples_leaf, or post-pruning prevents this."
+  },
+  {
+    "question_id": "decision_trees_Q04",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You train a decision tree on customer data to predict churn. Training accuracy = 100%, test accuracy = 64%. What single parameter change most directly addresses this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Increase min_samples_split to get more splits",
+        "misconception_tag": "more splits = more depth = more overfitting"
+      },
+      {
+        "id": "b",
+        "text": "Set max_depth to a small value (e.g., 5) to prevent the tree from memorizing training data"
+      },
+      {
+        "id": "c",
+        "text": "Switch to entropy criterion from Gini",
+        "misconception_tag": "splitting criterion doesn't control depth"
+      },
+      {
+        "id": "d",
+        "text": "Remove categorical features before training",
+        "misconception_tag": "removing features doesn't address depth-based overfitting"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "100% training accuracy with 64% test accuracy is a clear overfit signal. max_depth is the most direct lever — it hard-limits how deep the tree can grow, preventing per-sample memorization. min_samples_split controls how many samples are needed to attempt a split (also valid but max_depth is more direct). Criterion choice (Gini vs entropy) rarely matters much."
+  },
+  {
+    "question_id": "decision_trees_Q05",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A decision tree for loan approval has max_depth=2. It makes 4 terminal predictions. An auditor asks why some applicants with similar profiles get different decisions. What is the most likely explanation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The tree uses random splits to improve fairness",
+        "misconception_tag": "standard trees are deterministic"
+      },
+      {
+        "id": "b",
+        "text": "Small differences in a single feature value can cross a split threshold, routing samples to different leaves"
+      },
+      {
+        "id": "c",
+        "text": "The tree re-evaluates applicants at each visit",
+        "misconception_tag": "trees are stateless and deterministic"
+      },
+      {
+        "id": "d",
+        "text": "max_depth=2 causes averaging of predictions across nodes",
+        "misconception_tag": "averaging is not how trees work"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Decision trees create hard boundaries — samples on either side of a threshold get routed to different subtrees. Two applicants with nearly identical profiles but one feature (e.g., income) on opposite sides of a threshold will reach different leaves and get different predictions. This is the tree's discontinuous nature."
+  },
+  {
+    "question_id": "decision_trees_Q06",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You want to visualize what a trained decision tree learned. Which approach gives the most direct human-readable interpretation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Plot feature correlations with the target",
+        "misconception_tag": "correlations don't reflect tree structure"
+      },
+      {
+        "id": "b",
+        "text": "Export and render the tree diagram (sklearn export_graphviz or plot_tree), showing split conditions and leaf predictions"
+      },
+      {
+        "id": "c",
+        "text": "Plot a confusion matrix",
+        "misconception_tag": "confusion matrix shows accuracy, not learned rules"
+      },
+      {
+        "id": "d",
+        "text": "Print the model's feature_importances_ array",
+        "misconception_tag": "importances summarize but don't show the decision rules"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Decision trees are inherently interpretable through their structure. plot_tree() or export_graphviz shows the exact if-then-else rules learned. Feature importances summarize which features were useful but don't show the actual decisions. Confusion matrices summarize prediction quality, not model logic."
+  },
+  {
+    "question_id": "decision_trees_Q07",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Your trained decision tree shows feature_importances_['is_premium'] = 0.0. What does this definitively mean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The feature has zero variance in the dataset",
+        "misconception_tag": "zero importance doesn't imply zero variance"
+      },
+      {
+        "id": "b",
+        "text": "The tree never chose to split on this feature across all nodes"
+      },
+      {
+        "id": "c",
+        "text": "The feature reduces model accuracy",
+        "misconception_tag": "no split means no effect either way"
+      },
+      {
+        "id": "d",
+        "text": "The feature is perfectly correlated with another feature",
+        "misconception_tag": "correlation isn't implied by zero importance"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "feature_importances_ in sklearn is the mean decrease in impurity (Gini or entropy) weighted by the proportion of samples reaching each node. A value of 0.0 definitively means no node in the tree used this feature for a split. This could be because the feature is genuinely uninformative OR because another correlated feature was always preferred."
+  },
+  {
+    "question_id": "decision_trees_Q08",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "A decision tree is trained on a dataset where class A has 990 samples and class B has 10 samples. The tree grows to depth 3. What is the likely prediction for most leaves?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Class B because it is the minority and trees are sensitive to rare classes",
+        "misconception_tag": "trees are biased toward majority, not minority"
+      },
+      {
+        "id": "b",
+        "text": "Class A — the imbalanced majority dominates splits; most leaves predict class A"
+      },
+      {
+        "id": "c",
+        "text": "Trees handle imbalance automatically through Gini weighting",
+        "misconception_tag": "standard Gini doesn't correct for imbalance"
+      },
+      {
+        "id": "d",
+        "text": "The tree will refuse to predict class B entirely",
+        "misconception_tag": "trees can predict minority class in pure minority leaves"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Gini and entropy impurity reductions are dominated by the majority class. Most splits will be optimized to correctly classify class A (990 samples), and most leaves will contain predominantly class A samples predicting class A. Class B leaves only form where the tree happens to isolate those 10 samples. Fix: use class_weight='balanced' or resample."
+  },
+  {
+    "question_id": "decision_trees_Q09",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You train two decision trees on the same dataset with different random seeds. Tree 1 accuracy = 87%, Tree 2 accuracy = 87%. But they make different predictions on some test samples. Is this expected?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No — same accuracy must mean identical predictions",
+        "misconception_tag": "equal accuracy doesn't imply identical predictions"
+      },
+      {
+        "id": "b",
+        "text": "Yes — ties in Gini/entropy calculations can be broken differently based on implementation, producing different trees with equal performance"
+      },
+      {
+        "id": "c",
+        "text": "No — decision trees are deterministic and must produce identical results given the same data",
+        "misconception_tag": "only true with fixed random_state AND no feature ties"
+      },
+      {
+        "id": "d",
+        "text": "Yes — decision trees are always non-deterministic due to random feature sampling",
+        "misconception_tag": "random feature sampling is Random Forest's characteristic"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When multiple features produce the same information gain at a node, the tie-breaking rule (which is often implementation-dependent or uses random_state) determines which is chosen. Different seeds → different tie-breaking → different tree structure → different individual predictions, even with the same overall accuracy."
+  },
+  {
+    "question_id": "decision_trees_Q10",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You set min_samples_leaf=1 on a decision tree. Your training set has 500 samples. What is the maximum possible number of leaves?",
+    "options": [
+      {
+        "id": "a",
+        "text": "500 — each sample in its own leaf"
+      },
+      {
+        "id": "b",
+        "text": "250 — half the samples since each internal node splits in two",
+        "misconception_tag": "binary splits produce at most n leaves for n samples"
+      },
+      {
+        "id": "c",
+        "text": "Unlimited — the tree can grow indefinitely with min_samples_leaf=1",
+        "misconception_tag": "limited by number of samples"
+      },
+      {
+        "id": "d",
+        "text": "31 — the standard sklearn default maximum",
+        "misconception_tag": "no such default"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "With min_samples_leaf=1, the tree can grow until each leaf contains exactly 1 sample. Starting with 500 samples, a complete binary tree can create up to 500 leaves (one per training sample). This is the fully-memorizing configuration that achieves 100% training accuracy."
+  },
+  {
+    "question_id": "decision_trees_Q11",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "Information Gain and Gini Impurity are both used as splitting criteria. In practice, when does the choice significantly matter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Entropy always outperforms Gini because it uses logarithms",
+        "misconception_tag": "the log is a theoretical difference, not a consistent performance advantage"
+      },
+      {
+        "id": "b",
+        "text": "Gini is slightly faster to compute; both produce similar tree structures in most cases. Entropy may marginally favor more balanced splits due to its sensitivity near p=0.5"
+      },
+      {
+        "id": "c",
+        "text": "Gini is superior for multi-class problems; entropy for binary",
+        "misconception_tag": "no such rule exists"
+      },
+      {
+        "id": "d",
+        "text": "The choice never matters — trees always produce identical results regardless of criterion",
+        "misconception_tag": "slightly different structures are possible"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Computationally, Gini avoids the log computation in entropy making it slightly faster. Structurally, both produce nearly identical trees in most real datasets. Entropy is slightly more sensitive to changes in class distribution near p=0.5 (it penalizes impurity more sharply there). In practice, cross-validation over both and other hyperparameters matters far more than this choice."
+  },
+  {
+    "question_id": "decision_trees_Q12",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "Post-pruning (cost-complexity pruning) works differently than pre-pruning (max_depth, min_samples_leaf). What is the key advantage of post-pruning?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Post-pruning is faster because it avoids growing the full tree",
+        "misconception_tag": "growing full tree first is more expensive"
+      },
+      {
+        "id": "b",
+        "text": "Post-pruning can recover from splits that looked good locally but are harmful globally — the full tree is grown first then branches are removed if they don't improve validation performance"
+      },
+      {
+        "id": "c",
+        "text": "Post-pruning removes outlier samples from leaves",
+        "misconception_tag": "pruning removes branches, not samples"
+      },
+      {
+        "id": "d",
+        "text": "Post-pruning prevents the tree from learning categorical features",
+        "misconception_tag": "pruning is split-agnostic"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Pre-pruning (early stopping) uses local criteria at each node — it stops splitting if a criterion isn't met, potentially missing globally useful splits that temporarily increase impurity. Post-pruning grows the full tree then removes subtrees that don't improve held-out performance via cost-complexity parameter α. This avoids the myopic limitation of greedy local stopping."
+  },
+  {
+    "question_id": "decision_trees_Q13",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "Decision trees are said to be non-parametric. What does this mean in practice?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They have no hyperparameters to tune",
+        "misconception_tag": "non-parametric ≠ no hyperparameters"
+      },
+      {
+        "id": "b",
+        "text": "They don't assume a fixed functional form for the decision boundary — the number of parameters grows with training data"
+      },
+      {
+        "id": "c",
+        "text": "They cannot be used with continuous features",
+        "misconception_tag": "trees work naturally with continuous features"
+      },
+      {
+        "id": "d",
+        "text": "Non-parametric models always have lower bias than parametric models",
+        "misconception_tag": "lower bias but higher variance is the tradeoff"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Non-parametric means the model structure is not fixed in advance — the complexity adapts to the data. A decision tree can grow more nodes as training data increases, allowing it to fit arbitrarily complex boundaries. This contrasts with linear models (fixed number of parameters = number of features). Non-parametric models have low bias but high variance — they can memorize noise."
+  },
+  {
+    "question_id": "decision_trees_Q14",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You have a dataset with a numeric feature 'age' ranging 18–80. The decision tree tries 62 possible split thresholds (one between each adjacent unique value). What is the computational complexity of evaluating all splits for this feature?",
+    "options": [
+      {
+        "id": "a",
+        "text": "O(1) — splits are evaluated using summary statistics",
+        "misconception_tag": "would require precomputation"
+      },
+      {
+        "id": "b",
+        "text": "O(n log n) — sort the feature once, then evaluate each threshold in O(n) for a total of O(n log n)"
+      },
+      {
+        "id": "c",
+        "text": "O(n²) — each threshold requires comparing all samples to all other samples",
+        "misconception_tag": "O(n) per threshold, not O(n²)"
+      },
+      {
+        "id": "d",
+        "text": "O(n × k) where k is number of classes — cross products are computed",
+        "misconception_tag": "class count doesn't multiply threshold evaluation"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The standard approach: sort the n samples by the feature value — O(n log n). Then sweep through the sorted values, maintaining running class counts for left/right splits and computing Gini/entropy updates incrementally — O(n) per feature. Total per feature: O(n log n). All p features: O(p × n log n) per node."
+  },
+  {
+    "question_id": "decision_trees_Q15",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You are building a decision tree for a medical diagnosis system. A regulatory auditor requires that every decision be explainable in plain language. What must you ensure about the tree?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use Gini impurity instead of entropy for regulatory compliance",
+        "misconception_tag": "impurity criterion has no regulatory relevance"
+      },
+      {
+        "id": "b",
+        "text": "Limit tree depth to produce a small number of human-readable rules; document each split condition and leaf prediction clearly"
+      },
+      {
+        "id": "c",
+        "text": "The model is automatically explainable regardless of depth",
+        "misconception_tag": "deep trees with thousands of nodes are not humanly interpretable"
+      },
+      {
+        "id": "d",
+        "text": "Export feature importances to satisfy explainability requirements",
+        "misconception_tag": "importances don't explain individual decisions"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Deep trees (depth > 5) with many nodes quickly exceed human cognitive capacity. For regulatory explainability, limit max_depth (typically 3–5) so the path from root to leaf has a manageable number of conditions. Each prediction can then be expressed as 'IF age > 50 AND cholesterol > 200 AND smoker = yes THEN high_risk'. Feature importances only summarize aggregate behavior, not individual decision paths."
+  },
+  {
+    "question_id": "decision_trees_Q16",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Your decision tree uses 15 features but feature_importances_ shows one feature has importance=0.73 (all others are tiny). What is a practical concern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model is underfitting because it relies on too few features",
+        "misconception_tag": "high single-feature importance doesn't indicate underfitting"
+      },
+      {
+        "id": "b",
+        "text": "The model is highly sensitive to that feature — small errors or missing values in it will dramatically affect predictions; check for data quality issues or consider robustness"
+      },
+      {
+        "id": "c",
+        "text": "Remove the dominant feature to force the model to use all features equally",
+        "misconception_tag": "removing the most informative feature degrades performance"
+      },
+      {
+        "id": "d",
+        "text": "Gini importance over 0.5 indicates data leakage automatically",
+        "misconception_tag": "no such threshold for leakage detection"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When one feature dominates (importance=0.73), the model's decisions almost entirely depend on it. This creates fragility: if the feature has data quality issues, is missing in production, or drifts over time, model performance degrades sharply. Additionally, investigate whether this feature inadvertently encodes the target (data leakage). Consider whether this single-feature dominance reflects genuine causal signal."
+  },
+  {
+    "question_id": "decision_trees_Q17",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You need to handle a dataset with 30% missing values in a key feature. Decision trees in sklearn raise an error on NaN values. What are the two main strategies?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Delete all rows with missing values then train",
+        "misconception_tag": "deleting 30% of data significantly reduces training set"
+      },
+      {
+        "id": "b",
+        "text": "Impute missing values (median/mode imputation) before training, or use a tree implementation that natively handles missing values (e.g., XGBoost, LightGBM)"
+      },
+      {
+        "id": "c",
+        "text": "Replace NaN with -1 as a sentinel value — trees can learn from it",
+        "misconception_tag": "sentinel values work but imputation is cleaner"
+      },
+      {
+        "id": "d",
+        "text": "Use only features with no missing values",
+        "misconception_tag": "may discard informative features"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Sklearn's DecisionTreeClassifier does not handle NaN natively and will raise a ValueError. Two main approaches: (1) impute before training (median for numeric, mode for categorical) — simple and fast, (2) use tree implementations with native NaN handling (XGBoost/LightGBM use 'missing direction' at each node, learning which branch to route NaN samples to). Both are valid; imputation risks introducing bias if missingness is informative."
+  },
+  {
+    "question_id": "decision_trees_Q18",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You train a decision tree on 1000 samples. You then add 1 new training sample that disagrees with all existing patterns. Retraining produces a completely different tree structure. Why is this a problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is not a problem — trees should adapt to new data",
+        "misconception_tag": "instability is a problem for reliable deployment"
+      },
+      {
+        "id": "b",
+        "text": "Decision trees have high variance — small changes in training data can produce very different splits, making them unstable as base learners"
+      },
+      {
+        "id": "c",
+        "text": "The new sample caused a memory overflow in the algorithm",
+        "misconception_tag": "trees don't have memory overflow from one sample"
+      },
+      {
+        "id": "d",
+        "text": "Gini impurity values become negative when conflicting samples are added",
+        "misconception_tag": "Gini is always non-negative"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "This demonstrates the high variance of decision trees. Because splits are chosen greedily based on the current data, a single influential sample at a high-level node can cascade into completely different lower-level splits. This variance is why Random Forests work — averaging many trees reduces variance while maintaining low bias."
+  },
+  {
+    "question_id": "decision_trees_Q19",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A decision tree achieves test accuracy = 76% but a depth-1 tree (decision stump) achieves 75%. Your team argues the full tree isn't worth the complexity. What is the key trade-off being discussed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Interpretability vs performance — one additional percent accuracy may not justify the added complexity"
+      },
+      {
+        "id": "b",
+        "text": "The full tree is overfitting since it barely outperforms a stump",
+        "misconception_tag": "marginally better test performance indicates the tree generalized slightly, not overfitting"
+      },
+      {
+        "id": "c",
+        "text": "The stump is more accurate because simpler models always generalize better",
+        "misconception_tag": "simpler models are not always more accurate"
+      },
+      {
+        "id": "d",
+        "text": "Both trees have the same test accuracy so the comparison is invalid",
+        "misconception_tag": "75% vs 76% is a real difference"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "This is explicitly an Occam's Razor / parsimony discussion. A full tree (complex) vs a stump (1 rule) with nearly identical test accuracy raises the question: is 1% accuracy worth the interpretability cost? The stump is fully explainable in one sentence. The answer depends on business requirements: if the domain requires explainability (medical, legal, credit), the stump is preferred. If maximum accuracy matters, a 1% gain is still a gain."
+  },
+  {
+    "question_id": "decision_trees_Q20",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A decision tree for price prediction splits on a feature 'day_of_week' (values: Mon–Sun) using a binary split. After training, the split is: {Mon,Wed,Fri} vs {Tue,Thu,Sat,Sun}. What did the tree learn and is this a concern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The tree learned a valid pattern — non-contiguous category splits are a strength of trees",
+        "misconception_tag": "the split may be overfitting to training noise"
+      },
+      {
+        "id": "b",
+        "text": "This split may represent overfitting — without regularization, the tree found the category combination that best splits training data, which may not generalize"
+      },
+      {
+        "id": "c",
+        "text": "Decision trees cannot split categorical features with more than 4 values",
+        "misconception_tag": "no such limitation"
+      },
+      {
+        "id": "d",
+        "text": "This is a bug — categorical splits must be contiguous",
+        "misconception_tag": "decision trees do not require contiguous categorical splits"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Decision trees can evaluate all 2^(k-1) possible binary splits for a categorical feature with k values. With 7 days and no depth limit, the tree can find arbitrary day combinations that fit training data perfectly. This {Mon,Wed,Fri} vs {Tue,Thu,Sat,Sun} split may reflect genuine business patterns (working days vs others) but could also be noise. Validate on held-out data and check if the pattern is business-logical."
+  },
+  {
+    "question_id": "decision_trees_Q21",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "A decision tree's feature importance (mean decrease in impurity) is known to be biased. What specific bias does it exhibit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It underestimates categorical features relative to numeric",
+        "misconception_tag": "partially correct but not the core issue"
+      },
+      {
+        "id": "b",
+        "text": "It systematically overestimates high-cardinality features (features with many unique values) because they offer more split opportunities"
+      },
+      {
+        "id": "c",
+        "text": "It overestimates features that appear in shallow nodes",
+        "misconception_tag": "shallow nodes are correct — this is about cardinality"
+      },
+      {
+        "id": "d",
+        "text": "It is biased toward features correlated with the target",
+        "misconception_tag": "correlation is what we want, not a bias"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MDI importance counts total impurity reduction across all splits using each feature. High-cardinality features (many unique values) have more candidate split points, increasing their chance of being selected just by offering more options, even if the signal is weak. Continuous features are also preferred over binary. Permutation Importance and SHAP values are less biased alternatives."
+  },
+  {
+    "question_id": "decision_trees_Q22",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the minimum number of binary splits needed to perfectly separate XOR data in 2D (4 points: (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "1 — a single split on either feature separates all classes",
+        "misconception_tag": "no single split separates XOR"
+      },
+      {
+        "id": "b",
+        "text": "3 — three axis-aligned splits create the correct regions"
+      },
+      {
+        "id": "c",
+        "text": "2 — two splits are sufficient",
+        "misconception_tag": "2 axis-aligned splits cannot separate XOR"
+      },
+      {
+        "id": "d",
+        "text": "XOR cannot be solved by decision trees — they require non-linear boundaries",
+        "misconception_tag": "trees ARE piecewise linear and CAN solve XOR with enough splits"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "XOR is not linearly separable. With axis-aligned binary splits: split 1 on x=0.5 (separates x=0 vs x=1). Split 2 on y=0.5 within the x<0.5 subtree. Split 3 on y=0.5 within the x>0.5 subtree. This creates 4 regions corresponding to the 4 XOR points. Minimum 3 splits. A depth-2 tree (3 splits) suffices."
+  },
+  {
+    "question_id": "decision_trees_Q23",
+    "skill_id": "decision_trees",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "CART (Classification and Regression Trees) uses binary splits exclusively. ID3 allows multi-way splits. What is the practical implication of this difference for a feature with 10 categories?",
+    "options": [
+      {
+        "id": "a",
+        "text": "CART considers 10 possible splits; ID3 considers 512 possible splits",
+        "misconception_tag": "CART considers 2^9=512 binary partitions; ID3 makes one 10-way split"
+      },
+      {
+        "id": "b",
+        "text": "CART searches 2^9=512 binary partitions; ID3 makes a single 10-way split — ID3's single split fragments data more aggressively, creating deeper but narrower subtrees"
+      },
+      {
+        "id": "c",
+        "text": "ID3 is always more accurate than CART for categorical data",
+        "misconception_tag": "multi-way splits don't guarantee better accuracy"
+      },
+      {
+        "id": "d",
+        "text": "CART cannot handle categorical features with more than 5 categories",
+        "misconception_tag": "no such limit"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "ID3's multi-way split on a 10-category feature creates 10 child nodes in one split — each with fewer samples, increasing variance risk. CART's binary splits partition the 10 categories into two groups (2^9=512 possible partitions), requiring multiple levels but each with more samples per node. ID3's multi-way splits also have a bias toward high-cardinality features (information gain ignores split multiplicity, unlike gain ratio)."
+  },
+  {
+    "question_id": "decision_trees_Q24",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You deploy a decision tree at depth=8 to production. Three months later, one of the top-level split features starts returning NULL 15% of the time due to a data pipeline issue. What is the cascading effect?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only predictions for samples with NULL values are affected",
+        "misconception_tag": "all downstream splits in the affected subtree are also affected"
+      },
+      {
+        "id": "b",
+        "text": "Any sample routed through the affected node gets stuck — the entire subtree below that split cannot be traversed, affecting ~50% of samples if it is a root-level split"
+      },
+      {
+        "id": "c",
+        "text": "The tree automatically re-routes NULL samples using the next best feature",
+        "misconception_tag": "sklearn trees have no auto-reroute for NaN"
+      },
+      {
+        "id": "d",
+        "text": "NULL values are treated as zero by the tree for all numeric features",
+        "misconception_tag": "NaN treatment varies by implementation; sklearn raises an error"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Decision trees route samples by evaluating feature conditions at each node. If a split feature is NULL, the sample cannot be routed to either child. In sklearn, this raises a ValueError at prediction time. If the NULL node is near the root (e.g., depth 1–2), it affects the majority of samples since ~50% of the dataset routes through each child at the first split. Deep NULLs affect fewer samples. XGBoost/LightGBM have explicit NULL routing."
+  },
+  {
+    "question_id": "decision_trees_Q25",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to detect fraud where only 0.1% of transactions are fraudulent. You train a decision tree with default settings. After training, the tree has 2000 leaves. Only 2 leaves correspond to fraud. What is the diagnostic issue?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The tree has too many leaves — reduce max_depth",
+        "misconception_tag": "leaf count is a symptom, not the fix"
+      },
+      {
+        "id": "b",
+        "text": "Class imbalance caused the tree to deprioritize fraud splits — most impurity reduction comes from majority class; set class_weight='balanced' or use sample_weight"
+      },
+      {
+        "id": "c",
+        "text": "2 fraud leaves is correct — there are only 2 fraud patterns",
+        "misconception_tag": "0.1% fraud across a large dataset would have many distinct patterns"
+      },
+      {
+        "id": "d",
+        "text": "Decision trees cannot detect rare events",
+        "misconception_tag": "trees can detect rare events with proper class weighting"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Gini impurity reduction is dominated by majority class patterns. With 0.1% fraud, correcting a fraud misclassification moves Gini by 0.001×(1-0.001) ≈ 0.001, while correcting a non-fraud misclassification moves it by ~1000× more. The tree optimizes for the majority. class_weight='balanced' multiplies the contribution of minority class samples by n_majority/n_minority, rebalancing the impurity signals."
+  },
+  {
+    "question_id": "decision_trees_Q26",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A decision tree is deployed in a loan approval system. The model uses 'zip_code' as a feature. The model achieves high accuracy. What is the ethical/legal problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Zip codes are continuous variables and trees cannot split them correctly",
+        "misconception_tag": "zip codes can be encoded as categorical"
+      },
+      {
+        "id": "b",
+        "text": "Zip codes serve as proxies for protected characteristics (race, income) — using them can constitute illegal discriminatory lending (redlining) even if intentionally neutral"
+      },
+      {
+        "id": "c",
+        "text": "High accuracy with zip codes indicates data leakage",
+        "misconception_tag": "high accuracy alone doesn't indicate leakage"
+      },
+      {
+        "id": "d",
+        "text": "The tree will overfit on zip codes because they are high-cardinality",
+        "misconception_tag": "cardinality is a modeling concern, not the primary issue here"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Zip codes correlate strongly with race, ethnicity, and income due to historical segregation patterns (redlining). Using zip codes in loan approval, even without explicit intent to discriminate, can perpetuate or amplify historical discrimination — violating Fair Housing Act and Equal Credit Opportunity Act in the US. High-cardinality proxies for protected characteristics must be carefully audited or removed from credit and lending models."
+  },
+  {
+    "question_id": "decision_trees_Q27",
+    "skill_id": "decision_trees",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You compare test accuracy of a max_depth=3 tree vs max_depth=20 tree across 10 cross-validation folds: mean CV accuracy is 83% vs 81%. Which should you choose for production?",
+    "options": [
+      {
+        "id": "a",
+        "text": "max_depth=20 — higher complexity models are generally better",
+        "misconception_tag": "lower mean CV accuracy means lower expected generalization"
+      },
+      {
+        "id": "b",
+        "text": "max_depth=3 — higher mean CV accuracy plus simpler and more interpretable; check variance of CV scores before finalizing"
+      },
+      {
+        "id": "c",
+        "text": "max_depth=20 — training accuracy is certainly higher",
+        "misconception_tag": "training accuracy is not the deployment metric"
+      },
+      {
+        "id": "d",
+        "text": "Neither — decision trees are unreliable; use Random Forest",
+        "misconception_tag": "decision trees have valid uses, especially for explainability"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "max_depth=3 outperforms on cross-validation (83% vs 81%), is simpler, and more interpretable. In production, the depth-3 tree is preferred both on performance and explainability grounds. Additionally, lower complexity reduces sensitivity to future data distribution shifts. Check CV score standard deviation — if depth-20 has much lower variance, the comparison is less clear."
+  },
+  {
+    "question_id": "decision_trees_Q28",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You train a decision tree using information gain. You notice the tree always splits on a feature 'customer_id' (unique per customer) first. Why does this happen and how do you fix it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "customer_id has the highest correlation with the target",
+        "misconception_tag": "correlation doesn't equal information gain"
+      },
+      {
+        "id": "b",
+        "text": "customer_id has maximum information gain because splitting on a unique identifier creates pure leaves (one sample each) — fix by excluding ID features or using gain ratio"
+      },
+      {
+        "id": "c",
+        "text": "The tree is overfitting to customer_id through gradient descent",
+        "misconception_tag": "trees don't use gradient descent"
+      },
+      {
+        "id": "d",
+        "text": "customer_id is numeric and trees prefer numeric features",
+        "misconception_tag": "feature type preference doesn't explain this specific behavior"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With n unique values, splitting on customer_id creates n pure single-sample leaves — perfect entropy reduction to 0. Information Gain (used in ID3) is biased toward high-cardinality features for exactly this reason. Gain Ratio (C4.5) normalizes by split information to penalize high-cardinality splits. Alternatively, simply exclude identifier columns from training features."
+  },
+  {
+    "question_id": "decision_trees_Q29",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Two decision trees are trained on the same data with different max_depth settings. Tree A (depth=5) has SHAP values that sum to the mean prediction for every sample. Tree B (depth=15) does not satisfy this property. What is wrong?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SHAP requires all trees to be identical depth",
+        "misconception_tag": "SHAP works on any tree regardless of depth"
+      },
+      {
+        "id": "b",
+        "text": "Nothing is wrong — SHAP values always sum to prediction minus mean prediction for any tree model",
+        "misconception_tag": "SHAP additivity is guaranteed"
+      },
+      {
+        "id": "c",
+        "text": "SHAP computations for Tree B have numerical precision errors due to the large depth",
+        "misconception_tag": "SHAP is exact for tree ensembles; numerical error in this context would be negligible"
+      },
+      {
+        "id": "d",
+        "text": "The SHAP implementation has a bug or the values were computed with a different baseline",
+        "misconception_tag": "SHAP additivity is a mathematical guarantee; violation indicates implementation error"
+      }
+    ],
+    "correct_option_id": "d",
+    "explanation": "SHAP values satisfy the efficiency axiom: Σφᵢ = f(x) - E[f(x)] for every input x, for any tree. This is a mathematical guarantee, not a depth-dependent property. If Tree B's SHAP values don't sum correctly, the cause is an implementation bug (wrong baseline, wrong SHAP variant used, or numerical error in the SHAP library call). Tree depth does not affect SHAP additivity."
+  },
+  {
+    "question_id": "decision_trees_Q30",
+    "skill_id": "decision_trees",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You apply a decision tree to a regression task (predicting house prices). The tree has 50 leaves. At prediction time, a new house's features route it to a leaf containing training houses with prices [200K, 210K, 205K, 195K]. What price is predicted and what is the limitation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The minimum price in the leaf (195K) — trees predict the worst case",
+        "misconception_tag": "trees predict the mean, not the minimum"
+      },
+      {
+        "id": "b",
+        "text": "The mean of leaf prices (202.5K) — but the tree cannot predict a value outside the range of training values in any leaf"
+      },
+      {
+        "id": "c",
+        "text": "The median of leaf prices (207.5K) — robust to outliers in the leaf",
+        "misconception_tag": "default regression trees predict mean, not median"
+      },
+      {
+        "id": "d",
+        "text": "The most common price in the leaf — mode prediction for regression",
+        "misconception_tag": "mode is for classification, not regression trees"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Regression trees predict the mean of target values in the leaf that a sample is routed to. 202.5K = (200+210+205+195)/4. The critical limitation: the predicted value is always within the range of the training set. Trees cannot extrapolate — if a new house's price should be 350K but no leaf contains such examples, the tree will predict something much lower. This is why tree-based models should not be used for extrapolation."
+  },
+  {
+    "question_id": "random_forest_Q01",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Random Forests reduce the variance of individual decision trees through what mechanism?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Each tree is trained with stronger regularization (lower max_depth)",
+        "misconception_tag": "RF trees are typically grown deep"
+      },
+      {
+        "id": "b",
+        "text": "Averaging predictions of many diverse trees — errors that are random and uncorrelated cancel out"
+      },
+      {
+        "id": "c",
+        "text": "Each tree sees the entire dataset and learns the same model",
+        "misconception_tag": "all trees seeing the same data would produce identical, not diverse, trees"
+      },
+      {
+        "id": "d",
+        "text": "Trees are weighted by training accuracy before averaging",
+        "misconception_tag": "standard RF uses unweighted averaging"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The bias-variance decomposition shows that averaging n uncorrelated estimators reduces variance by 1/n without changing bias. RF achieves tree diversity through: (1) bootstrap sampling (each tree trains on a different subset) and (2) random feature selection at each split. This breaks correlations between trees, making their errors partially cancel when averaged."
+  },
+  {
+    "question_id": "random_forest_Q02",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "In Random Forest, the 'out-of-bag' (OOB) error estimate uses which data samples?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A separate validation set held out before training",
+        "misconception_tag": "OOB uses samples excluded by bootstrapping, not a pre-held set"
+      },
+      {
+        "id": "b",
+        "text": "The roughly 37% of training samples not selected in each tree's bootstrap sample"
+      },
+      {
+        "id": "c",
+        "text": "All training samples evaluated after all trees are grown",
+        "misconception_tag": "that would be training error"
+      },
+      {
+        "id": "d",
+        "text": "A random 20% of training data reserved for error estimation",
+        "misconception_tag": "OOB proportion is ~37%, not 20%"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Bootstrap sampling selects n samples with replacement from n training samples. On average, each bootstrap sample excludes about 36.8% (1/e ≈ 0.368) of original samples. These excluded samples are 'out-of-bag' for that tree and can be used as a held-out validation set without needing a separate split. OOB error is a nearly unbiased estimate of generalization error."
+  },
+  {
+    "question_id": "random_forest_Q03",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the key difference between a standard decision tree and a Random Forest at each split node?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Random Forest uses entropy while decision trees use Gini",
+        "misconception_tag": "both can use either criterion"
+      },
+      {
+        "id": "b",
+        "text": "Random Forest randomly selects a subset of features (sqrt(p) for classification) to consider at each split, increasing tree diversity"
+      },
+      {
+        "id": "c",
+        "text": "Random Forest uses bootstrap samples while trees use the full dataset at each node split",
+        "misconception_tag": "bootstrap affects which samples each tree sees, not the split mechanism"
+      },
+      {
+        "id": "d",
+        "text": "Random Forest applies L2 regularization at each split to prevent overfitting",
+        "misconception_tag": "no L2 regularization in RF splits"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The critical Random Forest modification is feature subsampling at each split: instead of finding the best split across all p features, RF considers only a random subset (typically sqrt(p) for classification, p/3 for regression). This prevents strong features from dominating all trees, creating diverse trees whose errors are less correlated."
+  },
+  {
+    "question_id": "random_forest_Q04",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You train a Random Forest with n_estimators=10 and get test accuracy=81%. You increase n_estimators to 500. What is the expected outcome?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Test accuracy decreases — more trees cause overfitting",
+        "misconception_tag": "more trees in RF reduce variance, not increase it"
+      },
+      {
+        "id": "b",
+        "text": "Test accuracy improves or plateaus — more trees reduce variance until a convergence point, after which accuracy stabilizes"
+      },
+      {
+        "id": "c",
+        "text": "Training time decreases significantly with more trees",
+        "misconception_tag": "more trees = more computation = longer training"
+      },
+      {
+        "id": "d",
+        "text": "Out-of-bag error increases with more trees",
+        "misconception_tag": "OOB error decreases and stabilizes with more trees"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Adding trees reduces variance (averaging effect) until the ensemble converges — typically 100–500 trees is sufficient for most datasets. Beyond convergence, accuracy plateaus and you incur only computational cost. Trees do not overfit in the ensemble (individual trees can overfit but their errors average out). Training time increases linearly with n_estimators."
+  },
+  {
+    "question_id": "random_forest_Q05",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A Random Forest returns feature_importances_ = [0.45, 0.30, 0.15, 0.10] for features [A, B, C, D]. What can you directly conclude?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Feature A causes the outcome — it has 45% causal effect",
+        "misconception_tag": "importance ≠ causation"
+      },
+      {
+        "id": "b",
+        "text": "Feature A reduced impurity the most across all trees; it was the most frequently useful split feature by this metric"
+      },
+      {
+        "id": "c",
+        "text": "Remove features C and D — they are unimportant",
+        "misconception_tag": "importance < 0.15 doesn't necessarily mean harmful"
+      },
+      {
+        "id": "d",
+        "text": "Feature B is redundant since A dominates",
+        "misconception_tag": "dominance doesn't imply redundancy"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "RF feature importance is mean decrease in impurity (MDI) across all trees. Feature A created the largest total impurity reduction. This is a predictive importance measure, not causal. It is also biased toward high-cardinality features. Features C and D contribute 25% total — may still be meaningful. Removal should be validated via permutation importance and CV performance."
+  },
+  {
+    "question_id": "random_forest_Q06",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Your Random Forest model's OOB score is 0.79 and your hold-out test score is 0.80. How do you interpret this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The model is overfitting because test > OOB",
+        "misconception_tag": "near-equal values indicate consistent generalization, not overfitting"
+      },
+      {
+        "id": "b",
+        "text": "OOB and test scores are nearly identical — a positive sign that the model generalizes consistently and OOB is a reliable error estimate"
+      },
+      {
+        "id": "c",
+        "text": "You should always use the test score and discard OOB",
+        "misconception_tag": "both are valid and close agreement is reassuring"
+      },
+      {
+        "id": "d",
+        "text": "OOB score > test score would indicate the model is overfitting",
+        "misconception_tag": "that would actually indicate train>test, which is expected"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "OOB score uses ~37% of samples excluded from each tree's bootstrap for evaluation — it approximates a cross-validated test score without a separate split. Near-identical OOB (0.79) and test (0.80) scores indicate the model generalizes consistently and neither set is anomalous. Large disagreement would suggest dataset heterogeneity or a biased split."
+  },
+  {
+    "question_id": "random_forest_Q07",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to predict if a customer will default on a loan (yes/no). The dataset has 200,000 samples and 50 features. Which hyperparameter tuning should you prioritize for Random Forest?",
+    "options": [
+      {
+        "id": "a",
+        "text": "max_features — most important tuning lever for RF diversity"
+      },
+      {
+        "id": "b",
+        "text": "n_estimators — number of trees is always the first to optimize",
+        "misconception_tag": "n_estimators mostly affects stability; once converged, tuning it has diminishing returns"
+      },
+      {
+        "id": "c",
+        "text": "criterion — switching between Gini and entropy is the highest-impact change",
+        "misconception_tag": "criterion choice rarely significantly changes RF performance"
+      },
+      {
+        "id": "d",
+        "text": "bootstrap — turning off bootstrap always improves performance",
+        "misconception_tag": "bootstrap=False removes a key diversity mechanism"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "max_features controls how many features are considered at each split — the primary driver of tree diversity and thus the ensemble's variance reduction. Too many features → correlated trees → less variance reduction. Too few → trees can't find good splits → higher bias. n_estimators mostly controls convergence stability. Criterion choice has minimal practical impact. Bootstrap should generally remain True."
+  },
+  {
+    "question_id": "random_forest_Q08",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You train a Random Forest with n_estimators=100 and observe that training accuracy is 100% but OOB accuracy is 72%. Is this a problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No — RF trees are always fully grown, so 100% training accuracy is expected and fine",
+        "misconception_tag": "it is expected but context matters"
+      },
+      {
+        "id": "b",
+        "text": "It suggests the individual trees are overfitting; the OOB accuracy is the reliable generalization estimate — but 72% may be acceptable depending on the domain"
+      },
+      {
+        "id": "c",
+        "text": "Yes — the OOB-training gap means the forest is incorrectly configured",
+        "misconception_tag": "this pattern is common and not necessarily wrong"
+      },
+      {
+        "id": "d",
+        "text": "This indicates the bootstrap sampling is broken — fix by setting bootstrap=True",
+        "misconception_tag": "bootstrap=True is the default and this behavior is expected with it"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "RF trees are typically grown deep (default: no max_depth), so individual trees overfit training samples they saw (hence 100% train). OOB accuracy of 72% is the unbiased generalization estimate — the relevant metric. The gap between 100% train and 72% OOB is expected and not a bug. Whether 72% is acceptable depends on the domain and problem difficulty."
+  },
+  {
+    "question_id": "random_forest_Q09",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You set random_state=42 in RandomForestClassifier. A colleague runs the same code on a different machine and gets a slightly different OOB score. What is the most likely cause?",
+    "options": [
+      {
+        "id": "a",
+        "text": "random_state only affects feature selection, not bootstrap sampling",
+        "misconception_tag": "random_state affects all randomness sources"
+      },
+      {
+        "id": "b",
+        "text": "Different numpy/sklearn versions may implement the random number generator differently, producing different sequences even with the same seed"
+      },
+      {
+        "id": "c",
+        "text": "OOB score is intentionally non-deterministic to prevent overfitting",
+        "misconception_tag": "OOB is deterministic given same data and seed in same software version"
+      },
+      {
+        "id": "d",
+        "text": "The colleague must have used different data — random_state guarantees identical results across all environments",
+        "misconception_tag": "random_state doesn't guarantee across version changes"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "random_state seeds the pseudo-random number generator. With the same seed and same sklearn/numpy version, results are reproducible. But different versions can change: (1) the RNG implementation, (2) the order of operations, (3) floating-point handling. This produces different results even with the same random_state. For strict reproducibility, pin exact software versions."
+  },
+  {
+    "question_id": "random_forest_Q10",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You train a Random Forest on features A, B, C where A and B are perfectly correlated (r=1.0). After training, feature importance shows A=0.40, B=0.05, C=0.30. What is misleading about this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Nothing — importance correctly reflects that A is more useful than B",
+        "misconception_tag": "perfectly correlated features split importance arbitrarily"
+      },
+      {
+        "id": "b",
+        "text": "The combined importance of A and B should reflect their joint signal (~0.45); tree-based importance arbitrarily splits it between them based on which is selected first"
+      },
+      {
+        "id": "c",
+        "text": "Correlated features cannot be included in Random Forest simultaneously",
+        "misconception_tag": "RF handles correlated features without errors"
+      },
+      {
+        "id": "d",
+        "text": "C's importance of 0.30 is inflated because it was selected to replace A-B redundancy",
+        "misconception_tag": "no such inflation mechanism exists"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "When two features are perfectly correlated, they provide identical information. RF's random feature selection will split opportunities between them based on which happens to be in each split's feature subset — essentially randomly. The combined importance (A+B=0.45) represents the pair's true contribution; the individual split (0.40 vs 0.05) is arbitrary. Permutation importance with correlated features shows the same problem."
+  },
+  {
+    "question_id": "random_forest_Q11",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "Bagging vs Boosting: both are ensemble methods. What is the fundamental algorithmic difference?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Bagging uses decision trees; boosting uses linear models",
+        "misconception_tag": "both can use any base learner"
+      },
+      {
+        "id": "b",
+        "text": "Bagging trains trees independently in parallel on bootstrap samples; boosting trains trees sequentially where each corrects the previous tree's errors"
+      },
+      {
+        "id": "c",
+        "text": "Bagging reduces bias; boosting reduces variance",
+        "misconception_tag": "bagging reduces variance; boosting reduces bias"
+      },
+      {
+        "id": "d",
+        "text": "Boosting requires more trees than bagging for the same performance",
+        "misconception_tag": "no systematic requirement difference"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Bagging: n trees trained independently on bootstrap samples → predictions averaged (parallel). Reduces variance. Boosting: trees trained sequentially — each new tree fits the residuals/errors of the ensemble so far (serial). Reduces bias. Bagging reduces variance at the cost of slight bias increase (averaging). Boosting reduces bias but can increase variance (risk of overfitting with too many rounds)."
+  },
+  {
+    "question_id": "random_forest_Q12",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "In Random Forest, why does increasing max_features from sqrt(p) toward p (all features) hurt performance?",
+    "options": [
+      {
+        "id": "a",
+        "text": "More features means more computation causing numerical errors",
+        "misconception_tag": "computational cost increases but numerical errors aren't the issue"
+      },
+      {
+        "id": "b",
+        "text": "Trees become more correlated because the strongest features are always selected at each node, reducing the variance-reduction benefit of averaging"
+      },
+      {
+        "id": "c",
+        "text": "Overfitting increases because each tree has too many splits",
+        "misconception_tag": "more features at each split doesn't directly increase depth"
+      },
+      {
+        "id": "d",
+        "text": "The bootstrap sample size must be increased proportionally to max_features",
+        "misconception_tag": "no such coupling exists"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With max_features=p (all features), every tree selects the same dominant features at the top nodes, making trees highly correlated. Averaging correlated trees reduces variance only by ρσ²/n instead of σ²/n (where ρ is correlation). When trees are perfectly correlated, averaging gives no variance reduction. RF's power comes from decorrelated trees achieved by limiting feature choices."
+  },
+  {
+    "question_id": "random_forest_Q13",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "The bias-variance decomposition for Random Forest: compared to a single deep decision tree, where does RF sit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Higher bias, higher variance — averaging always worsens both",
+        "misconception_tag": "averaging reduces variance without changing bias significantly"
+      },
+      {
+        "id": "b",
+        "text": "Similar bias, lower variance — averaging diverse trees reduces variance while individual tree bias is approximately maintained"
+      },
+      {
+        "id": "c",
+        "text": "Lower bias, lower variance — RF is better in every dimension",
+        "misconception_tag": "RF doesn't systematically reduce bias vs single tree"
+      },
+      {
+        "id": "d",
+        "text": "Higher bias, lower variance — averaging introduces regularization that increases bias",
+        "misconception_tag": "averaging doesn't introduce regularization-style bias"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Individual deep trees have low bias (can fit complex patterns) and high variance (sensitive to training data). RF averages many such trees: the bias of the ensemble ≈ bias of individual trees (averaging doesn't change expected prediction). Variance = ρσ² + (1-ρ)σ²/n_estimators. Low correlation → ρ≈0 → variance approaches σ²/n. RF ≈ same bias, much lower variance."
+  },
+  {
+    "question_id": "random_forest_Q14",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You train a Random Forest with 500 trees. Prediction latency in production is 200ms — too slow. You need <20ms. What is the most targeted approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reduce n_estimators (e.g., to 50) and validate OOB score to ensure acceptable accuracy-speed tradeoff"
+      },
+      {
+        "id": "b",
+        "text": "Switch to a shallower single decision tree",
+        "misconception_tag": "a single tree loses the ensemble's accuracy"
+      },
+      {
+        "id": "c",
+        "text": "Increase max_features to reduce the number of splits per tree",
+        "misconception_tag": "more features per split doesn't reduce latency"
+      },
+      {
+        "id": "d",
+        "text": "Enable parallel_backend='threading' — inference is not parallelized by default",
+        "misconception_tag": "sklearn RF prediction is already reasonably optimized; threading doesn't reduce per-sample latency 10x"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Prediction time scales approximately linearly with n_estimators (each tree must be traversed for every prediction). Reducing from 500 to 50 trees would reduce latency ~10x. Check OOB score at n_estimators=50 to ensure accuracy remains acceptable. Alternatives: use a lighter model (XGBoost with fewer trees, or a single tree for very strict latency requirements)."
+  },
+  {
+    "question_id": "random_forest_Q15",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You have a dataset with 1M rows, 100 features. Training a Random Forest with 100 trees takes 4 hours. How does n_jobs=-1 help and what are its limits?",
+    "options": [
+      {
+        "id": "a",
+        "text": "n_jobs=-1 trains all 100 trees simultaneously on one CPU core",
+        "misconception_tag": "multiple cores, not one core"
+      },
+      {
+        "id": "b",
+        "text": "n_jobs=-1 uses all available CPU cores to parallelize tree training across cores, reducing wall time proportionally to core count — but memory usage also scales with cores"
+      },
+      {
+        "id": "c",
+        "text": "n_jobs=-1 reduces per-tree training time by sharing computations across trees",
+        "misconception_tag": "trees are independent; no computation is shared"
+      },
+      {
+        "id": "d",
+        "text": "n_jobs=-1 only helps for prediction, not training",
+        "misconception_tag": "n_jobs affects both training and prediction"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Random Forest trees are independent — perfect for parallelism. n_jobs=-1 spawns one process per available CPU core, each training a subset of trees. With 8 cores: training time ≈ 4/8 = 0.5 hours. However, each worker process copies the dataset into memory — memory usage multiplies by n_jobs workers. On memory-constrained systems this can cause OOM errors or thrashing. n_jobs affects both fit() and predict()."
+  },
+  {
+    "question_id": "random_forest_Q16",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "Your Random Forest model has been in production for 6 months. Feature 'user_age' was re-defined in the database from integer years to decimal (e.g., 35 → 35.7). How does this affect the model?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No effect — Random Forest handles any numeric scale",
+        "misconception_tag": "the thresholds learned are scale-dependent"
+      },
+      {
+        "id": "b",
+        "text": "Split thresholds were learned on integer ages — decimal values may route some samples to different leaves, degrading performance subtly"
+      },
+      {
+        "id": "c",
+        "text": "The model will crash because it cannot handle decimal inputs",
+        "misconception_tag": "trees handle continuous values natively"
+      },
+      {
+        "id": "d",
+        "text": "Performance improves because decimals provide more information",
+        "misconception_tag": "the model was trained on integers; retraining is needed to benefit from decimals"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Each tree node has a learned threshold (e.g., 'age > 35'). With integer training data, the threshold captures meaningful boundaries. With decimals, a sample with age=35.3 now crosses the threshold differently than when it was age=35 (rounded integer). The impact is usually minor but can be cumulative across many splits. The model should be retrained or the feature should be rounded to match training distribution."
+  },
+  {
+    "question_id": "random_forest_Q17",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You notice that your Random Forest's permutation importance gives very different rankings than MDI (mean decrease impurity) importance. Which should you trust more and why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "MDI — it is computed during training and reflects the model's actual decisions",
+        "misconception_tag": "MDI has known biases"
+      },
+      {
+        "id": "b",
+        "text": "Permutation importance — it measures actual impact on held-out predictions and is not biased by feature cardinality or tree structure"
+      },
+      {
+        "id": "c",
+        "text": "Neither — use SHAP instead of either",
+        "misconception_tag": "SHAP is better but the question asks to choose between the two"
+      },
+      {
+        "id": "d",
+        "text": "They measure the same thing in different ways — average them",
+        "misconception_tag": "they measure fundamentally different quantities"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MDI importance is biased: it overestimates high-cardinality features and is computed on training data (can reflect overfitting). Permutation importance shuffles each feature on a held-out set and measures the drop in performance — it directly measures predictive impact on unseen data and is cardinality-unbiased. When they disagree, permutation importance is more reliable for feature selection decisions."
+  },
+  {
+    "question_id": "random_forest_Q18",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A Random Forest has 101 trees voting on a binary classification. 71 vote class A, 30 vote class B. You increase n_estimators to 103 by adding 2 more trees that both vote class B. What changes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Prediction switches to class B because you added more class B votes",
+        "misconception_tag": "71 vs 32 still favors A overwhelmingly"
+      },
+      {
+        "id": "b",
+        "text": "Prediction remains class A; predicted probability of A decreases slightly from 71/101 to 71/103"
+      },
+      {
+        "id": "c",
+        "text": "The 2 new trees trigger a full retraining of all 103 trees",
+        "misconception_tag": "adding n_estimators requires refitting from scratch in sklearn"
+      },
+      {
+        "id": "d",
+        "text": "Ensemble performance improves because 103 is a prime number",
+        "misconception_tag": "tree count has no prime-number advantage"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "With 103 trees: 71 vote A (unchanged), 32 vote B. P(A) = 71/103 ≈ 68.9% vs previous 71/101 ≈ 70.3%. Class prediction stays A (>50%). The probability shifts slightly downward. In sklearn, you cannot add trees to an existing forest — n_estimators change requires complete refit."
+  },
+  {
+    "question_id": "random_forest_Q19",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "A Random Forest and a Gradient Boosted Tree (GBT) achieve similar test AUC on your dataset. The RF trains in 2 minutes; GBT in 25 minutes. When would you choose GBT despite the speed disadvantage?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Never — Random Forest is always preferable when it is faster",
+        "misconception_tag": "speed is not the only criterion"
+      },
+      {
+        "id": "b",
+        "text": "When the dataset is tabular with complex interactions and you need maximum predictive performance; GBT often achieves slightly better accuracy by iteratively correcting errors"
+      },
+      {
+        "id": "c",
+        "text": "When interpretability is required — GBT is more interpretable than RF",
+        "misconception_tag": "GBT is generally less interpretable than a single tree and similar to RF"
+      },
+      {
+        "id": "d",
+        "text": "When memory is limited — GBT uses less memory than RF",
+        "misconception_tag": "GBT typically uses similar or more memory"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "If both achieve similar AUC on current data, GBT may still be preferred when: (1) you have compute budget for training/tuning, (2) the dataset has complex patterns GBT handles better with sequential error correction, (3) you can afford the training time for iterative hyperparameter tuning. In production serving, RF and GBT have similar prediction speed per sample."
+  },
+  {
+    "question_id": "random_forest_Q20",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You train Random Forest with max_depth=None (trees grown to full depth). OOB error is 12%. You then set max_depth=5. OOB error increases to 18%. What does this suggest?",
+    "options": [
+      {
+        "id": "a",
+        "text": "max_depth=5 is causing overfitting",
+        "misconception_tag": "shallower trees have less capacity and typically underfit"
+      },
+      {
+        "id": "b",
+        "text": "The signal in the data requires deep splits to be captured; restricting to depth 5 introduces too much bias (underfitting)"
+      },
+      {
+        "id": "c",
+        "text": "OOB error always increases with reduced depth — this is expected",
+        "misconception_tag": "this is expected in some ranges but not always; the key is by how much"
+      },
+      {
+        "id": "d",
+        "text": "The dataset needs more trees (increase n_estimators) to compensate for reduced depth",
+        "misconception_tag": "more trees don't compensate for structural bias from insufficient depth"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Increasing OOB error from 12% to 18% when restricting max_depth means important patterns require deeper than depth-5 splits. The data has complex interactions that only deep trees can capture. This is underfitting (high bias). The fix is to increase max_depth or use max_depth=None. Increasing n_estimators helps variance, not bias — it cannot compensate for structural underfitting."
+  },
+  {
+    "question_id": "random_forest_Q21",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "Random Forest achieves lower variance through averaging. What is the theoretical minimum variance achievable, and what limits achieving it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Variance → 0 as n_estimators → ∞ if trees are independent",
+        "misconception_tag": "trees are not independent — they share training data"
+      },
+      {
+        "id": "b",
+        "text": "Variance → ρσ² where ρ is mean pairwise correlation between trees and σ² is individual tree variance — positive ρ prevents variance from going to zero"
+      },
+      {
+        "id": "c",
+        "text": "Variance → σ²/n where n is n_estimators — same as iid averaging",
+        "misconception_tag": "iid averaging assumes zero correlation"
+      },
+      {
+        "id": "d",
+        "text": "Variance → bias² when n_estimators is large enough",
+        "misconception_tag": "bias and variance are independent quantities"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The exact formula: Var(RF) = ρσ² + (1-ρ)σ²/n_estimators. As n→∞, the second term vanishes but the first (ρσ²) remains. Even with infinite trees, if pairwise correlation ρ > 0 (from shared training data and dominant features), variance doesn't go to zero. RF minimizes ρ by random feature selection. This is the fundamental limit of ensemble averaging with non-independent learners."
+  },
+  {
+    "question_id": "random_forest_Q22",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "Extremely Randomized Trees (ExtraTrees) differ from Random Forest in TWO ways. Which statement correctly identifies both differences?",
+    "options": [
+      {
+        "id": "a",
+        "text": "ExtraTrees uses gradient boosting; RF uses bagging",
+        "misconception_tag": "ExtraTrees is still a bagging ensemble"
+      },
+      {
+        "id": "b",
+        "text": "ExtraTrees (1) does NOT use bootstrap (trains each tree on the full dataset), and (2) picks random split thresholds instead of optimal thresholds for each feature"
+      },
+      {
+        "id": "c",
+        "text": "ExtraTrees uses deeper trees and more estimators than RF by default",
+        "misconception_tag": "depth and n_estimators are user-controlled hyperparameters"
+      },
+      {
+        "id": "d",
+        "text": "ExtraTrees applies L1 regularization at each split; RF applies L2",
+        "misconception_tag": "neither uses L1/L2 regularization at splits"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "ExtraTrees vs Random Forest: (1) Bootstrap: RF uses bootstrap samples per tree; ExtraTrees uses the full training set for each tree — this reduces bias from data subsampling. (2) Thresholds: RF finds the optimal threshold for each candidate feature; ExtraTrees draws random thresholds and picks the best random split — this further reduces variance by adding randomness to the split selection itself. Combined: lower variance, slightly higher bias, faster training."
+  },
+  {
+    "question_id": "random_forest_Q23",
+    "skill_id": "random_forest",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "Random Forest feature importance (MDI) is known to be biased. In which scenario does permutation importance also give misleading results?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When the dataset is small",
+        "misconception_tag": "small datasets are a general problem, not specific to permutation importance"
+      },
+      {
+        "id": "b",
+        "text": "When two features are highly correlated — permuting one leaves the other intact, so the model compensates using the correlated feature, underestimating both features' true importance"
+      },
+      {
+        "id": "c",
+        "text": "When n_estimators is too small",
+        "misconception_tag": "tree count affects stability, not the correlation bias"
+      },
+      {
+        "id": "d",
+        "text": "When features are on different scales",
+        "misconception_tag": "permutation is scale-invariant"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Permutation importance works by shuffling a feature and measuring performance drop. If features A and B are correlated (r=0.9), shuffling A breaks the A-B correlation but the model can partially compensate using B (which is still intact). The measured drop underestimates A's true importance. Both correlated features are underestimated. SHAP with the 'interventional' background handles this better by marginalizing over correlations."
+  },
+  {
+    "question_id": "random_forest_Q24",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You train a Random Forest on 50 features. You want to reduce to 10 features for a production model. You rank features by MDI importance and take the top 10. Is this reliable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes — MDI correctly identifies the most important features",
+        "misconception_tag": "MDI has known biases especially with correlated features"
+      },
+      {
+        "id": "b",
+        "text": "Not reliably — MDI biases toward high-cardinality features and doesn't account for correlation; use recursive feature elimination with cross-validation or permutation importance"
+      },
+      {
+        "id": "c",
+        "text": "Yes — as long as you use more than 100 trees, MDI is unbiased",
+        "misconception_tag": "n_estimators doesn't fix MDI bias"
+      },
+      {
+        "id": "d",
+        "text": "Drop the bottom 40 features by MDI and retest — if performance holds the selection is valid",
+        "misconception_tag": "performance holding doesn't validate the feature selection method's reliability"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MDI overestimates high-cardinality features regardless of n_estimators. When features are correlated, importance is split arbitrarily between correlated features — removing one may not hurt performance because another absorbs its role. Reliable approaches: (1) permutation importance on a held-out set, (2) RFECV (recursive feature elimination with cross-validation), (3) SHAP-based selection. After selecting features, validate with CV on the reduced feature set."
+  },
+  {
+    "question_id": "random_forest_Q25",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have a 3-class Random Forest classifier. At test time, tree vote counts are: class A=40, class B=35, class C=25 (out of 100 trees). The predicted probability for class A using soft voting is 0.40. A medical application requires well-calibrated probabilities. Is this reliable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes — RF probability is the vote proportion which is well-calibrated",
+        "misconception_tag": "RF probability estimates are typically poorly calibrated"
+      },
+      {
+        "id": "b",
+        "text": "No — RF vote proportions are not calibrated probabilities; they tend to be pushed toward extreme values (0 or 1) or are systematically biased; use Platt scaling or isotonic regression"
+      },
+      {
+        "id": "c",
+        "text": "Yes — with 100 trees the law of large numbers ensures calibration",
+        "misconception_tag": "sample size of trees doesn't ensure probability calibration"
+      },
+      {
+        "id": "d",
+        "text": "RF probabilities are always between 0 and 1 so they are inherently calibrated",
+        "misconception_tag": "valid range doesn't imply calibration"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "RF 'probabilities' (fraction of trees voting for each class) are known to be poorly calibrated — they tend to cluster around 0.2–0.8 even when true probabilities should be more extreme, or are overconfident. Research shows RF is one of the worst-calibrated classifiers. For medical decisions, apply post-hoc calibration: Platt scaling (sigmoid calibration) or isotonic regression on a held-out calibration set."
+  },
+  {
+    "question_id": "random_forest_Q26",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You build a Random Forest for predicting customer lifetime value (continuous target). n_estimators=200, max_features='sqrt', max_depth=None. Training RMSE=420, OOB RMSE=1840. What is the most targeted fix?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Increase n_estimators to 500 to reduce variance",
+        "misconception_tag": "more trees help variance but the gap suggests fundamental overfitting"
+      },
+      {
+        "id": "b",
+        "text": "The trees are grossly overfitting; add max_depth constraint (e.g., max_depth=10) and/or increase min_samples_leaf"
+      },
+      {
+        "id": "c",
+        "text": "Switch max_features from 'sqrt' to 'log2' to reduce correlation",
+        "misconception_tag": "minor change; won't close a 4× train/OOB gap"
+      },
+      {
+        "id": "d",
+        "text": "The OOB RMSE is unreliable for regression — use explicit cross-validation instead",
+        "misconception_tag": "OOB is reliable for regression too"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Training RMSE 420 vs OOB RMSE 1840 — a 4.4× gap — indicates severe overfitting by individual trees. Since trees are grown to full depth (max_depth=None), they memorize training samples. OOB samples (never seen by those trees) suffer badly. Fix: constrain tree depth with max_depth=10–20 or increase min_samples_leaf=5–20. These reduce individual tree variance at the cost of slightly more bias."
+  },
+  {
+    "question_id": "random_forest_Q27",
+    "skill_id": "random_forest",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You are asked to explain a specific prediction from your Random Forest model to a customer ('Why was my loan denied?'). What is the best approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Show the feature_importances_ array sorted by importance",
+        "misconception_tag": "global importances don't explain individual predictions"
+      },
+      {
+        "id": "b",
+        "text": "Use SHAP TreeExplainer to compute per-sample feature contributions, then list the top factors that pushed the prediction toward 'deny'"
+      },
+      {
+        "id": "c",
+        "text": "Show the decision path of the single most accurate tree in the ensemble",
+        "misconception_tag": "single tree path may not represent the ensemble's reasoning"
+      },
+      {
+        "id": "d",
+        "text": "Print the training accuracy — high accuracy implies individual predictions are reliable",
+        "misconception_tag": "aggregate accuracy doesn't explain individual decisions"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "SHAP (SHapley Additive exPlanations) TreeExplainer computes exact Shapley values for tree ensembles in O(TLD) time (T=trees, L=leaves, D=depth). It attributes each prediction to feature contributions: 'Your application was denied because: age (-0.3), income (-0.25), debt_ratio (+0.4)...'. Global feature importances explain the model, not individual decisions. Regulatory frameworks (GDPR, ECOA) often require per-decision explanations."
+  },
+  {
+    "question_id": "random_forest_Q28",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You train Random Forest with bootstrap=True on a dataset of 1000 samples. Due to bootstrap sampling, approximately how many unique samples does each tree train on, and what fraction of samples appear more than once?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Each tree trains on exactly 632 unique samples; 36.8% appear more than once",
+        "misconception_tag": "~36.8% are OOB, so ~63.2% unique appear; but some appear multiple times"
+      },
+      {
+        "id": "b",
+        "text": "Each tree trains on ~632 unique samples (63.2% of 1000); the remaining 36.8% are OOB. Of the 632 included, approximately 50% appear exactly once and 50% appear multiple times"
+      },
+      {
+        "id": "c",
+        "text": "Each tree trains on all 1000 samples, some duplicated",
+        "misconception_tag": "bootstrap draws n with replacement from n, not fewer"
+      },
+      {
+        "id": "d",
+        "text": "Bootstrap guarantees each sample appears exactly once per tree",
+        "misconception_tag": "with-replacement sampling allows duplicates"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Bootstrap: draw n=1000 samples with replacement from 1000. Each sample's probability of being excluded from one draw = (1-1/n)^n → 1/e ≈ 0.368 as n→∞. So ~36.8% unique samples excluded (OOB), ~63.2% included. The 1000 draws include ~632 unique samples plus ~368 duplicates. Among included unique samples: some appear once, some 2–3 times. The effective training set size is ~63.2% of original."
+  },
+  {
+    "question_id": "random_forest_Q29",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You train a Random Forest on financial data. You notice predictions for a specific demographic group (Group X) are systematically 15% higher in false positive rate vs all others. Your RF global AUC is 0.91. What is happening and what should you do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Group X simply has more instances so it has more false positives by count",
+        "misconception_tag": "FPR is a rate; count doesn't affect rate"
+      },
+      {
+        "id": "b",
+        "text": "The model exhibits disparate impact — high AUC can mask subgroup fairness violations; audit per-group metrics (FPR, FNR) and apply fairness constraints or reweighting"
+      },
+      {
+        "id": "c",
+        "text": "15% is within normal statistical variation — no action needed",
+        "misconception_tag": "15% systematic difference requires investigation"
+      },
+      {
+        "id": "d",
+        "text": "This is expected in Random Forest due to bootstrap sampling creating different data for each tree",
+        "misconception_tag": "bootstrap doesn't systematically target one demographic"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Aggregate AUC of 0.91 masks within-group disparities. A 15% higher FPR for Group X means that group experiences significantly more false accusations/denials proportionally. This is algorithmic bias / disparate impact. Actions: (1) Audit per-group precision, recall, FPR, FNR, (2) Check if any features are demographic proxies, (3) Apply fairness constraints (equalized odds post-processing, in-processing reweighting), (4) Consult legal requirements (ECOA, Fair Housing Act for US financial products)."
+  },
+  {
+    "question_id": "random_forest_Q30",
+    "skill_id": "random_forest",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Random Forest with 500 trees predicts class A with probability 0.51 (vote: 256 A vs 244 B). You need to decide if the model is confident enough to act on this prediction. What framework should you apply?",
+    "options": [
+      {
+        "id": "a",
+        "text": "51% confidence is above the 50% threshold so the prediction is actionable",
+        "misconception_tag": "decision threshold adequacy depends on cost asymmetry"
+      },
+      {
+        "id": "b",
+        "text": "The near-50/50 split indicates high model uncertainty; use a reject option (abstain) and route to human review, or apply a confidence threshold (e.g., act only if >0.65)"
+      },
+      {
+        "id": "c",
+        "text": "Increase n_estimators to 5000 to get a more decisive vote",
+        "misconception_tag": "more trees will converge to a similar probability; can't create information that isn't in the features"
+      },
+      {
+        "id": "d",
+        "text": "Use the OOB error to determine if 51% confidence is reliable",
+        "misconception_tag": "OOB error measures average performance; doesn't validate a specific prediction's confidence"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A 256-244 vote split means the ensemble is deeply uncertain — no meaningful signal distinguishes the classes for this sample. For high-stakes decisions, predictions near the decision boundary (0.51) should trigger a 'reject' option: abstain and escalate to human judgment. Setting a minimum confidence threshold (e.g., act only if P > 0.65 or P < 0.35) is a principled uncertainty-aware decision policy. More trees can't manufacture signal from weak features."
+  },
+  {
+    "question_id": "model_evaluation_Q01",
+    "skill_id": "model_evaluation",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "You train a classifier on a dataset where 95% of samples are class 0. Reporting accuracy of 96% is misleading. Which metric directly exposes this problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mean Squared Error",
+        "misconception_tag": "MSE is a regression metric"
+      },
+      {
+        "id": "b",
+        "text": "F1-Score or ROC-AUC",
+        "misconception_tag": "F1 and AUC reveal class-specific performance"
+      },
+      {
+        "id": "c",
+        "text": "Training loss",
+        "misconception_tag": "training loss measures fit, not generalization"
+      },
+      {
+        "id": "d",
+        "text": "R-squared",
+        "misconception_tag": "R² is for regression not classification"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A model predicting class 0 always achieves 95% accuracy on this dataset. Accuracy is insensitive to this. F1-score (harmonic mean of precision and recall on the minority class) would be 0.0 for such a model, immediately exposing its failure. AUC-ROC also detects this by measuring separability. MSE and R² are regression metrics."
+  },
+  {
+    "question_id": "model_evaluation_Q02",
+    "skill_id": "model_evaluation",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What is the difference between precision and recall?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Precision = TP/(TP+FN); Recall = TP/(TP+FP)",
+        "misconception_tag": "swapped formulas"
+      },
+      {
+        "id": "b",
+        "text": "Precision = TP/(TP+FP): of all predicted positives, how many are true. Recall = TP/(TP+FN): of all actual positives, how many were found."
+      },
+      {
+        "id": "c",
+        "text": "Precision measures model calibration; recall measures model coverage",
+        "misconception_tag": "incorrect conceptual mapping"
+      },
+      {
+        "id": "d",
+        "text": "Precision and recall are identical for balanced datasets",
+        "misconception_tag": "they can differ even on balanced datasets"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Precision = TP/(TP+FP) — of everything the model predicted as positive, what fraction was truly positive (quality of positive predictions). Recall = TP/(TP+FN) — of all actual positives in the data, what fraction did the model find (completeness). They trade off: high precision = conservative model, high recall = aggressive model."
+  },
+  {
+    "question_id": "model_evaluation_Q03",
+    "skill_id": "model_evaluation",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "In k-fold cross-validation, what happens to bias and variance of the performance estimate as k increases from 2 to n (leave-one-out)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Both bias and variance decrease as k increases",
+        "misconception_tag": "increasing k decreases bias but can increase variance"
+      },
+      {
+        "id": "b",
+        "text": "Bias decreases (each fold uses more data for training) but variance increases (each fold's test set is smaller and more sensitive to individual samples)"
+      },
+      {
+        "id": "c",
+        "text": "Bias increases and variance decreases",
+        "misconception_tag": "opposite direction"
+      },
+      {
+        "id": "d",
+        "text": "k has no effect — all k values produce identical estimates",
+        "misconception_tag": "different k values produce different bias-variance tradeoffs"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "As k increases: each fold trains on (k-1)/k × n samples — closer to full data → lower bias (pessimistic bias due to using less training data reduces). But each fold has only n/k test samples — very small test sets are noisy → variance increases. LOO-CV (k=n) has minimal bias but high variance. k=5 or k=10 balance this tradeoff well."
+  },
+  {
+    "question_id": "model_evaluation_Q04",
+    "skill_id": "model_evaluation",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You evaluate two classifiers on the same test set: Classifier A has accuracy=0.87, Classifier B has accuracy=0.85. Can you definitively say A is better?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes — higher accuracy always means better classifier",
+        "misconception_tag": "accuracy alone is insufficient for conclusion"
+      },
+      {
+        "id": "b",
+        "text": "No — you need to evaluate on the same class distribution, check confidence intervals, and consider domain-specific metrics like precision/recall per class"
+      },
+      {
+        "id": "c",
+        "text": "Yes — 2% is a statistically significant difference",
+        "misconception_tag": "2% may or may not be significant without sample size and variance"
+      },
+      {
+        "id": "d",
+        "text": "No — accuracy is a meaningless metric and should never be used",
+        "misconception_tag": "accuracy is meaningful for balanced classes"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "2% accuracy difference is only meaningful if statistically significant (McNemar's test, bootstrapped CIs). On imbalanced data, both accuracies could reflect majority-class guessing. In fraud detection, Classifier B with better recall on fraud may be preferable despite lower accuracy. Always evaluate multiple metrics and use statistical significance testing before claiming one model is definitively better."
+  }
+]
+

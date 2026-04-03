@@ -1,0 +1,899 @@
+[
+  {
+    "question_id": "sql_theory_01",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Which SQL clause is used to filter rows AFTER aggregation has been performed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "WHERE",
+        "misconception_tag": "confuses_where_with_having"
+      },
+      {
+        "id": "b",
+        "text": "HAVING"
+      },
+      {
+        "id": "c",
+        "text": "FILTER",
+        "misconception_tag": "nonstandard_clause_confusion"
+      },
+      {
+        "id": "d",
+        "text": "GROUP BY",
+        "misconception_tag": "confuses_grouping_with_filtering"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "HAVING filters rows after GROUP BY aggregation. WHERE filters rows before aggregation occurs. FILTER is not a standalone SQL clause in standard SQL. GROUP BY groups rows but does not filter them."
+  },
+  {
+    "question_id": "sql_theory_02",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "What does a LEFT JOIN return when there is no matching row in the right table?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The row is excluded from the result set",
+        "misconception_tag": "confuses_left_join_with_inner_join"
+      },
+      {
+        "id": "b",
+        "text": "The left table row is returned with NULL values for right table columns"
+      },
+      {
+        "id": "c",
+        "text": "An error is thrown because of missing data",
+        "misconception_tag": "assumes_join_requires_match"
+      },
+      {
+        "id": "d",
+        "text": "The right table row is returned with NULL values for left table columns",
+        "misconception_tag": "reverses_join_direction"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "LEFT JOIN returns all rows from the left table and matching rows from the right. When no match exists in the right table, the result still includes the left row but fills right-table columns with NULL."
+  },
+  {
+    "question_id": "sql_theory_03",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "EASY",
+    "question_text": "Which normal form eliminates transitive dependencies (non-key columns depending on other non-key columns)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "First Normal Form (1NF)",
+        "misconception_tag": "confuses_atomicity_with_transitive_dependency"
+      },
+      {
+        "id": "b",
+        "text": "Second Normal Form (2NF)",
+        "misconception_tag": "confuses_partial_with_transitive_dependency"
+      },
+      {
+        "id": "c",
+        "text": "Third Normal Form (3NF)"
+      },
+      {
+        "id": "d",
+        "text": "Boyce-Codd Normal Form (BCNF)",
+        "misconception_tag": "overcorrects_to_bcnf"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "3NF removes transitive dependencies where non-key columns depend on other non-key columns rather than solely on the primary key. 2NF removes partial dependencies, and 1NF ensures atomicity of columns."
+  },
+  {
+    "question_id": "sql_practical_01",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You have a table 'orders' with columns: order_id, customer_id, amount, status. You want to find all customers who have placed more than 3 orders. Which query correctly achieves this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT customer_id FROM orders WHERE COUNT(order_id) > 3;",
+        "misconception_tag": "uses_aggregate_in_where"
+      },
+      {
+        "id": "b",
+        "text": "SELECT customer_id FROM orders GROUP BY customer_id HAVING COUNT(order_id) > 3;"
+      },
+      {
+        "id": "c",
+        "text": "SELECT customer_id FROM orders GROUP BY customer_id WHERE COUNT(order_id) > 3;",
+        "misconception_tag": "wrong_clause_order"
+      },
+      {
+        "id": "d",
+        "text": "SELECT customer_id, COUNT(order_id) FROM orders HAVING COUNT(order_id) > 3;",
+        "misconception_tag": "omits_group_by"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Aggregate functions like COUNT cannot be used in WHERE clauses. The correct pattern is GROUP BY followed by HAVING to filter on aggregated results. Option D omits GROUP BY which is required before HAVING when selecting non-aggregated columns."
+  },
+  {
+    "question_id": "sql_practical_02",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "A 'products' table has columns: product_id, name, price, category_id. You need to list products that have no associated category (category_id is NULL). Which query is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT * FROM products WHERE category_id = NULL;",
+        "misconception_tag": "uses_equals_for_null_check"
+      },
+      {
+        "id": "b",
+        "text": "SELECT * FROM products WHERE category_id IS NULL;"
+      },
+      {
+        "id": "c",
+        "text": "SELECT * FROM products WHERE category_id == NULL;",
+        "misconception_tag": "uses_double_equals_for_null"
+      },
+      {
+        "id": "d",
+        "text": "SELECT * FROM products WHERE ISNULL(category_id) = 1;",
+        "misconception_tag": "non_portable_function_usage"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "NULL comparisons must use IS NULL or IS NOT NULL. Using = NULL always evaluates to UNKNOWN (not TRUE), so no rows would be returned. IS NULL is standard SQL and works across all major databases."
+  },
+  {
+    "question_id": "sql_practical_03",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "You need to retrieve the top 5 highest-paid employees from an 'employees' table with columns: emp_id, name, salary, department. Which query is correct in standard SQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT * FROM employees ORDER BY salary LIMIT 5;",
+        "misconception_tag": "sorts_ascending_by_default"
+      },
+      {
+        "id": "b",
+        "text": "SELECT * FROM employees ORDER BY salary DESC LIMIT 5;"
+      },
+      {
+        "id": "c",
+        "text": "SELECT TOP 5 * FROM employees ORDER BY salary DESC;",
+        "misconception_tag": "uses_sql_server_syntax_as_standard"
+      },
+      {
+        "id": "d",
+        "text": "SELECT * FROM employees WHERE salary IN (SELECT MAX(salary) FROM employees LIMIT 5);",
+        "misconception_tag": "subquery_limit_misuse"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "ORDER BY salary DESC sorts from highest to lowest, and LIMIT 5 restricts the result to 5 rows. Option A sorts ascending (lowest first). Option C uses T-SQL syntax (TOP), not standard SQL. Option D is syntactically invalid."
+  },
+  {
+    "question_id": "sql_practical_04",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "EASY",
+    "question_text": "Given tables 'students(student_id, name)' and 'enrollments(enrollment_id, student_id, course_id)', you want to find students who are NOT enrolled in any course. Which approach is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT s.* FROM students s LEFT JOIN enrollments e ON s.student_id = e.student_id WHERE e.student_id IS NULL;"
+      },
+      {
+        "id": "b",
+        "text": "SELECT s.* FROM students s INNER JOIN enrollments e ON s.student_id = e.student_id WHERE e.student_id IS NULL;",
+        "misconception_tag": "inner_join_eliminates_unmatched_rows"
+      },
+      {
+        "id": "c",
+        "text": "SELECT s.* FROM students s WHERE s.student_id NOT IN enrollments;",
+        "misconception_tag": "incorrect_not_in_syntax"
+      },
+      {
+        "id": "d",
+        "text": "SELECT s.* FROM students s, enrollments e WHERE s.student_id != e.student_id;",
+        "misconception_tag": "cartesian_product_misuse"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "A LEFT JOIN keeps all students, and filtering WHERE e.student_id IS NULL isolates those with no matching enrollment. An INNER JOIN would exclude unenrolled students entirely. Option C is syntactically wrong. Option D produces a Cartesian product."
+  },
+  {
+    "question_id": "sql_edge_01",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "Consider this query: SELECT 1 = 1; What does it return in standard SQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "TRUE"
+      },
+      {
+        "id": "b",
+        "text": "1"
+      },
+      {
+        "id": "c",
+        "text": "Depends on the database system"
+      },
+      {
+        "id": "d",
+        "text": "An error because = is not valid outside WHERE",
+        "misconception_tag": "assumes_operators_only_valid_in_where"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "This is database-dependent. PostgreSQL returns TRUE (boolean). MySQL returns 1 (integer). SQL Server returns 1. SQLite returns 1. Standard SQL does not define a standalone boolean type consistently. This is a genuine portability concern."
+  },
+  {
+    "question_id": "sql_edge_02",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "What is the result of: SELECT NULL = NULL in SQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "TRUE",
+        "misconception_tag": "assumes_null_equals_null"
+      },
+      {
+        "id": "b",
+        "text": "FALSE",
+        "misconception_tag": "assumes_null_comparison_returns_boolean"
+      },
+      {
+        "id": "c",
+        "text": "NULL"
+      },
+      {
+        "id": "d",
+        "text": "An error",
+        "misconception_tag": "assumes_null_comparison_is_invalid"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Any comparison involving NULL returns NULL (UNKNOWN) in SQL, not TRUE or FALSE. This is three-valued logic. To check if a value is NULL, you must use IS NULL, not = NULL."
+  },
+  {
+    "question_id": "sql_edge_03",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "EASY",
+    "question_text": "You execute: DELETE FROM employees; without a WHERE clause. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An error is thrown because WHERE is mandatory for DELETE",
+        "misconception_tag": "assumes_where_is_required"
+      },
+      {
+        "id": "b",
+        "text": "All rows are deleted but the table structure remains"
+      },
+      {
+        "id": "c",
+        "text": "The table is dropped entirely",
+        "misconception_tag": "confuses_delete_with_drop"
+      },
+      {
+        "id": "d",
+        "text": "Only the first row is deleted as a safety mechanism",
+        "misconception_tag": "assumes_safe_mode_default"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "DELETE without WHERE removes all rows from the table but retains the table schema, indexes, and constraints. Unlike DROP TABLE, the table still exists after execution. This is a critical distinction to understand for safe database operations."
+  },
+  {
+    "question_id": "sql_theory_04",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the key difference between UNION and UNION ALL in SQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "UNION combines tables horizontally; UNION ALL combines them vertically",
+        "misconception_tag": "confuses_join_with_set_operations"
+      },
+      {
+        "id": "b",
+        "text": "UNION removes duplicate rows; UNION ALL retains all rows including duplicates"
+      },
+      {
+        "id": "c",
+        "text": "UNION ALL is faster only when there are no duplicates; UNION is always faster otherwise",
+        "misconception_tag": "inverts_performance_characterization"
+      },
+      {
+        "id": "d",
+        "text": "UNION requires the same number of rows; UNION ALL allows different row counts",
+        "misconception_tag": "confuses_row_count_with_column_count"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "UNION performs a DISTINCT operation to eliminate duplicate rows, which adds overhead. UNION ALL appends result sets without deduplication, making it faster. Both require matching column counts and compatible data types."
+  },
+  {
+    "question_id": "sql_theory_05",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "In SQL, what is a correlated subquery and how does it differ from a regular subquery?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A correlated subquery runs once and its result is cached; a regular subquery runs for each row",
+        "misconception_tag": "inverts_execution_model"
+      },
+      {
+        "id": "b",
+        "text": "A correlated subquery references columns from the outer query and executes once per outer row; a regular subquery executes independently"
+      },
+      {
+        "id": "c",
+        "text": "A correlated subquery can only be used in the SELECT clause; a regular subquery can appear anywhere",
+        "misconception_tag": "incorrect_clause_restriction"
+      },
+      {
+        "id": "d",
+        "text": "There is no functional difference; the term is just stylistic",
+        "misconception_tag": "dismisses_functional_difference"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "A correlated subquery references one or more columns from the outer query, making it dependent on the outer query's current row. It re-executes for each row of the outer query, often making it slower than an equivalent JOIN or non-correlated subquery."
+  },
+  {
+    "question_id": "sql_theory_06",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "MEDIUM",
+    "question_text": "What does the SQL window function ROW_NUMBER() guarantee about the assignment of numbers when there are ties in the ORDER BY column?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Tied rows receive the same number",
+        "misconception_tag": "confuses_row_number_with_rank"
+      },
+      {
+        "id": "b",
+        "text": "Tied rows receive consecutive unique numbers, but the order between ties is non-deterministic"
+      },
+      {
+        "id": "c",
+        "text": "Tied rows receive the same number and the next number is skipped",
+        "misconception_tag": "confuses_row_number_with_dense_rank"
+      },
+      {
+        "id": "d",
+        "text": "ROW_NUMBER() cannot be used when there are tied values",
+        "misconception_tag": "incorrectly_restricts_row_number_usage"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "ROW_NUMBER() always assigns unique sequential integers. When rows are tied on the ORDER BY column, SQL does not guarantee which tied row gets which number \u2014 the assignment is non-deterministic unless a tiebreaker is added. RANK() and DENSE_RANK() handle ties differently."
+  },
+  {
+    "question_id": "sql_practical_05",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You have a table 'sales(sale_id, rep_id, region, amount, sale_date)'. You need to calculate each sales rep's total amount as a percentage of their region's total. Which approach correctly uses window functions?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT rep_id, region, SUM(amount) / SUM(SUM(amount)) OVER (PARTITION BY region) * 100 AS pct FROM sales GROUP BY rep_id, region;"
+      },
+      {
+        "id": "b",
+        "text": "SELECT rep_id, region, amount / SUM(amount) OVER (PARTITION BY region) * 100 AS pct FROM sales;",
+        "misconception_tag": "uses_row_amount_instead_of_rep_total"
+      },
+      {
+        "id": "c",
+        "text": "SELECT rep_id, region, SUM(amount) / (SELECT SUM(amount) FROM sales s2 WHERE s2.region = sales.region) * 100 AS pct FROM sales GROUP BY rep_id, region;",
+        "misconception_tag": "correct_but_uses_correlated_subquery"
+      },
+      {
+        "id": "d",
+        "text": "SELECT rep_id, region, SUM(amount) OVER (PARTITION BY rep_id) / SUM(amount) OVER () * 100 AS pct FROM sales;",
+        "misconception_tag": "partitions_by_rep_not_region"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Option A correctly aggregates per rep+region with GROUP BY, then uses a window function OVER (PARTITION BY region) on the outer SUM to get the region total. Option B uses per-row amount, not rep total. Option D uses the wrong partition and wrong denominator."
+  },
+  {
+    "question_id": "sql_practical_06",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You have tables: 'employees(emp_id, name, manager_id)' where manager_id references emp_id in the same table. You need to find all employees and their direct manager's name. Which query is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT e.name AS employee, m.name AS manager FROM employees e JOIN employees m ON e.manager_id = m.emp_id;"
+      },
+      {
+        "id": "b",
+        "text": "SELECT e.name AS employee, m.name AS manager FROM employees e, employees m WHERE e.manager_id = m.emp_id;",
+        "misconception_tag": "uses_implicit_join_syntax"
+      },
+      {
+        "id": "c",
+        "text": "SELECT e.name AS employee, m.name AS manager FROM employees e LEFT JOIN employees m ON e.emp_id = m.manager_id;",
+        "misconception_tag": "reverses_self_join_condition"
+      },
+      {
+        "id": "d",
+        "text": "SELECT name, manager_id AS manager FROM employees WHERE manager_id IS NOT NULL;",
+        "misconception_tag": "returns_id_not_name"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "A self-join using two aliases (e for employee, m for manager) joined on e.manager_id = m.emp_id correctly fetches each employee's manager name. Option B also works logically but uses deprecated implicit join syntax. Option C reverses the join direction."
+  },
+  {
+    "question_id": "sql_practical_07",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "A 'logs' table has millions of rows with columns: log_id, user_id, action, created_at. A query filtering by date range and user_id is slow. The current index is only on created_at. What is the best single index to add?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A separate index on user_id only",
+        "misconception_tag": "ignores_composite_index_benefit"
+      },
+      {
+        "id": "b",
+        "text": "A composite index on (user_id, created_at)"
+      },
+      {
+        "id": "c",
+        "text": "A composite index on (created_at, user_id)",
+        "misconception_tag": "wrong_column_order_in_composite_index"
+      },
+      {
+        "id": "d",
+        "text": "An index on all four columns",
+        "misconception_tag": "over_indexes_unnecessarily"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "For queries filtering on user_id with a range on created_at, putting user_id first in the composite index allows the database to seek to a specific user's entries, then scan within the date range. Reversing the order (created_at first) is less efficient for equality + range queries."
+  },
+  {
+    "question_id": "sql_practical_08",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "MEDIUM",
+    "question_text": "You need to update all product prices by increasing them 10%, but only for products in categories that have more than 50 products. Which query is valid?",
+    "options": [
+      {
+        "id": "a",
+        "text": "UPDATE products SET price = price * 1.10 WHERE category_id IN (SELECT category_id FROM products GROUP BY category_id HAVING COUNT(*) > 50);"
+      },
+      {
+        "id": "b",
+        "text": "UPDATE products SET price = price * 1.10 WHERE COUNT(*) > 50 GROUP BY category_id;",
+        "misconception_tag": "uses_aggregate_in_where_and_group_by_in_update"
+      },
+      {
+        "id": "c",
+        "text": "UPDATE products SET price = price * 1.10 HAVING COUNT(category_id) > 50;",
+        "misconception_tag": "uses_having_without_group_by_in_update"
+      },
+      {
+        "id": "d",
+        "text": "UPDATE products p JOIN (SELECT category_id FROM products GROUP BY category_id HAVING COUNT(*) > 50) c ON p.category_id = c.category_id SET p.price = p.price * 1.10;",
+        "misconception_tag": "mysql_specific_join_update_syntax"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "Using a subquery in the WHERE clause with IN is the most portable approach. The subquery groups by category_id and filters those with more than 50 products. Option D is valid MySQL syntax but not standard SQL. Options B and C are syntactically invalid."
+  },
+  {
+    "question_id": "sql_edge_04",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "Consider: SELECT * FROM orders WHERE amount NOT IN (SELECT amount FROM refunds WHERE amount IS NOT NULL); If the refunds subquery returns even one NULL, what happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The NULL is ignored and the query works normally",
+        "misconception_tag": "assumes_not_in_ignores_null"
+      },
+      {
+        "id": "b",
+        "text": "The outer query returns no rows because NOT IN with NULL always evaluates to UNKNOWN"
+      },
+      {
+        "id": "c",
+        "text": "An error is thrown because NOT IN cannot handle NULL values",
+        "misconception_tag": "assumes_null_causes_error_in_not_in"
+      },
+      {
+        "id": "d",
+        "text": "Only the rows matching NULL are excluded from results",
+        "misconception_tag": "assumes_null_matching_behavior"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "NOT IN with a subquery that returns NULL causes all comparisons to evaluate to UNKNOWN (due to three-valued logic), resulting in an empty result set. The WHERE clause in the subquery prevents NULLs from the refunds table, but if even one NULL sneaks in, all outer rows are filtered out. Use NOT EXISTS as a safer alternative."
+  },
+  {
+    "question_id": "sql_edge_05",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "You run: SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 50000 ORDER BY AVG(salary) DESC; Is it valid to use AVG(salary) in HAVING and ORDER BY without aliasing it first?",
+    "options": [
+      {
+        "id": "a",
+        "text": "No, you must alias AVG(salary) in SELECT and reference the alias in HAVING and ORDER BY",
+        "misconception_tag": "assumes_alias_required_for_aggregate_reuse"
+      },
+      {
+        "id": "b",
+        "text": "Yes, repeating the same aggregate expression is valid in standard SQL, and the database is not required to recompute it"
+      },
+      {
+        "id": "c",
+        "text": "No, ORDER BY can reference aliases but HAVING cannot",
+        "misconception_tag": "partial_alias_rule_confusion"
+      },
+      {
+        "id": "d",
+        "text": "Yes, but only if the aggregate function is deterministic",
+        "misconception_tag": "introduces_false_determinism_condition"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Standard SQL allows repeating the same aggregate expression in HAVING and ORDER BY. Most databases optimize this to avoid recomputation. Some databases (e.g., MySQL) also allow referencing SELECT aliases in HAVING, but that is non-standard behavior."
+  },
+  {
+    "question_id": "sql_edge_06",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "MEDIUM",
+    "question_text": "What is the result of: SELECT 'hello' || NULL in standard SQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "'hello'",
+        "misconception_tag": "assumes_null_concat_is_identity"
+      },
+      {
+        "id": "b",
+        "text": "NULL"
+      },
+      {
+        "id": "c",
+        "text": "'helloNULL'",
+        "misconception_tag": "treats_null_as_string_literal"
+      },
+      {
+        "id": "d",
+        "text": "An error because NULL cannot be concatenated",
+        "misconception_tag": "assumes_concat_with_null_is_error"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "In standard SQL, string concatenation (||) with NULL results in NULL. This is consistent with the general rule that NULL propagates through expressions. Note: MySQL uses CONCAT() which ignores NULLs, and SQL Server uses + which also returns NULL \u2014 but the standard behavior is NULL propagation."
+  },
+  {
+    "question_id": "sql_theory_07",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "In SQL, what is the difference between a LATERAL join (or CROSS APPLY in SQL Server) and a regular subquery in the FROM clause?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A LATERAL join can reference columns from tables listed earlier in the FROM clause; a regular subquery cannot"
+      },
+      {
+        "id": "b",
+        "text": "A LATERAL join is executed once; a regular subquery is executed per row",
+        "misconception_tag": "inverts_execution_model"
+      },
+      {
+        "id": "c",
+        "text": "LATERAL is only valid when the subquery returns a single row",
+        "misconception_tag": "incorrectly_restricts_lateral_to_scalar"
+      },
+      {
+        "id": "d",
+        "text": "LATERAL joins are only available in MySQL",
+        "misconception_tag": "incorrect_database_restriction"
+      }
+    ],
+    "correct_option_id": "a",
+    "explanation": "A LATERAL join allows the subquery to reference columns from preceding FROM items, making it a correlated subquery in the FROM position. This enables per-row computation that is impossible with a plain subquery in FROM. It is supported in PostgreSQL, MySQL 8+, and SQL Server (as CROSS APPLY)."
+  },
+  {
+    "question_id": "sql_theory_08",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What is the purpose of the SQL MERGE statement and what risk must be carefully managed when using it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "MERGE combines two tables permanently into one; the risk is data type mismatches",
+        "misconception_tag": "confuses_merge_with_union"
+      },
+      {
+        "id": "b",
+        "text": "MERGE performs INSERT, UPDATE, and DELETE in a single statement based on a join condition; the risk is non-determinism when source has duplicate matches"
+      },
+      {
+        "id": "c",
+        "text": "MERGE is equivalent to UPSERT; there is no additional risk compared to separate INSERT/UPDATE",
+        "misconception_tag": "dismisses_non_determinism_risk"
+      },
+      {
+        "id": "d",
+        "text": "MERGE can only be used with temporary tables; the risk is session scope expiration",
+        "misconception_tag": "incorrect_scope_restriction"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "MERGE allows conditional INSERT, UPDATE, and DELETE based on whether a source record matches a target. The critical risk is that if the source has multiple rows matching a single target row, the result is non-deterministic and can cause errors or unexpected updates. Always ensure the join key in MERGE uniquely identifies records in the source."
+  },
+  {
+    "question_id": "sql_theory_09",
+    "skill_id": "sql",
+    "question_type": "THEORY",
+    "difficulty": "HARD",
+    "question_text": "What does the SQL standard say about the order of logical query processing clauses?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT \u2192 FROM \u2192 WHERE \u2192 GROUP BY \u2192 HAVING \u2192 ORDER BY",
+        "misconception_tag": "orders_by_syntax_not_logic"
+      },
+      {
+        "id": "b",
+        "text": "FROM \u2192 WHERE \u2192 GROUP BY \u2192 HAVING \u2192 SELECT \u2192 ORDER BY"
+      },
+      {
+        "id": "c",
+        "text": "FROM \u2192 SELECT \u2192 WHERE \u2192 GROUP BY \u2192 HAVING \u2192 ORDER BY",
+        "misconception_tag": "places_select_before_where"
+      },
+      {
+        "id": "d",
+        "text": "The order is implementation-defined and varies by database",
+        "misconception_tag": "denies_standard_logical_order"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "The logical processing order is: FROM (build the working data set), WHERE (filter rows), GROUP BY (group), HAVING (filter groups), SELECT (project columns), ORDER BY (sort). This explains why SELECT aliases cannot be used in WHERE or HAVING \u2014 those clauses are processed before SELECT in the logical model."
+  },
+  {
+    "question_id": "sql_practical_09",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have a 'transactions' table with millions of rows: (txn_id, account_id, txn_date, amount). You need to find accounts whose total amount in 2024 is higher than their total in 2023. What is the most efficient query pattern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use two correlated subqueries in SELECT to compute 2023 and 2024 totals per account, then compare them in a WHERE clause",
+        "misconception_tag": "correlated_subquery_per_row_inefficiency"
+      },
+      {
+        "id": "b",
+        "text": "Use conditional aggregation with SUM(CASE WHEN YEAR(txn_date) = 2024 THEN amount END) and SUM(CASE WHEN YEAR(txn_date) = 2023 THEN amount END) in a single pass, then filter with HAVING"
+      },
+      {
+        "id": "c",
+        "text": "Join the table to itself on account_id filtering each copy to a different year, then compare totals",
+        "misconception_tag": "self_join_causes_duplicate_counting"
+      },
+      {
+        "id": "d",
+        "text": "Use UNION to combine 2023 and 2024 rows, then GROUP BY account_id and year",
+        "misconception_tag": "union_adds_no_benefit_over_direct_query"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Conditional aggregation (CASE inside SUM) processes the table in a single pass, computing both year totals simultaneously. Using HAVING to compare the two aggregate expressions avoids a second scan. Correlated subqueries and self-joins require multiple scans or lookups, which is inefficient at scale."
+  },
+  {
+    "question_id": "sql_practical_10",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "A recursive CTE is used to traverse an employee hierarchy. The CTE terminates when there are no more rows to add. What critical clause prevents infinite recursion?",
+    "options": [
+      {
+        "id": "a",
+        "text": "LIMIT clause in the recursive member",
+        "misconception_tag": "uses_limit_instead_of_cycle_check"
+      },
+      {
+        "id": "b",
+        "text": "The recursive member's join condition that eventually produces no new rows, plus database-level MAXRECURSION limits"
+      },
+      {
+        "id": "c",
+        "text": "WHERE depth < 100 hardcoded in the anchor member",
+        "misconception_tag": "places_depth_check_in_wrong_member"
+      },
+      {
+        "id": "d",
+        "text": "Recursive CTEs cannot go infinite; they always detect cycles automatically",
+        "misconception_tag": "assumes_automatic_cycle_detection"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Recursive CTEs terminate when the recursive member produces no new rows. For hierarchical data, this happens when leaf nodes are reached. However, if the data has cycles (A\u2192B\u2192A), the CTE can loop infinitely. SQL Server uses MAXRECURSION (default 100); PostgreSQL offers no automatic cycle detection without CYCLE clause (added in SQL:1999). The join condition must ensure termination."
+  },
+  {
+    "question_id": "sql_practical_11",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You need to implement pagination efficiently for a table with 10 million rows ordered by created_at DESC. Which approach scales better for deep pagination (e.g., page 50,000)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "LIMIT 20 OFFSET 999980 \u2014 offset-based pagination with a high offset value",
+        "misconception_tag": "offset_based_pagination_deep_scan"
+      },
+      {
+        "id": "b",
+        "text": "Keyset pagination: WHERE created_at < :last_seen_created_at ORDER BY created_at DESC LIMIT 20"
+      },
+      {
+        "id": "c",
+        "text": "Use ROW_NUMBER() OVER (ORDER BY created_at DESC) and filter by row number range",
+        "misconception_tag": "row_number_still_scans_all_rows"
+      },
+      {
+        "id": "d",
+        "text": "Cache all 10 million rows in application memory and paginate there",
+        "misconception_tag": "application_level_caching_impractical"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Keyset (cursor-based) pagination uses the last seen value as a boundary, allowing the database to seek directly using an index on created_at. OFFSET-based pagination scans and discards all prior rows, making it O(n) at deep pages. ROW_NUMBER() also requires scanning all preceding rows. Keyset pagination is O(log n) with a proper index."
+  },
+  {
+    "question_id": "sql_practical_12",
+    "skill_id": "sql",
+    "question_type": "PRACTICAL",
+    "difficulty": "HARD",
+    "question_text": "You have a table 'events(event_id, session_id, event_type, occurred_at)'. You need to find, for each session, the time between the first 'start' event and the first 'end' event. Which window function approach is most appropriate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use FIRST_VALUE(occurred_at) OVER (PARTITION BY session_id ORDER BY occurred_at) filtered per event_type, then self-join to subtract"
+      },
+      {
+        "id": "b",
+        "text": "Use MIN(occurred_at) with FILTER (WHERE event_type = 'start') and MIN(occurred_at) FILTER (WHERE event_type = 'end') grouped by session_id, then subtract"
+      },
+      {
+        "id": "c",
+        "text": "Use LAG() to compare each event with the previous one and sum the differences",
+        "misconception_tag": "lag_does_not_identify_specific_event_types"
+      },
+      {
+        "id": "d",
+        "text": "Use ROW_NUMBER() OVER (PARTITION BY session_id ORDER BY occurred_at) = 1 for both event types separately, then join",
+        "misconception_tag": "row_number_requires_extra_join_complexity"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Conditional aggregation with FILTER (PostgreSQL syntax) or CASE WHEN inside MIN() efficiently computes the first occurrence of each event type in a single pass per session. This avoids multiple scans or complex window function chaining. Option A works but requires a self-join. Option D is valid but more verbose."
+  },
+  {
+    "question_id": "sql_edge_07",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "You create a view: CREATE VIEW v AS SELECT * FROM orders WHERE status = 'active'; Then run: INSERT INTO v (order_id, customer_id, amount, status) VALUES (1, 2, 100, 'cancelled'); What happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An error is thrown because inserting into views is always prohibited",
+        "misconception_tag": "assumes_views_never_allow_dml"
+      },
+      {
+        "id": "b",
+        "text": "The row is inserted into the base table with status='cancelled', but it will not appear in the view (unless WITH CHECK OPTION is used)"
+      },
+      {
+        "id": "c",
+        "text": "The row is inserted into the view's internal storage, not the base table",
+        "misconception_tag": "assumes_views_have_own_storage"
+      },
+      {
+        "id": "d",
+        "text": "The status is automatically changed to 'active' to satisfy the view's WHERE clause",
+        "misconception_tag": "assumes_view_enforces_filter_on_insert"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "Updatable views allow DML on the base table. Without WITH CHECK OPTION, inserting a row that doesn't satisfy the view's WHERE condition is allowed \u2014 the row goes into the base table but is invisible through the view. WITH CHECK OPTION would reject the insert because status='cancelled' violates the view's filter."
+  },
+  {
+    "question_id": "sql_edge_08",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "What is the risk of using SELECT * in a production application's queries when the underlying table schema may change?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SELECT * is always safe because the application code handles all columns dynamically",
+        "misconception_tag": "assumes_dynamic_column_handling"
+      },
+      {
+        "id": "b",
+        "text": "Adding or removing columns in the table may silently break application code that depends on positional column access or specific column counts"
+      },
+      {
+        "id": "c",
+        "text": "SELECT * causes syntax errors when new columns are added to the table",
+        "misconception_tag": "assumes_schema_change_causes_syntax_error"
+      },
+      {
+        "id": "d",
+        "text": "SELECT * is equivalent to explicitly listing all columns and has no additional risk",
+        "misconception_tag": "dismisses_positional_access_risk"
+      }
+    ],
+    "correct_option_id": "b",
+    "explanation": "SELECT * expands to the current schema at query time, but application code relying on column position (e.g., result[0]) can break silently when columns are added or reordered. It also retrieves unnecessary data, increases bandwidth, and can bypass index-only scan optimizations. Explicit column lists are safer and more performant."
+  },
+  {
+    "question_id": "sql_edge_09",
+    "skill_id": "sql",
+    "question_type": "EDGE_CASE",
+    "difficulty": "HARD",
+    "question_text": "Given: WITH cte AS (SELECT * FROM orders) SELECT * FROM cte, cte AS cte2; What does this produce?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A Cartesian product of the CTE with itself, returning rows squared",
+        "misconception_tag": "misidentifies_as_self_join"
+      },
+      {
+        "id": "b",
+        "text": "An error because a CTE cannot be referenced more than once in the same query",
+        "misconception_tag": "assumes_cte_single_reference_restriction"
+      },
+      {
+        "id": "c",
+        "text": "A Cartesian product (cross join) of all orders rows with themselves \u2014 N\u00b2 rows"
+      },
+      {
+        "id": "d",
+        "text": "Each order row paired with itself only, returning N rows",
+        "misconception_tag": "assumes_implicit_self_join_key"
+      }
+    ],
+    "correct_option_id": "c",
+    "explanation": "Referencing the same CTE twice in the FROM clause without a join condition produces a Cartesian (cross) product \u2014 every row combined with every other row including itself, yielding N\u00b2 rows. A CTE can be referenced multiple times in the same query. This is not a self-join; it is a CROSS JOIN."
+  }
+]

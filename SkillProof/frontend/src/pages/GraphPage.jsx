@@ -3,7 +3,7 @@ import ReactFlow, { Background, Controls, Handle, MiniMap, Position } from 'reac
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { Lock, Play } from 'lucide-react'
+import { Play } from 'lucide-react'
 import { useSkillProofStore } from '../state/useSkillProofStore.js'
 
 // ---------------------------------------------------------------------------
@@ -45,22 +45,18 @@ function statusColor(status) {
 }
 
 // ---------------------------------------------------------------------------
-// ReactFlow custom node with sunset glow accents
+// ReactFlow custom node — no lock icon, open evaluation
 // ---------------------------------------------------------------------------
 function SkillNode({ data }) {
-  const { label, status, blocked } = data
+  const { label, status } = data
   return (
     <div
       className={clsx(
         'rounded-lg border px-3 py-2 shadow-sm transition-all duration-200',
-        blocked
-          ? 'border-[color:var(--color-border)] bg-[color:var(--color-bg-tertiary)]'
-          : 'border-[color:var(--color-border)] bg-[color:var(--color-bg-secondary)] hover:shadow-md hover:scale-105',
+        'border-[color:var(--color-border)] bg-[color:var(--color-bg-secondary)] hover:shadow-md hover:scale-105',
       )}
       style={{
-        boxShadow: blocked
-          ? '0 0 0 1px var(--color-border)'
-          : `0 0 0 2px color-mix(in srgb, ${statusColor(status)} 30%, transparent), 0 4px 12px -4px rgba(244,63,94,.12)`,
+        boxShadow: `0 0 0 2px color-mix(in srgb, ${statusColor(status)} 30%, transparent), 0 4px 12px -4px rgba(244,63,94,.12)`,
       }}
     >
       <Handle type="target" position={Position.Left} className="opacity-0" />
@@ -74,7 +70,6 @@ function SkillNode({ data }) {
             {label}
           </div>
         </div>
-        {blocked ? <Lock className="h-4 w-4 text-[color:var(--color-text-tertiary)]" /> : null}
       </div>
       <Handle type="source" position={Position.Right} className="opacity-0" />
     </div>
@@ -86,19 +81,19 @@ const nodeTypes = { skill: SkillNode }
 // ---------------------------------------------------------------------------
 // Graph layout helpers
 // ---------------------------------------------------------------------------
-function computeDepth(queue, id, memo, visiting) {
+function computeDepth(nodesById, id, memo, visiting) {
   if (memo[id] != null) return memo[id]
   if (visiting.has(id)) return 0
   visiting.add(id)
 
-  const item = queue.find((q) => q.skill_id === id)
-  const prereqs = item?._prereqs || []
+  const node = nodesById[id]
+  const prereqs = node?.prerequisites || []
   if (!prereqs.length) {
     memo[id] = 0
     visiting.delete(id)
     return 0
   }
-  const d = 1 + Math.max(...prereqs.map((p) => computeDepth(queue, p, memo, visiting)))
+  const d = 1 + Math.max(...prereqs.map((p) => computeDepth(nodesById, p, memo, visiting)))
   memo[id] = d
   visiting.delete(id)
   return d
@@ -111,6 +106,14 @@ export function GraphPage() {
 
   const [selectedId, setSelectedId] = useState(null)
   const [evaluations, setEvaluations] = useState([])
+  const [graphData, setGraphData] = useState(null)
+
+  // Fetch the full skill graph for visual edges
+  useEffect(() => {
+    fetch('/api/evaluation/graph')
+      .catch(() => null)
+    // Fallback: we'll use evaluationQueue for node info
+  }, [])
 
   // Fetch evaluations from Postgres for node status
   useEffect(() => {
@@ -141,19 +144,15 @@ export function GraphPage() {
       queueById[q.skill_id] = q
     }
 
+    // Build a flat set of all IDs from the queue
     const allIds = new Set()
     for (const q of evaluationQueue) {
       allIds.add(q.skill_id)
-      for (const mp of q.missing_prerequisites || []) allIds.add(mp)
     }
 
-    const enrichedQueue = evaluationQueue.map((q) => ({
-      ...q,
-      _prereqs: q.missing_prerequisites || [],
-    }))
-
+    // Visual depth based on skill_graph.json prerequisites (from queue data)
     const depthMemo = {}
-    const depth = (id) => computeDepth(enrichedQueue, id, depthMemo, new Set())
+    const depth = (id) => computeDepth(queueById, id, depthMemo, new Set())
 
     const idsSorted = Array.from(allIds).sort((a, b) => {
       const da = depth(a)
@@ -176,7 +175,6 @@ export function GraphPage() {
         const label = qItem?.canonical_name || id
         const session = sessions[id]
         const hasQuestions = qItem?.has_questions ?? false
-        const blocked = qItem ? !qItem.prerequisites_met : false
 
         let status = STATUSES.UNTESTED
         if (session) status = session.verdict
@@ -186,11 +184,9 @@ export function GraphPage() {
           id,
           label,
           hasQuestions,
-          blocked,
           status,
           session,
           claimedLevel: qItem?.claimed_level ?? null,
-          missingPrereqs: qItem?.missing_prerequisites ?? [],
           tier: qItem?.tier ?? 1,
           domain: qItem?.domain ?? 'Unknown',
         }
@@ -199,25 +195,16 @@ export function GraphPage() {
           id,
           type: 'skill',
           position: { x: d * 280, y: idx * 104 },
-          data: { label, status, blocked },
+          data: { label, status },
         })
       })
     }
 
+    // Visual edges from prerequisites — not enforced
     const edges = []
-    for (const q of evaluationQueue) {
-      for (const prereq of q.missing_prerequisites || []) {
-        if (allIds.has(prereq)) {
-          edges.push({
-            id: `${prereq}->${q.skill_id}`,
-            source: prereq,
-            target: q.skill_id,
-            animated: false,
-            style: { stroke: 'rgba(244,63,94,.25)' },
-          })
-        }
-      }
-    }
+    // We don't have edge data from the queue anymore since prerequisites
+    // are not sent. The graph shows nodes without edges for now.
+    // Future: fetch /api/skg/graph endpoint for visual edges.
 
     return { nodes, edges, metaById }
   }, [evaluationQueue, sessions])
@@ -269,7 +256,7 @@ export function GraphPage() {
               Skill Knowledge Graph
             </div>
             <div className="mt-1 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-              Nodes are skills. Edges show prerequisites. Locked skills are blocked.
+              Nodes are skills. Click any node to inspect and evaluate freely.
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
               {[
@@ -328,7 +315,7 @@ export function GraphPage() {
       >
         {!selected ? (
           <div className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-            Select a node to see claim, prerequisites, eligibility, and verdict.
+            Select a node to see claim, eligibility, and verdict.
           </div>
         ) : (
           <motion.div
@@ -396,25 +383,6 @@ export function GraphPage() {
                   </div>
                 </div>
               )}
-
-              {selected.missingPrereqs.length > 0 && (
-                <div
-                  className="mt-3 rounded-lg border p-3 text-xs"
-                  style={{
-                    borderColor: 'var(--color-overclaim-border)',
-                    background: 'var(--color-overclaim-dim)',
-                    color: 'var(--color-overclaim)',
-                  }}
-                >
-                  <div className="flex items-center gap-2 font-semibold">
-                    <Lock className="h-4 w-4" />
-                    Blocked: missing prerequisite(s)
-                  </div>
-                  <div className="mt-2 font-mono text-[11px]">
-                    {selected.missingPrereqs.join(', ')}
-                  </div>
-                </div>
-              )}
             </motion.div>
 
             {selected.session && (
@@ -451,38 +419,38 @@ export function GraphPage() {
             <div className="flex items-center gap-2">
               <motion.button
                 type="button"
-                disabled={!selected.hasQuestions || selected.blocked || !!selected.session}
+                disabled={!selected.hasQuestions || !!selected.session}
                 onClick={() => navigate(`/evaluate/${selected.id}`)}
                 className={clsx(
                   'inline-flex flex-1 items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-all duration-200',
-                  !selected.hasQuestions || selected.blocked || !!selected.session
+                  !selected.hasQuestions || !!selected.session
                     ? 'cursor-not-allowed'
                     : '',
                 )}
                 style={{
-                  borderColor: !selected.hasQuestions || selected.blocked || !!selected.session
+                  borderColor: !selected.hasQuestions || !!selected.session
                     ? 'var(--color-border)'
                     : 'var(--color-accent-border)',
-                  background: !selected.hasQuestions || selected.blocked || !!selected.session
+                  background: !selected.hasQuestions || !!selected.session
                     ? 'var(--color-bg-tertiary)'
                     : 'var(--color-accent-dim)',
-                  color: !selected.hasQuestions || selected.blocked || !!selected.session
+                  color: !selected.hasQuestions || !!selected.session
                     ? 'var(--color-text-tertiary)'
                     : 'var(--color-accent)',
                 }}
                 whileHover={
-                  !selected.hasQuestions || selected.blocked || !!selected.session
+                  !selected.hasQuestions || !!selected.session
                     ? {}
                     : { scale: 1.05 }
                 }
                 whileTap={
-                  !selected.hasQuestions || selected.blocked || !!selected.session
+                  !selected.hasQuestions || !!selected.session
                     ? {}
                     : { scale: 0.95 }
                 }
               >
                 <Play className="h-4 w-4" />
-                {selected.session ? 'Evaluated' : 'Start Evaluation'}
+                {selected.session ? 'Evaluated' : 'Evaluate'}
               </motion.button>
               <button
                 type="button"
