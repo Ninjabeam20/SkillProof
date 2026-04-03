@@ -163,12 +163,37 @@ def main():
                 print(f"  ❌ Invalid JSON: {e}")
                 continue
 
-            if not isinstance(raw, list):
-                print(f"  ❌ Expected a JSON array, got {type(raw).__name__}. Skipping.")
+            # ----------------------------------------------------------
+            # Robustly extract a list of question dicts from the raw JSON
+            # Supports: bare arrays, or objects with an array field
+            # ----------------------------------------------------------
+            questions_list: list[dict] = []
+            if isinstance(raw, list):
+                questions_list = raw
+            elif isinstance(raw, dict):
+                # Try common keys first, then fall back to first list value
+                for key in ("questions", "question_bank", "data", "items"):
+                    if key in raw and isinstance(raw[key], list):
+                        questions_list = raw[key]
+                        break
+                if not questions_list:
+                    for v in raw.values():
+                        if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict):
+                            questions_list = v
+                            break
+                if not questions_list:
+                    print(f"  ⚠️  Could not find a question array in object. Skipping.")
+                    continue
+            else:
+                print(f"  ❌ Unexpected JSON type: {type(raw).__name__}. Skipping.")
+                continue
+
+            if not questions_list:
+                print(f"  ⚠️  Empty question list. Skipping.")
                 continue
 
             valid_questions = []
-            for q in raw:
+            for q in questions_list:
                 # --- Normalise skill_id BEFORE validation ---
                 if "skill_id" in q:
                     original = q["skill_id"]
@@ -186,7 +211,7 @@ def main():
                 total_inserted += inserted
                 total_updated += updated
                 print(f"  ✅ {inserted} inserted, {updated} updated "
-                      f"({len(valid_questions)} valid / {len(raw)} total)")
+                      f"({len(valid_questions)} valid / {len(questions_list)} total)")
             else:
                 print(f"  ⚠️  No valid questions to ingest from this file.")
 

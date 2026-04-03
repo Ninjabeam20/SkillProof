@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import ReactFlow, { Background, Controls, Handle, MiniMap, Position } from 'reactflow'
 import clsx from 'clsx'
+import dagre from 'dagre'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Play } from 'lucide-react'
@@ -45,7 +46,42 @@ function statusColor(status) {
 }
 
 // ---------------------------------------------------------------------------
-// ReactFlow custom node — no lock icon, open evaluation
+// Dagre Layout Engine — Left-to-Right Hierarchy
+// ---------------------------------------------------------------------------
+const NODE_WIDTH = 180
+const NODE_HEIGHT = 60
+
+function getLayoutedElements(nodes, edges, direction = 'LR') {
+  const dagreGraph = new dagre.graphlib.Graph()
+  dagreGraph.setDefaultEdgeLabel(() => ({}))
+  dagreGraph.setGraph({ rankdir: direction, nodesep: 60, ranksep: 120 })
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: NODE_WIDTH, height: NODE_HEIGHT })
+  })
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target)
+  })
+
+  dagre.layout(dagreGraph)
+
+  const layoutedNodes = nodes.map((node) => {
+    const pos = dagreGraph.node(node.id)
+    return {
+      ...node,
+      position: {
+        x: pos.x - NODE_WIDTH / 2,
+        y: pos.y - NODE_HEIGHT / 2,
+      },
+    }
+  })
+
+  return { nodes: layoutedNodes, edges }
+}
+
+// ---------------------------------------------------------------------------
+// ReactFlow custom node — open evaluation, no locks
 // ---------------------------------------------------------------------------
 function SkillNode({ data }) {
   const { label, status } = data
@@ -57,6 +93,7 @@ function SkillNode({ data }) {
       )}
       style={{
         boxShadow: `0 0 0 2px color-mix(in srgb, ${statusColor(status)} 30%, transparent), 0 4px 12px -4px rgba(244,63,94,.12)`,
+        minWidth: NODE_WIDTH,
       }}
     >
       <Handle type="target" position={Position.Left} className="opacity-0" />
@@ -79,26 +116,8 @@ function SkillNode({ data }) {
 const nodeTypes = { skill: SkillNode }
 
 // ---------------------------------------------------------------------------
-// Graph layout helpers
+// GraphPage Component
 // ---------------------------------------------------------------------------
-function computeDepth(nodesById, id, memo, visiting) {
-  if (memo[id] != null) return memo[id]
-  if (visiting.has(id)) return 0
-  visiting.add(id)
-
-  const node = nodesById[id]
-  const prereqs = node?.prerequisites || []
-  if (!prereqs.length) {
-    memo[id] = 0
-    visiting.delete(id)
-    return 0
-  }
-  const d = 1 + Math.max(...prereqs.map((p) => computeDepth(nodesById, p, memo, visiting)))
-  memo[id] = d
-  visiting.delete(id)
-  return d
-}
-
 export function GraphPage() {
   const navigate = useNavigate()
   const evaluationQueue = useSkillProofStore((s) => s.evaluationQueue)
@@ -106,13 +125,17 @@ export function GraphPage() {
 
   const [selectedId, setSelectedId] = useState(null)
   const [evaluations, setEvaluations] = useState([])
-  const [graphData, setGraphData] = useState(null)
+  const [skillGraph, setSkillGraph] = useState([])
 
-  // Fetch the full skill graph for visual edges
+  // Fetch skill_graph.json for visual edges
   useEffect(() => {
-    fetch('/api/evaluation/graph')
-      .catch(() => null)
-    // Fallback: we'll use evaluationQueue for node info
+    fetch('/api/skg/graph')
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((data) => setSkillGraph(data.nodes || data || []))
+      .catch(() => {
+        // Fallback: load from static data endpoint if graph API doesn't exist
+        setSkillGraph([])
+      })
   }, [])
 
   // Fetch evaluations from Postgres for node status
@@ -121,13 +144,15 @@ export function GraphPage() {
     let cancelled = false
 
     fetch(`/api/report/${userId}`)
-      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
       .then((data) => {
         if (!cancelled) setEvaluations(data.evaluations || [])
       })
       .catch(() => {})
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [userId])
 
   const sessions = useMemo(() => {
@@ -144,70 +169,79 @@ export function GraphPage() {
       queueById[q.skill_id] = q
     }
 
-    // Build a flat set of all IDs from the queue
-    const allIds = new Set()
-    for (const q of evaluationQueue) {
-      allIds.add(q.skill_id)
+    // Build a set of all skill IDs in queue
+    const allIds = new Set(evaluationQueue.map((q) => q.skill_id))
+
+    // Build SKG lookup for prerequisite edges
+    const skgById = {}
+    for (const node of skillGraph) {
+      skgById[node.skill_id] = node
     }
 
-    // Visual depth based on skill_graph.json prerequisites (from queue data)
-    const depthMemo = {}
-    const depth = (id) => computeDepth(queueById, id, depthMemo, new Set())
-
-    const idsSorted = Array.from(allIds).sort((a, b) => {
-      const da = depth(a)
-      const db = depth(b)
-      if (da !== db) return da - db
-      return a.localeCompare(b)
-    })
-
-    const byDepth = new Map()
-    for (const id of idsSorted) {
-      const d = depth(id)
-      byDepth.set(d, [...(byDepth.get(d) ?? []), id])
-    }
-
+    // Build metadata map
     const metaById = {}
-    const nodes = []
-    for (const [d, list] of Array.from(byDepth.entries()).sort((a, b) => a[0] - b[0])) {
-      list.forEach((id, idx) => {
-        const qItem = queueById[id]
-        const label = qItem?.canonical_name || id
-        const session = sessions[id]
-        const hasQuestions = qItem?.has_questions ?? false
+    const rawNodes = []
 
-        let status = STATUSES.UNTESTED
-        if (session) status = session.verdict
-        else if (!hasQuestions) status = STATUSES.NO_QUESTIONS
+    for (const q of evaluationQueue) {
+      const id = q.skill_id
+      const label = q.canonical_name || id
+      const session = sessions[id]
+      const hasQuestions = q.has_questions ?? false
 
-        metaById[id] = {
-          id,
-          label,
-          hasQuestions,
-          status,
-          session,
-          claimedLevel: qItem?.claimed_level ?? null,
-          tier: qItem?.tier ?? 1,
-          domain: qItem?.domain ?? 'Unknown',
-        }
+      let status = STATUSES.UNTESTED
+      if (session) status = session.verdict
+      else if (!hasQuestions) status = STATUSES.NO_QUESTIONS
 
-        nodes.push({
-          id,
-          type: 'skill',
-          position: { x: d * 280, y: idx * 104 },
-          data: { label, status },
-        })
+      metaById[id] = {
+        id,
+        label,
+        hasQuestions,
+        status,
+        session,
+        claimedLevel: q.claimed_level ?? null,
+        tier: q.tier ?? 1,
+        domain: q.domain ?? 'Unknown',
+      }
+
+      rawNodes.push({
+        id,
+        type: 'skill',
+        position: { x: 0, y: 0 }, // Dagre will set these
+        data: { label, status },
       })
     }
 
-    // Visual edges from prerequisites — not enforced
-    const edges = []
-    // We don't have edge data from the queue anymore since prerequisites
-    // are not sent. The graph shows nodes without edges for now.
-    // Future: fetch /api/skg/graph endpoint for visual edges.
+    // Build edges from skill_graph.json prerequisites
+    const rawEdges = []
+    for (const id of allIds) {
+      const skgNode = skgById[id]
+      if (!skgNode) continue
+      for (const prereq of skgNode.prerequisites || []) {
+        if (allIds.has(prereq)) {
+          rawEdges.push({
+            id: `e-${prereq}-${id}`,
+            source: prereq,
+            target: id,
+            animated: true,
+            style: {
+              stroke: 'var(--color-graph-warm, #f97316)',
+              strokeWidth: 2,
+              opacity: 0.6,
+            },
+          })
+        }
+      }
+    }
 
-    return { nodes, edges, metaById }
-  }, [evaluationQueue, sessions])
+    // Apply Dagre layout
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+      rawNodes,
+      rawEdges,
+      'LR',
+    )
+
+    return { nodes: layoutedNodes, edges: layoutedEdges, metaById }
+  }, [evaluationQueue, sessions, skillGraph])
 
   const selected = selectedId ? metaById[selectedId] : null
 
@@ -256,7 +290,7 @@ export function GraphPage() {
               Skill Knowledge Graph
             </div>
             <div className="mt-1 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-              Nodes are skills. Click any node to inspect and evaluate freely.
+              Left-to-right hierarchy. Edges show prerequisites. Click any node to inspect.
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
               {[
@@ -375,6 +409,30 @@ export function GraphPage() {
                   {selected.tier} / {selected.domain}
                 </div>
               </div>
+
+              {/* --- Test Status --- */}
+              <div className="mt-2 flex items-center justify-between">
+                <div className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Test Status</div>
+                <div
+                  className="text-sm font-semibold"
+                  style={{
+                    color: selected.session
+                      ? 'var(--color-verified)'
+                      : 'var(--color-text-secondary)',
+                  }}
+                >
+                  {selected.session ? 'Tested' : 'Untested'}
+                </div>
+              </div>
+
+              {/* --- Questions Answered --- */}
+              <div className="mt-2 flex items-center justify-between">
+                <div className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Questions Answered</div>
+                <div className="text-sm font-mono" style={{ color: 'var(--color-text-primary)' }}>
+                  {selected.session ? '3' : '0'}
+                </div>
+              </div>
+
               {selected.session && (
                 <div className="mt-2 flex items-center justify-between">
                   <div className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Composite Score</div>

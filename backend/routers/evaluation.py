@@ -185,6 +185,13 @@ def score_evaluation(req: ScoreRequest):
     Deterministic grader. Computes composite score, fires verdict rules R01–R06,
     collects misconception tags, and persists the evaluation to Postgres.
     """
+    # Strict guard: block empty answer submissions
+    if not req.answers:
+        raise HTTPException(
+            status_code=400,
+            detail="Cannot grade an evaluation with zero answers.",
+        )
+
     # Fetch the questions from Postgres (need correct answers for grading)
     with Session(engine) as session:
         stmt = select(QuestionModel).where(QuestionModel.skill_id == req.skill_id)
@@ -400,3 +407,12 @@ def get_evaluation_queue(req: QueueRequest):
     ))
 
     return QueueResponse(queue=queue_items)
+
+
+# ============================================================================
+# GET /api/skg/graph — Return the full skill graph (for frontend edges)
+# ============================================================================
+@router.get("/skg/graph")
+def get_skill_graph():
+    """Return the raw skill_graph.json array for the frontend knowledge graph."""
+    return {"nodes": SKG_NODES}

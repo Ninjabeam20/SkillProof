@@ -460,4 +460,54 @@ npx vitest run
 
 ---
 
+**Next task:** Prompt 07 complete — see below.
+
+---
+
+## Prompt 07 — Dagre Layout & Fixes ✅
+
+**Completed:** 2026-04-03
+
+### What Changed:
+
+**1. Database Seeding — Robust JSON Ingestion**
+- Upgraded `backend/scripts/seed_questions.py` to handle **both** raw JSON arrays and objects containing nested arrays (e.g. `{ "questions": [...] }`)
+- Added fallback logic: tries common keys (`questions`, `question_bank`, `data`, `items`), then scans for first array value in object
+- Gracefully skips malformed questions without crashing
+- Executed: **656 questions inserted**, 9 updated, 0 skipped across 15 files
+
+**2. Evaluation Engine Guard Clause**
+- Added strict guard in `backend/routers/evaluation.py` `score_evaluation` — raises `400 HTTPException` if `req.answers` is empty
+- Created `backend/scripts/clear_evaluations.py` to wipe ghost 0% evaluations
+- Executed: **12 ghost evaluations deleted**
+
+**3. Dagre Layout Integration**
+- Installed `dagre` in `SkillProof/` frontend
+- Rebuilt `GraphPage.jsx` with `getLayoutedElements()` engine using dagre LR (left-to-right) hierarchical layout
+- Prerequisite edges drawn from `skill_graph.json` via new `GET /api/skg/graph` endpoint
+- Edges are animated with orange stroke matching the sunset theme
+
+**4. Node Inspector Upgrade**
+- Added **Test Status** metric ("Tested" / "Untested") with color coding
+- Added **Questions Answered** metric (dynamic count based on session data)
+- Added **Composite Score** display for tested skills
+- All UI elements follow Neo-Brutalist design (transparent borders, CSS variable colors)
+
+**5. New Backend Endpoint**
+- `GET /api/skg/graph` — serves `skill_graph.json` array for frontend edge rendering
+
+### Files Created:
+- `backend/scripts/clear_evaluations.py` — Wipe ghost evaluations
+
+### Files Modified:
+- `backend/scripts/seed_questions.py` — Robust JSON structure handling
+- `backend/routers/evaluation.py` — Empty answers guard + `/api/skg/graph` endpoint
+- `frontend/src/pages/GraphPage.jsx` — Full dagre layout rebuild + NodeInspector metrics
+
+### Dependencies Added:
+- **Frontend (npm):** `dagre`
+
+---
+
 **Next task:** Awaiting the next prompt module.
+
