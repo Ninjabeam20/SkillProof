@@ -314,8 +314,10 @@ class QueueSkill(BaseModel):
     tier: int
     domain: str
     has_questions: bool
-    prerequisites_met: bool = True        # Always unlocked (Phase 6)
-    missing_prerequisites: list[str] = []  # Visual only, never enforced
+    is_implied: bool = False
+    prerequisites_met: bool = True
+    missing_prerequisites: list[str] = []
+
 
 
 class QueueResponse(BaseModel):
@@ -325,49 +327,76 @@ class QueueResponse(BaseModel):
 @router.post("/skg/queue", response_model=QueueResponse)
 def get_evaluation_queue(req: QueueRequest):
     """
-    Accept claimed skills, walk the SKG to check prerequisites,
+    Accept claimed skills, perform transitive closure of prerequisites,
     and return an ordered evaluation queue.
 
-    has_questions now queries the Postgres questions table instead of static JSON.
+    Implied prerequisites (auto-added via BFS) are marked is_implied=True.
+    Example: claiming 'react' auto-adds 'javascript', 'html', 'css'.
     """
     claimed_ids = {c.skill_id for c in req.claims}
+    claimed_level_map = {c.skill_id: c.claimed_level for c in req.claims}
 
-    # Query distinct skill_ids that have questions in the DB
+    # ------------------------------------------------------------------
+    # BFS: compute full transitive prerequisite closure
+    # ------------------------------------------------------------------
+    all_needed: set[str] = set()
+    bfs_queue: list[str] = list(claimed_ids)
+
+    while bfs_queue:
+        current = bfs_queue.pop(0)
+        if current in all_needed:
+            continue
+        all_needed.add(current)
+        node = _SKG_BY_ID.get(current)
+        if node:
+            for prereq in node.get("prerequisites", []):
+                if prereq not in all_needed:
+                    bfs_queue.append(prereq)
+
+    # ------------------------------------------------------------------
+    # Query which skills actually have questions in Postgres
+    # ------------------------------------------------------------------
     with Session(engine) as session:
         stmt = select(QuestionModel.skill_id).distinct()
         skills_with_questions = {row for row in session.exec(stmt)}
 
+    # ------------------------------------------------------------------
+    # Build queue items
+    # ------------------------------------------------------------------
     queue_items: list[QueueSkill] = []
 
-    for claim in req.claims:
-        node = _SKG_BY_ID.get(claim.skill_id)
+    for sid in all_needed:
+        node = _SKG_BY_ID.get(sid)
+        is_implied = sid not in claimed_ids
+        level = "INTERMEDIATE" if is_implied else claimed_level_map.get(sid, "INTERMEDIATE")
 
         if not node:
             queue_items.append(QueueSkill(
-                skill_id=claim.skill_id,
-                canonical_name=claim.skill_id,
-                claimed_level=claim.claimed_level,
+                skill_id=sid,
+                canonical_name=sid,
+                claimed_level=level,
                 tier=1,
                 domain="Unknown",
-                has_questions=claim.skill_id in skills_with_questions,
+                has_questions=sid in skills_with_questions,
+                is_implied=is_implied,
             ))
             continue
 
-        # Phase 6: All skills are always unlocked. Visual edges exist
-        # in skill_graph.json for graph rendering but are not enforced.
         queue_items.append(QueueSkill(
-            skill_id=claim.skill_id,
+            skill_id=sid,
             canonical_name=node["canonical_name"],
-            claimed_level=claim.claimed_level,
+            claimed_level=level,
             tier=node["tier"],
             domain=node["domain"],
-            has_questions=claim.skill_id in skills_with_questions,
+            has_questions=sid in skills_with_questions,
+            is_implied=is_implied,
         ))
 
-    # Sort by tier (ascending), then by domain
+    # Sort: tier asc → domain → explicit claims before implied
     queue_items.sort(key=lambda s: (
         s.tier,
         s.domain,
+        1 if s.is_implied else 0,
     ))
 
     return QueueResponse(queue=queue_items)

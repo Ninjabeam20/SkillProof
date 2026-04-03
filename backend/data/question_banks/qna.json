@@ -1,0 +1,2252 @@
+[
+{
+"question_id": "python_theory_01",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the difference between == and is in Python?",
+"options": [
+{ "id": "a", "text": "== checks identity; is checks value equality", "misconception_tag": "operator_reversal" },
+{ "id": "b", "text": "== checks value equality; is checks object identity in memory", "misconception_tag": null },
+{ "id": "c", "text": "Both operators are interchangeable for all types", "misconception_tag": "equivalence_assumption" },
+{ "id": "d", "text": "is only works with None and booleans", "misconception_tag": "scope_limitation" }
+],
+"correct_option_id": "b",
+"explanation": "== compares the values of two objects. is checks whether two variables point to the exact same object in memory. For example, two separate lists with equal contents will satisfy == but fail is."
+},
+{
+"question_id": "python_theory_02",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "Which of the following is an immutable data type in Python?",
+"options": [
+{ "id": "a", "text": "list", "misconception_tag": "mutability_confusion" },
+{ "id": "b", "text": "dict", "misconception_tag": "mutability_confusion" },
+{ "id": "c", "text": "set", "misconception_tag": "frozenset_confusion" },
+{ "id": "d", "text": "tuple", "misconception_tag": null }
+],
+"correct_option_id": "d",
+"explanation": "Tuples are immutable in Python — once created, their elements cannot be changed. Lists, dicts, and sets are all mutable. frozenset is the immutable version of set, but plain set is mutable."
+},
+{
+"question_id": "python_theory_03",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What does *args allow in a Python function definition?",
+"options": [
+{ "id": "a", "text": "Passing keyword arguments as a dictionary", "misconception_tag": "args_kwargs_confusion" },
+{ "id": "b", "text": "Multiplying all arguments passed to the function", "misconception_tag": "operator_literal" },
+{ "id": "c", "text": "Accepting any number of positional arguments as a tuple", "misconception_tag": null },
+{ "id": "d", "text": "Making all arguments optional with a default of None", "misconception_tag": "default_arg_confusion" }
+],
+"correct_option_id": "c",
+"explanation": "*args collects extra positional arguments into a tuple. **kwargs collects extra keyword arguments into a dict. Neither relates to multiplication nor optional defaults."
+},
+{
+"question_id": "python_practical_01",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the output of the following code?\n\nx = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)",
+"options": [
+{ "id": "a", "text": "[1, 2, 3]", "misconception_tag": "copy_semantics_confusion" },
+{ "id": "b", "text": "[1, 2, 3, 4]", "misconception_tag": null },
+{ "id": "c", "text": "Error: cannot modify x through y", "misconception_tag": "immutability_confusion" },
+{ "id": "d", "text": "[4]", "misconception_tag": "reassignment_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "y = x does not copy the list — it creates a second reference to the same list object. Modifying y also modifies x. To get an independent copy, use y = x.copy() or y = x[:]."
+},
+{
+"question_id": "python_practical_02",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is printed by this code?\n\nfor i in range(3):\n    pass\nprint(i)",
+"options": [
+{ "id": "a", "text": "NameError: i is not defined", "misconception_tag": "scope_assumption" },
+{ "id": "b", "text": "2", "misconception_tag": null },
+{ "id": "c", "text": "3", "misconception_tag": "off_by_one" },
+{ "id": "d", "text": "0", "misconception_tag": "loop_variable_initialization" }
+],
+"correct_option_id": "b",
+"explanation": "In Python, loop variables are not scoped to the loop — they persist after the loop ends. After range(3), i takes values 0, 1, 2. When the loop finishes, i retains its last value, 2."
+},
+{
+"question_id": "python_practical_03",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What does this code output?\n\nprint(type(1/2))",
+"options": [
+{ "id": "a", "text": "<class 'int'>", "misconception_tag": "python2_division_assumption" },
+{ "id": "b", "text": "<class 'float'>", "misconception_tag": null },
+{ "id": "c", "text": "<class 'Fraction'>", "misconception_tag": "fraction_module_confusion" },
+{ "id": "d", "text": "Error: cannot divide integers", "misconception_tag": "type_error_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "In Python 3, / always performs true division and returns a float, even if both operands are integers. 1/2 returns 0.5 (float). Use // for integer (floor) division."
+},
+{
+"question_id": "python_practical_04",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "You want to safely get a value from a dictionary without raising a KeyError if the key doesn't exist. Which approach is correct?",
+"options": [
+{ "id": "a", "text": "d[key] — it returns None if key is missing", "misconception_tag": "missing_key_assumption" },
+{ "id": "b", "text": "d.fetch(key, default)", "misconception_tag": "method_name_confusion" },
+{ "id": "c", "text": "d.get(key, default)", "misconception_tag": null },
+{ "id": "d", "text": "d.find(key, default)", "misconception_tag": "string_method_confusion" }
+],
+"correct_option_id": "c",
+"explanation": "dict.get(key, default) returns the value if the key exists, otherwise returns the default (or None if no default is given). Direct access with d[key] raises a KeyError if the key is absent."
+},
+{
+"question_id": "python_edge_01",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is the output of this code?\n\na = (1)\nb = (1,)\nprint(type(a), type(b))",
+"options": [
+{ "id": "a", "text": "<class 'tuple'> <class 'tuple'>", "misconception_tag": "parenthesis_equals_tuple" },
+{ "id": "b", "text": "<class 'int'> <class 'tuple'>", "misconception_tag": null },
+{ "id": "c", "text": "<class 'int'> <class 'int'>", "misconception_tag": "trailing_comma_ignored" },
+{ "id": "d", "text": "SyntaxError on (1,)", "misconception_tag": "trailing_comma_syntax_error" }
+],
+"correct_option_id": "b",
+"explanation": "Parentheses alone do not create a tuple — (1) is just the integer 1. A trailing comma is required: (1,) is a one-element tuple. This is a very common Python gotcha."
+},
+{
+"question_id": "python_edge_02",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What will happen when this function is called multiple times?\n\ndef add_item(item, lst=[]):\n    lst.append(item)\n    return lst\n\nprint(add_item(1))\nprint(add_item(2))",
+"options": [
+{ "id": "a", "text": "[1] then [2]", "misconception_tag": "default_arg_reinit_assumption" },
+{ "id": "b", "text": "[1] then [1, 2]", "misconception_tag": null },
+{ "id": "c", "text": "Error: mutable default argument", "misconception_tag": "exception_assumption" },
+{ "id": "d", "text": "[1, 2] then [1, 2]", "misconception_tag": "evaluation_order_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Mutable default arguments in Python are evaluated once at function definition time, not on each call. The same list object is reused across calls. This is a classic Python pitfall. Use lst=None and set lst = [] inside the function to avoid it."
+},
+{
+"question_id": "python_edge_03",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What does this evaluate to in Python?\n\nbool('') == bool(0) == bool([]) == False",
+"options": [
+{ "id": "a", "text": "False — they are not all equal", "misconception_tag": "falsy_confusion" },
+{ "id": "b", "text": "True", "misconception_tag": null },
+{ "id": "c", "text": "TypeError — cannot chain boolean comparisons", "misconception_tag": "chained_comparison_syntax_error" },
+{ "id": "d", "text": "True but only when using ==", "misconception_tag": "is_vs_eq_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Python supports chained comparisons. bool(''), bool(0), and bool([]) all evaluate to False. The chained comparison checks each adjacent pair: False == False == False == False → True."
+},
+{
+"question_id": "python_theory_04",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the purpose of the __slots__ attribute in a Python class?",
+"options": [
+{ "id": "a", "text": "It defines which methods are public", "misconception_tag": "access_modifier_confusion" },
+{ "id": "b", "text": "It restricts instance attributes to a fixed set, reducing memory overhead by replacing the per-instance __dict__", "misconception_tag": null },
+{ "id": "c", "text": "It prevents subclassing of the class", "misconception_tag": "inheritance_confusion" },
+{ "id": "d", "text": "It enables operator overloading for the class", "misconception_tag": "dunder_method_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "__slots__ tells Python not to create a __dict__ for each instance and instead allocate only the listed attributes. This reduces memory usage significantly for classes with many instances."
+},
+{
+"question_id": "python_theory_05",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "How does Python's GIL (Global Interpreter Lock) affect multi-threaded CPU-bound programs?",
+"options": [
+{ "id": "a", "text": "It has no effect — Python threads run truly in parallel on multiple cores", "misconception_tag": "true_parallelism_assumption" },
+{ "id": "b", "text": "It prevents multiple threads from executing Python bytecode simultaneously, limiting true parallelism for CPU-bound tasks", "misconception_tag": null },
+{ "id": "c", "text": "It only affects I/O-bound programs, not CPU-bound ones", "misconception_tag": "io_cpu_reversal" },
+{ "id": "d", "text": "It locks the entire operating system thread scheduler", "misconception_tag": "os_level_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "The GIL ensures only one thread executes Python bytecode at a time. For CPU-bound tasks, threads cannot utilize multiple cores simultaneously. Use multiprocessing for true parallelism. I/O-bound tasks can still benefit from threading since the GIL is released during I/O waits."
+},
+{
+"question_id": "python_theory_06",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the difference between a shallow copy and a deep copy in Python?",
+"options": [
+{ "id": "a", "text": "Shallow copy duplicates only the first element; deep copy duplicates all", "misconception_tag": "element_count_confusion" },
+{ "id": "b", "text": "Shallow copy creates a new container but references the same inner objects; deep copy recursively copies all nested objects", "misconception_tag": null },
+{ "id": "c", "text": "They are identical for lists of integers", "misconception_tag": "immutability_implies_same_copy" },
+{ "id": "d", "text": "Deep copy is slower but produces the same result as shallow copy", "misconception_tag": "result_equivalence_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "A shallow copy (copy.copy()) creates a new outer object but the inner elements still reference the originals. A deep copy (copy.deepcopy()) recursively copies all nested objects. For flat lists of immutables they appear the same, but differ for nested mutable structures."
+},
+{
+"question_id": "python_practical_05",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You have a list of dictionaries representing users. You want to sort them by the 'age' key in descending order. Which is correct?",
+"options": [
+{ "id": "a", "text": "users.sort('age', reverse=True)", "misconception_tag": "sort_key_string_confusion" },
+{ "id": "b", "text": "sorted(users, key='age', reverse=True)", "misconception_tag": "key_string_not_callable" },
+{ "id": "c", "text": "users.sort(key=lambda u: u['age'], reverse=True)", "misconception_tag": null },
+{ "id": "d", "text": "users.sort(key=u['age'] for u in users, reverse=True)", "misconception_tag": "generator_as_key_confusion" }
+],
+"correct_option_id": "c",
+"explanation": "list.sort() accepts a key callable. lambda u: u['age'] extracts the age from each dict. reverse=True gives descending order. Passing a string as key raises a TypeError since key must be callable."
+},
+{
+"question_id": "python_practical_06",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "What is the output?\n\ndef counter():\n    count = 0\n    def increment():\n        nonlocal count\n        count += 1\n        return count\n    return increment\n\nc = counter()\nprint(c(), c())",
+"options": [
+{ "id": "a", "text": "1 1", "misconception_tag": "closure_state_reset" },
+{ "id": "b", "text": "1 2", "misconception_tag": null },
+{ "id": "c", "text": "0 1", "misconception_tag": "off_by_one" },
+{ "id": "d", "text": "UnboundLocalError", "misconception_tag": "nonlocal_error_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "nonlocal allows increment to modify count in the enclosing scope. The closure retains state between calls. First call: count becomes 1. Second call: count becomes 2. Without nonlocal, assigning to count would create a new local variable and raise an UnboundLocalError."
+},
+{
+"question_id": "python_practical_07",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "A generator function uses yield. What is the correct way to get all values from it into a list?",
+"options": [
+{ "id": "a", "text": "generator.to_list()", "misconception_tag": "nonexistent_method" },
+{ "id": "b", "text": "list(generator_function())", "misconception_tag": null },
+{ "id": "c", "text": "[generator_function]", "misconception_tag": "function_reference_confusion" },
+{ "id": "d", "text": "generator_function().collect()", "misconception_tag": "rust_collect_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Calling generator_function() returns a generator object. Wrapping it in list() iterates through all yielded values and collects them into a list. Generators are lazy — they produce values one at a time on demand."
+},
+{
+"question_id": "python_practical_08",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You need to read a large file line by line without loading it entirely into memory. What is the most Pythonic approach?",
+"options": [
+{ "id": "a", "text": "content = open('file.txt').read().split('\n')", "misconception_tag": "full_load_assumption" },
+{ "id": "b", "text": "lines = open('file.txt').readlines()", "misconception_tag": "readlines_memory_issue" },
+{ "id": "c", "text": "with open('file.txt') as f: for line in f:", "misconception_tag": null },
+{ "id": "d", "text": "open('file.txt').readline() in a while loop manually", "misconception_tag": "manual_loop_antipattern" }
+],
+"correct_option_id": "c",
+"explanation": "Iterating directly over a file object with for line in f reads one line at a time without loading the whole file into memory. This is memory-efficient and Pythonic. readlines() and read().split() both load the full content into memory."
+},
+{
+"question_id": "python_edge_04",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the output?\n\nx = [1, 2, 3]\ny = x[:]\ny.append(4)\nprint(x, y)",
+"options": [
+{ "id": "a", "text": "[1, 2, 3, 4] [1, 2, 3, 4]", "misconception_tag": "shallow_copy_confusion" },
+{ "id": "b", "text": "[1, 2, 3] [1, 2, 3, 4]", "misconception_tag": null },
+{ "id": "c", "text": "[1, 2, 3] [1, 2, 3]", "misconception_tag": "append_return_value_confusion" },
+{ "id": "d", "text": "Error: cannot slice a list", "misconception_tag": "slice_syntax_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "x[:] creates a shallow copy — a new list with the same elements. Appending to y does not affect x because y is an independent list object. This works because the elements (integers) are immutable."
+},
+{
+"question_id": "python_edge_05",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the output?\n\nprint(0.1 + 0.2 == 0.3)",
+"options": [
+{ "id": "a", "text": "True", "misconception_tag": "float_precision_assumption" },
+{ "id": "b", "text": "False", "misconception_tag": null },
+{ "id": "c", "text": "TypeError: cannot compare float and int", "misconception_tag": "type_comparison_error" },
+{ "id": "d", "text": "None", "misconception_tag": "none_return_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Due to IEEE 754 floating-point representation, 0.1 + 0.2 results in 0.30000000000000004, not exactly 0.3. Direct float equality comparisons are unreliable. Use math.isclose(0.1 + 0.2, 0.3) for safe float comparison."
+},
+{
+"question_id": "python_edge_06",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the output of this code?\n\na = []\nfor i in [1, 2, 3]:\n    a.append(lambda: i)\nprint([f() for f in a])",
+"options": [
+{ "id": "a", "text": "[1, 2, 3]", "misconception_tag": "closure_capture_by_value" },
+{ "id": "b", "text": "[3, 3, 3]", "misconception_tag": null },
+{ "id": "c", "text": "[0, 1, 2]", "misconception_tag": "zero_indexed_capture" },
+{ "id": "d", "text": "Error: lambda cannot reference loop variable", "misconception_tag": "lambda_scope_error" }
+],
+"correct_option_id": "b",
+"explanation": "All lambdas capture i by reference, not by value. By the time they are called, the loop has finished and i is 3. To capture the current value, use a default argument: lambda i=i: i."
+},
+{
+"question_id": "python_theory_07",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the Method Resolution Order (MRO) in Python and which algorithm determines it?",
+"options": [
+{ "id": "a", "text": "The order in which a class's methods are listed in source code; determined by the parser", "misconception_tag": "source_order_assumption" },
+{ "id": "b", "text": "The sequence Python follows when looking up a method in a class hierarchy; determined by the C3 linearization algorithm", "misconception_tag": null },
+{ "id": "c", "text": "The priority of built-in methods over user-defined methods; determined by the interpreter", "misconception_tag": "builtin_priority_confusion" },
+{ "id": "d", "text": "The order in which super() calls are resolved; uses depth-first search", "misconception_tag": "dfs_mro_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "MRO defines the order Python searches classes when resolving method calls. Python uses C3 linearization (also called C3 superclass linearization), which guarantees a consistent, monotonic order. You can inspect it with ClassName.__mro__. Depth-first search was used in older Python 2 style classes."
+},
+{
+"question_id": "python_theory_08",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the difference between __str__ and __repr__ in Python?",
+"options": [
+{ "id": "a", "text": "__str__ is for debugging; __repr__ is for end users", "misconception_tag": "purpose_reversal" },
+{ "id": "b", "text": "They are interchangeable — both return the same string", "misconception_tag": "equivalence_assumption" },
+{ "id": "c", "text": "__repr__ returns a developer-oriented unambiguous representation; __str__ returns a human-readable string. If __str__ is absent, Python falls back to __repr__", "misconception_tag": null },
+{ "id": "d", "text": "__repr__ is only called by print(); __str__ is called by repr()", "misconception_tag": "function_reversal" }
+],
+"correct_option_id": "c",
+"explanation": "__repr__ should return an unambiguous string ideally usable to recreate the object. __str__ returns a readable string for display. print() uses __str__. The interactive console uses __repr__. If only __repr__ is defined, Python uses it as a fallback for __str__."
+},
+{
+"question_id": "python_theory_09",
+"skill_id": "python",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What does the @property decorator enable in Python?",
+"options": [
+{ "id": "a", "text": "It makes a method static, removing the need for self", "misconception_tag": "static_method_confusion" },
+{ "id": "b", "text": "It caches the return value of the method permanently", "misconception_tag": "memoization_confusion" },
+{ "id": "c", "text": "It allows a method to be accessed like an attribute, enabling controlled getters and setters without changing external interface", "misconception_tag": null },
+{ "id": "d", "text": "It prevents the attribute from being modified after first assignment", "misconception_tag": "immutability_confusion" }
+],
+"correct_option_id": "c",
+"explanation": "@property transforms a method into a read-only attribute accessor. Paired with @attr.setter and @attr.deleter, it provides full encapsulation. External code accesses obj.attr without calling obj.attr(), maintaining a clean interface while allowing validation logic inside."
+},
+{
+"question_id": "python_practical_09",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You are designing a context manager to time a block of code. Which implementation is correct?",
+"options": [
+{ "id": "a", "text": "Use a class with __start__ and __stop__ methods", "misconception_tag": "wrong_dunder_names" },
+{ "id": "b", "text": "Use a class with __enter__ returning start time and __exit__ printing elapsed time", "misconception_tag": null },
+{ "id": "c", "text": "Use a function with @contextmanager decorator and a return statement", "misconception_tag": "return_vs_yield_confusion" },
+{ "id": "d", "text": "Context managers cannot track time — use threading.Timer instead", "misconception_tag": "capability_limitation" }
+],
+"correct_option_id": "b",
+"explanation": "Context managers use __enter__ (called on with entry) and __exit__ (called on exit, even on exception). __exit__ receives exception info. Alternatively, use @contextlib.contextmanager with yield (not return) to write a generator-based context manager."
+},
+{
+"question_id": "python_practical_10",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "Which approach correctly implements a thread-safe singleton in Python?",
+"options": [
+{ "id": "a", "text": "Use a module-level variable — modules are only imported once", "misconception_tag": null },
+{ "id": "b", "text": "Use @classmethod with a class-level attribute to return the same instance", "misconception_tag": "classmethod_not_thread_safe" },
+{ "id": "c", "text": "Check-then-set without a lock — Python's GIL makes it thread-safe", "misconception_tag": "gil_safety_assumption" },
+{ "id": "d", "text": "Create a new instance every time but compare using is", "misconception_tag": "identity_check_confusion" }
+],
+"correct_option_id": "a",
+"explanation": "Python modules are imported once and cached in sys.modules. A module-level instance is effectively a thread-safe singleton because the import machinery uses locks. For class-based singletons, a threading.Lock is needed around the check-and-create block to avoid race conditions — the GIL does not make multi-step operations atomic."
+},
+{
+"question_id": "python_practical_11",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "What is the output?\n\nresult = [x for x in range(5) if x % 2 == 0 for y in range(x)]\nprint(result)",
+"options": [
+{ "id": "a", "text": "[0, 2, 4]", "misconception_tag": "comprehension_filter_only" },
+{ "id": "b", "text": "[]", "misconception_tag": "range_zero_confusion" },
+{ "id": "c", "text": "[0, 0, 2, 0, 2, 4]", "misconception_tag": null },
+{ "id": "d", "text": "[2, 4]", "misconception_tag": "range_zero_exclusion" }
+],
+"correct_option_id": "c",
+"explanation": "For x=0: range(0) is empty, no items added. For x=2: range(2) has 2 iterations, x=2 is appended twice → [2,2]. For x=4: range(4) has 4 iterations, x=4 appended four times → [4,4,4,4]. Final result: [2, 2, 4, 4, 4, 4]."
+},
+{
+"question_id": "python_practical_12",
+"skill_id": "python",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "What is the output?\n\nresult = [x for x in range(5) if x % 2 == 0 for y in range(x)]\nprint(len(result))",
+"options": [
+{ "id": "a", "text": "3", "misconception_tag": "comprehension_filter_only" },
+{ "id": "b", "text": "6", "misconception_tag": null },
+{ "id": "c", "text": "5", "misconception_tag": "range_size_confusion" },
+{ "id": "d", "text": "0", "misconception_tag": "nested_loop_empty_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Even numbers in range(5): 0, 2, 4. For x=0: range(0) → 0 iterations. For x=2: range(2) → 2 iterations, appends x=2 twice. For x=4: range(4) → 4 iterations, appends x=4 four times. Total: 0+2+4=6 elements."
+},
+{
+"question_id": "python_edge_07",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the output?\n\nclass Meta(type):\n    def call(cls, *args):\n        print('Meta.call')\n        return super().call(*args)\n\nclass MyClass(metaclass=Meta):\n    def init(self):\n        print('MyClass.init')\n\nobj = MyClass()",
+"options": [
+{ "id": "a", "text": "MyClass.init only", "misconception_tag": "metaclass_call_ignored" },
+{ "id": "b", "text": "Meta.call then MyClass.init", "misconception_tag": null },
+{ "id": "c", "text": "Meta.call only — it intercepts init", "misconception_tag": "super_call_omitted" },
+{ "id": "d", "text": "TypeError: metaclass conflict", "misconception_tag": "metaclass_error_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "When a class is instantiated, Python calls the metaclass's __call__. Meta.__call__ is invoked first. It calls super().__call__(*args) which eventually calls MyClass.__init__. Both print statements execute in order: Meta.call, then MyClass.init."
+},
+{
+"question_id": "python_edge_08",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the output?\n\nx = 256\ny = 256\nprint(x is y)\n\na = 257\nb = 257\nprint(a is b)",
+"options": [
+{ "id": "a", "text": "True then True", "misconception_tag": "integer_caching_full_assumption" },
+{ "id": "b", "text": "False then False", "misconception_tag": "is_equals_never" },
+{ "id": "c", "text": "True then False", "misconception_tag": null },
+{ "id": "d", "text": "False then True", "misconception_tag": "caching_range_reversal" }
+],
+"correct_option_id": "c",
+"explanation": "CPython caches small integers from -5 to 256. So x=256 and y=256 refer to the same cached object → is returns True. Integers outside this range (like 257) are created as new objects each time → is returns False. This is an implementation detail, not guaranteed by the language spec."
+},
+{
+"question_id": "python_edge_09",
+"skill_id": "python",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the output?\n\nfrom functools import wraps\n\ndef decorator(func):\n    def wrapper(*args, kwargs):\n        return func(args, kwargs)\n    return wrapper\n\n@decorator\ndef greet():\n    \"\"\"Returns a greeting\"\"\"\n    return 'hello'\n\nprint(greet.name, greet.doc)",
+"options": [
+{ "id": "a", "text": "greet 'Returns a greeting'", "misconception_tag": "wraps_applied_assumption" },
+{ "id": "b", "text": "wrapper None", "misconception_tag": null },
+{ "id": "c", "text": "greet None", "misconception_tag": "name_preserved_doc_lost" },
+{ "id": "d", "text": "AttributeError: no name", "misconception_tag": "attribute_error_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Without @wraps(func), the wrapper function replaces the original. greet.__name__ returns 'wrapper' and greet.__doc__ returns None. Using @functools.wraps(func) on wrapper copies __name__, __doc__, and other attributes from the original function."
+},
+{
+"question_id": "java_theory_01",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the difference between == and .equals() when comparing String objects in Java?",
+"options": [
+{ "id": "a", "text": "They are interchangeable for all object types", "misconception_tag": "reference_value_confusion" },
+{ "id": "b", "text": "== compares reference identity; .equals() compares character content", "misconception_tag": null },
+{ "id": "c", "text": "== compares content; .equals() compares memory addresses", "misconception_tag": "operator_reversal" },
+{ "id": "d", "text": ".equals() is only for numeric types", "misconception_tag": "scope_limitation" }
+],
+"correct_option_id": "b",
+"explanation": "In Java, == compares object references (memory addresses). Two String objects with identical content are different objects unless interned. .equals() compares the actual character sequence. Always use .equals() for string content comparison."
+},
+{
+"question_id": "java_theory_02",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is autoboxing in Java?",
+"options": [
+{ "id": "a", "text": "Converting a primitive type to its corresponding wrapper class automatically", "misconception_tag": null },
+{ "id": "b", "text": "Compressing objects in memory to reduce heap usage", "misconception_tag": "memory_optimization_confusion" },
+{ "id": "c", "text": "Automatically casting a subclass to its parent type", "misconception_tag": "upcasting_confusion" },
+{ "id": "d", "text": "Wrapping exceptions in RuntimeException automatically", "misconception_tag": "exception_wrapping_confusion" }
+],
+"correct_option_id": "a",
+"explanation": "Autoboxing is the automatic conversion of primitive types (int, double, etc.) to their wrapper classes (Integer, Double, etc.) when needed. Unboxing is the reverse. This allows primitives to be used in collections that require objects."
+},
+{
+"question_id": "java_theory_03",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "Which keyword in Java prevents a method from being overridden in a subclass?",
+"options": [
+{ "id": "a", "text": "static", "misconception_tag": "static_prevents_override_confusion" },
+{ "id": "b", "text": "private", "misconception_tag": "private_prevents_inheritance_confusion" },
+{ "id": "c", "text": "final", "misconception_tag": null },
+{ "id": "d", "text": "abstract", "misconception_tag": "abstract_opposite_confusion" }
+],
+"correct_option_id": "c",
+"explanation": "final methods cannot be overridden in subclasses. private methods are not inherited at all (not overrideable). static methods can be hidden but not overridden. abstract requires subclasses to provide an implementation — the opposite of preventing override."
+},
+{
+"question_id": "java_practical_01",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the output?\n\nString a = new String(\"hello\");\nString b = new String(\"hello\");\nSystem.out.println(a == b);\nSystem.out.println(a.equals(b));",
+"options": [
+{ "id": "a", "text": "true then true", "misconception_tag": "string_pool_confusion" },
+{ "id": "b", "text": "false then true", "misconception_tag": null },
+{ "id": "c", "text": "true then false", "misconception_tag": "equals_reference_confusion" },
+{ "id": "d", "text": "false then false", "misconception_tag": "equals_reference_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "new String(\"hello\") explicitly creates a new object on the heap, bypassing the string pool. So a == b is false (different objects). .equals() compares content → true. If you used string literals, both would point to the same interned pool object and == would be true."
+},
+{
+"question_id": "java_practical_02",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What exception is thrown at runtime?\n\nString s = null;\nSystem.out.println(s.length());",
+"options": [
+{ "id": "a", "text": "NullPointerException", "misconception_tag": null },
+{ "id": "b", "text": "IllegalArgumentException", "misconception_tag": "exception_type_confusion" },
+{ "id": "c", "text": "IllegalStateException", "misconception_tag": "exception_type_confusion" },
+{ "id": "d", "text": "Compiles but prints 0", "misconception_tag": "null_zero_confusion" }
+],
+"correct_option_id": "a",
+"explanation": "Calling any method on a null reference throws a NullPointerException at runtime. s is null, so s.length() triggers NPE. Always check for null before calling methods on potentially null references, or use Optional."
+},
+{
+"question_id": "java_practical_03",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the output?\n\nint[] arr = {1, 2, 3};\nSystem.out.println(arr.length);\nSystem.out.println(arr[3]);",
+"options": [
+{ "id": "a", "text": "3 then IndexOutOfBoundsException", "misconception_tag": "exception_name_confusion" },
+{ "id": "b", "text": "3 then ArrayIndexOutOfBoundsException", "misconception_tag": null },
+{ "id": "c", "text": "4 then null", "misconception_tag": "length_off_by_one" },
+{ "id": "d", "text": "3 then 0", "misconception_tag": "default_value_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "arr.length is 3. Valid indices are 0, 1, 2. Accessing index 3 throws ArrayIndexOutOfBoundsException. Note: for arrays use .length (field), for Strings use .length() (method), for collections use .size() (method)."
+},
+{
+"question_id": "java_practical_04",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "Which collection should you use in Java to store unique elements in insertion order?",
+"options": [
+{ "id": "a", "text": "HashSet — maintains insertion order", "misconception_tag": "hashset_order_confusion" },
+{ "id": "b", "text": "TreeSet — maintains natural sort order", "misconception_tag": "treeset_insertion_confusion" },
+{ "id": "c", "text": "LinkedHashSet — maintains insertion order with uniqueness", "misconception_tag": null },
+{ "id": "d", "text": "ArrayList — maintains order and prevents duplicates", "misconception_tag": "arraylist_unique_confusion" }
+],
+"correct_option_id": "c",
+"explanation": "LinkedHashSet maintains insertion order and prevents duplicates. HashSet provides O(1) operations but no order. TreeSet keeps elements sorted by natural or comparator order. ArrayList allows duplicates."
+},
+{
+"question_id": "java_edge_01",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is the output?\n\nInteger a = 127;\nInteger b = 127;\nInteger c = 128;\nInteger d = 128;\nSystem.out.println(a == b);\nSystem.out.println(c == d);",
+"options": [
+{ "id": "a", "text": "true then true", "misconception_tag": "integer_cache_full_assumption" },
+{ "id": "b", "text": "false then false", "misconception_tag": "autoboxing_no_cache" },
+{ "id": "c", "text": "true then false", "misconception_tag": null },
+{ "id": "d", "text": "false then true", "misconception_tag": "cache_range_reversal" }
+],
+"correct_option_id": "c",
+"explanation": "Java caches Integer objects for values -128 to 127. Autoboxing reuses the same cached object for 127, so a == b is true. For 128, new Integer objects are created each time, so c == d is false. Always use .equals() for Integer comparison to avoid this pitfall."
+},
+{
+"question_id": "java_edge_02",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is the output?\n\nSystem.out.println(1 + 2 + \"3\");\nSystem.out.println(\"1\" + 2 + 3);",
+"options": [
+{ "id": "a", "text": "33 then 33", "misconception_tag": "string_concat_direction_ignored" },
+{ "id": "b", "text": "123 then 123", "misconception_tag": "all_string_concat_assumption" },
+{ "id": "c", "text": "33 then 123", "misconception_tag": null },
+{ "id": "d", "text": "6 then 15", "misconception_tag": "string_parsed_as_int" }
+],
+"correct_option_id": "c",
+"explanation": "Java evaluates + left to right. 1 + 2 = 3 (int), then 3 + \\\"3\\\" = \\\"33\\\" (string concat). For \\\"1\\\" + 2 + 3: \\\"1\\\" + 2 = \\\"12\\\", then \\\"12\\\" + 3 = \\\"123\\\". String concatenation is triggered as soon as a String operand appears and propagates leftward from there."
+},
+{
+"question_id": "java_edge_03",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What happens when you call list.remove(1) on a List<Integer> containing [0, 1, 2]?",
+"options": [
+{ "id": "a", "text": "Removes the Integer value 1 from the list", "misconception_tag": "autoboxing_overload_confusion" },
+{ "id": "b", "text": "Removes the element at index 1 (value 1), resulting in [0, 2]", "misconception_tag": null },
+{ "id": "c", "text": "Throws an ambiguous method call compiler error", "misconception_tag": "overload_ambiguity_assumption" },
+{ "id": "d", "text": "Removes index 0 because lists are zero-indexed internally", "misconception_tag": "index_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "List.remove(int index) and List.remove(Object o) are overloaded. When you call remove(1), the int literal 1 matches remove(int index) — removing the element at index 1. To remove the Integer object with value 1, use remove(Integer.valueOf(1)) or remove((Integer) 1)."
+},
+{
+"question_id": "java_theory_04",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the difference between Comparable and Comparator in Java?",
+"options": [
+{ "id": "a", "text": "Comparable is for primitives; Comparator is for objects", "misconception_tag": "type_scope_confusion" },
+{ "id": "b", "text": "Comparable defines natural ordering within the class itself; Comparator defines external, custom ordering logic", "misconception_tag": null },
+{ "id": "c", "text": "Comparator is deprecated in favor of Comparable in Java 8+", "misconception_tag": "deprecation_assumption" },
+{ "id": "d", "text": "Both are identical — they define sort order the same way", "misconception_tag": "interface_equivalence" }
+],
+"correct_option_id": "b",
+"explanation": "Comparable<T> is implemented by a class to define its natural sort order via compareTo(). Comparator<T> is a separate functional interface for defining custom sort orders externally. Multiple Comparators can exist for the same class. Comparator is heavily used with lambdas in Java 8+."
+},
+{
+"question_id": "java_theory_05",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the purpose of the volatile keyword in Java?",
+"options": [
+{ "id": "a", "text": "It makes a variable immutable after assignment", "misconception_tag": "final_confusion" },
+{ "id": "b", "text": "It ensures a variable's value is always read from and written to main memory, not a thread's local cache", "misconception_tag": null },
+{ "id": "c", "text": "It automatically synchronizes all access to the variable with a lock", "misconception_tag": "synchronized_confusion" },
+{ "id": "d", "text": "It marks a variable as transient and excludes it from serialization", "misconception_tag": "transient_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "volatile guarantees visibility: writes to a volatile variable are immediately visible to all threads by bypassing CPU caches. It does NOT provide atomicity for compound operations (like i++). For atomic operations on single variables, use AtomicInteger etc. For compound operations, use synchronized."
+},
+{
+"question_id": "java_theory_06",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the difference between a checked and unchecked exception in Java?",
+"options": [
+{ "id": "a", "text": "Checked exceptions extend RuntimeException; unchecked ones extend Exception", "misconception_tag": "hierarchy_reversal" },
+{ "id": "b", "text": "Checked exceptions must be declared or caught at compile time; unchecked exceptions (RuntimeException subclasses) do not", "misconception_tag": null },
+{ "id": "c", "text": "Unchecked exceptions crash the JVM; checked exceptions are handled gracefully", "misconception_tag": "severity_confusion" },
+{ "id": "d", "text": "Both types must always be caught — the difference is only semantic", "misconception_tag": "mandatory_catch_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Checked exceptions (e.g., IOException, SQLException) must be declared with throws or caught, enforced by the compiler. Unchecked exceptions extend RuntimeException (e.g., NullPointerException, IllegalArgumentException) and don't require declaration. Errors (e.g., OutOfMemoryError) are a third category — serious JVM issues."
+},
+{
+"question_id": "java_practical_05",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You want to iterate over a HashMap and safely remove entries that meet a condition. What is the correct approach?",
+"options": [
+{ "id": "a", "text": "Use a for-each loop on entrySet() and call map.remove() inside", "misconception_tag": "concurrent_modification_ignored" },
+{ "id": "b", "text": "Use an Iterator and call iterator.remove()", "misconception_tag": null },
+{ "id": "c", "text": "Convert the map to an array first, then iterate", "misconception_tag": "unnecessary_conversion" },
+{ "id": "d", "text": "Use a synchronized block around the for-each loop", "misconception_tag": "sync_prevents_cme_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Modifying a collection while iterating over it with a for-each loop throws ConcurrentModificationException. The safe approach is to use an explicit Iterator and call iterator.remove(). In Java 8+, you can also use map.entrySet().removeIf(entry -> condition)."
+},
+{
+"question_id": "java_practical_06",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "What is the output?\n\ntry {\n    return 1;\n} finally {\n    return 2;\n}",
+"options": [
+{ "id": "a", "text": "1", "misconception_tag": "return_before_finally" },
+{ "id": "b", "text": "2", "misconception_tag": null },
+{ "id": "c", "text": "Compiler error: two return statements", "misconception_tag": "compiler_error_assumption" },
+{ "id": "d", "text": "Undefined behavior", "misconception_tag": "undefined_behavior_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "In Java, the finally block always executes, even after a return statement in try. If finally also contains a return, it overrides the try block's return value. The method returns 2. This is generally considered bad practice as it suppresses exceptions too."
+},
+{
+"question_id": "java_practical_07",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You have a method that takes a List<Animal> parameter. Can you pass a List<Dog> where Dog extends Animal?",
+"options": [
+{ "id": "a", "text": "Yes — generics are covariant in Java like arrays", "misconception_tag": "generics_covariance_confusion" },
+{ "id": "b", "text": "No — generics are invariant. Use List<? extends Animal> instead", "misconception_tag": null },
+{ "id": "c", "text": "Yes — only if Dog is a direct subclass of Animal", "misconception_tag": "direct_subclass_workaround" },
+{ "id": "d", "text": "No — you must cast with (List<Animal>) dogList", "misconception_tag": "unsafe_cast_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Java generics are invariant: List<Dog> is NOT a List<Animal> even though Dog extends Animal. To accept any list of Animal subtypes, use List<? extends Animal> (upper-bounded wildcard). This prevents adding non-Dog animals to what is actually a Dog list."
+},
+{
+"question_id": "java_practical_08",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "What does Optional.orElseGet() do differently from Optional.orElse()?",
+"options": [
+{ "id": "a", "text": "They are identical in behavior", "misconception_tag": "optional_method_equivalence" },
+{ "id": "b", "text": "orElse always evaluates its argument; orElseGet lazily evaluates the supplier only when the value is absent", "misconception_tag": null },
+{ "id": "c", "text": "orElseGet throws an exception when empty; orElse returns null", "misconception_tag": "orelse_null_confusion" },
+{ "id": "d", "text": "orElse accepts a Supplier; orElseGet accepts a default value directly", "misconception_tag": "parameter_type_reversal" }
+],
+"correct_option_id": "b",
+"explanation": "orElse(value) evaluates the argument eagerly — the default value is computed even if the Optional has a value. orElseGet(supplier) accepts a Supplier that is only called when the Optional is empty. Prefer orElseGet when the default computation is expensive."
+},
+{
+"question_id": "java_edge_04",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the output?\n\nString s = \"hello\";\nswitch(s) {\n    case \"hello\": System.out.println(\"A\");\n    case \"world\": System.out.println(\"B\");\n    default: System.out.println(\"C\");\n}",
+"options": [
+{ "id": "a", "text": "A", "misconception_tag": "implicit_break_assumption" },
+{ "id": "b", "text": "A B C", "misconception_tag": null },
+{ "id": "c", "text": "A C", "misconception_tag": "default_only_fallthrough" },
+{ "id": "d", "text": "Compile error: String in switch not supported", "misconception_tag": "java7_string_switch_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Java switch statements fall through without break. After matching \"hello\" and printing A, execution continues to the next case, printing B, then falls through to default printing C. Java 7+ supports String in switch. Always add break to prevent unintended fallthrough."
+},
+{
+"question_id": "java_edge_05",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the output?\n\nint i = 0;\nSystem.out.println(i++);\nSystem.out.println(++i);",
+"options": [
+{ "id": "a", "text": "1 then 2", "misconception_tag": "post_increment_misread" },
+{ "id": "b", "text": "0 then 2", "misconception_tag": null },
+{ "id": "c", "text": "0 then 1", "misconception_tag": "pre_increment_misread" },
+{ "id": "d", "text": "1 then 1", "misconception_tag": "increment_order_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "i++ (post-increment) returns the current value (0) then increments i to 1. ++i (pre-increment) increments i from 1 to 2 then returns the new value (2). Output: 0, then 2."
+},
+{
+"question_id": "java_edge_06",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "A class implements two interfaces, both declaring default void log(). What happens?",
+"options": [
+{ "id": "a", "text": "The first interface's method is used automatically", "misconception_tag": "declaration_order_precedence" },
+{ "id": "b", "text": "Compile error: the class must override log() to resolve the ambiguity", "misconception_tag": null },
+{ "id": "c", "text": "Runtime exception when log() is called", "misconception_tag": "runtime_vs_compile_confusion" },
+{ "id": "d", "text": "Both default methods are called in order", "misconception_tag": "multiple_dispatch_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "When a class inherits conflicting default methods from multiple interfaces, Java requires the class to explicitly override the method and resolve the conflict. The class can call a specific interface's method with InterfaceName.super.log()."
+},
+{
+"question_id": "java_theory_07",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the purpose of the happens-before relationship in the Java Memory Model?",
+"options": [
+{ "id": "a", "text": "It defines the order in which methods are compiled by the JIT", "misconception_tag": "jit_compilation_confusion" },
+{ "id": "b", "text": "It guarantees that memory writes in one thread are visible to reads in another thread when a happens-before relationship exists between them", "misconception_tag": null },
+{ "id": "c", "text": "It specifies the order of garbage collection for objects", "misconception_tag": "gc_ordering_confusion" },
+{ "id": "d", "text": "It defines operator precedence in Java expressions", "misconception_tag": "precedence_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "The Java Memory Model's happens-before guarantee ensures that if action A happens-before B, then A's memory effects are visible to B. Established by: entering a synchronized block, volatile reads/writes, thread start/join, and final field initialization. Without this guarantee, CPU/compiler reordering can make updates invisible to other threads."
+},
+{
+"question_id": "java_theory_08",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is type erasure in Java generics and what is its main implication?",
+"options": [
+{ "id": "a", "text": "Generic type parameters are removed at runtime; you cannot use instanceof with generic types or create generic arrays", "misconception_tag": null },
+{ "id": "b", "text": "Generics are fully preserved at runtime like in C#", "misconception_tag": "reified_generics_assumption" },
+{ "id": "c", "text": "Type erasure only affects primitive type wrappers", "misconception_tag": "scope_limitation" },
+{ "id": "d", "text": "Type parameters become Object at compile time but are stored in bytecode", "misconception_tag": "erasure_timing_confusion" }
+],
+"correct_option_id": "a",
+"explanation": "Java erases generic type parameters at compile time, replacing them with their bounds (or Object). At runtime, List<String> and List<Integer> are both just List. Implications: cannot do new T[], cannot use instanceof List<String>, and unchecked cast warnings. This was for backward compatibility with pre-generics Java code."
+},
+{
+"question_id": "java_theory_09",
+"skill_id": "java",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the difference between HashMap, LinkedHashMap, and TreeMap?",
+"options": [
+{ "id": "a", "text": "They differ only in performance — all maintain insertion order", "misconception_tag": "all_maps_ordered_assumption" },
+{ "id": "b", "text": "HashMap: no order guarantee; LinkedHashMap: insertion order; TreeMap: sorted by key (natural or comparator)", "misconception_tag": null },
+{ "id": "c", "text": "TreeMap is unsorted; LinkedHashMap sorts by value", "misconception_tag": "treemap_sort_confusion" },
+{ "id": "d", "text": "HashMap maintains sorted order using hash codes", "misconception_tag": "hash_order_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "HashMap offers O(1) average get/put with no order guarantees. LinkedHashMap maintains insertion (or access) order with a doubly-linked list. TreeMap keeps keys in sorted order via a Red-Black tree with O(log n) operations. Choose based on whether you need order and what kind."
+},
+{
+"question_id": "java_practical_09",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You use parallelStream() to process a list and collect results into a List. What is the issue with collect(Collectors.toList()) in this context?",
+"options": [
+{ "id": "a", "text": "No issue — Collectors.toList() is thread-safe", "misconception_tag": "threadsafe_collector_assumption" },
+{ "id": "b", "text": "Results may be in non-deterministic order, but the collection itself is safe because Collectors.toList() uses thread-safe reduction internally", "misconception_tag": null },
+{ "id": "c", "text": "It throws ConcurrentModificationException", "misconception_tag": "stream_concurrent_modification" },
+{ "id": "d", "text": "parallelStream() cannot be used with collect()", "misconception_tag": "api_incompatibility_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Collectors.toList() is designed to work safely with parallel streams — the Stream framework handles thread-safe accumulation internally. The result list may be in a different order than the original, unless you use forEachOrdered or a sorted collector. The collection operation itself is safe."
+},
+{
+"question_id": "java_practical_10",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "What pattern does this code implement and what is its thread-safety risk?\n\npublic class Singleton {\n    private static Singleton instance;\n    public static Singleton getInstance() {\n        if (instance == null) {\n            instance = new Singleton();\n        }\n        return instance;\n    }\n}",
+"options": [
+{ "id": "a", "text": "Factory pattern — no thread-safety concerns", "misconception_tag": "pattern_misidentification" },
+{ "id": "b", "text": "Singleton pattern — two threads can both see instance==null simultaneously and create two instances", "misconception_tag": null },
+{ "id": "c", "text": "Singleton pattern — the JVM guarantees only one instance per class", "misconception_tag": "jvm_singleton_guarantee" },
+{ "id": "d", "text": "Prototype pattern — creates a new instance each call", "misconception_tag": "pattern_misidentification" }
+],
+"correct_option_id": "b",
+"explanation": "This is a non-thread-safe Singleton. Two threads can both pass the null check before either creates the instance. Fix: use double-checked locking with volatile, an enum singleton, or initialize in a static field (private static final Singleton INSTANCE = new Singleton())."
+},
+{
+"question_id": "java_practical_11",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "What does CompletableFuture.thenCompose() do differently from thenApply()?",
+"options": [
+{ "id": "a", "text": "They are identical in behavior for async operations", "misconception_tag": "completablefuture_method_equivalence" },
+{ "id": "b", "text": "thenApply maps the result synchronously; thenCompose is used to chain another CompletableFuture, preventing nested futures", "misconception_tag": null },
+{ "id": "c", "text": "thenCompose runs on a separate thread pool; thenApply runs on the main thread", "misconception_tag": "thread_pool_confusion" },
+{ "id": "d", "text": "thenApply accepts a CompletableFuture; thenCompose accepts a plain value", "misconception_tag": "parameter_type_reversal" }
+],
+"correct_option_id": "b",
+"explanation": "thenApply(Function<T,U>) transforms the result value — like map() on a Stream. thenCompose(Function<T,CompletableFuture<U>>) is like flatMap() — it takes a function returning another CompletableFuture and flattens the result. Use thenCompose for chaining async operations to avoid CompletableFuture<CompletableFuture<U>>."
+},
+{
+"question_id": "java_practical_12",
+"skill_id": "java",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You override equals() in a class but not hashCode(). What breaks?",
+"options": [
+{ "id": "a", "text": "Nothing — equals() and hashCode() are independent", "misconception_tag": "contract_independence_assumption" },
+{ "id": "b", "text": "Objects that are equal by equals() may have different hash codes, breaking HashMap and HashSet behavior — equal objects must be in the same bucket", "misconception_tag": null },
+{ "id": "c", "text": "The compiler throws an error if hashCode() is not overridden alongside equals()", "misconception_tag": "compiler_enforcement_assumption" },
+{ "id": "d", "text": "Only TreeMap breaks — HashMap uses equals() only", "misconception_tag": "treemap_only_breaks" }
+],
+"correct_option_id": "b",
+"explanation": "The equals-hashCode contract requires: if a.equals(b) is true, then a.hashCode() == b.hashCode(). HashMap and HashSet use hashCode to find the bucket first, then equals to verify. If equal objects have different hash codes, they land in different buckets and HashSet won't detect duplicates; HashMap won't find stored values."
+},
+{
+"question_id": "java_edge_07",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the output?\n\nList<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3));\nfor (Integer i : list) {\n    if (i == 2) list.remove(i);\n}",
+"options": [
+{ "id": "a", "text": "[1, 3] — element 2 is removed", "misconception_tag": "cme_not_expected" },
+{ "id": "b", "text": "ConcurrentModificationException at runtime", "misconception_tag": null },
+{ "id": "c", "text": "[1, 2, 3] — no modification happens in enhanced for", "misconception_tag": "foreach_immutable_assumption" },
+{ "id": "d", "text": "Compile error: cannot modify list in for-each", "misconception_tag": "compile_time_enforcement" }
+],
+"correct_option_id": "b",
+"explanation": "Modifying an ArrayList structurally (size change) while iterating with for-each triggers ConcurrentModificationException. The for-each uses an iterator internally that checks a modCount. Use iterator.remove() or removeIf() for safe removal during iteration."
+},
+{
+"question_id": "java_edge_08",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the output?\n\nSystem.out.println(Math.min(Integer.MIN_VALUE, 0));\nSystem.out.println(-Integer.MIN_VALUE);",
+"options": [
+{ "id": "a", "text": "-2147483648 then 2147483648", "misconception_tag": "overflow_ignored" },
+{ "id": "b", "text": "-2147483648 then -2147483648", "misconception_tag": null },
+{ "id": "c", "text": "0 then 0", "misconception_tag": "min_value_confusion" },
+{ "id": "d", "text": "-2147483648 then 0", "misconception_tag": "negation_zero_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Integer.MIN_VALUE is -2147483648. Math.min(-2147483648, 0) returns -2147483648 (correct). -Integer.MIN_VALUE causes integer overflow — negating the minimum value wraps around to itself in two's complement. -(-2147483648) = -2147483648 in int arithmetic. This is a classic overflow trap."
+},
+{
+"question_id": "java_edge_09",
+"skill_id": "java",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the issue with this double-checked locking implementation?\n\nprivate static Singleton instance;\npublic static Singleton getInstance() {\n    if (instance == null) {\n        synchronized (Singleton.class) {\n            if (instance == null) {\n                instance = new Singleton();\n            }\n        }\n    }\n    return instance;\n}",
+"options": [
+{ "id": "a", "text": "The outer null check is unnecessary", "misconception_tag": "outer_check_confusion" },
+{ "id": "b", "text": "instance must be volatile — without it, another thread may see a partially constructed object due to reordering", "misconception_tag": null },
+{ "id": "c", "text": "Double-checked locking is completely broken in Java regardless of volatile", "misconception_tag": "dcl_broken_always" },
+{ "id": "d", "text": "The synchronized block should be on the instance object, not the class", "misconception_tag": "sync_target_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Without volatile, the JVM can reorder instructions: instance may be assigned (pointing to allocated but uninitialized memory) before the constructor finishes. Another thread sees instance != null and uses a partially constructed object. Declaring instance as volatile prevents this reordering by establishing a happens-before relationship."
+},
+{
+"question_id": "cpp_theory_01",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the difference between stack and heap memory allocation in C++?",
+"options": [
+{ "id": "a", "text": "Stack is slower; heap is faster due to proximity to CPU", "misconception_tag": "speed_reversal" },
+{ "id": "b", "text": "Stack is automatically managed with fixed size and fast allocation; heap is manually managed with dynamic sizing using new/delete", "misconception_tag": null },
+{ "id": "c", "text": "Heap is automatically freed at the end of a function; stack requires explicit deallocation", "misconception_tag": "memory_management_reversal" },
+{ "id": "d", "text": "They are identical in modern C++ with smart pointers", "misconception_tag": "smart_pointer_equivalence" }
+],
+"correct_option_id": "b",
+"explanation": "Stack memory is allocated at compile time, automatically freed when the function returns, and is limited in size. Heap memory is dynamically allocated at runtime with new/malloc and must be explicitly freed with delete/free. Failure to free heap memory causes memory leaks."
+},
+{
+"question_id": "cpp_theory_02",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What does const mean when applied to a pointer as const int* p?",
+"options": [
+{ "id": "a", "text": "The pointer p itself cannot be reassigned to point elsewhere", "misconception_tag": "const_pointer_vs_pointer_to_const" },
+{ "id": "b", "text": "The integer value pointed to by p cannot be modified through p", "misconception_tag": null },
+{ "id": "c", "text": "Both the pointer and the value are constant", "misconception_tag": "double_const_assumption" },
+{ "id": "d", "text": "const int* p and int* const p are identical", "misconception_tag": "const_position_ignored" }
+],
+"correct_option_id": "b",
+"explanation": "const int* p — pointer to const int: you cannot modify *p but can reassign p to point elsewhere. int* const p — const pointer to int: p cannot be reassigned but *p can be modified. const int* const p — both are constant."
+},
+{
+"question_id": "cpp_theory_03",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is a destructor in C++ and when is it called?",
+"options": [
+{ "id": "a", "text": "A function that deletes the object from source code at compile time", "misconception_tag": "compile_time_confusion" },
+{ "id": "b", "text": "A special member function called automatically when an object goes out of scope or is explicitly deleted, used to release resources", "misconception_tag": null },
+{ "id": "c", "text": "A function that must be called manually before any object is deleted", "misconception_tag": "manual_call_confusion" },
+{ "id": "d", "text": "It is called only for heap-allocated objects, never for stack objects", "misconception_tag": "heap_only_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "The destructor (~ClassName()) is automatically invoked when a stack object goes out of scope, or when delete is called on a heap-allocated object. It is used to release resources (memory, file handles, etc.). This is the foundation of RAII (Resource Acquisition Is Initialization)."
+},
+{
+"question_id": "cpp_practical_01",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the bug in this code?\n\nint createArray() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    return arr;\n}",
+"options": [
+{ "id": "a", "text": "The array size must be passed as a parameter", "misconception_tag": "size_parameter_confusion" },
+{ "id": "b", "text": "Returning a pointer to a local stack array — the array is destroyed when the function returns, leaving a dangling pointer", "misconception_tag": null },
+{ "id": "c", "text": "Arrays cannot be returned from functions in C++", "misconception_tag": "array_return_confusion" },
+{ "id": "d", "text": "The initializer list syntax is incorrect for C++", "misconception_tag": "syntax_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "arr is a local stack variable. When createArray() returns, the stack frame is destroyed and arr no longer exists. The returned pointer is a dangling pointer — using it is undefined behavior. Fix: use new int[5], std::vector, or std::array with a different ownership model."
+},
+{
+"question_id": "cpp_practical_02",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the output?\n\n#include <iostream>\nint x = 5;\nvoid modify(int x) {\n    x = 10;\n}\nint main() {\n    modify(x);\n    std::cout << x;\n}",
+"options": [
+{ "id": "a", "text": "10", "misconception_tag": "pass_by_reference_assumption" },
+{ "id": "b", "text": "5", "misconception_tag": null },
+{ "id": "c", "text": "Undefined — global and local x conflict", "misconception_tag": "shadowing_undefined_behavior" },
+{ "id": "d", "text": "Compiler error: variable redefinition", "misconception_tag": "redefinition_error_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "C++ passes arguments by value by default. modify(x) receives a copy of x. Modifying the local parameter x inside modify does not affect the global x. The global x remains 5. To modify it, use pass-by-reference: void modify(int& x)."
+},
+{
+"question_id": "cpp_practical_03",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the correct way to read a full line including spaces in C++?",
+"options": [
+{ "id": "a", "text": "std::cin >> line;", "misconception_tag": "cin_stops_at_space" },
+{ "id": "b", "text": "std::getline(std::cin, line);", "misconception_tag": null },
+{ "id": "c", "text": "std::cin.read(line, 100);", "misconception_tag": "read_function_confusion" },
+{ "id": "d", "text": "scanf(\"% s\", line);", "misconception_tag": "c_function_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "std::cin >> stops reading at the first whitespace. To read an entire line including spaces, use std::getline(std::cin, line). Be careful mixing cin >> and getline — a trailing newline left in the buffer by >> will be consumed by getline immediately, reading an empty string."
+},
+{
+"question_id": "cpp_practical_04",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the preferred modern C++ way to manage dynamically allocated memory to prevent memory leaks?",
+"options": [
+{ "id": "a", "text": "Always use new and remember to call delete manually", "misconception_tag": "manual_memory_management" },
+{ "id": "b", "text": "Use std::unique_ptr or std::shared_ptr (smart pointers) from <memory>", "misconception_tag": null },
+{ "id": "c", "text": "Use malloc/free from the C standard library", "misconception_tag": "c_style_memory_management" },
+{ "id": "d", "text": "Avoid dynamic allocation entirely — C++ doesn't need it", "misconception_tag": "dynamic_allocation_avoidance" }
+],
+"correct_option_id": "b",
+"explanation": "Modern C++ (C++11+) uses RAII-based smart pointers. std::unique_ptr provides exclusive ownership and automatically deletes the object when it goes out of scope. std::shared_ptr allows shared ownership with reference counting. These eliminate most memory leaks without manual delete calls."
+},
+{
+"question_id": "cpp_edge_01",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is the output?\n\n#include <iostream>\nint main() {\n    int i = 5;\n    std::cout << i++ + ++i;\n}",
+"options": [
+{ "id": "a", "text": "11", "misconception_tag": "sequential_evaluation_assumption" },
+{ "id": "b", "text": "12", "misconception_tag": "different_evaluation_order" },
+{ "id": "c", "text": "Undefined behavior — modifying a variable twice between sequence points", "misconception_tag": null },
+{ "id": "d", "text": "10", "misconception_tag": "pre_post_increment_math" }
+],
+"correct_option_id": "c",
+"explanation": "In C++ (before C++17), modifying a variable and reading it without an intervening sequence point is undefined behavior. i++ + ++i modifies i twice in the same expression. The result is unpredictable. Compilers may produce different outputs. Always separate such operations."
+},
+{
+"question_id": "cpp_edge_02",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is the bug?\n\nint p = new int(42);\ndelete p;\nstd::cout << p;",
+"options": [
+{ "id": "a", "text": "Prints 0 — delete sets the memory to zero", "misconception_tag": "delete_zeroes_memory" },
+{ "id": "b", "text": "Undefined behavior — dereferencing a deleted pointer (dangling pointer)", "misconception_tag": null },
+{ "id": "c", "text": "Compile error — cannot use pointer after delete", "misconception_tag": "compile_time_enforcement" },
+{ "id": "d", "text": "Prints 42 — the value remains in memory temporarily", "misconception_tag": "memory_retention_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "delete p frees the memory but does not set p to nullptr. p is now a dangling pointer. Dereferencing it is undefined behavior — the memory may have been reused, zeroed, or remain unchanged. Always set p = nullptr after delete to prevent accidental reuse."
+},
+{
+"question_id": "cpp_edge_03",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is wrong with this code?\n\nint arr[5];\narr[5] = 10;",
+"options": [
+{ "id": "a", "text": "Arrays are zero-indexed so index 5 is the 5th element", "misconception_tag": "zero_index_confusion" },
+{ "id": "b", "text": "Buffer overflow — index 5 is out of bounds for a 5-element array (valid indices: 0–4)", "misconception_tag": null },
+{ "id": "c", "text": "Compile error: array index out of bounds", "misconception_tag": "compile_time_bounds_check" },
+{ "id": "d", "text": "The array is automatically resized to accommodate index 5", "misconception_tag": "dynamic_resize_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "int arr[5] has valid indices 0 through 4. Writing to arr[5] is a buffer overflow — writing to memory beyond the array bounds. C++ does NOT perform bounds checking on raw arrays. This is undefined behavior and a common source of security vulnerabilities. Use std::vector with .at() for bounds-checked access."
+},
+{
+"question_id": "cpp_theory_04",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the Rule of Three in C++ and when does it apply?",
+"options": [
+{ "id": "a", "text": "A class should have at most three data members for efficiency", "misconception_tag": "performance_heuristic_confusion" },
+{ "id": "b", "text": "If a class defines any of: destructor, copy constructor, or copy assignment operator, it should define all three — because manual resource management in one implies the others are needed", "misconception_tag": null },
+{ "id": "c", "text": "Every class must define constructor, destructor, and copy constructor", "misconception_tag": "mandatory_definition_confusion" },
+{ "id": "d", "text": "A class should override three virtual methods to qualify for polymorphism", "misconception_tag": "polymorphism_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "If a class manually manages resources (e.g., raw pointers), defining only a destructor but not copy constructor/assignment leads to shallow copies sharing ownership — causing double-free bugs. The Rule of Three (extended to Rule of Five in C++11 to include move semantics) ensures consistent resource management."
+},
+{
+"question_id": "cpp_theory_05",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the difference between std::unique_ptr and std::shared_ptr?",
+"options": [
+{ "id": "a", "text": "unique_ptr uses reference counting; shared_ptr does not", "misconception_tag": "ownership_model_reversal" },
+{ "id": "b", "text": "unique_ptr provides exclusive ownership and cannot be copied; shared_ptr allows shared ownership via reference counting", "misconception_tag": null },
+{ "id": "c", "text": "They are interchangeable — use whichever is more convenient", "misconception_tag": "equivalence_assumption" },
+{ "id": "d", "text": "shared_ptr is always faster than unique_ptr due to shared access", "misconception_tag": "performance_misconception" }
+],
+"correct_option_id": "b",
+"explanation": "unique_ptr has exclusive ownership — only one owner, zero overhead, non-copyable but movable. shared_ptr uses atomic reference counting — multiple owners, deleted when count reaches zero, copyable but with overhead. Use unique_ptr by default; shared_ptr only when shared ownership is truly needed."
+},
+{
+"question_id": "cpp_theory_06",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the purpose of the virtual keyword in a base class method?",
+"options": [
+{ "id": "a", "text": "It makes the method inaccessible from outside the class", "misconception_tag": "access_modifier_confusion" },
+{ "id": "b", "text": "It enables dynamic dispatch — the correct overridden method is called based on the actual runtime type, not the declared pointer/reference type", "misconception_tag": null },
+{ "id": "c", "text": "It prevents the method from being called on derived class objects", "misconception_tag": "virtual_restriction_confusion" },
+{ "id": "d", "text": "It automatically makes all parameters of the method optional", "misconception_tag": "parameter_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Without virtual, calling a method through a base pointer uses static dispatch (compile-time type). With virtual, the vtable enables dynamic dispatch — the derived class's overridden method is called even through a base class pointer. Forgetting virtual on the destructor causes resource leaks in inheritance hierarchies."
+},
+{
+"question_id": "cpp_practical_05",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "What is the memory leak in this code?\n\nvoid process() {\n    int arr = new int[100];\n    // ... do work ...\n    delete arr;\n}",
+"options": [
+{ "id": "a", "text": "There is no leak — delete frees the memory", "misconception_tag": "delete_vs_delete_array" },
+{ "id": "b", "text": "Using delete instead of delete[] for array allocation is undefined behavior — only the first element is guaranteed to be destroyed", "misconception_tag": null },
+{ "id": "c", "text": "The array must be declared as int arr[100] to use delete", "misconception_tag": "stack_heap_confusion" },
+{ "id": "d", "text": "The leak occurs only if an exception is thrown before delete", "misconception_tag": "exception_only_issue" }
+],
+"correct_option_id": "b",
+"explanation": "Allocating with new[] requires deallocation with delete[]. Using delete on an array is undefined behavior — destructors for elements beyond the first may not be called, and the memory may not be fully freed. Always match: new with delete, new[] with delete[]."
+},
+{
+"question_id": "cpp_practical_06",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "What is the difference between passing by value, by pointer, and by reference in C++ for a function that modifies its argument?",
+"options": [
+{ "id": "a", "text": "All three modify the original variable", "misconception_tag": "all_modify_original" },
+{ "id": "b", "text": "By value: copy is modified, original unchanged. By pointer: original modified via dereferencing. By reference: original directly modified with cleaner syntax than pointer", "misconception_tag": null },
+{ "id": "c", "text": "References and pointers are identical in assembly — the choice is purely stylistic", "misconception_tag": "reference_pointer_identical" },
+{ "id": "d", "text": "Only pointers can modify the original; references are read-only", "misconception_tag": "reference_readonly_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Pass-by-value copies the argument. Pass-by-pointer passes the address; you dereference with * to modify the original. Pass-by-reference creates an alias; the syntax is clean (x not *x) and references cannot be null or reseated. Prefer references over pointers when the parameter cannot be null."
+},
+{
+"question_id": "cpp_practical_07",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You are writing a class that holds a large buffer. What does the move constructor allow you to do?",
+"options": [
+{ "id": "a", "text": "Share the buffer between two objects simultaneously", "misconception_tag": "move_is_share_confusion" },
+{ "id": "b", "text": "Transfer ownership of the buffer from a temporary to the new object without copying the data, leaving the original in a valid but unspecified state", "misconception_tag": null },
+{ "id": "c", "text": "Automatically delete the original object after construction", "misconception_tag": "move_is_delete_confusion" },
+{ "id": "d", "text": "Move a stack-allocated object to the heap", "misconception_tag": "stack_to_heap_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "The move constructor (takes T&& rvalue reference) transfers ownership of resources (heap allocations, file handles) from a temporary or explicitly moved-from object. It avoids expensive deep copies. The moved-from object is left in a valid but unspecified state. Enables efficient return of large objects and container operations."
+},
+{
+"question_id": "cpp_practical_08",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "What does std::vector::reserve(n) do differently from std::vector::resize(n)?",
+"options": [
+{ "id": "a", "text": "They are identical — both allocate n elements", "misconception_tag": "reserve_resize_equivalence" },
+{ "id": "b", "text": "reserve allocates capacity without changing size; resize changes actual size, default-constructing or destroying elements", "misconception_tag": null },
+{ "id": "c", "text": "reserve sets the maximum size permanently; resize allows dynamic growth", "misconception_tag": "reserve_max_confusion" },
+{ "id": "d", "text": "resize is for shrinking; reserve is for growing", "misconception_tag": "directional_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "reserve(n) pre-allocates memory for n elements without changing size() — prevents reallocations during push_back. resize(n) changes size() to n: default-constructs new elements if growing, destroys elements if shrinking. Use reserve to optimize performance when you know the expected number of elements."
+},
+{
+"question_id": "cpp_edge_04",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the issue?\n\nstd::vector<int> vec = {1, 2, 3};\nauto it = vec.begin();\nvec.push_back(4);\nstd::cout << it;",
+"options": [
+{ "id": "a", "text": "Prints 1 — iterator is still valid", "misconception_tag": "iterator_stability_assumption" },
+{ "id": "b", "text": "Undefined behavior — push_back may cause reallocation, invalidating all iterators", "misconception_tag": null },
+{ "id": "c", "text": "Prints 4 — iterator advances to the new element", "misconception_tag": "iterator_advance_confusion" },
+{ "id": "d", "text": "Compile error — iterators cannot be used after modification", "misconception_tag": "compile_time_enforcement" }
+],
+"correct_option_id": "b",
+"explanation": "push_back may trigger a reallocation if the vector's capacity is exceeded. Reallocation moves all elements to a new memory location, invalidating all existing iterators, pointers, and references. Using it after this point is undefined behavior. Use indices instead of iterators if you plan to modify the vector."
+},
+{
+"question_id": "cpp_edge_05",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What happens here?\n\nclass Base {\npublic:\n    ~Base() { std::cout << \"Base\"; }\n};\nclass Derived : public Base {\npublic:\n    ~Derived() { std::cout << \"Derived\"; }\n};\nBase p = new Derived();\ndelete p;",
+"options": [
+{ "id": "a", "text": "Prints 'DerivedBase' — both destructors called", "misconception_tag": "virtual_destructor_assumed" },
+{ "id": "b", "text": "Only 'Base' is printed — Derived destructor is not called (undefined behavior, resource leak)", "misconception_tag": null },
+{ "id": "c", "text": "Compile error — cannot assign Derived to Base", "misconception_tag": "upcasting_error" },
+{ "id": "d", "text": "Only 'Derived' is printed — only the actual type destructor runs", "misconception_tag": "only_derived_runs" }
+],
+"correct_option_id": "b",
+"explanation": "Without virtual ~Base(), deleting through a base pointer calls only the Base destructor — the Derived destructor is never invoked. This causes resource leaks in Derived. Always declare the base class destructor as virtual when using polymorphism to ensure the full destructor chain runs."
+},
+{
+"question_id": "cpp_edge_06",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the output?\n\nint a = 5;\nint& ref = a;\nref = 10;\nstd::cout << a << ' ' << ref;",
+"options": [
+{ "id": "a", "text": "5 10", "misconception_tag": "reference_copy_confusion" },
+{ "id": "b", "text": "10 10", "misconception_tag": null },
+{ "id": "c", "text": "5 5", "misconception_tag": "assignment_independent_assumption" },
+{ "id": "d", "text": "Compile error — references cannot be reassigned", "misconception_tag": "reference_reassign_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "ref is a reference (alias) for a. They are the same variable in memory. Assigning ref = 10 changes a directly. Both a and ref print 10. References cannot be reseated to point to a different variable after initialization — they always refer to their original bound variable."
+},
+{
+"question_id": "cpp_theory_07",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is RAII (Resource Acquisition Is Initialization) and why is it important?",
+"options": [
+{ "id": "a", "text": "A pattern where resources are acquired in main() and released at program exit", "misconception_tag": "main_scope_confusion" },
+{ "id": "b", "text": "Tying resource lifetime to object lifetime — resources are acquired in the constructor and released in the destructor, ensuring cleanup even when exceptions occur", "misconception_tag": null },
+{ "id": "c", "text": "A compiler optimization that eliminates unnecessary resource allocations", "misconception_tag": "compiler_optimization_confusion" },
+{ "id": "d", "text": "A design pattern requiring all resources to be initialized to zero before use", "misconception_tag": "zero_initialization_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "RAII binds resource management to object lifetime. Constructor acquires resources (memory, locks, file handles). Destructor releases them. Because destructors are called deterministically when objects go out of scope (including during stack unwinding from exceptions), resources are always released. std::unique_ptr, std::lock_guard, and std::fstream are RAII examples."
+},
+{
+"question_id": "cpp_theory_08",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the difference between std::move and std::forward in C++11?",
+"options": [
+{ "id": "a", "text": "They are identical — std::forward is an alias for std::move", "misconception_tag": "forward_move_equivalence" },
+{ "id": "b", "text": "std::move unconditionally casts to rvalue reference; std::forward conditionally casts to preserve the original value category (lvalue or rvalue) for perfect forwarding", "misconception_tag": null },
+{ "id": "c", "text": "std::move copies data physically; std::forward only moves pointers", "misconception_tag": "physical_move_confusion" },
+{ "id": "d", "text": "std::forward is only used with variadic templates", "misconception_tag": "scope_limitation" }
+],
+"correct_option_id": "b",
+"explanation": "std::move(x) casts x to T&& unconditionally, enabling move semantics. std::forward<T>(x) is used in template functions to preserve the value category of a forwarded argument — if it was an lvalue, it stays an lvalue; if it was an rvalue, it becomes rvalue. This is perfect forwarding, enabling wrapper functions to pass arguments efficiently."
+},
+{
+"question_id": "cpp_theory_09",
+"skill_id": "cpp",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is template specialization in C++ and when would you use it?",
+"options": [
+{ "id": "a", "text": "Providing a specific implementation of a template for a particular type when the generic version is incorrect or suboptimal for that type", "misconception_tag": null },
+{ "id": "b", "text": "Restricting which types can be used with a template using access modifiers", "misconception_tag": "access_control_confusion" },
+{ "id": "c", "text": "Marking a template as deprecated for certain types", "misconception_tag": "deprecation_confusion" },
+{ "id": "d", "text": "A way to create abstract templates that must be overridden by derived classes", "misconception_tag": "abstract_class_confusion" }
+],
+"correct_option_id": "a",
+"explanation": "Template specialization provides a custom implementation for specific types. Full specialization: template<> void print<char*>(char* val). Partial specialization: for template<T,U> you can specialize for template<T,T>. Used for type-specific optimizations, special behavior for pointers, or handling void or bool specially."
+},
+{
+"question_id": "cpp_practical_09",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "What is the output and why?\n\n#include <iostream>\nstruct A {\n    A() { std::cout << \"A\"; }\n    ~A() { std::cout << \"~A\"; }\n};\nstruct B : A {\n    B() { std::cout << \"B\"; }\n    ~B() { std::cout << \"~B\"; }\n};\nint main() { B b; }",
+"options": [
+{ "id": "a", "text": "B~B", "misconception_tag": "base_constructor_skipped" },
+{ "id": "b", "text": "AB~B~A", "misconception_tag": null },
+{ "id": "c", "text": "AB~A~B", "misconception_tag": "destructor_order_reversal" },
+{ "id": "d", "text": "A~AB~B", "misconception_tag": "interleaved_construction" }
+],
+"correct_option_id": "b",
+"explanation": "Construction order: base before derived. A() then B(). Destruction order: reverse — derived before base. ~B() then ~A(). Output: AB~B~A. This ensures derived destructors run while the base class portion is still valid. Missing virtual ~A() is not needed here since we're not using base pointers."
+},
+{
+"question_id": "cpp_practical_10",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "What problem does this code have?\n\nstd::shared_ptr<Node> a = std::make_shared<Node>();\nstd::shared_ptr<Node> b = std::make_shared<Node>();\na->next = b;\nb->prev = a;",
+"options": [
+{ "id": "a", "text": "shared_ptr cannot point to the same type — use unique_ptr", "misconception_tag": "same_type_restriction" },
+{ "id": "b", "text": "Circular reference — a keeps b alive and b keeps a alive; neither is ever destroyed, causing a memory leak", "misconception_tag": null },
+{ "id": "c", "text": "Stack overflow due to recursive shared_ptr counting", "misconception_tag": "stack_overflow_confusion" },
+{ "id": "d", "text": "No problem — shared_ptr detects and breaks cycles automatically", "misconception_tag": "cycle_detection_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Circular shared_ptr references prevent the reference count from ever reaching zero — both objects keep each other alive indefinitely. This is a memory leak. The fix is to break the cycle using std::weak_ptr for one direction (e.g., prev as std::weak_ptr<Node>). weak_ptr does not increment the reference count."
+},
+{
+"question_id": "cpp_practical_11",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You want a function that accepts both lvalue and rvalue string arguments without overloading. What is the modern C++ approach?",
+"options": [
+{ "id": "a", "text": "Use const std::string& — it binds to both lvalues and rvalues", "misconception_tag": "const_ref_universal" },
+{ "id": "b", "text": "Use a forwarding reference template template<typename T> void f(T&& s) with std::forward", "misconception_tag": null },
+{ "id": "c", "text": "Use std::string to accept both types via address-of", "misconception_tag": "pointer_universal_confusion" },
+{ "id": "d", "text": "Overload with both std::string& and std::string&& versions", "misconception_tag": "overload_required_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "const T& accepts both but always treats arguments as lvalues, preventing move semantics. A forwarding reference T&& in a template context deduces T as Type& for lvalues and Type for rvalues. Combined with std::forward<T>(s), it perfectly forwards the argument, enabling moves when possible."
+},
+{
+"question_id": "cpp_practical_12",
+"skill_id": "cpp",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "What is the subtle bug?\n\nstd::string& getString() {\n    std::string s = \"hello\";\n    return s;\n}",
+"options": [
+{ "id": "a", "text": "std::string cannot be returned by reference", "misconception_tag": "return_type_restriction" },
+{ "id": "b", "text": "Returns a reference to a local variable — undefined behavior when the function returns and s is destroyed", "misconception_tag": null },
+{ "id": "c", "text": "The compiler will automatically extend the lifetime of s", "misconception_tag": "lifetime_extension_misconception" },
+{ "id": "d", "text": "No bug — returning by reference is always safe and more efficient", "misconception_tag": "reference_return_safe_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Returning a reference to a local variable is undefined behavior. s is destroyed when getString() returns. The reference points to freed stack memory. Compilers often warn about this. Fix: return by value (std::string getString()). Modern compilers apply NRVO (Named Return Value Optimization) to eliminate unnecessary copies."
+},
+{
+"question_id": "cpp_edge_07",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the issue with std::async in this code?\n\nvoid fireAndForget() {\n    std::async(std::launch::async, longRunningTask);\n}",
+"options": [
+{ "id": "a", "text": "No issue — std::async runs the task in background", "misconception_tag": "async_fire_forget_assumption" },
+{ "id": "b", "text": "The returned future is discarded — its destructor blocks until the task completes, defeating the purpose of async", "misconception_tag": null },
+{ "id": "c", "text": "std::async without storing the future leaks a thread", "misconception_tag": "thread_leak_confusion" },
+{ "id": "d", "text": "std::launch::async requires a thread pool to be initialized first", "misconception_tag": "thread_pool_requirement" }
+],
+"correct_option_id": "b",
+"explanation": "std::async returns a std::future. If the future is not stored, it is immediately destroyed. A std::future returned by std::async blocks in its destructor until the associated task completes. Discarding it turns your async call into a synchronous blocking call. Store the future to achieve true asynchrony."
+},
+{
+"question_id": "cpp_edge_08",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What happens when you call a pure virtual function from a base class constructor?",
+"options": [
+{ "id": "a", "text": "The derived class override is called correctly via dynamic dispatch", "misconception_tag": "dynamic_dispatch_in_ctor" },
+{ "id": "b", "text": "Undefined behavior / runtime crash — vtable is not fully set up during base construction", "misconception_tag": null },
+{ "id": "c", "text": "Compile error — calling virtual functions in constructors is forbidden", "misconception_tag": "compile_time_enforcement" },
+{ "id": "d", "text": "The default implementation is used since override isn't available yet", "misconception_tag": "default_impl_fallback" }
+],
+"correct_option_id": "b",
+"explanation": "During base class construction, the virtual table points to the base class's vtable, not the derived class's. Calling a pure virtual function from a base constructor results in undefined behavior (or an abort with a pure virtual call error). The derived class's override is not yet in scope during base construction."
+},
+{
+"question_id": "cpp_edge_09",
+"skill_id": "cpp",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the issue with this lambda capture?\n\nstd::function<int()> makeAdder(int x) {\n    return &x { return x + 1; };\n}",
+"options": [
+{ "id": "a", "text": "Lambdas cannot capture function parameters", "misconception_tag": "lambda_capture_restriction" },
+{ "id": "b", "text": "Capturing x by reference — when the function returns, x is destroyed and the lambda holds a dangling reference", "misconception_tag": null },
+{ "id": "c", "text": "No issue — lambda captures extend the lifetime of captured references", "misconception_tag": "lifetime_extension_assumption" },
+{ "id": "d", "text": "std::function cannot store lambdas with captures", "misconception_tag": "std_function_lambda_restriction" }
+],
+"correct_option_id": "b",
+"explanation": "Capturing by reference [&x] captures a reference to the local parameter x. When makeAdder returns, x is destroyed. Calling the returned lambda accesses a dangling reference — undefined behavior. Fix: capture by value [x] to copy x into the lambda's closure."
+},
+{
+"question_id": "html_theory_01",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the difference between <div> and <span> in HTML?",
+"options": [
+{ "id": "a", "text": "<div> is for text; <span> is for layout", "misconception_tag": "semantic_reversal" },
+{ "id": "b", "text": "<div> is a block-level container; <span> is an inline container", "misconception_tag": null },
+{ "id": "c", "text": "They are identical — the difference is only conventional", "misconception_tag": "equivalence_assumption" },
+{ "id": "d", "text": "<span> creates a new row; <div> stays inline", "misconception_tag": "display_property_reversal" }
+],
+"correct_option_id": "b",
+"explanation": "<div> is a block-level element — it starts on a new line and takes full width. <span> is inline — it flows within text and only takes as much width as its content. Use <div> for structural grouping, <span> for styling portions of text."
+},
+{
+"question_id": "html_theory_02",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the purpose of the alt attribute on an <img> element?",
+"options": [
+{ "id": "a", "text": "It sets the image title shown on hover", "misconception_tag": "alt_vs_title_confusion" },
+{ "id": "b", "text": "It provides alternative text for accessibility (screen readers) and when the image fails to load", "misconception_tag": null },
+{ "id": "c", "text": "It is optional metadata with no practical effect", "misconception_tag": "alt_irrelevance_assumption" },
+{ "id": "d", "text": "It specifies a fallback image URL", "misconception_tag": "alt_as_fallback_src" }
+],
+"correct_option_id": "b",
+"explanation": "alt provides accessible text descriptions for screen readers and is displayed when the image cannot load. It is also important for SEO. An empty alt=\"\" signals to screen readers that the image is decorative. Omitting alt entirely is an accessibility violation."
+},
+{
+"question_id": "html_theory_03",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is semantic HTML and why does it matter?",
+"options": [
+{ "id": "a", "text": "HTML that uses only lowercase tags — required for valid HTML5", "misconception_tag": "case_sensitivity_confusion" },
+{ "id": "b", "text": "Using elements that convey meaning about content structure (e.g., <article>, <nav>, <header>) rather than just presentational elements", "misconception_tag": null },
+{ "id": "c", "text": "HTML that includes CSS classes for visual styling", "misconception_tag": "styling_semantic_confusion" },
+{ "id": "d", "text": "HTML validated against the W3C semantic schema", "misconception_tag": "validation_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Semantic HTML uses elements that describe their content's meaning (<header>, <main>, <footer>, <article>, <nav>, <aside>). Benefits: improved accessibility for screen readers, better SEO (search engines understand structure), and more maintainable code compared to a sea of <div> elements."
+},
+{
+"question_id": "html_practical_01",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "You want a link that opens in a new browser tab. Which attribute do you add to <a>?",
+"options": [
+{ "id": "a", "text": "target=\"new\"", "misconception_tag": "target_value_confusion" },
+{ "id": "b", "text": "target=\"_blank\"", "misconception_tag": null },
+{ "id": "c", "text": "open=\"tab\"", "misconception_tag": "nonexistent_attribute" },
+{ "id": "d", "text": "window=\"_new\"", "misconception_tag": "nonexistent_attribute" }
+],
+"correct_option_id": "b",
+"explanation": "target=\"_blank\" opens the link in a new tab or window. For security, also add rel=\"noopener noreferrer\" to prevent the new page from accessing the originating page via window.opener (tabnapping vulnerability)."
+},
+{
+"question_id": "html_practical_02",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "Which HTML element is most appropriate for a page's main navigation menu?",
+"options": [
+{ "id": "a", "text": "<div id=\"nav\">", "misconception_tag": "div_for_nav" },
+{ "id": "b", "text": "<menu>", "misconception_tag": "menu_element_confusion" },
+{ "id": "c", "text": "<nav>", "misconception_tag": null },
+{ "id": "d", "text": "<header>", "misconception_tag": "header_for_nav" }
+],
+"correct_option_id": "c",
+"explanation": "<nav> is the semantic element for navigation links. Screen readers and search engines recognize it as a navigation landmark. <div> works but lacks semantic meaning. <menu> is for context menus/toolbars. <header> can contain navigation but <nav> specifically marks navigation sections."
+},
+{
+"question_id": "html_practical_03",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "Which input type provides a browser-native date picker and submits data in YYYY-MM-DD format?",
+"options": [
+{ "id": "a", "text": "<input type=\"text\" placeholder=\"YYYY-MM-DD\">", "misconception_tag": "manual_validation_required" },
+{ "id": "b", "text": "<input type=\"datetime\">", "misconception_tag": "datetime_type_confusion" },
+{ "id": "c", "text": "<input type=\"date\">", "misconception_tag": null },
+{ "id": "d", "text": "<input type=\"calendar\">", "misconception_tag": "nonexistent_type" }
+],
+"correct_option_id": "c",
+"explanation": "<input type=\"date\"> provides a native browser date picker and submits value in YYYY-MM-DD format. type=\"datetime\" is not valid (use datetime-local). The native picker improves UX and eliminates the need for JavaScript date picker libraries in many cases."
+},
+{
+"question_id": "html_practical_04",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is wrong with this form?\n\n<form>\n  <input type=\"text\" name=\"email\">\n  <button>Submit</button>\n</form>",
+"options": [
+{ "id": "a", "text": "The button needs type=\"submit\" explicitly", "misconception_tag": "button_type_required" },
+{ "id": "b", "text": "There is no <label> associated with the input — it is inaccessible for screen readers", "misconception_tag": null },
+{ "id": "c", "text": "The input type should be \"email\" not \"text\" for an email field", "misconception_tag": "type_validation_confusion" },
+{ "id": "d", "text": "Forms require an action attribute to function", "misconception_tag": "action_required_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Inputs without associated <label> elements are inaccessible. Screen readers cannot announce what the field is for. Fix: <label for=\"email\">Email</label><input id=\"email\" type=\"email\" name=\"email\">, or wrap: <label>Email <input type=\"email\"></label>. Using type=\"email\" also adds browser validation, but the accessibility issue is the most significant problem."
+},
+{
+"question_id": "html_edge_01",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What does the browser render for this HTML?\n\n<p>Hello     World</p>",
+"options": [
+{ "id": "a", "text": "Hello     World (5 spaces preserved)", "misconception_tag": "whitespace_preservation_assumption" },
+{ "id": "b", "text": "Hello World (multiple spaces collapsed to one)", "misconception_tag": null },
+{ "id": "c", "text": "HelloWorld (all whitespace removed)", "misconception_tag": "whitespace_removal_assumption" },
+{ "id": "d", "text": "Depends on the CSS font-size", "misconception_tag": "font_size_whitespace_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "HTML collapses consecutive whitespace (spaces, tabs, newlines) in normal flow to a single space. To preserve multiple spaces, use &nbsp;, CSS white-space: pre, or the <pre> element."
+},
+{
+"question_id": "html_edge_02",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What happens when you nest a <p> inside another <p>?",
+"options": [
+{ "id": "a", "text": "The inner paragraph is indented", "misconception_tag": "block_nesting_assumption" },
+{ "id": "b", "text": "The browser auto-closes the first <p> — nested paragraphs are invalid and the DOM is restructured", "misconception_tag": null },
+{ "id": "c", "text": "It renders normally as a visually nested paragraph", "misconception_tag": "nesting_renders_fine" },
+{ "id": "d", "text": "A parse error is thrown and nothing renders", "misconception_tag": "parse_error_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "<p> elements cannot be nested. The HTML parser auto-closes the first <p> when it encounters the second <p> opening tag, because <p> has optional end tags and implied close rules. The resulting DOM has two sibling <p> elements, not a nested structure. This is part of HTML's error recovery."
+},
+{
+"question_id": "html_edge_03",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is rendered by <button> inside a <form> when clicked, if no type attribute is specified?",
+"options": [
+{ "id": "a", "text": "Nothing — a button with no type has no default behavior", "misconception_tag": "no_default_behavior_assumption" },
+{ "id": "b", "text": "Submits the form — default button type is 'submit'", "misconception_tag": null },
+{ "id": "c", "text": "Resets the form — default type is 'reset'", "misconception_tag": "reset_default_assumption" },
+{ "id": "d", "text": "Opens a dialog — default type triggers a modal", "misconception_tag": "dialog_default_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "The default type for <button> is \"submit\". In a form, clicking it submits the form. This catches developers by surprise when a button meant to trigger JavaScript also submits the form. Always specify type=\"button\" explicitly for non-submit buttons inside forms."
+},
+{
+"question_id": "html_theory_04",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the difference between <script> with defer and async attributes?",
+"options": [
+{ "id": "a", "text": "Both execute scripts immediately, blocking parsing", "misconception_tag": "defer_async_block_assumption" },
+{ "id": "b", "text": "async downloads and executes as soon as available (may block parsing); defer downloads in parallel and executes after HTML parsing completes, in order", "misconception_tag": null },
+{ "id": "c", "text": "defer executes before async scripts always", "misconception_tag": "execution_order_confusion" },
+{ "id": "d", "text": "async guarantees script order; defer does not", "misconception_tag": "order_guarantee_reversal" }
+],
+"correct_option_id": "b",
+"explanation": "async: script is downloaded in parallel, executed as soon as downloaded (may interrupt parsing). No order guarantee. defer: downloaded in parallel, executed after DOM parsing completes, in document order. Use defer for most scripts that depend on the DOM. Use async for independent scripts like analytics."
+},
+{
+"question_id": "html_theory_05",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the purpose of the <meta charset=\"UTF-8\"> tag?",
+"options": [
+{ "id": "a", "text": "It limits the page to English characters only", "misconception_tag": "utf8_english_only" },
+{ "id": "b", "text": "It declares the character encoding so browsers correctly interpret byte sequences as characters", "misconception_tag": null },
+{ "id": "c", "text": "It enables Unicode emoji rendering", "misconception_tag": "emoji_only_assumption" },
+{ "id": "d", "text": "It increases page load speed by pre-caching character tables", "misconception_tag": "performance_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Declaring charset=\"UTF-8\" tells the browser how to decode the HTML file's bytes into characters. Without it, the browser guesses and may display garbled text for non-ASCII characters. UTF-8 supports all Unicode characters. This tag must appear within the first 1024 bytes of the document."
+},
+{
+"question_id": "html_theory_06",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the purpose of aria-label and when should it be used?",
+"options": [
+{ "id": "a", "text": "It styles elements with ARIA-compliant CSS", "misconception_tag": "aria_css_confusion" },
+{ "id": "b", "text": "It provides an accessible name for elements that lack visible text, readable by assistive technologies like screen readers", "misconception_tag": null },
+{ "id": "c", "text": "It is an alternative to the id attribute for JavaScript selection", "misconception_tag": "aria_id_confusion" },
+{ "id": "d", "text": "It adds a tooltip visible to all users on hover", "misconception_tag": "aria_label_vs_title" }
+],
+"correct_option_id": "b",
+"explanation": "aria-label provides an accessible name for elements without visible text labels. Example: <button aria-label=\\\"Close dialog\\\">X</button>. Screen readers announce \\\"Close dialog\\\" instead of just \\\"X\\\". Use it for icon buttons, input fields without labels, and custom interactive widgets."
+},
+{
+"question_id": "html_practical_05",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You want to embed a video that plays automatically, muted, in a loop. Which is correct?",
+"options": [
+{ "id": "a", "text": "<video src=\"v.mp4\" autoplay loop>", "misconception_tag": "autoplay_without_muted" },
+{ "id": "b", "text": "<video src=\"v.mp4\" autoplay muted loop>", "misconception_tag": null },
+{ "id": "c", "text": "<video src=\"v.mp4\" play=\"auto\" muted repeat>", "misconception_tag": "incorrect_attribute_names" },
+{ "id": "d", "text": "<video src=\"v.mp4\" autostart muted infinite>", "misconception_tag": "incorrect_attribute_names" }
+],
+"correct_option_id": "b",
+"explanation": "Modern browsers block autoplay with sound. To autoplay, the video must be muted. Correct attributes: autoplay, muted, loop. Without muted, autoplay is blocked by browser policy. The <source> element can be used inside <video> for multiple format fallbacks."
+},
+{
+"question_id": "html_practical_06",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You need to make a table's first row act as column headers for screen readers. Which is correct?",
+"options": [
+{ "id": "a", "text": "<tr class=\"header\"> with <td> elements", "misconception_tag": "td_for_headers" },
+{ "id": "b", "text": "<thead><tr><th scope=\"col\">Header</th></tr></thead>", "misconception_tag": null },
+{ "id": "c", "text": "<tr bold=\"true\"><td>Header</td></tr>", "misconception_tag": "invalid_attribute" },
+{ "id": "d", "text": "<tr><td role=\"columnheader\">Header</td></tr>", "misconception_tag": "aria_over_semantic_html" }
+],
+"correct_option_id": "b",
+"explanation": "Use <th> elements (table headers) instead of <td>. Wrap in <thead> for structure. scope=\"col\" (or scope=\"row\" for row headers) explicitly tells screen readers which cells the header describes. This is more semantic and accessible than using <td> with ARIA roles."
+},
+{
+"question_id": "html_practical_07",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "Which approach correctly provides multiple image format options with a fallback for browsers that don't support WebP?",
+"options": [
+{ "id": "a", "text": "<img src=\"image.webp\" fallback=\"image.jpg\">", "misconception_tag": "nonexistent_fallback_attr" },
+{ "id": "b", "text": "<picture><source srcset=\"image.webp\" type=\"image/webp\"><img src=\"image.jpg\" alt=\"\"></picture>", "misconception_tag": null },
+{ "id": "c", "text": "<img src=\"image.webp, image.jpg\" alt=\"\">", "misconception_tag": "comma_separated_src" },
+{ "id": "d", "text": "<img srcset=\"image.webp 1x, image.jpg 2x\" alt=\"\">", "misconception_tag": "srcset_for_format_fallback" }
+],
+"correct_option_id": "b",
+"explanation": "<picture> with <source> elements provides format fallbacks. The browser tries <source> elements in order and uses the first supported format. The <img> inside <picture> is the ultimate fallback. srcset on <img> is for resolution/size switching, not format switching."
+},
+{
+"question_id": "html_practical_08",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You need to preload a critical CSS file to avoid render-blocking. Which tag is correct?",
+"options": [
+{ "id": "a", "text": "<link rel=\"stylesheet\" href=\"critical.css\" preload>", "misconception_tag": "preload_as_attribute_on_stylesheet" },
+{ "id": "b", "text": "<link rel=\"preload\" href=\"critical.css\" as=\"style\">", "misconception_tag": null },
+{ "id": "c", "text": "<meta preload=\"critical.css\">", "misconception_tag": "meta_preload_confusion" },
+{ "id": "d", "text": "<script>preload('critical.css')</script>", "misconception_tag": "js_preload_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "<link rel=\"preload\" href=\"...\" as=\"style\"> tells the browser to start fetching the resource at high priority during parsing, without blocking rendering. The as attribute is required to set the correct priority and CSP checks. To also apply the stylesheet, add a second <link rel=\"stylesheet\"> or use an onload attribute pattern."
+},
+{
+"question_id": "html_edge_04",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the behavior difference between <input type=\"submit\"> and <button type=\"submit\">?",
+"options": [
+{ "id": "a", "text": "They are identical in all browsers", "misconception_tag": "input_button_equivalence" },
+{ "id": "b", "text": "<button> can contain HTML content (icons, styled text); <input type=\"submit\"> only displays plain text from the value attribute", "misconception_tag": null },
+{ "id": "c", "text": "<input type=\"submit\"> submits via AJAX; <button> submits normally", "misconception_tag": "ajax_submit_confusion" },
+{ "id": "d", "text": "<button> cannot submit forms without JavaScript", "misconception_tag": "button_needs_js_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "<button type=\"submit\"> can contain child HTML — icons, <span> elements, styled content. This makes it far more flexible for modern UI. <input type=\"submit\"> can only show plain text in its value attribute. Both submit the form when clicked; the functional behavior is the same."
+},
+{
+"question_id": "html_edge_05",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is the rendering issue with this HTML?\n\n<img src=\"photo.jpg\">",
+"options": [
+{ "id": "a", "text": "Missing width and height attributes causes layout shift (CLS) when the image loads", "misconception_tag": null },
+{ "id": "b", "text": "No issue — browsers size images automatically", "misconception_tag": "auto_sizing_no_issue" },
+{ "id": "c", "text": "Missing loading=\"lazy\" prevents the image from loading", "misconception_tag": "lazy_loading_required" },
+{ "id": "d", "text": "Missing type attribute causes a MIME type error", "misconception_tag": "img_type_attribute" }
+],
+"correct_option_id": "a",
+"explanation": "Without explicit width and height attributes, the browser doesn't know the image dimensions until it downloads it. As the image loads, it pushes content down — Cumulative Layout Shift (CLS), a Core Web Vital. Setting width and height (even if overridden by CSS) lets the browser reserve space before the image loads."
+},
+{
+"question_id": "html_edge_06",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "What is wrong with using tabindex=\"0\" vs tabindex=\"1\" for managing keyboard navigation?",
+"options": [
+{ "id": "a", "text": "tabindex=\"0\" removes the element from tab order; tabindex=\"1\" adds it", "misconception_tag": "tabindex_zero_removes" },
+{ "id": "b", "text": "Positive tabindex values create a separate tab sequence before the natural DOM order, making focus order unpredictable and violating accessibility guidelines", "misconception_tag": null },
+{ "id": "c", "text": "Both values have identical behavior", "misconception_tag": "tabindex_equivalence" },
+{ "id": "d", "text": "tabindex=\"1\" is only valid on form elements", "misconception_tag": "tabindex_form_only" }
+],
+"correct_option_id": "b",
+"explanation": "tabindex=\"0\" adds an element to the natural tab order (following DOM order). Positive tabindex values (1, 2, 3...) create a priority tab sequence that is processed first, before DOM-order elements — this creates confusing, non-linear focus flows. WCAG recommends using tabindex=\"0\" or -1 only, and ordering elements logically in the DOM."
+},
+{
+"question_id": "html_theory_07",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the Content Security Policy (CSP) meta tag and what threat does it mitigate?",
+"options": [
+{ "id": "a", "text": "It compresses HTML to improve load time", "misconception_tag": "csp_compression_confusion" },
+{ "id": "b", "text": "It defines allowed sources for scripts, styles, and other resources, mitigating Cross-Site Scripting (XSS) attacks by blocking unauthorized script execution", "misconception_tag": null },
+{ "id": "c", "text": "It prevents CSRF attacks by validating form tokens", "misconception_tag": "csp_csrf_confusion" },
+{ "id": "d", "text": "It enables HTTPS enforcement for the page", "misconception_tag": "csp_https_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "CSP (via <meta http-equiv=\"Content-Security-Policy\"> or HTTP header) tells browsers which sources are valid for scripts, styles, images, etc. Attackers cannot inject scripts from unauthorized domains. A strict CSP (e.g., script-src 'self') blocks most XSS vectors. HTTP headers are preferred over meta tags for CSP as they apply earlier."
+},
+{
+"question_id": "html_theory_08",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the difference between HTML's <template> element and a hidden <div>?",
+"options": [
+{ "id": "a", "text": "They are identical — both hide content from the user", "misconception_tag": "template_hidden_div_equivalence" },
+{ "id": "b", "text": "<template> content is inert — scripts don't execute, images don't load, and it has no impact on rendering or layout until cloned into the DOM", "misconception_tag": null },
+{ "id": "c", "text": "<template> automatically repeats its content for each data item", "misconception_tag": "template_data_binding_assumption" },
+{ "id": "d", "text": "<template> is a server-side only element and is stripped before sending to the browser", "misconception_tag": "server_side_strip_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "<template> creates a document fragment whose content is completely inert. Scripts don't run, images don't fetch, and it has no visual presence. Content is activated by cloning with template.content.cloneNode(true) and appending to the DOM. A hidden <div> still participates in the DOM — scripts run, images load, it affects layout."
+},
+{
+"question_id": "html_theory_09",
+"skill_id": "html",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the Shadow DOM and why is it used in web components?",
+"options": [
+{ "id": "a", "text": "A hidden copy of the DOM used for browser debugging tools", "misconception_tag": "devtools_shadow_dom" },
+{ "id": "b", "text": "An encapsulated DOM subtree attached to an element — its styles and scripts are isolated from the main document, preventing style leakage", "misconception_tag": null },
+{ "id": "c", "text": "A feature that renders elements behind (below) other elements using z-index", "misconception_tag": "z_index_confusion" },
+{ "id": "d", "text": "A secondary rendering layer for CSS animations", "misconception_tag": "animation_layer_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Shadow DOM creates an encapsulated DOM tree attached to a host element. Styles defined inside shadow DOM don't leak out, and external styles don't leak in (style encapsulation). This enables true component encapsulation — the internal implementation of a web component is hidden. Used in custom elements, <video>, <input> browsers controls."
+},
+{
+"question_id": "html_practical_09",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You need to implement infinite scroll. An image carousel loads 100 off-screen images on page load, causing slow performance. What is the best HTML/browser-native solution?",
+"options": [
+{ "id": "a", "text": "Add display:none to all images initially", "misconception_tag": "display_none_prevents_loading" },
+{ "id": "b", "text": "Add loading=\"lazy\" to each <img> element — browsers defer loading until images near the viewport", "misconception_tag": null },
+{ "id": "c", "text": "Use JavaScript's IntersectionObserver to set src on scroll", "misconception_tag": "js_required_assumption" },
+{ "id": "d", "text": "Compress images to reduce download size", "misconception_tag": "compression_prevents_loading" }
+],
+"correct_option_id": "b",
+"explanation": "loading=\"lazy\" is a native HTML attribute that defers loading images until they are near the viewport. No JavaScript required. Browsers handle the threshold automatically. display:none still loads images in most browsers. IntersectionObserver is a valid JS fallback but loading=\"lazy\" is the simplest browser-native solution."
+},
+{
+"question_id": "html_practical_10",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You're building a custom accessible dropdown. A screen reader must announce the expanded/collapsed state. What ARIA attribute communicates this?",
+"options": [
+{ "id": "a", "text": "aria-visible=\"true/false\"", "misconception_tag": "nonexistent_aria_attribute" },
+{ "id": "b", "text": "aria-expanded=\"true/false\" on the trigger element", "misconception_tag": null },
+{ "id": "c", "text": "role=\"open\" on the dropdown container", "misconception_tag": "invalid_role_value" },
+{ "id": "d", "text": "aria-checked=\"true/false\"", "misconception_tag": "aria_checked_for_expanded" }
+],
+"correct_option_id": "b",
+"explanation": "aria-expanded communicates that a control owns a collapsible element and its current state. Set it on the trigger button: aria-expanded=\"false\" when collapsed, aria-expanded=\"true\" when expanded. Also use aria-controls to reference the expandable element's ID, and aria-haspopup to indicate the type of popup."
+},
+{
+"question_id": "html_practical_11",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You are adding structured data for a product page. What is the correct approach for SEO?",
+"options": [
+{ "id": "a", "text": "Add <meta name=\\\"product\\\" content=\\\"...\\\"> tags in the head", "misconception_tag": "meta_structured_data_confusion" },
+{ "id": "b", "text": "Use JSON-LD in a <script type=\\\"application/ld+json\\\"> block with Schema.org vocabulary", "misconception_tag": null },
+{ "id": "c", "text": "Use CSS classes matching Schema.org names on product elements", "misconception_tag": "css_class_schema_confusion" },
+{ "id": "d", "text": "Add schema attributes directly to the <body> tag", "misconception_tag": "body_schema_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "JSON-LD (JavaScript Object Notation for Linked Data) in <script type=\"application/ld+json\"> is Google's preferred format for structured data. It doesn't require modifying HTML markup, is easy to maintain, and Google Search uses it for rich results. Microdata (HTML attributes) and RDFa are alternatives but JSON-LD is the recommended approach."
+},
+{
+"question_id": "html_practical_12",
+"skill_id": "html",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "A page has <link rel=\"canonical\" href=\"https://example.com/page\">. What does this tell search engines?",
+"options": [
+{ "id": "a", "text": "This page redirects to the canonical URL", "misconception_tag": "canonical_redirect_confusion" },
+{ "id": "b", "text": "The specified URL is the preferred version to index — consolidates SEO signals when duplicate content exists at multiple URLs", "misconception_tag": null },
+{ "id": "c", "text": "This page is the root/home page of the site", "misconception_tag": "canonical_homepage_confusion" },
+{ "id": "d", "text": "The canonical URL is blocked from indexing", "misconception_tag": "canonical_noindex_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "The canonical tag tells search engines which URL is the preferred version when the same content exists at multiple URLs (www vs non-www, HTTP vs HTTPS, with/without trailing slash, duplicate pages). Search engines consolidate ranking signals (backlinks, engagement) to the canonical URL, preventing duplicate content penalties."
+},
+{
+"question_id": "html_edge_07",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the security risk in this code?\n\n<a href=\"javascript:void(0)\" onclick=\"navigate(userInput)\">Click</a>",
+"options": [
+{ "id": "a", "text": "No risk — javascript: protocol is always safe", "misconception_tag": "javascript_protocol_safe" },
+{ "id": "b", "text": "If userInput is attacker-controlled, it may lead to XSS — never inject untrusted data directly into event handlers or JavaScript contexts", "misconception_tag": null },
+{ "id": "c", "text": "onclick on anchor tags is deprecated and ignored by browsers", "misconception_tag": "onclick_anchor_deprecated" },
+{ "id": "d", "text": "Only href injection is a vulnerability — onclick is safe", "misconception_tag": "onclick_safe_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Injecting untrusted data into JavaScript contexts (event handlers, javascript: URLs) creates XSS vulnerabilities. An attacker could craft userInput to execute arbitrary code. Always sanitize and validate all user-controlled data before use in JavaScript contexts. The javascript: protocol in href is itself an XSS vector."
+},
+{
+"question_id": "html_edge_08",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "You add a <base href=\"https://cdn.example.com/\"> tag. A relative link <a href=\"page.html\"> now points to where?",
+"options": [
+{ "id": "a", "text": "The current page's directory, as usual", "misconception_tag": "base_tag_ignored_assumption" },
+{ "id": "b", "text": "https://cdn.example.com/page.html — the base tag changes the base URL for all relative URLs on the page", "misconception_tag": null },
+{ "id": "c", "text": "Only images and scripts are affected by the base tag, not links", "misconception_tag": "base_tag_scope_confusion" },
+{ "id": "d", "text": "The link breaks — relative URLs are invalid when base is set", "misconception_tag": "base_tag_breaks_relative" }
+],
+"correct_option_id": "b",
+"explanation": "<base href> changes the base URL for all relative URLs in the document — links, images, scripts, CSS. After setting <base href=\"https://cdn.example.com/\">, the relative link page.html resolves to https://cdn.example.com/page.html. This can break anchor (#fragment) links unless you prefix them with the page URL."
+},
+{
+"question_id": "html_edge_09",
+"skill_id": "html",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the quirk of using <input type=\"number\"> with a value that is too large for JavaScript's safe integer range?",
+"options": [
+{ "id": "a", "text": "The browser rounds the value to the nearest integer", "misconception_tag": "rounding_assumption" },
+{ "id": "b", "text": "Numbers beyond Number.MAX_SAFE_INTEGER lose precision — use <input type=\"text\"> with server-side validation for large numeric IDs", "misconception_tag": null },
+{ "id": "c", "text": "The input is rejected and the field displays empty", "misconception_tag": "rejection_assumption" },
+{ "id": "d", "text": "type=\\\"number\\\" handles arbitrary precision natively", "misconception_tag": "arbitrary_precision_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "<input type=\"number\"> uses JavaScript's 64-bit float internally. Integers beyond 2^53 - 1 (Number.MAX_SAFE_INTEGER) cannot be represented exactly — precision is lost silently. For large numeric IDs (UUIDs, database IDs > 9 quadrillion), use type=\"text\" and validate the format, processing the value as a string on the server."
+},
+{
+"question_id": "css_theory_01",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is CSS specificity and how is it calculated?",
+"options": [
+{ "id": "a", "text": "The order stylesheets are loaded — later sheets win", "misconception_tag": "cascade_order_confusion" },
+{ "id": "b", "text": "A weight system: inline styles > IDs > classes/attributes/pseudo-classes > elements, used to determine which rule applies when multiple rules target the same element", "misconception_tag": null },
+{ "id": "c", "text": "The number of CSS properties in a rule — more properties = higher specificity", "misconception_tag": "property_count_confusion" },
+{ "id": "d", "text": "Specificity only applies to conflicting rules within the same stylesheet", "misconception_tag": "same_sheet_only" }
+],
+"correct_option_id": "b",
+"explanation": "Specificity is calculated as (inline, ID, class/attr/pseudo-class, element). Inline styles = (1,0,0,0). #id = (0,1,0,0). .class/:pseudo-class/[attr] = (0,0,1,0). elements/pseudo-elements = (0,0,0,1). Compare left-to-right. Equal specificity → later declaration wins. !important overrides all."
+},
+{
+"question_id": "css_theory_02",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the CSS box model? Which property changes the sizing behavior?",
+"options": [
+{ "id": "a", "text": "Elements are sized by content only; box-model changes to 3D rendering", "misconception_tag": "3d_box_confusion" },
+{ "id": "b", "text": "Every element is a box with content, padding, border, and margin. box-sizing: border-box includes padding and border in the stated width", "misconception_tag": null },
+{ "id": "c", "text": "The box model only applies to block elements", "misconception_tag": "block_only_box_model" },
+{ "id": "d", "text": "box-sizing: content-box includes padding in the width calculation", "misconception_tag": "content_box_includes_padding" }
+],
+"correct_option_id": "b",
+"explanation": "The CSS box model: content + padding + border + margin. Default box-sizing: content-box means width sets only the content area — padding and border add to the total size. box-sizing: border-box includes padding and border inside the specified width — much more intuitive for layout. Most developers set * { box-sizing: border-box } globally."
+},
+{
+"question_id": "css_theory_03",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the difference between display: none and visibility: hidden?",
+"options": [
+{ "id": "a", "text": "They are identical — both hide the element completely", "misconception_tag": "display_visibility_equivalence" },
+{ "id": "b", "text": "display: none removes the element from layout flow; visibility: hidden hides it but preserves its space in layout", "misconception_tag": null },
+{ "id": "c", "text": "visibility: hidden removes the element from the DOM", "misconception_tag": "visibility_dom_removal" },
+{ "id": "d", "text": "display: none only hides from screen readers; the element is still visible", "misconception_tag": "screen_reader_only_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "display: none removes the element from the layout — it takes up no space and is invisible. visibility: hidden makes the element invisible but it still occupies its space (leaving a blank area). Both hide from screen readers by default. opacity: 0 also preserves space and remains interactable (click events still fire)."
+},
+{
+"question_id": "css_practical_01",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "You want to center a <div> both horizontally and vertically inside its parent. Which modern CSS approach is correct?",
+"options": [
+{ "id": "a", "text": "margin: auto on the child element", "misconception_tag": "margin_auto_vertical" },
+{ "id": "b", "text": "parent: { display: flex; justify-content: center; align-items: center; }", "misconception_tag": null },
+{ "id": "c", "text": "child: { position: center; }", "misconception_tag": "nonexistent_position_value" },
+{ "id": "d", "text": "parent: { text-align: center; vertical-align: middle; }", "misconception_tag": "text_align_block_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Flexbox centering: set the parent to display: flex; justify-content: center; align-items: center. This centers the child both horizontally and vertically. margin: auto only centers horizontally for block elements. vertical-align only works for inline/table-cell contexts. position: center is not valid CSS."
+},
+{
+"question_id": "css_practical_02",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "You apply color: red to a <p> element. Will a nested <span> inside it also be red?",
+"options": [
+{ "id": "a", "text": "No — each element only inherits styles explicitly set on it", "misconception_tag": "no_inheritance_assumption" },
+{ "id": "b", "text": "Yes — color is an inherited property; child elements inherit it unless overridden", "misconception_tag": null },
+{ "id": "c", "text": "Only if the span has inherit explicitly set on color", "misconception_tag": "inherit_keyword_required" },
+{ "id": "d", "text": "Only block-level children inherit color, not inline elements", "misconception_tag": "block_only_inheritance" }
+],
+"correct_option_id": "b",
+"explanation": "color is an inherited CSS property. Child elements inherit the computed value unless they have a more specific rule. This applies to color, font-family, font-size, line-height, etc. Properties like border, padding, and background are NOT inherited by default."
+},
+{
+"question_id": "css_practical_03",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "What is the difference between em and rem units in CSS?",
+"options": [
+{ "id": "a", "text": "They are identical — both are relative to the root font size", "misconception_tag": "em_rem_equivalence" },
+{ "id": "b", "text": "em is relative to the parent element's font size; rem is relative to the root (html) element's font size", "misconception_tag": null },
+{ "id": "c", "text": "rem is relative to viewport width; em is relative to root", "misconception_tag": "rem_viewport_confusion" },
+{ "id": "d", "text": "em is relative to the element's own font size when used for font-size", "misconception_tag": "partial_truth" }
+],
+"correct_option_id": "b",
+"explanation": "em: relative to the computed font-size of the element itself (for font-size) or the parent element (for other properties). Nested em values compound. rem: always relative to the root html element's font-size (default 16px). rem is more predictable for layout; em is useful for component-local scaling."
+},
+{
+"question_id": "css_practical_04",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "A <div> has position: relative. A child has position: absolute; top: 0; left: 0. Where does the child appear?",
+"options": [
+{ "id": "a", "text": "Top-left corner of the browser viewport", "misconception_tag": "absolute_relative_to_viewport" },
+{ "id": "b", "text": "Top-left corner of the nearest positioned ancestor — the parent div", "misconception_tag": null },
+{ "id": "c", "text": "Top-left corner of its closest sibling element", "misconception_tag": "sibling_positioning_confusion" },
+{ "id": "d", "text": "The child overlaps with its natural DOM position", "misconception_tag": "natural_position_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "position: absolute positions an element relative to its nearest ancestor with position set to anything other than static (relative, absolute, fixed, sticky). Since the parent has position: relative, the child's top: 0; left: 0 places it at the parent's top-left corner, not the viewport."
+},
+{
+"question_id": "css_edge_01",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "Which selector wins the specificity battle?\n\n#nav .item { color: red; }\n.nav .item.active { color: blue; }",
+"options": [
+{ "id": "a", "text": "blue wins — more classes means higher specificity", "misconception_tag": "class_count_wins" },
+{ "id": "b", "text": "red wins — one ID outweighs any number of classes", "misconception_tag": null },
+{ "id": "c", "text": "blue wins — later declaration wins", "misconception_tag": "source_order_wins" },
+{ "id": "d", "text": "They are equal specificity — source order decides", "misconception_tag": "id_class_equivalence" }
+],
+"correct_option_id": "b",
+"explanation": "Specificity: #nav .item = (0,1,1,0). .nav .item.active = (0,0,3,0). IDs score (0,1,0,0) each — one ID beats any number of classes. The red rule wins despite having fewer selectors. This is why overusing IDs in CSS makes overriding styles difficult."
+},
+{
+"question_id": "css_edge_02",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "You set margin: auto on a block element with no explicit width. What happens?",
+"options": [
+{ "id": "a", "text": "The element is horizontally centered", "misconception_tag": "auto_center_no_width" },
+{ "id": "b", "text": "Nothing visible — auto margins on block elements without explicit width collapse to 0 as the element already fills the container", "misconception_tag": null },
+{ "id": "c", "text": "The element shrinks to fit its content", "misconception_tag": "auto_shrink_wrap" },
+{ "id": "d", "text": "The browser throws a CSS error", "misconception_tag": "css_error_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "margin: auto for horizontal centering only works on block elements with an explicit width. Without a width, the block element fills the full container width — there is no remaining space for auto margins to distribute. The margins resolve to 0. Set an explicit width (or max-width) for centering to work."
+},
+{
+"question_id": "css_edge_03",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What is margin collapsing in CSS?",
+"options": [
+{ "id": "a", "text": "When margins are set to 0 by the browser to save space", "misconception_tag": "margin_zero_reset" },
+{ "id": "b", "text": "When the top and bottom margins of adjacent block elements merge into a single margin equal to the larger of the two", "misconception_tag": null },
+{ "id": "c", "text": "When overflow: hidden removes all margins", "misconception_tag": "overflow_removes_margins" },
+{ "id": "d", "text": "When negative margins overlap causing visual collision", "misconception_tag": "negative_margin_collision" }
+],
+"correct_option_id": "b",
+"explanation": "Margin collapsing occurs between adjacent block-level elements — the vertical margins between them collapse to the larger of the two (not their sum). Also occurs between parent and first/last child if no border/padding separates them. Flexbox and grid items do NOT have collapsing margins. This surprises many developers."
+},
+{
+"question_id": "css_theory_04",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the difference between CSS Grid and Flexbox, and when should you use each?",
+"options": [
+{ "id": "a", "text": "Grid is for horizontal layouts; Flexbox is for vertical layouts", "misconception_tag": "direction_based_distinction" },
+{ "id": "b", "text": "Flexbox is one-dimensional (row OR column); Grid is two-dimensional (rows AND columns simultaneously). Use Flexbox for component-level layout, Grid for page-level or complex 2D layouts", "misconception_tag": null },
+{ "id": "c", "text": "Grid requires JavaScript; Flexbox is pure CSS", "misconception_tag": "grid_js_confusion" },
+{ "id": "d", "text": "They are interchangeable — use whichever you prefer", "misconception_tag": "equivalence_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Flexbox excels at distributing items along a single axis (navigation bars, card rows, centering). Grid provides control over both rows and columns simultaneously, ideal for complex layouts (magazine-style, dashboard grids, overlapping content). They complement each other — use Grid for the page structure and Flexbox for individual component layouts."
+},
+{
+"question_id": "css_theory_05",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What are CSS custom properties (variables) and how do they differ from preprocessor variables (like Sass)?",
+"options": [
+{ "id": "a", "text": "They are identical — CSS variables are just native Sass variables", "misconception_tag": "sass_native_equivalence" },
+{ "id": "b", "text": "CSS custom properties (--var) are resolved at runtime in the browser and can be changed via JavaScript or :root overrides; Sass variables are resolved at compile time and baked into the output CSS", "misconception_tag": null },
+{ "id": "c", "text": "CSS custom properties cannot cascade or inherit", "misconception_tag": "custom_property_no_cascade" },
+{ "id": "d", "text": "CSS custom properties require a build step to work in browsers", "misconception_tag": "build_step_required" }
+],
+"correct_option_id": "b",
+"explanation": "CSS custom properties (defined with --name: value) are live in the browser — they cascade, inherit, and can be changed by JavaScript at runtime (element.style.setProperty('--color', 'red')). This enables dynamic theming without recompilation. Sass variables exist only during compilation and produce static CSS values."
+},
+{
+"question_id": "css_theory_06",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the stacking context in CSS and what creates a new one?",
+"options": [
+{ "id": "a", "text": "The order elements appear in HTML source — later = higher", "misconception_tag": "dom_order_z_index" },
+{ "id": "b", "text": "A stacking context is a self-contained z-index scope. Created by: position + non-auto z-index, opacity < 1, transform, filter, will-change, etc.", "misconception_tag": null },
+{ "id": "c", "text": "Only z-index: 999 creates a new stacking context", "misconception_tag": "specific_zindex_creates_context" },
+{ "id": "d", "text": "Stacking contexts only apply to absolutely positioned elements", "misconception_tag": "absolute_only_context" }
+],
+"correct_option_id": "b",
+"explanation": "A stacking context defines a local z-index scope — children cannot escape it via z-index. Created by: positioned element with non-auto z-index, opacity < 1, transform (any), filter, will-change, isolation: isolate, flex/grid items with z-index. This is why a high z-index on a child may still appear behind another element's lower z-index child if they're in different stacking contexts."
+},
+{
+"question_id": "css_practical_05",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You want 3 columns of equal width that wrap to fewer columns on small screens. Which CSS grid approach achieves this responsively without media queries?",
+"options": [
+{ "id": "a", "text": "grid-template-columns: 1fr 1fr 1fr", "misconception_tag": "fixed_columns_no_wrap" },
+{ "id": "b", "text": "grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))", "misconception_tag": null },
+{ "id": "c", "text": "grid-template-columns: auto auto auto", "misconception_tag": "auto_columns_sizing" },
+{ "id": "d", "text": "flex-wrap: wrap with flex: 1 1 200px on children", "misconception_tag": "flexbox_for_grid_question" }
+],
+"correct_option_id": "b",
+"explanation": "repeat(auto-fit, minmax(200px, 1fr)) creates as many columns as fit with a minimum of 200px each, expanding to fill available space. When the container is too narrow for 3 columns, items wrap automatically. No media queries needed. auto-fill would leave empty columns; auto-fit collapses them."
+},
+{
+"question_id": "css_practical_06",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You apply transition: all 0.3s ease to a button. What is the performance concern with this approach?",
+"options": [
+{ "id": "a", "text": "No concern — all transitions are GPU-accelerated", "misconception_tag": "all_transitions_gpu" },
+{ "id": "b", "text": "all triggers transitions on every property change including layout-causing properties like width and height, potentially causing expensive repaints/reflows", "misconception_tag": null },
+{ "id": "c", "text": "transition: all only works in WebKit browsers", "misconception_tag": "browser_compat_confusion" },
+{ "id": "d", "text": "0.3s duration is too fast for any browser to handle", "misconception_tag": "duration_performance_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "transition: all means any property change triggers a transition. Some properties (like width, height, top, left) cause layout recalculations (reflow) on every animation frame — expensive. GPU-composited properties (transform, opacity) are efficient. Prefer: transition: transform 0.3s, opacity 0.3s for performance-critical animations."
+},
+{
+"question_id": "css_practical_07",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "How do you apply styles only when a user's device prefers reduced motion (accessibility)?",
+"options": [
+{ "id": "a", "text": "Using @media (no-animation: true) { }", "misconception_tag": "nonexistent_media_feature" },
+{ "id": "b", "text": "Using @media (prefers-reduced-motion: reduce) { } to disable or simplify animations", "misconception_tag": null },
+{ "id": "c", "text": "Adding animation-play-state: paused globally", "misconception_tag": "global_pause_confusion" },
+{ "id": "d", "text": "Setting transition: none only solves this for transitions, not animations", "misconception_tag": "partial_solution_framing" }
+],
+"correct_option_id": "b",
+"explanation": "@media (prefers-reduced-motion: reduce) responds to the OS accessibility setting for reduced motion. Users with vestibular disorders or motion sensitivity can be harmed by excessive animation. Best practice: define animations normally, then add a media query that removes or simplifies them for users who prefer reduced motion."
+},
+{
+"question_id": "css_practical_08",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "What does overflow: hidden on a parent do to child elements with position: absolute?",
+"options": [
+{ "id": "a", "text": "Clips the absolutely positioned child if it extends beyond the parent's bounds", "misconception_tag": null },
+{ "id": "b", "text": "Has no effect on absolutely positioned children — they always overflow their parents", "misconception_tag": "absolute_ignores_overflow" },
+{ "id": "c", "text": "Converts the child to fixed positioning", "misconception_tag": "overflow_converts_position" },
+{ "id": "d", "text": "Only affects elements with position: static", "misconception_tag": "static_only_overflow" }
+],
+"correct_option_id": "a",
+"explanation": "overflow: hidden clips any content (including absolutely positioned children) that extends beyond the parent's padding edge. However, absolutely positioned children are only clipped if the parent also establishes a containing block (i.e., has position other than static). This is a subtle but important distinction."
+},
+{
+"question_id": "css_edge_04",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "Why doesn't this work as expected?\n\n.child {\n    width: 50%;\n}\n\n.parent {\n    display: flex;\n}",
+"options": [
+{ "id": "a", "text": "Percentage widths are invalid inside flexbox", "misconception_tag": "percent_invalid_flexbox" },
+{ "id": "b", "text": "In a flex container, width on flex items may be overridden by flex-grow/flex-shrink behavior unless flex-basis or flex: 0 0 50% is used", "misconception_tag": null },
+{ "id": "c", "text": "The child must use max-width: 50% instead of width in flexbox", "misconception_tag": "max_width_required" },
+{ "id": "d", "text": "50% in flexbox calculates relative to the viewport, not the parent", "misconception_tag": "viewport_percentage_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "In a flex container, the flex-grow, flex-shrink, and flex-basis algorithm determines final size. width: 50% sets the flex-basis implicitly but flex-grow can still expand items beyond 50%. To reliably set a flex item to 50% width, use flex: 0 0 50% (no grow, no shrink, 50% basis) or flex-basis: 50%; flex-shrink: 0; flex-grow: 0."
+},
+{
+"question_id": "css_edge_05",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "A developer adds z-index: 9999 to a modal but it still appears behind another element with z-index: 1. Why?",
+"options": [
+{ "id": "a", "text": "z-index only works on elements with position: static", "misconception_tag": "static_z_index_confusion" },
+{ "id": "b", "text": "The modal is inside a stacking context with a lower z-index — the parent's stacking context limits the modal's effective z-index", "misconception_tag": null },
+{ "id": "c", "text": "z-index: 9999 exceeds the browser maximum", "misconception_tag": "zindex_maximum_confusion" },
+{ "id": "d", "text": "The element with z-index: 1 has !important applied", "misconception_tag": "important_z_index" }
+],
+"correct_option_id": "b",
+"explanation": "If the modal's parent has a stacking context (e.g., due to opacity < 1, transform, or its own z-index), the modal's z-index is only compared within that stacking context, not globally. A modal at z-index: 9999 inside a parent with z-index: 1 still loses to an element in a different context with z-index: 2. Fix: move the modal to be a direct child of <body> (portal pattern)."
+},
+{
+"question_id": "css_edge_06",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "You set height: 100% on a <div> but it has no height. Why?",
+"options": [
+{ "id": "a", "text": "Percentage heights always default to auto in CSS", "misconception_tag": "percentage_height_always_auto" },
+{ "id": "b", "text": "Percentage height requires the parent to have an explicit height defined — if the parent height is auto, the percentage cannot be resolved", "misconception_tag": null },
+{ "id": "c", "text": "height: 100% only works with display: flex or display: grid", "misconception_tag": "display_type_requirement" },
+{ "id": "d", "text": "height: 100% means 100% of the viewport always", "misconception_tag": "viewport_height_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Percentage heights are calculated relative to the containing block's height. If the parent's height is auto (default), the percentage is unresolvable and collapses to auto. Fix: set explicit height on all ancestors up to the root, or use height: 100vh for viewport height, or use min-height: 100% with flexbox on the parent."
+},
+{
+"question_id": "css_theory_07",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the CSS contain property and what performance benefit does it provide?",
+"options": [
+{ "id": "a", "text": "It contains overflowing content by clipping it", "misconception_tag": "overflow_clip_confusion" },
+{ "id": "b", "text": "It tells the browser that an element's subtree is independent, allowing optimizations: the browser can skip layout/paint recalculations for the rest of the page when the element changes", "misconception_tag": null },
+{ "id": "c", "text": "It is equivalent to overflow: hidden and position: relative combined", "misconception_tag": "overflow_position_confusion" },
+{ "id": "d", "text": "It contains CSS animations to prevent them from affecting sibling elements", "misconception_tag": "animation_containment_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "contain: layout paint tells the browser that changes inside the element won't affect outside layout/paint. This allows the browser to isolate and optimize rendering — it doesn't need to recalculate the rest of the page when the contained element changes. contain: strict is the most aggressive. Useful for complex widget-heavy interfaces."
+},
+{
+"question_id": "css_theory_08",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the difference between will-change: transform and actually applying transform: translateZ(0) for GPU acceleration?",
+"options": [
+{ "id": "a", "text": "They are identical hacks for GPU promotion", "misconception_tag": "will_change_translate_equivalence" },
+{ "id": "b", "text": "will-change is the proper hint to promote layers before animation; translateZ(0) is a CSS hack that forces GPU compositing but wastes memory if applied broadly", "misconception_tag": null },
+{ "id": "c", "text": "translateZ(0) is faster because it skips the hint phase", "misconception_tag": "translatea_faster_assumption" },
+{ "id": "d", "text": "will-change requires vendor prefixes; translateZ does not", "misconception_tag": "vendor_prefix_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "will-change: transform is the spec-compliant way to tell the browser an element will be animated, prompting it to create a compositor layer in advance. transform: translateZ(0) is an old hack that forces GPU compositing by triggering a 3D transform. Both promote to the GPU, but will-change is semantic and should be added just before animation and removed after (via JS) to avoid excessive memory use."
+},
+{
+"question_id": "css_theory_09",
+"skill_id": "css",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What does @layer (CSS Cascade Layers) solve and how does it change specificity rules?",
+"options": [
+{ "id": "a", "text": "It creates visual layers like Photoshop layers for overlapping elements", "misconception_tag": "photoshop_layer_confusion" },
+{ "id": "b", "text": "It allows developers to define explicit specificity tiers — styles in higher-priority layers win regardless of selector specificity within the layer", "misconception_tag": null },
+{ "id": "c", "text": "It is a way to lazy-load CSS files on demand", "misconception_tag": "lazy_load_confusion" },
+{ "id": "d", "text": "It groups media queries for better organization without affecting cascade", "misconception_tag": "media_query_grouping" }
+],
+"correct_option_id": "b",
+"explanation": "CSS Cascade Layers (@layer base, components, utilities) allow you to define explicit ordering of specificity tiers. Styles in a later-declared layer win over earlier layers regardless of selector specificity. Unlayered styles win over all layers. This solves the specificity arms race in large codebases — utilities can reliably override components without !important."
+},
+{
+"question_id": "css_practical_09",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You need fluid typography that scales between 16px at 320px viewport and 24px at 1280px viewport with no JavaScript. What is the modern CSS approach?",
+"options": [
+{ "id": "a", "text": "Set multiple breakpoint-based font-size media queries", "misconception_tag": "stepped_breakpoints" },
+{ "id": "b", "text": "font-size: clamp(1rem, 0.5rem + 2.5vw, 1.5rem)", "misconception_tag": null },
+{ "id": "c", "text": "font-size: calc(16px + 1vw)", "misconception_tag": "calc_no_clamp" },
+{ "id": "d", "text": "font-size: responsive; (CSS4 keyword)", "misconception_tag": "nonexistent_keyword" }
+],
+"correct_option_id": "b",
+"explanation": "clamp(min, preferred, max) creates fluid typography. The preferred value 0.5rem + 2.5vw scales with viewport width. clamp(1rem, ..., 1.5rem) ensures it never goes below 16px (1rem) or above 24px (1.5rem). Calculate the linear equation: slope = (24-16)/(1280-320) px/px = 8/960. Then find the y-intercept for the vw formula."
+},
+{
+"question_id": "css_practical_10",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "A CSS animation causes jank (frame drops). The animation moves an element using left/top properties. What is the fix?",
+"options": [
+{ "id": "a", "text": "Use margin instead of left/top", "misconception_tag": "margin_also_triggers_reflow" },
+{ "id": "b", "text": "Replace with transform: translate() — GPU-composited, no layout recalculation", "misconception_tag": null },
+{ "id": "c", "text": "Add animation-fill-mode: forwards to stabilize the animation", "misconception_tag": "fill_mode_performance_confusion" },
+{ "id": "d", "text": "Increase animation-duration to give the browser more time", "misconception_tag": "duration_performance_assumption" }
+],
+"correct_option_id": "b",
+"explanation": "Animating left/top triggers layout (reflow) and paint on every frame — expensive. transform: translate() is handled entirely by the GPU compositor after the initial paint, requiring no layout or paint recalculation per frame. Similarly, opacity is GPU-composited. Animating only transform and opacity is the key to 60fps CSS animations."
+},
+{
+"question_id": "css_practical_11",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You need to style every third item in a list differently. Which CSS selector achieves this without adding classes to the HTML?",
+"options": [
+{ "id": "a", "text": "li:nth-child(3) { }", "misconception_tag": "only_third_element" },
+{ "id": "b", "text": "li:nth-child(3n) { }", "misconception_tag": null },
+{ "id": "c", "text": "li:every(3) { }", "misconception_tag": "nonexistent_pseudo_class" },
+{ "id": "d", "text": "li:nth-of-type(3) { }", "misconception_tag": "only_third_of_type" }
+],
+"correct_option_id": "b",
+"explanation": "li:nth-child(3n) matches every 3rd child (3, 6, 9, 12...). The pattern An+B: A=3, B=0. Use 3n+1 for 1st of every 3, 3n+2 for 2nd. li:nth-child(3) only matches the 3rd element. li:every(3) is not valid CSS. nth-of-type works similarly but counts by element type rather than among all siblings."
+},
+{
+"question_id": "css_practical_12",
+"skill_id": "css",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You want to implement a dark mode toggle that also respects the OS preference as the default. What is the correct CSS strategy?",
+"options": [
+{ "id": "a", "text": "Check navigator.userAgent in JavaScript to detect OS theme", "misconception_tag": "useragent_theme_detection" },
+{ "id": "b", "text": "Use @media (prefers-color-scheme: dark) for the OS default, then override with a .dark class on <html> for manual toggle", "misconception_tag": null },
+{ "id": "c", "text": "CSS cannot detect OS preference — always use JavaScript only", "misconception_tag": "js_only_theme_detection" },
+{ "id": "d", "text": "Use @media (color-scheme: dark) on body element only", "misconception_tag": "color_scheme_property_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "Strategy: define light mode as default, use @media (prefers-color-scheme: dark) to apply dark styles when OS is dark. For manual override: add .dark class to <html>. Combine: :root, .dark { --color: ... } and @media(prefers-color-scheme: dark) { :root:not(.light) { ... } }. CSS custom properties make theme swapping clean."
+},
+{
+"question_id": "css_edge_07",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the issue with this CSS?\n\n.button {\n    transition: opacity 0.3s;\n}\n.button:hover {\n    opacity: 0;\n}",
+"options": [
+{ "id": "a", "text": "opacity: 0 is not animatable — use display:none instead", "misconception_tag": "opacity_not_animatable" },
+{ "id": "b", "text": "The button fades out on hover but remains interactive — invisible but still intercepts clicks. Users cannot click elements beneath it", "misconception_tag": null },
+{ "id": "c", "text": "transition on opacity causes layout reflow", "misconception_tag": "opacity_causes_reflow" },
+{ "id": "d", "text": "No issue — opacity: 0 also removes pointer events", "misconception_tag": "opacity_removes_events" }
+],
+"correct_option_id": "b",
+"explanation": "opacity: 0 makes an element visually invisible but it still occupies space and intercepts mouse/touch events. Clicking where the invisible button is clicks the button, not elements beneath it. To make it non-interactive: add pointer-events: none with opacity: 0, or use visibility: hidden (which also removes pointer events)."
+},
+{
+"question_id": "css_edge_08",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "Why does transform: rotate(45deg) on an element not affect the layout of surrounding elements?",
+"options": [
+{ "id": "a", "text": "transform pushes adjacent elements away to accommodate the rotation", "misconception_tag": "transform_pushes_layout" },
+{ "id": "b", "text": "CSS transforms are applied after layout — the element's original layout box is preserved and neighbors are positioned as if no transform exists", "misconception_tag": null },
+{ "id": "c", "text": "Rotation only changes visual appearance on the GPU layer — the DOM node position updates but CSS sees no change", "misconception_tag": "dom_vs_css_position_confusion" },
+{ "id": "d", "text": "transform only affects inline elements — block elements reflowed normally", "misconception_tag": "inline_block_transform_confusion" }
+],
+"correct_option_id": "b",
+"explanation": "CSS transforms are a compositing-phase operation — they occur after layout is complete. The element's layout box (margin, padding, dimensions) is unchanged as far as the layout engine is concerned. Neighbors position themselves around the original box. The visual rendering moves independently on the compositor layer. This is why transforms don't cause reflow."
+},
+{
+"question_id": "css_edge_09",
+"skill_id": "css",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "What is the specificity of :is(h1, h2) .title compared to h1 .title?",
+"options": [
+{ "id": "a", "text": ":is() has zero specificity — it is a specificity-neutral selector", "misconception_tag": "is_zero_specificity" },
+{ "id": "b", "text": ":is(h1, h2) .title has specificity (0,0,1,1) — same as h1 .title. :is() takes the specificity of its most specific argument", "misconception_tag": null },
+{ "id": "c", "text": ":is(h1, h2) doubles the specificity since it matches two elements", "misconception_tag": "is_list_doubles_specificity" },
+{ "id": "d", "text": ":is() specificity equals the number of selectors in its argument list", "misconception_tag": "argument_count_specificity" }
+],
+"correct_option_id": "b",
+"explanation": ":is() adopts the specificity of its most specific selector argument. :is(h1, h2) has the specificity of h1 or h2 — whichever is highest — which is (0,0,0,1). So :is(h1, h2) .title = (0,0,1,1), same as h1 .title. Compare :where() which always has zero specificity — useful for low-specificity utility styles."
+}
+]

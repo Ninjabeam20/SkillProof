@@ -1,0 +1,497 @@
+[
+{
+"question_id": "react_theory_01",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What is the primary purpose of the Virtual DOM in React?",
+"options": [
+{ "id": "a", "text": "To directly manipulate the browser's DOM for faster rendering" },
+{ "id": "b", "text": "To maintain an in-memory representation of the real DOM and batch updates efficiently", "misconception_tag": "none" },
+{ "id": "c", "text": "To replace the real DOM entirely in modern browsers",
+"misconception_tag": "virtual_dom_replaces_real_dom" },
+{ "id": "d", "text": "To cache DOM queries and reduce JavaScript execution time",
+"misconception_tag": "virtual_dom_is_cache" }
+],
+"correct_option_id": "b",
+"explanation": "The Virtual DOM is a lightweight in-memory representation of the real DOM. React uses it to compute the minimal set of changes (diffing) needed and then applies them to the real DOM in a batch, reducing costly reflows and repaints."
+},
+{
+"question_id": "react_theory_02",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "Which of the following best describes a controlled component in React?",
+"options": [
+{ "id": "a", "text": "A component whose state is managed entirely by the browser's form APIs", "misconception_tag": "controlled_means_native_form" },
+{ "id": "b", "text": "A component that renders without any props", "misconception_tag": "controlled_means_no_props" },
+{ "id": "c", "text": "A form element whose value is driven by React state and updated via event handlers" },
+{ "id": "d", "text": "A component wrapped in React.memo to prevent unnecessary re-renders", "misconception_tag": "controlled_means_memoized" }
+],
+"correct_option_id": "c",
+"explanation": "A controlled component is one where React state is the single source of truth for form element values. Every change goes through an onChange handler that updates state, giving React full control over the input."
+},
+{
+"question_id": "react_theory_03",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "EASY",
+"question_text": "What does React's reconciliation algorithm primarily do?",
+"options": [
+{ "id": "a", "text": "Compiles JSX into native browser JavaScript at build time" },
+{ "id": "b", "text": "Synchronizes server state with client state in SSR applications",
+"misconception_tag": "reconciliation_is_ssr_sync" },
+{ "id": "c", "text": "Determines the minimal set of DOM updates needed when component state or props change" },
+{ "id": "d", "text": "Validates that component prop types match their TypeScript definitions",
+"misconception_tag": "reconciliation_is_type_checking" }
+],
+"correct_option_id": "c",
+"explanation": "Reconciliation is React's process of comparing the previous Virtual DOM tree with the new one (diffing) after a state or prop change, then computing and applying only the necessary real DOM mutations."
+},
+{
+"question_id": "react_practical_01",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "You have a functional component that fetches user data on mount and displays it. The fetch should only run once. Which hook setup is correct?\n\n```jsx\n// Option A\nuseEffect(() => { fetchUser(); });\n\n// Option B\nuseEffect(() => { fetchUser(); }, []);\n\n// Option C\nuseEffect(() => { fetchUser(); }, [fetchUser]);\n\n// Option D\nuseLayoutEffect(() => { fetchUser(); }, []);\n```",
+"options": [
+{ "id": "a", "text": "Option A — no dependency array means it runs once after first render",
+"misconception_tag": "no_dep_array_runs_once" },
+{ "id": "b", "text": "Option B — empty dependency array ensures the effect runs only after the initial mount" },
+{ "id": "c", "text": "Option C — fetchUser must be listed as a dependency to avoid stale closures", "misconception_tag": "stable_function_must_be_dep" },
+{ "id": "d", "text": "Option D — useLayoutEffect is required for data fetching to avoid flickering", "misconception_tag": "uselayouteffect_for_fetch" }
+],
+"correct_option_id": "b",
+"explanation": "An empty dependency array [] tells React to run the effect only after the first render (mount) and never again. Option A re-runs on every render. Option C is only needed if fetchUser is an unstable reference. useLayoutEffect fires synchronously before paint and is not appropriate for async data fetching."
+},
+{
+"question_id": "react_practical_02",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "A component renders a list of items. Each item has a delete button. After clicking delete, the item should disappear. The current code uses `items.push()` to add and `items.splice()` to remove from a state array. What is the problem?",
+"options": [
+{ "id": "a", "text": "push() and splice() are not supported in modern JavaScript",
+"misconception_tag": "push_splice_unsupported" },
+{ "id": "b", "text": "Mutating state directly with push/splice does not trigger a re-render because React cannot detect the mutation" },
+{ "id": "c", "text": "React re-renders correctly but the Virtual DOM diffing fails with mutable arrays", "misconception_tag": "vdom_fails_with_mutations" },
+{ "id": "d", "text": "splice() removes the wrong index because React re-orders array indices internally", "misconception_tag": "react_reorders_indices" }
+],
+"correct_option_id": "b",
+"explanation": "React state must be treated as immutable. push() and splice() mutate the existing array reference. Since the reference doesn't change, React's shallow comparison during setState sees no difference and skips re-rendering. Always return a new array (e.g., via filter or spread)."
+},
+{
+"question_id": "react_practical_03",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "You need to pass a callback from a parent component down three levels to a deeply nested child. Every intermediate component re-renders when the callback reference changes. What is the most appropriate solution?",
+"options": [
+{ "id": "a", "text": "Use useRef to store the callback so it never changes reference" },
+{ "id": "b", "text": "Use React Context combined with useCallback to provide a stable callback without prop drilling" },
+{ "id": "c", "text": "Convert all intermediate components to class components to avoid hook-related re-renders", "misconception_tag": "class_components_avoid_rerenders" },
+{ "id": "d", "text": "Use Redux because prop drilling always requires a global store",
+"misconception_tag": "prop_drilling_requires_redux" }
+],
+"correct_option_id": "b",
+"explanation": "React Context removes the need to pass props through every intermediate component (prop drilling). Wrapping the callback in useCallback gives it a stable reference, preventing unnecessary re-renders of consumers. useRef holds a mutable value but doesn't trigger re-renders, making it unsuitable as a direct callback prop."
+},
+{
+"question_id": "react_practical_04",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "EASY",
+"question_text": "A developer writes the following:\n\n```jsx\nconst [count, setCount] = useState(0);\nsetCount(count + 1);\nsetCount(count + 1);\nsetCount(count + 1);\n```\n\nAfter these three calls, what will count be?",
+"options": [
+{ "id": "a", "text": "3, because setState is called three times" , "misconception_tag":
+"each_setstate_increments" },
+{ "id": "b", "text": "1, because React batches updates and all three calls read the same stale count value" },
+{ "id": "c", "text": "0, because setState is asynchronous and none of the updates apply synchronously", "misconception_tag": "setstate_never_applies" },
+{ "id": "d", "text": "2, because React discards the first update as a duplicate",
+"misconception_tag": "react_discards_first_update" }
+],
+"correct_option_id": "b",
+"explanation": "All three setCount(count + 1) calls capture the same closure value of count (0), so each sets state to 0 + 1 = 1. React batches them and the final value is 1. To correctly increment three times, use the functional updater form: setCount(prev => prev + 1)."
+},
+{
+"question_id": "react_edge_01",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "What does the following component render on the first paint?\n\n```jsx\nfunction App() {\n const [show, setShow] = useState(true);\n useEffect(() => { setShow(false); }, []);\n return show ? <p>Hello</p> : null;\n}\n```",
+"options": [
+{ "id": "a", "text": "Nothing — useEffect runs before the first paint so show is already false",
+"misconception_tag": "useeffect_runs_before_paint" },
+{ "id": "b", "text": "<p>Hello</p> briefly, then disappears after the effect sets show to false" },
+{ "id": "c", "text": "An infinite loop occurs because setShow triggers re-render which re-runs the effect", "misconception_tag": "empty_dep_causes_loop" },
+{ "id": "d", "text": "null always, because React optimizes away the initial render when an effect will change state", "misconception_tag": "react_skips_initial_render" }
+],
+"correct_option_id": "b",
+"explanation": "React renders the initial state (show = true) and commits it to the DOM before running effects. useEffect fires after the paint, setting show to false, which triggers a second render showing null. The user briefly sees 'Hello' before it disappears."
+},
+{
+"question_id": "react_edge_02",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "A component renders the number 0 from state when the list is empty:\n\n```jsx\nconst [items, setItems] = useState([]);\nreturn <div>{items.length && <List items={items} />}</div>;\n```\n\nWhat does the user see when items is empty?",
+"options": [
+{ "id": "a", "text": "Nothing — falsy short-circuit renders nothing", "misconception_tag":
+"zero_is_falsy_renders_nothing" },
+{ "id": "b", "text": "The number 0 is rendered to the screen" },
+{ "id": "c", "text": "An empty <List> component with no items" , "misconception_tag":
+"short_circuit_renders_list" },
+{ "id": "d", "text": "A runtime error because && cannot be used with JSX",
+"misconception_tag": "and_invalid_in_jsx" }
+],
+"correct_option_id": "b",
+"explanation": "In JavaScript, 0 && anything evaluates to 0 (a falsy number). Unlike false, null, or undefined, the number 0 IS rendered by React as the string '0'. The fix is to use a boolean: {items.length > 0 && <List />} or a ternary."
+},
+{
+"question_id": "react_edge_03",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "EASY",
+"question_text": "Two sibling components both call useState(0). Component A updates its count. What happens to Component B's count?",
+"options": [
+{ "id": "a", "text": "Component B's count also updates because useState shares state between siblings", "misconception_tag": "usestate_shared_between_siblings" },
+{ "id": "b", "text": "Component B's count remains unchanged — each component instance has its own isolated state" },
+{ "id": "c", "text": "Component B re-renders but its count value resets to 0",
+"misconception_tag": "sibling_rerender_resets_state" },
+{ "id": "d", "text": "React throws a warning about shared state between siblings",
+"misconception_tag": "react_warns_shared_state" }
+],
+"correct_option_id": "b",
+"explanation": "React state is local to each component instance. useState creates independent state for each mounted component. Component A's update triggers a re-render only for A (and its children). Component B's state is completely unaffected."
+},
+{
+"question_id": "react_theory_04",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is the primary difference between useCallback and useMemo?",
+"options": [
+{ "id": "a", "text": "useCallback memoizes a returned value; useMemo memoizes a function definition", "misconception_tag": "callback_memo_swapped" },
+{ "id": "b", "text": "useCallback memoizes a function definition; useMemo memoizes the result of calling a function" },
+{ "id": "c", "text": "They are identical — useCallback is just syntactic sugar for useMemo(() => fn, deps)", "misconception_tag": "callback_is_sugar_only" },
+{ "id": "d", "text": "useCallback prevents component re-renders; useMemo prevents expensive renders in child components", "misconception_tag": "callback_prevents_rerender" }
+],
+"correct_option_id": "b",
+"explanation": "useCallback(fn, deps) returns a memoized callback — the function itself. useMemo(() => computeValue(), deps) returns a memoized value — the result of calling the function. Internally, useCallback(fn, deps) is equivalent to useMemo(() => fn, deps)."
+},
+{
+"question_id": "react_theory_05",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "In React's Context API, what triggers a re-render of a context consumer?",
+"options": [
+{ "id": "a", "text": "Any re-render of the Provider's parent component, regardless of value change", "misconception_tag": "provider_parent_rerender_triggers" },
+{ "id": "b", "text": "A change in the value prop passed to the Provider, determined by Object.is comparison" },
+{ "id": "c", "text": "Any state change anywhere in the component tree that wraps the Provider", "misconception_tag": "any_state_change_triggers_context" },
+{ "id": "d", "text": "Only when the consumer explicitly calls a refresh function provided by the context", "misconception_tag": "consumer_must_call_refresh" }
+],
+"correct_option_id": "b",
+"explanation": "React re-renders all consumers when the context value changes. The comparison is done with Object.is. If the Provider's parent re-renders and passes a new object literal as value (even with the same shape), all consumers re-render because the reference is new."
+},
+{
+"question_id": "react_theory_06",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "MEDIUM",
+"question_text": "What is React's Fiber architecture primarily designed to solve?",
+"options": [
+{ "id": "a", "text": "Enabling React to run on non-browser environments like React Native",
+"misconception_tag": "fiber_for_cross_platform" },
+{ "id": "b", "text": "Replacing class components with a more performant function-based model", "misconception_tag": "fiber_replaces_classes" },
+{ "id": "c", "text": "Making reconciliation incremental so React can pause, prioritize, and resume work", "misconception_tag": "none" },
+{ "id": "d", "text": "Providing a built-in state management solution to replace external libraries", "misconception_tag": "fiber_is_state_management" }
+],
+"correct_option_id": "c",
+"explanation": "Fiber reimplements React's core reconciliation algorithm to be incremental. Before Fiber, reconciliation was synchronous and could block the main thread. Fiber allows React to split rendering work into chunks, pause work to handle higher-priority updates (like user input), and resume later."
+},
+{
+"question_id": "react_practical_05",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You have a large list component that is slow to render. Its parent re-renders frequently due to unrelated state changes. The list's props do not change between those re-renders. What is the most targeted fix?",
+"options": [
+{ "id": "a", "text": "Move the list to a separate file so React treats it as a separate module boundary", "misconception_tag": "separate_file_prevents_rerender" },
+{ "id": "b", "text": "Wrap the list component with React.memo so it skips re-rendering when props are shallowly equal" },
+{ "id": "c", "text": "Use useReducer instead of useState in the parent to batch updates",
+"misconception_tag": "usereducer_prevents_child_rerender" },
+{ "id": "d", "text": "Use ReactDOM.createPortal to render the list outside the parent's render tree", "misconception_tag": "portal_prevents_rerender" }
+],
+"correct_option_id": "b",
+"explanation": "React.memo wraps a component and memoizes the rendered output. If the parent re-renders but the list's props haven't changed (shallow equality), React skips re-rendering the memoized component. This is the most direct solution for this specific problem."
+},
+{
+"question_id": "react_practical_06",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "A form has 10 fields, each managed with useState. Every keystroke on any field causes all 10 fields to re-render. What refactor best addresses this performance issue?",
+"options": [
+{ "id": "a", "text": "Use a single useState with an object holding all field values, updated immutably on each change" },
+{ "id": "b", "text": "Use useReducer with a single state object and dispatch actions per field change" },
+{ "id": "c", "text": "Use an uncontrolled form with refs so React doesn't manage state at all" },
+{ "id": "d", "text": "All of the above are valid approaches depending on the use case" }
+],
+"correct_option_id": "d",
+"explanation": "All three approaches can reduce render overhead. A single useState or useReducer object means only one state update per keystroke instead of ten. Uncontrolled components with refs bypass React state entirely. The best choice depends on validation requirements, complexity, and whether third-party form libraries are acceptable."
+},
+{
+"question_id": "react_practical_07",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "You need to animate an element's width by reading its DOM measurements before each paint. Which hook is appropriate and why?",
+"options": [
+{ "id": "a", "text": "useEffect — it runs after every render and can read DOM measurements safely" , "misconception_tag": "useeffect_reads_dom_safely" },
+{ "id": "b", "text": "useLayoutEffect — it fires synchronously after DOM mutations but before the browser paints" },
+{ "id": "c", "text": "useRef — refs provide direct DOM access so no effect hook is needed",
+"misconception_tag": "ref_replaces_layout_effect" },
+{ "id": "d", "text": "useMemo — memoizing the measurement avoids unnecessary recalculations", "misconception_tag": "usememo_for_dom_measurements" }
+],
+"correct_option_id": "b",
+"explanation": "useLayoutEffect fires synchronously after React updates the DOM but before the browser paints. This is the correct time to read layout measurements (like getBoundingClientRect) and apply adjustments without causing visible flicker. useEffect fires after paint, which would cause a frame of incorrect layout."
+},
+{
+"question_id": "react_practical_08",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "MEDIUM",
+"question_text": "A component subscribes to a WebSocket in useEffect. When unmounted, the WebSocket connection is never closed. Messages still arrive and call setState on the unmounted component, causing a warning. How do you fix this?",
+"options": [
+{ "id": "a", "text": "Set a flag variable inside the effect and check it before calling setState" },
+{ "id": "b", "text": "Return a cleanup function from useEffect that closes the WebSocket connection" },
+{ "id": "c", "text": "Use useRef to store the WebSocket instance and call .close() in a separate useEffect", "misconception_tag": "separate_effect_for_cleanup" },
+{ "id": "d", "text": "Both A and B are valid — A prevents stale setState calls; B actually closes the connection" }
+],
+"correct_option_id": "d",
+"explanation": "Returning a cleanup function from useEffect (option B) is the idiomatic React way to close the WebSocket on unmount. Option A (isMounted flag) can suppress the setState warning but doesn't free the underlying network resource. The most complete solution combines both: close the socket in cleanup AND guard against state updates."
+},
+{
+"question_id": "react_edge_04",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "A developer has a component with this code:\n\n```jsx\nconst onClick = useCallback(() => {\n console.log(count);\n}, []);\n```\n\nThe component renders a button that increments count. After clicking the button 5 times, they click the log button. What is printed?",
+"options": [
+{ "id": "a", "text": "5 — useCallback always reads the latest state value",
+"misconception_tag": "usecallback_reads_latest_state" },
+{ "id": "b", "text": "0 — the callback was created on mount with an empty dep array and closes over the initial count value" },
+{ "id": "c", "text": "undefined — count is not accessible inside useCallback",
+"misconception_tag": "usecallback_no_scope_access" },
+{ "id": "d", "text": "A new log value each time because useCallback re-creates when count changes", "misconception_tag": "usecallback_recreates_on_state" }
+],
+"correct_option_id": "b",
+"explanation": "With an empty dependency array, useCallback creates the function once on mount and never re-creates it. The closure captures count = 0 at that point. Even though count updates, the stale callback still references the old value. To always read the latest value, add count to the deps array or use a ref to hold the latest count."
+},
+{
+"question_id": "react_edge_05",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "You have two context providers wrapping the same consumer. Provider A supplies a theme value; Provider B supplies a user value. What happens if Provider A's value changes?",
+"options": [
+{ "id": "a", "text": "Both providers re-render their consumers because they share the same React context tree", "misconception_tag": "providers_share_context" },
+{ "id": "b", "text": "Only consumers of Provider A re-render; consumers of Provider B are unaffected" },
+{ "id": "c", "text": "Provider B's consumers re-render because re-rendering propagates downward through all providers", "misconception_tag":
+"rerender_propagates_through_providers" },
+{ "id": "d", "text": "All components in the tree re-render because context updates bypass shouldComponentUpdate", "misconception_tag": "context_bypasses_all_optimization" }
+],
+"correct_option_id": "b",
+"explanation": "Each context is independent. Changing Provider A's value triggers re-renders only in consumers subscribed to Context A. Context B consumers are completely unaffected. React.memo and PureComponent do not prevent context-driven re-renders for their own context, but they are irrelevant for the other context."
+},
+{
+"question_id": "react_edge_06",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "MEDIUM",
+"question_text": "Consider this component:\n\n```jsx\nfunction Timer() {\n const [time, setTime] = useState(0);\n useEffect(() => {\n const id = setInterval(() => setTime(time + 1), 1000);\n return () => clearInterval(id);\n }, []);\n return <p>{time}</p>;\n}\n```\n\nWhat does the user see after 5 seconds?",
+"options": [
+{ "id": "a", "text": "5 — setInterval updates time correctly every second",
+"misconception_tag": "setinterval_reads_current_state" },
+{ "id": "b", "text": "1 — the interval's closure captures the initial time = 0 so it always sets time to 0 + 1 = 1" },
+{ "id": "c", "text": "0 — the interval is cleared on the first re-render, stopping updates",
+"misconception_tag": "interval_cleared_on_rerender" },
+{ "id": "d", "text": "A random number because setInterval and React state updates are asynchronous", "misconception_tag": "async_randomness" }
+],
+"correct_option_id": "b",
+"explanation": "The effect runs once (empty deps) and its closure captures time = 0. Every tick calls setTime(0 + 1), which always sets time to 1. React deduplicates identical state values after the first set, so after the second tick the state is already 1 and no further re-renders occur. The fix is to use the functional updater: setTime(prev => prev + 1)."
+},
+{
+"question_id": "react_theory_07",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "In React 18's Concurrent Mode, what does the `startTransition` API guarantee about the updates wrapped inside it?",
+"options": [
+{ "id": "a", "text": "The updates are deferred to the next browser idle period using requestIdleCallback", "misconception_tag": "transition_uses_idle_callback" },
+{ "id": "b", "text": "The updates are marked as non-urgent and can be interrupted by higher-priority updates like user input" },
+{ "id": "c", "text": "The updates are batched and applied atomically after all pending state changes resolve", "misconception_tag": "transition_is_batching" },
+{ "id": "d", "text": "The updates skip the reconciliation phase and apply directly to the real DOM", "misconception_tag": "transition_skips_reconciliation" }
+],
+"correct_option_id": "b",
+"explanation": "startTransition marks state updates as 'transitions' — low-priority, interruptible work. React can abandon and restart them if a higher-priority update (like typing) arrives. This keeps the UI responsive. It is not the same as requestIdleCallback or batching; it is about priority-based scheduling within React's concurrent renderer."
+},
+{
+"question_id": "react_theory_08",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "What is the key semantic difference between useEffect and useInsertionEffect introduced in React 18?",
+"options": [
+{ "id": "a", "text": "useInsertionEffect fires before any DOM mutations, allowing CSS-in-JS libraries to inject styles before layout effects read them" },
+{ "id": "b", "text": "useInsertionEffect is a renamed version of useLayoutEffect with better performance", "misconception_tag": "insertion_is_renamed_layout" },
+{ "id": "c", "text": "useInsertionEffect runs after paint, just like useEffect, but with higher React internal priority", "misconception_tag": "insertion_runs_after_paint" },
+{ "id": "d", "text": "useInsertionEffect is only for server-side rendering to inject critical CSS before hydration", "misconception_tag": "insertion_only_for_ssr" }
+],
+"correct_option_id": "a",
+"explanation": "useInsertionEffect fires synchronously before any DOM mutations are made. It was designed specifically for CSS-in-JS libraries (like styled-components, emotion) to insert style rules into the DOM before useLayoutEffect reads layout. The order is: useInsertionEffect → DOM mutations → useLayoutEffect → paint → useEffect."
+},
+{
+"question_id": "react_theory_09",
+"skill_id": "react",
+"question_type": "THEORY",
+"difficulty": "HARD",
+"question_text": "React's `key` prop is documented for list reconciliation. What is a lesser-known but equally valid use case for the key prop?",
+"options": [
+{ "id": "a", "text": "Improving accessibility by providing unique identifiers to screen readers",
+"misconception_tag": "key_for_accessibility" },
+{ "id": "b", "text": "Providing a stable identity to components passed to React.memo",
+"misconception_tag": "key_for_memo_identity" },
+{ "id": "c", "text": "Forcing a component to fully unmount and remount when a value changes, effectively resetting its internal state" },
+{ "id": "d", "text": "Enabling server-side rendering to match hydration order with client render", "misconception_tag": "key_for_hydration" }
+],
+"correct_option_id": "c",
+"explanation": "When the key prop of a component changes, React treats it as an entirely different component — unmounting the old instance and mounting a fresh one. This is a deliberate pattern to reset component state (e.g., resetting a form by changing its key) without needing internal reset logic."
+},
+{
+"question_id": "react_practical_09",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You are building a custom useFetch hook. You want to ensure that if the component unmounts while a fetch is in-flight, the response is discarded and setState is not called. Which approach correctly implements this?\n\n```js\n// A\nuseEffect(() => {\n let cancelled = false;\n fetch(url).then(res => { if (!cancelled) setState(res); });\n return () => { cancelled = true; };\n}, [url]);\n\n// B\nuseEffect(() => {\n const controller = new AbortController();\n fetch(url, { signal: controller.signal }).then(setState);\n return () => controller.abort();\n}, [url]);\n\n// C\nuseEffect(() => {\n fetch(url).then(setState);\n return () => {};\n}, [url]);\n\n// D\nuseEffect(() => {\n const id = setTimeout(() => fetch(url).then(setState), 0);\n return () => clearTimeout(id);\n}, [url]);\n```",
+"options": [
+{ "id": "a", "text": "Only A is correct — the cancelled flag is the only reliable way to discard responses", "misconception_tag": "only_flag_works" },
+{ "id": "b", "text": "Only B is correct — AbortController actually cancels the network request",
+"misconception_tag": "only_abort_works" },
+{ "id": "c", "text": "Both A and B are correct — A ignores stale responses; B additionally cancels the network request" },
+{ "id": "d", "text": "C is correct because modern browsers automatically cancel in-flight requests on navigation", "misconception_tag": "browser_auto_cancels_fetch" }
+],
+"correct_option_id": "c",
+"explanation": "Option A correctly prevents setState from being called after unmount using a cancellation flag. Option B goes further by actually aborting the network request via AbortController, which frees browser resources. Both are valid and complementary. C doesn't handle unmount at all. D only delays the fetch start but doesn't cancel in-flight requests."
+},
+{
+"question_id": "react_practical_10",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You use React.lazy and Suspense to code-split a route. During loading, you want to show a skeleton UI. After the chunk loads, you want a fade-in animation. What is the correct architectural approach?",
+"options": [
+{ "id": "a", "text": "Wrap the lazy component in Suspense with a fallback skeleton. Use CSS transitions on the lazy component's wrapper that trigger on mount" },
+{ "id": "b", "text": "Use startTransition to delay showing the skeleton until the chunk is ready, avoiding any flash of loading state" },
+{ "id": "c", "text": "Replace Suspense with a manual loading state and conditional rendering to have full control over transitions" },
+{ "id": "d", "text": "Use useDeferredValue on the lazy component reference to smoothly transition between skeleton and content" }
+],
+"correct_option_id": "a",
+"explanation": "React.lazy with Suspense is the standard pattern. The fallback prop shows the skeleton while the chunk loads. Once the chunk resolves and the component mounts, CSS enter animations (via classes applied on mount, or libraries like Framer Motion) handle the fade-in. startTransition can help avoid showing the skeleton for fast connections, but the core architecture is Suspense + CSS transitions."
+},
+{
+"question_id": "react_practical_11",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "You are implementing optimistic UI. A user clicks 'Like' on a post. You immediately update the UI, then send the API request. If the request fails, you must revert. How should state be structured?",
+"options": [
+{ "id": "a", "text": "Store two separate state values: confirmedLikes and optimisticLikes, and display their sum" },
+{ "id": "b", "text": "Apply the optimistic update immediately, store the previous state in a ref, and revert to the ref value on error" },
+{ "id": "c", "text": "Use useOptimistic (React 19) to apply a temporary state overlay that automatically reverts when the async action settles" },
+{ "id": "d", "text": "Both B and C are valid — B works in React 16+; C is the idiomatic React 19 approach" }
+],
+"correct_option_id": "d",
+"explanation": "Option B is a battle-tested pattern available in all React versions: save previous state before optimistic update, revert on failure. Option C is the new useOptimistic hook in React 19 that handles this pattern declaratively — it shows the optimistic value until the server action settles, then reverts or confirms automatically."
+},
+{
+"question_id": "react_practical_12",
+"skill_id": "react",
+"question_type": "PRACTICAL",
+"difficulty": "HARD",
+"question_text": "A React app has a component tree 8 levels deep. A state change at the root causes the entire tree to re-render, even though only a leaf component uses the changed value. What is the most architecturally sound fix?",
+"options": [
+{ "id": "a", "text": "Add React.memo to every component in the tree", "misconception_tag":
+"memo_on_all_components" },
+{ "id": "b", "text": "Colocate the state closer to the leaf component that uses it, or use a context/selector pattern to limit re-renders to actual consumers" },
+{ "id": "c", "text": "Use Redux because it prevents re-renders by design",
+"misconception_tag": "redux_prevents_all_rerenders" },
+{ "id": "d", "text": "Convert the root component to a class component and implement shouldComponentUpdate", "misconception_tag": "class_component_fixes_tree_rerenders" }
+],
+"correct_option_id": "b",
+"explanation": "The root cause is state being lifted too high. The best fix is to move state down to the component that needs it (state colocation). If the state must remain high, use a context with a selector pattern (e.g., via Zustand, Jotai, or useSyncExternalStore) so only components that depend on specific slices re-render."
+},
+{
+"question_id": "react_edge_07",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "Consider this custom hook:\n\n```js\nfunction useValue(initial) {\n const [value, setValue] = useState(initial);\n const ref = useRef(value);\n ref.current = value;\n return [ref, setValue];\n}\n```\n\nA developer uses ref.current inside an event handler. What problem does this solve and what new issue does it introduce?",
+"options": [
+{ "id": "a", "text": "It solves stale closure issues in event handlers but introduces a problem where changes to ref.current do not trigger re-renders" },
+{ "id": "b", "text": "It solves unnecessary re-renders but introduces a memory leak because refs hold strong references", "misconception_tag": "ref_causes_memory_leak" },
+{ "id": "c", "text": "It solves async batching issues but the ref may be read before state updates are flushed", "misconception_tag": "ref_has_flush_issue" },
+{ "id": "d", "text": "It solves the stale closure problem with no downsides — this is the recommended React pattern", "misconception_tag": "ref_pattern_has_no_downsides" }
+],
+"correct_option_id": "a",
+"explanation": "Keeping ref.current in sync with state means event handlers always read the latest value without being stale closures — solving the closure problem. However, the returned ref is not reactive. If you derive UI from ref.current directly (outside of a re-render), it won't update. Re-renders are still required to visually update the UI."
+},
+{
+"question_id": "react_edge_08",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "In React 18 with automatic batching, which of the following setState calls will NOT be batched together?\n\n```js\n// A: Inside a React event handler\nbuttonEl.addEventListener('click', () => { setA(1); setB(2); });\n\n// B: Inside a setTimeout\nsetTimeout(() => { setA(1); setB(2); }, 0);\n\n// C: Inside an async function after an await\nasync function handler() { await fetchData(); setA(1); setB(2); }\n\n// D: Inside a React synthetic event handler\n<button onClick={() => { setA(1); setB(2); }}>\n```",
+"options": [
+{ "id": "a", "text": "A — native addEventListener is outside React's event system and is not batched in React 17", "misconception_tag": "native_listener_unbatched_18" },
+{ "id": "b", "text": "None — React 18 automatically batches all of A, B, C, and D" },
+{ "id": "c", "text": "C — state updates after an await are not batched even in React 18" },
+{ "id": "d", "text": "B and C — setTimeout and async/await escape React 18 automatic batching", "misconception_tag": "timeout_and_async_escape_batching" }
+],
+"correct_option_id": "b",
+"explanation": "React 18 introduced automatic batching for ALL update sources: native event listeners, setTimeout, Promises, and async functions. Prior to React 18, only updates inside React synthetic event handlers were batched. All four examples (A, B, C, D) are batched in React 18 unless you explicitly opt out with ReactDOM.flushSync."
+},
+{
+"question_id": "react_edge_09",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "A component uses two contexts:\n\n```jsx\nconst theme = useContext(ThemeContext);\nconst user = useContext(UserContext);\n```\n\nThemeContext updates frequently. The component only renders based on user, not theme. The developer adds React.memo. Do the re-renders stop?",
+"options": [
+{ "id": "a", "text": "Yes — React.memo prevents all re-renders when props don't change",
+"misconception_tag": "memo_prevents_context_rerenders" },
+{ "id": "b", "text": "No — React.memo only compares props. Context subscriptions bypass memo and trigger re-renders regardless" },
+{ "id": "c", "text": "Yes — React.memo also memoizes context subscriptions in React 18+",
+"misconception_tag": "memo_memoizes_context_in_18" },
+{ "id": "d", "text": "No — but only because React.memo requires a custom comparator to handle context", "misconception_tag": "memo_needs_custom_comparator_for_context" }
+],
+"correct_option_id": "b",
+"explanation": "React.memo only prevents re-renders caused by prop changes. It has no effect on context subscriptions. Any component subscribed to a context (via useContext) will re-render when that context value changes, regardless of React.memo wrapping. To solve this, split ThemeContext into smaller contexts, use a selector library (like use-context-selector), or restructure so theme-sensitive rendering is in a separate component."
+},
+{
+"question_id": "react_edge_10",
+"skill_id": "react",
+"question_type": "EDGE_CASE",
+"difficulty": "HARD",
+"question_text": "During React Server Component (RSC) rendering, a developer tries to use useState inside a server component. What happens?",
+"options": [
+{ "id": "a", "text": "useState works but state is reset on every server request since server components are stateless", "misconception_tag": "usestate_works_stateless_server" },
+{ "id": "b", "text": "React throws an error — hooks like useState cannot be used in React Server Components" },
+{ "id": "c", "text": "useState is silently ignored and the initial value is used for the server render", "misconception_tag": "usestate_silently_ignored_rsc" },
+{ "id": "d", "text": "useState is allowed but only executes on the client during hydration, not on the server", "misconception_tag": "usestate_deferred_to_client" }
+],
+"correct_option_id": "b",
+"explanation": "React Server Components run exclusively on the server and have no concept of client-side interactivity or state. Attempting to use useState (or any hook) in an RSC throws an error at runtime. Interactive, stateful behavior must be in Client Components, marked with 'use client' directive, which are then hydrated on the browser."
+}
+]

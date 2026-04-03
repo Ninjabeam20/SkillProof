@@ -35,7 +35,7 @@
     "aliases": ["react js", "react.js", "reactjs"],
     "tier": 1,
     "domain": "Web",
-    "prerequisites": ["javascript"],
+    "prerequisites": ["javascript", "css"],
     "concept_tags": ["component-lifecycle", "hooks", "state-management", "virtual-dom", "jsx"],
     "edge_case_tags": ["stale-closure", "key-reconciliation", "effect-cleanup", "batched-updates"]
   },
@@ -148,5 +148,115 @@
     "prerequisites": [],
     "concept_tags": ["load-balancing", "caching", "message-queues", "database-scaling", "microservices"],
     "edge_case_tags": ["cap-theorem", "split-brain", "thundering-herd", "backpressure"]
+  },
+  {
+    "skill_id": "git",
+    "canonical_name": "Git",
+    "aliases": ["git", "version control", "git vcs", "source control", "github", "gitlab", "bitbucket"],
+    "tier": 2,
+    "domain": "DevOps",
+    "prerequisites": [],
+    "concept_tags": ["branching", "merging", "rebasing", "commits", "remote-repos"],
+    "edge_case_tags": ["detached-head", "merge-conflicts", "force-push-danger", "rebase-vs-merge"]
+  },
+  {
+    "skill_id": "cicd",
+    "canonical_name": "CI/CD",
+    "aliases": ["ci/cd", "cicd", "continuous integration", "continuous deployment", "continuous delivery", "github actions", "jenkins", "gitlab ci"],
+    "tier": 1,
+    "domain": "DevOps",
+    "prerequisites": ["docker", "git"],
+    "concept_tags": ["pipelines", "build-automation", "deployment-strategies", "artifact-management", "testing-gates"],
+    "edge_case_tags": ["pipeline-flakiness", "secret-management", "rollback-strategies", "canary-deployments"]
+  },
+  {
+    "skill_id": "linux_basics",
+    "canonical_name": "Linux Basics",
+    "aliases": ["linux", "bash", "shell", "unix", "command line", "cli", "terminal", "linux basics"],
+    "tier": 2,
+    "domain": "DevOps",
+    "prerequisites": [],
+    "concept_tags": ["file-system", "permissions", "processes", "shell-scripting", "networking-commands"],
+    "edge_case_tags": ["symlink-pitfalls", "permission-octal", "signal-handling", "stdin-stdout-stderr"]
+  },
+  {
+    "skill_id": "indexing_optimization",
+    "canonical_name": "DB Indexing & Optimisation",
+    "aliases": ["indexing", "database indexing", "query optimization", "query optimisation", "db optimization", "index optimization"],
+    "tier": 1,
+    "domain": "DB",
+    "prerequisites": ["sql"],
+    "concept_tags": ["b-tree-indexes", "covering-indexes", "query-plans", "execution-plans", "index-selectivity"],
+    "edge_case_tags": ["index-bloat", "over-indexing", "null-in-indexes", "partial-indexes-gotchas"]
+  },
+  {
+    "skill_id": "transactions_acid",
+    "canonical_name": "DB Transactions & ACID",
+    "aliases": ["transactions", "acid", "database transactions", "acid properties", "isolation levels", "transactions acid"],
+    "tier": 1,
+    "domain": "DB",
+    "prerequisites": ["sql"],
+    "concept_tags": ["atomicity", "consistency", "isolation", "durability", "isolation-levels", "savepoints"],
+    "edge_case_tags": ["phantom-reads", "dirty-reads", "deadlock-detection", "two-phase-locking"]
+  },
+  {
+    "skill_id": "state_management",
+    "canonical_name": "State Management",
+    "aliases": ["state management", "redux", "zustand", "context api", "mobx", "recoil", "jotai"],
+    "tier": 1,
+    "domain": "Web",
+    "prerequisites": ["react"],
+    "concept_tags": ["global-state", "local-state", "derived-state", "side-effects", "immutability"],
+    "edge_case_tags": ["stale-state", "context-re-renders", "selector-memoization", "optimistic-updates"]
+  },
+  {
+    "skill_id": "linear_regression",
+    "canonical_name": "Linear Regression",
+    "aliases": ["linear regression", "ols", "ordinary least squares", "ridge regression", "lasso", "regularization"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": [],
+    "concept_tags": ["ols", "r-squared", "residuals", "coefficients", "regularization", "feature-scaling"],
+    "edge_case_tags": ["multicollinearity", "heteroscedasticity", "overfitting-regression", "data-drift"]
+  },
+  {
+    "skill_id": "logistic_regression",
+    "canonical_name": "Logistic Regression",
+    "aliases": ["logistic regression", "classification", "sigmoid", "log-loss"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": ["linear_regression"],
+    "concept_tags": ["sigmoid", "log-odds", "decision-boundary", "binary-classification", "multi-class"],
+    "edge_case_tags": ["class-imbalance", "perfect-separation", "log-loss-edge-cases", "threshold-selection"]
+  },
+  {
+    "skill_id": "decision_trees",
+    "canonical_name": "Decision Trees",
+    "aliases": ["decision tree", "decision trees", "cart", "gini impurity", "entropy"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": [],
+    "concept_tags": ["splitting-criteria", "depth", "pruning", "feature-importance", "leaf-nodes"],
+    "edge_case_tags": ["high-cardinality-splits", "overfitting-depth", "continuous-split-thresholds"]
+  },
+  {
+    "skill_id": "random_forest",
+    "canonical_name": "Random Forest",
+    "aliases": ["random forest", "ensemble learning", "bagging", "gradient boosting", "xgboost", "boosting"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": ["decision_trees"],
+    "concept_tags": ["bagging", "feature-subsampling", "out-of-bag", "ensemble", "variance-reduction"],
+    "edge_case_tags": ["feature-importance-bias", "correlated-trees", "oob-estimate-reliability"]
+  },
+  {
+    "skill_id": "model_evaluation",
+    "canonical_name": "ML Model Evaluation",
+    "aliases": ["model evaluation", "cross validation", "confusion matrix", "roc auc", "precision recall", "model_evaluation"],
+    "tier": 1,
+    "domain": "ML",
+    "prerequisites": [],
+    "concept_tags": ["cross-validation", "confusion-matrix", "roc-auc", "precision-recall", "bias-variance"],
+    "edge_case_tags": ["data-leakage", "class-imbalance-metrics", "temporal-cv-pitfalls"]
   }
 ]

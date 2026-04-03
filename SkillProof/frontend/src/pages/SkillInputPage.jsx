@@ -250,7 +250,7 @@ export function SkillInputPage() {
                   color: 'var(--color-verified)',
                 }}
               >
-                {claims.length} found
+                {evaluationQueue.filter(s => !s.is_implied).length} found
               </div>
             </div>
 
@@ -258,17 +258,18 @@ export function SkillInputPage() {
               {evaluationQueue.map((skill, index) => {
                 const badge = levelBadge[skill.claimed_level] || levelBadge.INTERMEDIATE
                 const BadgeIcon = badge.icon
+                const isImplied = skill.is_implied === true
                 return (
                   <motion.div
                     key={skill.skill_id}
                     className="rounded-lg border p-4 transition-all duration-200"
                     style={{
-                      borderColor: badge.border,
+                      borderColor: isImplied ? 'var(--color-partial-border)' : badge.border,
                       background: 'var(--color-bg-primary)',
                     }}
                     initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    animate={{ opacity: isImplied ? 0.8 : 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.07 }}
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div>
@@ -278,7 +279,7 @@ export function SkillInputPage() {
                         >
                           {skill.canonical_name}
                         </div>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex flex-wrap items-center gap-2 mt-1">
                           <span
                             className="text-[10px] font-medium px-1.5 py-0.5 rounded"
                             style={{
@@ -297,12 +298,23 @@ export function SkillInputPage() {
                           >
                             {skill.domain}
                           </span>
-                          {!skill.has_questions && (
+                          {isImplied && (
                             <span
                               className="text-[10px] font-medium px-1.5 py-0.5 rounded"
                               style={{
                                 background: 'var(--color-partial-dim)',
                                 color: 'var(--color-partial)',
+                              }}
+                            >
+                              ↳ Prerequisite
+                            </span>
+                          )}
+                          {!skill.has_questions && (
+                            <span
+                              className="text-[10px] font-medium px-1.5 py-0.5 rounded"
+                              style={{
+                                background: 'rgba(100,100,100,0.15)',
+                                color: 'var(--color-text-muted)',
                               }}
                             >
                               No questions
@@ -311,19 +323,17 @@ export function SkillInputPage() {
                         </div>
                       </div>
                       <div
-                        className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium"
+                        className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium shrink-0"
                         style={{
-                          borderColor: badge.border,
-                          background: badge.bg,
-                          color: badge.color,
+                          borderColor: isImplied ? 'var(--color-partial-border)' : badge.border,
+                          background: isImplied ? 'var(--color-partial-dim)' : badge.bg,
+                          color: isImplied ? 'var(--color-partial)' : badge.color,
                         }}
                       >
                         <BadgeIcon className="h-3 w-3" />
-                        {badge.label}
+                        {isImplied ? 'Implied' : badge.label}
                       </div>
                     </div>
-
-
                   </motion.div>
                 )
               })}
@@ -332,11 +342,16 @@ export function SkillInputPage() {
             {/* Begin Evaluation CTA */}
             {evaluableCount > 0 && (
               <motion.div
-                className="mt-6 flex justify-end"
+                className="mt-6 flex items-center justify-between"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.4 }}
               >
+                <div className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>
+                  {evaluationQueue.filter(s => !s.is_implied).length} claimed ·{' '}
+                  {evaluationQueue.filter(s => s.is_implied).length} prerequisites auto-added ·{' '}
+                  {evaluableCount} evaluable
+                </div>
                 <button
                   id="begin-evaluation-btn"
                   type="button"
