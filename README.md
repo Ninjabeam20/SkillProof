@@ -2,7 +2,7 @@
 
 **Deterministic proof that a candidate actually knows what they claim to know.**
 
-_SkillProof replaces the trust in self-reported resume skills with a traceable, deterministic reasoning chain—resume claim goes in, structured verdict comes out, and every step is auditable._
+SkillProof replaces the trust in self-reported resume skills with a traceable, deterministic reasoning chain—resume claim goes in, structured verdict comes out, and every step is auditable._
 
 SkillProof is built for the CodeWiser VJTI Hackathon ("AI Without the API: Deterministic Intelligence"). It addresses a fundamental hiring problem: candidates routinely overclaim their software skills, and existing systems lack a deterministic, structured way to verify those claims without relying on black-box heuristics or expensive human interviews. SkillProof is a career system (Domain 2) that fundamentally shifts skill verification from probabilistic guessing to deterministic proof.
 
