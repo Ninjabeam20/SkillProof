@@ -1,4 +1,4 @@
-# SkillProof
+# SkillProof 
 
 **Deterministic proof that a candidate actually knows what they claim to know.**
 
